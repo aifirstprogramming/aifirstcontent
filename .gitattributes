@@ -1,0 +1,12 @@
+# Normalize to LF everywhere.
+#
+# Without this, Git converts text files to CRLF when checking out on Windows.
+# These books are consumed byte-for-byte: the golden tests pin every response
+# exactly, and the CLI compares its committed copy against this package. CRLF
+# would make every line look changed.
+* text=auto eol=lf
+
+books/*.json text eol=lf
+
+*.png binary
+*.ico binary
