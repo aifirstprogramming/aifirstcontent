@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.tgz
+bun.lockb
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+
+# Agent scratch
+.claude/settings.local.json

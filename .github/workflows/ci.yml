@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # Schema conformance, global id uniqueness, and a strict load. Id
+      # uniqueness is the gate that protects learner progress logs.
+      - name: Validate content
+        run: bun scripts/validate.ts
+
+      # Every authored example/step id must be present; a missing id would make
+      # the exercise unaddressable and unrecordable.
+      - name: Check all content has ids
+        run: bun scripts/add-ids.ts --check
+
+      - name: Test
+        run: bun test
+
+      - name: Typecheck (src, CommonJS for the VS Code extension)
+        run: bunx tsc -p tsconfig.json --noEmit
+
+      - name: Typecheck (tests and scripts, ESM under Bun)
+        run: bunx tsc -p tsconfig.test.json
+
+      - name: Build
+        run: bunx tsc -p tsconfig.json
+
+      # Guards against books/ drifting from the ids the script would assign.
+      - name: Content is unchanged by a re-run of add-ids
+        run: |
+          bun scripts/add-ids.ts
+          git diff --exit-code books/ || {
+            echo "::error::books/ changed when add-ids.ts re-ran; commit the result."
+            exit 1
+          }

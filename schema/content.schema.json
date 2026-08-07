@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aifirstprogramming.com/schema/content.schema.json",
+  "title": "AI First book content",
+  "description": "Structure of a books/*.json file. Global id uniqueness is enforced separately by scripts/validate.ts, since JSON Schema cannot check uniqueness across files.",
+  "type": "object",
+  "required": ["title", "sections"],
+  "additionalProperties": false,
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "sections": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/section" }
+    }
+  },
+  "definitions": {
+    "exerciseId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*-[0-9]+-[0-9]+$",
+      "description": "Authored id: <bookTag>-<chapter>-<seq>, e.g. py-2-06"
+    },
+    "stepId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*-[0-9]+-[0-9]+\\.[0-9]+$",
+      "description": "Authored step id: <exerciseId>.<step>, e.g. py-2-06.1"
+    },
+    "response": {
+      "description": "Canonical response. An array is joined with newlines; both forms must round-trip byte-identically to the printed book.",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "section": {
+      "type": "object",
+      "required": ["title", "chapters"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "chapters": { "type": "array", "items": { "$ref": "#/definitions/chapter" } }
+      }
+    },
+    "chapter": {
+      "type": "object",
+      "required": ["title", "examples"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "pattern": "^Chapter [0-9]+:",
+          "description": "Must lead with 'Chapter N:' — the chapter number is parsed from it."
+        },
+        "goal": { "type": "string" },
+        "examples": {
+          "type": "array",
+          "description": "May be empty: chapters are authored ahead of their examples.",
+          "items": { "$ref": "#/definitions/example" }
+        }
+      }
+    },
+    "example": {
+      "type": "object",
+      "required": ["id", "title"],
+      "additionalProperties": false,
+      "description": "Authored either as a single prompt/response pair or as a `prompts` array of progressive steps — never both.",
+      "properties": {
+        "id": { "$ref": "#/definitions/exerciseId" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "response": { "$ref": "#/definitions/response" },
+        "prompts": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/promptStep" }
+        }
+      },
+      "oneOf": [
+        {
+          "required": ["prompt", "response"],
+          "not": { "required": ["prompts"] }
+        },
+        {
+          "required": ["prompts"],
+          "allOf": [
+            { "not": { "required": ["prompt"] } },
+            { "not": { "required": ["response"] } }
+          ]
+        }
+      ]
+    },
+    "promptStep": {
+      "type": "object",
+      "required": ["id", "prompt", "response"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/definitions/stepId" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "response": { "$ref": "#/definitions/response" }
+      }
+    }
+  }
+}
