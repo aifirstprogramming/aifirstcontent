@@ -29,6 +29,9 @@ export function unwrapPromptTag(text: string): string {
   return m ? m[1].trim() : text;
 }
 
+/** Language order used when the caller has no better idea. */
+export const DEFAULT_PREFERENCE: readonly string[] = ["python", "java"];
+
 /**
  * Find the entry whose prompt best matches `userPrompt`.
  *
@@ -42,6 +45,14 @@ export function findMatch<T extends Matchable>(
   userPrompt: string,
   entries: readonly T[],
   language?: string,
+  /**
+   * Which languages to exhaust first when `language` is unknown.
+   *
+   * Defaults to the extension's long-standing python-then-java order so its
+   * behaviour is unchanged. The CLI passes the reader's chosen book first, so a
+   * Java reader with an unsaved buffer isn't handed Python.
+   */
+  preferred: readonly string[] = DEFAULT_PREFERENCE,
 ): T | null {
   if (entries.length === 0) return null;
 
@@ -51,17 +62,21 @@ export function findMatch<T extends Matchable>(
     return searchEntries(userPrompt, scoped);
   }
 
-  const python = entries.filter((e) => e.language === "python");
-  const java = entries.filter((e) => e.language === "java");
-  const other = entries.filter((e) => e.language !== "python" && e.language !== "java");
+  const groups: T[][] = [];
+  for (const lang of preferred) {
+    groups.push(entries.filter((e) => e.language === lang));
+  }
+  // Anything not named in the preference list still gets a turn, last.
+  groups.push(entries.filter((e) => !preferred.includes(e.language)));
 
-  for (const group of [python, java, other]) {
+  for (const group of groups) {
     if (group.length === 0) continue;
     const m = searchEntries(userPrompt, group);
     if (m) return m;
   }
   return null;
 }
+
 
 /** Tiered search within one language group: exact, then partial, then fuzzy. */
 export function searchEntries<T extends Matchable>(userPrompt: string, entries: readonly T[]): T | null {
@@ -105,6 +120,7 @@ export function findMatchingStep(
   userPrompt: string,
   steps: readonly Step[],
   language?: string,
+  preferred?: readonly string[],
 ): Step | null {
-  return findMatch(unwrapPromptTag(userPrompt), steps, language);
+  return findMatch(unwrapPromptTag(userPrompt), steps, language, preferred);
 }

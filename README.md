@@ -31,6 +31,16 @@ scripts/
 
 ## Content model
 
+A book declares its own identity, so adding a book to the series is a content change and never a code
+change in the CLI or the extension:
+
+```jsonc
+{ "title": "AI First Python Programming",
+  "tag": "py",           // prefix for this book's exercise ids
+  "language": "python",  // matches VS Code's language ids
+  "sections": [ ... ] }
+```
+
 A book is `sections → chapters → examples`. An example is authored in one of two forms, never both:
 
 ```jsonc
@@ -70,6 +80,27 @@ Rules:
 
 Adding new content: author it without ids, then run `bun run ids`. The script only fills in missing ids
 and seeds its counter past the highest existing one in the chapter, so it never disturbs published ids.
+
+## Exercises that read input
+
+Eleven steps read from stdin (`input()`, `Scanner`). Those carry a sample:
+
+```jsonc
+{ "id": "py-3-10", "prompt": "...", "response": [...], "stdin": "stop\n" }
+```
+
+This is not optional polish. An assistant cannot type into a running program — Claude Code's `!`
+prefix does not attach an interactive stdin
+([claude-code#47103](https://github.com/anthropics/claude-code/issues/47103)) — so without a sample,
+those exercises could never be completed through one. `scripts/validate.ts` fails if an input-reading
+step has no sample, and the loader derives the `interactive` flag from the code itself so it cannot
+drift from what the code actually does.
+
+Choose samples that reach the behaviour the exercise teaches. The three Temperature Hat Check steps
+use `5`, `20` and `35` so the `if`, the `else` and the `elif` each actually fire.
+
+When a learner runs an exercise from a real terminal, the CLI attaches their keyboard instead and the
+sample is unused.
 
 ## Progress unit
 

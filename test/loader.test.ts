@@ -112,6 +112,8 @@ describe("loading the real books", () => {
 describe("strict mode", () => {
   const bookWithNoId: RawBook = {
     title: "T",
+    tag: "py",
+    language: "python",
     sections: [
       {
         title: "S",
@@ -135,7 +137,8 @@ describe("strict mode", () => {
     expect(c.examples).toHaveLength(0);
   });
 
-  it("rejects a book filename with no derivable language", () => {
-    expect(() => loadFromRaw([{ filename: "mystery.json", book: bookWithNoId }])).toThrow(/language/);
+  it("rejects a book that declares no language and whose filename reveals none", () => {
+    const undeclared = { ...bookWithNoId, language: undefined } as unknown as RawBook;
+    expect(() => loadFromRaw([{ filename: "mystery.json", book: undeclared }])).toThrow(/language/);
   });
 });

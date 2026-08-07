@@ -17,13 +17,16 @@ import { join } from "node:path";
 
 const BOOKS_DIR = join(import.meta.dir, "..", "books");
 
-/** Short, stable, printable tag per book. Derived from filename. */
-function bookTag(filename: string): string {
-  const lower = filename.toLowerCase();
-  if (lower.includes("python")) return "py";
-  if (lower.includes("java")) return "java";
+/**
+ * Short, stable, printable tag per book, e.g. "py" in py-2-06.
+ *
+ * Read from the book itself rather than guessed from the filename, so adding a
+ * book to the series is a content change and never a code change here.
+ */
+function bookTag(book: { tag?: string }, filename: string): string {
+  if (book.tag) return book.tag;
   throw new Error(
-    `Cannot derive a book tag from "${filename}". Add it to bookTag() in scripts/add-ids.ts.`,
+    `Book "${filename}" has no "tag" field. Add one (e.g. "tag": "py") — it is the prefix for this book's exercise ids.`,
   );
 }
 
@@ -41,7 +44,7 @@ let missing = 0;
 for (const filename of readdirSync(BOOKS_DIR).filter((f) => f.endsWith(".json")).sort()) {
   const path = join(BOOKS_DIR, filename);
   const book = JSON.parse(readFileSync(path, "utf8"));
-  const tag = bookTag(filename);
+  const tag = bookTag(book, filename);
 
   for (const section of book.sections ?? []) {
     for (const chapter of section.chapters ?? []) {

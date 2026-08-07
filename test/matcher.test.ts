@@ -113,6 +113,32 @@ describe("tiers", () => {
   });
 });
 
+describe("preferred language order", () => {
+  const both: Matchable[] = [
+    { prompt: "Write a Hello World app", language: "java" },
+    { prompt: "Write a Hello World app", language: "python" },
+  ];
+
+  it("defaults to python then java, preserving the extension's behaviour", () => {
+    expect(findMatch("Write a Hello World app", both)!.language).toBe("python");
+  });
+
+  it("lets a caller put the reader's own book first", () => {
+    // The CLI passes the chosen book's language, so a Java reader with an
+    // unknown editor language is not handed Python.
+    expect(findMatch("Write a Hello World app", both, undefined, ["java"])!.language).toBe("java");
+  });
+
+  it("still searches languages outside the preference list, last", () => {
+    const other: Matchable[] = [{ prompt: "Write a Hello World app", language: "rust" }];
+    expect(findMatch("Write a Hello World app", other, undefined, ["python"])!.language).toBe("rust");
+  });
+
+  it("an explicit language still wins over any preference", () => {
+    expect(findMatch("Write a Hello World app", both, "java", ["python"])!.language).toBe("java");
+  });
+});
+
 describe("findMatchingStep", () => {
   it("unwraps a prompt tag before matching", () => {
     const step = steps[0];

@@ -11,5 +11,6 @@ export * from "./types";
 export * from "./ids";
 export * from "./loader";
 export * from "./matcher";
+export * from "./filenames";
 
 export { default as PACK_VERSION } from "./version";

@@ -34,13 +34,44 @@ export function normalizeResponse(response: RawResponse | undefined): string {
 }
 
 /**
- * Language is derived from the filename, matching the extension's long-standing
- * behavior (`ai-first-python-programming.json` -> python).
+ * Fallback language derivation from the filename.
+ *
+ * Books now declare `language` themselves; this remains only so a pack authored
+ * before that field existed still loads. Prefer the declared value.
  */
 export function languageFromFilename(filename: string): Language | undefined {
   const lower = basename(filename).toLowerCase();
   if (lower.includes("python")) return "python";
   if (lower.includes("java")) return "java";
+  return undefined;
+}
+
+/**
+ * Does this code read from stdin?
+ *
+ * Derived rather than authored so it cannot fall out of sync with the code it
+ * describes. A runner needs to know because an assistant has no way to type into
+ * a running program: such an exercise needs its sample `stdin` or a real
+ * terminal.
+ */
+const INTERACTIVE_PATTERN = /\binput\s*\(|\bScanner\b|\bBufferedReader\b|System\.in|\breadLine\b/;
+
+export function readsStdin(code: string): boolean {
+  return INTERACTIVE_PATTERN.test(code);
+}
+
+/**
+ * Last-resort tag derivation, for a pack authored before books declared one:
+ * take the prefix of the first exercise id, e.g. "py" from "py-1-01".
+ */
+function tagFromExamples(raw: RawBook): string | undefined {
+  for (const section of raw.sections ?? []) {
+    for (const chapter of section.chapters ?? []) {
+      const id = chapter.examples?.[0]?.id;
+      const m = id?.match(/^([a-z][a-z0-9]*)-/);
+      if (m) return m[1];
+    }
+  }
   return undefined;
 }
 
@@ -79,12 +110,15 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
   const steps: Step[] = [];
 
   for (const { filename, book: raw } of [...entries].sort((a, b) => a.filename.localeCompare(b.filename))) {
-    const language = languageFromFilename(filename);
+    // Declared identity wins; filename sniffing is only a fallback for packs
+    // authored before those fields existed.
+    const language = raw.language ?? languageFromFilename(filename);
     if (!language) {
-      if (strict) throw new Error(`Cannot derive a language from book filename "${filename}"`);
+      if (strict) throw new Error(`Book "${filename}" has no language and none can be derived from its name`);
       continue;
     }
     const bookId = bookIdFromFilename(filename);
+    const tag = raw.tag ?? tagFromExamples(raw) ?? bookId;
     const sections: Section[] = [];
 
     for (const rawSection of raw.sections ?? []) {
@@ -112,7 +146,9 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
             language,
             steps: [],
             multiStep: Array.isArray(rawExample.prompts) && rawExample.prompts.length > 0,
+            interactive: false,
             bookId,
+            bookTag: tag,
             bookTitle: raw.title,
             sectionTitle: rawSection.title,
             chapterTitle: rawChapter.title,
@@ -120,6 +156,7 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
           };
 
           example.steps = buildSteps(rawExample, example.id, language);
+          example.interactive = example.steps.some((s) => s.interactive);
           if (example.steps.length === 0) {
             // An example with neither a prompt nor prompts is a content bug, not
             // something to surface to a learner as an empty exercise.
@@ -145,7 +182,7 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
       sections.push({ title: rawSection.title, chapters });
     }
 
-    books.push({ id: bookId, title: raw.title, language, sections });
+    books.push({ id: bookId, tag, title: raw.title, language, sections });
   }
 
   return { books, examples, steps, version: options.version };
@@ -154,29 +191,37 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
 function buildSteps(rawExample: RawExample, exampleId: string, language: Language): Step[] {
   if (Array.isArray(rawExample.prompts) && rawExample.prompts.length > 0) {
     const total = rawExample.prompts.length;
-    return rawExample.prompts.map((step, i) => ({
-      id: step.id ?? `${exampleId}.${i + 1}`,
-      prompt: step.prompt,
-      response: normalizeResponse(step.response),
-      language,
-      index: i + 1,
-      total,
-      exampleId,
-    }));
+    return rawExample.prompts.map((step, i) => {
+      const response = normalizeResponse(step.response);
+      return {
+        id: step.id ?? `${exampleId}.${i + 1}`,
+        prompt: step.prompt,
+        response,
+        language,
+        index: i + 1,
+        total,
+        exampleId,
+        interactive: readsStdin(response),
+        ...(step.stdin === undefined ? {} : { stdin: step.stdin }),
+      };
+    });
   }
 
   if (rawExample.prompt) {
     // Single-prompt example: the step id is the example id, so callers can treat
     // both authored forms uniformly.
+    const response = normalizeResponse(rawExample.response);
     return [
       {
         id: exampleId,
         prompt: rawExample.prompt,
-        response: normalizeResponse(rawExample.response),
+        response,
         language,
         index: 1,
         total: 1,
         exampleId,
+        interactive: readsStdin(response),
+        ...(rawExample.stdin === undefined ? {} : { stdin: rawExample.stdin }),
       },
     ];
   }

@@ -19,6 +19,15 @@ export interface RawPromptStep {
   id: string;
   prompt: string;
   response: RawResponse;
+  /**
+   * Sample input for an exercise that reads stdin.
+   *
+   * Required for interactive exercises (enforced by scripts/validate.ts) because
+   * an assistant cannot type into a running program — Claude Code's `!` prefix
+   * does not attach an interactive stdin. Without a sample, those exercises
+   * could never be completed through an assistant at all.
+   */
+  stdin?: string;
 }
 
 /**
@@ -33,6 +42,8 @@ export interface RawExample {
   prompt?: string;
   response?: RawResponse;
   prompts?: RawPromptStep[];
+  /** Sample input; see RawPromptStep.stdin. */
+  stdin?: string;
 }
 
 export interface RawChapter {
@@ -48,6 +59,14 @@ export interface RawSection {
 
 export interface RawBook {
   title: string;
+  /**
+   * Short id prefix for this book's exercises, e.g. "py" in py-2-06.
+   *
+   * Declared rather than inferred: more books are in the pipeline, and their
+   * identity should not be knowledge encoded in a filename regex in two repos.
+   */
+  tag: string;
+  language: Language;
   sections: RawSection[];
 }
 
@@ -55,8 +74,14 @@ export interface RawBook {
 // Normalized shape
 // ---------------------------------------------------------------------------
 
-/** Language ids match VS Code's, since the extension filters on them. */
-export type Language = "python" | "java";
+/**
+ * Language ids match VS Code's, since the extension filters on them.
+ *
+ * Open rather than a closed union: the series is adding books, and a new one
+ * should need content and a release, not a type change in two repos. The named
+ * members still give autocomplete for the languages published today.
+ */
+export type Language = "python" | "java" | (string & {});
 
 /**
  * One prompt and its canonical response — the atomic unit an agent reproduces.
@@ -75,6 +100,13 @@ export interface Step {
   /** Total steps in the parent example; 1 for single-prompt examples. */
   total: number;
   exampleId: string;
+  /**
+   * True when the response reads from stdin, so a runner must supply input or
+   * attach a terminal. Derived from the code, not authored.
+   */
+  interactive: boolean;
+  /** Authored sample input, present whenever `interactive` is true. */
+  stdin?: string;
 }
 
 /** A titled example from the book. This is the unit learner progress is tracked against. */
@@ -87,7 +119,11 @@ export interface Example {
   steps: Step[];
   /** True when authored with a `prompts` array of progressive steps. */
   multiStep: boolean;
+  /** True when any step reads stdin. */
+  interactive: boolean;
   bookId: string;
+  /** Short book id prefix, e.g. "py". Used to scope commands to one book. */
+  bookTag: string;
   bookTitle: string;
   sectionTitle: string;
   chapterTitle: string;
@@ -109,6 +145,8 @@ export interface Section {
 export interface Book {
   /** Slug derived from the filename, e.g. "ai-first-python-programming". */
   id: string;
+  /** Short id prefix used by this book's exercises, e.g. "py". */
+  tag: string;
   title: string;
   language: Language;
   sections: Section[];

@@ -4,13 +4,33 @@
   "title": "AI First book content",
   "description": "Structure of a books/*.json file. Global id uniqueness is enforced separately by scripts/validate.ts, since JSON Schema cannot check uniqueness across files.",
   "type": "object",
-  "required": ["title", "sections"],
+  "required": [
+    "title",
+    "tag",
+    "language",
+    "sections"
+  ],
   "additionalProperties": false,
   "properties": {
-    "title": { "type": "string", "minLength": 1 },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tag": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*$",
+      "description": "Short id prefix for this book's exercises, e.g. \"py\" in py-2-06. Declared, not inferred, so adding a book needs no code change."
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Language id, matching VS Code's (python, java, ...)."
+    },
     "sections": {
       "type": "array",
-      "items": { "$ref": "#/definitions/section" }
+      "items": {
+        "$ref": "#/definitions/section"
+      }
     }
   },
   "definitions": {
@@ -27,77 +47,168 @@
     "response": {
       "description": "Canonical response. An array is joined with newlines; both forms must round-trip byte-identically to the printed book.",
       "oneOf": [
-        { "type": "string" },
-        { "type": "array", "items": { "type": "string" } }
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       ]
     },
     "section": {
       "type": "object",
-      "required": ["title", "chapters"],
+      "required": [
+        "title",
+        "chapters"
+      ],
       "additionalProperties": false,
       "properties": {
-        "title": { "type": "string", "minLength": 1 },
-        "chapters": { "type": "array", "items": { "$ref": "#/definitions/chapter" } }
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chapters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/chapter"
+          }
+        }
       }
     },
     "chapter": {
       "type": "object",
-      "required": ["title", "examples"],
+      "required": [
+        "title",
+        "examples"
+      ],
       "additionalProperties": false,
       "properties": {
         "title": {
           "type": "string",
           "pattern": "^Chapter [0-9]+:",
-          "description": "Must lead with 'Chapter N:' — the chapter number is parsed from it."
+          "description": "Must lead with 'Chapter N:' \u2014 the chapter number is parsed from it."
         },
-        "goal": { "type": "string" },
+        "goal": {
+          "type": "string"
+        },
         "examples": {
           "type": "array",
           "description": "May be empty: chapters are authored ahead of their examples.",
-          "items": { "$ref": "#/definitions/example" }
+          "items": {
+            "$ref": "#/definitions/example"
+          }
         }
       }
     },
     "example": {
       "type": "object",
-      "required": ["id", "title"],
+      "required": [
+        "id",
+        "title"
+      ],
       "additionalProperties": false,
-      "description": "Authored either as a single prompt/response pair or as a `prompts` array of progressive steps — never both.",
+      "description": "Authored either as a single prompt/response pair or as a `prompts` array of progressive steps \u2014 never both.",
       "properties": {
-        "id": { "$ref": "#/definitions/exerciseId" },
-        "title": { "type": "string", "minLength": 1 },
-        "description": { "type": "string" },
-        "prompt": { "type": "string", "minLength": 1 },
-        "response": { "$ref": "#/definitions/response" },
+        "id": {
+          "$ref": "#/definitions/exerciseId"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "response": {
+          "$ref": "#/definitions/response"
+        },
         "prompts": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/definitions/promptStep" }
+          "items": {
+            "$ref": "#/definitions/promptStep"
+          }
+        },
+        "stdin": {
+          "$ref": "#/definitions/stdin"
         }
       },
       "oneOf": [
         {
-          "required": ["prompt", "response"],
-          "not": { "required": ["prompts"] }
+          "required": [
+            "prompt",
+            "response"
+          ],
+          "not": {
+            "required": [
+              "prompts"
+            ]
+          }
         },
         {
-          "required": ["prompts"],
+          "required": [
+            "prompts"
+          ],
           "allOf": [
-            { "not": { "required": ["prompt"] } },
-            { "not": { "required": ["response"] } }
+            {
+              "not": {
+                "required": [
+                  "prompt"
+                ]
+              }
+            },
+            {
+              "not": {
+                "required": [
+                  "response"
+                ]
+              }
+            },
+            {
+              "not": {
+                "required": [
+                  "stdin"
+                ]
+              }
+            }
           ]
         }
       ]
     },
     "promptStep": {
       "type": "object",
-      "required": ["id", "prompt", "response"],
+      "required": [
+        "id",
+        "prompt",
+        "response"
+      ],
       "additionalProperties": false,
       "properties": {
-        "id": { "$ref": "#/definitions/stepId" },
-        "prompt": { "type": "string", "minLength": 1 },
-        "response": { "$ref": "#/definitions/response" }
+        "id": {
+          "$ref": "#/definitions/stepId"
+        },
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "response": {
+          "$ref": "#/definitions/response"
+        },
+        "stdin": {
+          "$ref": "#/definitions/stdin"
+        }
       }
+    },
+    "stdin": {
+      "type": "string",
+      "description": "Sample input for an exercise that reads stdin. Required whenever the response reads input (enforced by scripts/validate.ts): an assistant cannot type into a running program, so without a sample these exercises could never be completed through one."
     }
   }
 }

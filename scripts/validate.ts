@@ -86,10 +86,28 @@ for (const { filename, book } of entries) {
 
 let exampleCount = 0;
 let stepCount = 0;
+let interactiveCount = 0;
 try {
   const content = loadFromRaw(entries, { strict: true });
   exampleCount = content.examples.length;
   stepCount = content.steps.length;
+
+  // 5. Every exercise that reads input must carry a sample.
+  //
+  // An assistant cannot type into a running program — Claude Code's `!` prefix
+  // does not attach an interactive stdin — so an interactive exercise with no
+  // sample input can never be completed through one. Catching that here keeps
+  // new content from quietly reintroducing the problem.
+  for (const step of content.steps) {
+    if (!step.interactive) continue;
+    interactiveCount++;
+    if (step.stdin === undefined) {
+      fail(
+        `${step.id} reads input but has no "stdin" sample. ` +
+          `Add one that lets the program run to completion.`,
+      );
+    }
+  }
 } catch (e) {
   fail(`strict load failed: ${(e as Error).message}`);
 }
@@ -103,6 +121,6 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `✓ ${filenames.length} book(s), ${exampleCount} examples, ${stepCount} steps, ` +
-    `${seen.size} unique ids, schema valid.`,
+  `✓ ${filenames.length} book(s), ${exampleCount} examples, ${stepCount} steps ` +
+    `(${interactiveCount} interactive, all with sample input), ${seen.size} unique ids, schema valid.`,
 );

@@ -1,6 +1,6 @@
 {
   "name": "@aifirst/content",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Canonical AI First book content, plus the shared loader and prompt matcher used by the aifirst CLI and the AI First VS Code extension.",
   "license": "MIT",
   "repository": {
@@ -36,7 +36,8 @@
     "test": "bun test",
     "validate": "bun scripts/validate.ts",
     "ids": "bun scripts/add-ids.ts",
-    "check": "bun scripts/validate.ts && bun test && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json"
+    "check": "bun scripts/validate.ts && bun test && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
+    "run-exercises": "bun scripts/run-exercises.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
