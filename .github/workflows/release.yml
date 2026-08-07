@@ -1,0 +1,58 @@
+name: Release content pack
+
+# Publishes books/*.json as release assets.
+#
+# This is what `aifirst update --content` fetches: the CLI reads the release tag
+# as the pack version and downloads every .json asset. Attaching the book files
+# individually (rather than a tarball) keeps the CLI free of any archive-handling
+# code, and lets it validate each book through the shared loader before installing.
+#
+# Tag vX.Y.Z, matching the version in package.json.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # Never publish a pack that wouldn't load: the CLI replaces its embedded
+      # content with this, so a broken pack would reach every reader who updates.
+      - name: Validate content
+        run: bun scripts/validate.ts
+
+      - name: Check all content has ids
+        run: bun scripts/add-ids.ts --check
+
+      - run: bun test
+
+      # The tag is the pack version the CLI compares against, so a mismatch with
+      # package.json would make `update --content` behave unpredictably.
+      - name: Tag matches package.json version
+        run: |
+          PKG=$(jq -r .version package.json)
+          TAG="${GITHUB_REF_NAME#v}"
+          if [ "$PKG" != "$TAG" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match package.json version $PKG"
+            exit 1
+          fi
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            books/*.json
+            schema/content.schema.json
