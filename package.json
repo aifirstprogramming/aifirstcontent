@@ -11,14 +11,24 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "src",
     "books",
     "schema"
   ],
+  "//exports": [
+    "The `bun` condition points at TypeScript source so the aifirst CLI can consume",
+    "this package straight from a git ref with no build step -- which is what makes",
+    "`bun install` work in CI, where there is no sibling checkout to build.",
+    "`default` keeps the compiled CommonJS build for the VS Code extension, which",
+    "loads through Node."
+  ],
   "exports": {
     ".": {
+      "bun": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./src/*": "./src/*",
     "./books/*": "./books/*"
   },
   "scripts": {
