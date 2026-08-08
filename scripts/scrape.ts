@@ -20,7 +20,14 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { applyToBook, bookChapters, type Classification } from "./lib/apply";
 import { codeKey, promptKey, readParagraphs } from "./lib/docx";
-import { BOOKS, manuscriptFiles, mineBook, type BookConfig, type MinedExample } from "./lib/mine";
+import {
+  BOOKS,
+  looksLikeInstruction,
+  manuscriptFiles,
+  mineBook,
+  type BookConfig,
+  type MinedExample,
+} from "./lib/mine";
 
 const BOOKS_DIR = join(import.meta.dir, "..", "books");
 
@@ -276,7 +283,25 @@ function classify(cfg: BookConfig, detailNew: boolean): Report {
   }
 
   // Everything mined that the pack doesn't already account for.
-  const fresh = mined.filter((m) => m.response && !claimed.has(promptKey(m.prompt)));
+  //
+  // Deduplicated by prompt: a couple of Java prompts are re-used verbatim later in
+  // the book with different code. Importing both would make one of them report
+  // drift against the other's code on every subsequent run, so the first wins and
+  // the repeat is reported.
+  const suspects: MinedExample[] = [];
+  const seenFresh = new Set<string>();
+  const duplicates: MinedExample[] = [];
+  const fresh: MinedExample[] = [];
+  for (const m of mined) {
+    if (!m.response || claimed.has(promptKey(m.prompt))) continue;
+    const key = promptKey(m.prompt);
+    if (seenFresh.has(key)) {
+      duplicates.push(m);
+      continue;
+    }
+    seenFresh.add(key);
+    fresh.push(m);
+  }
 
   const perChapter = new Map<number, { total: number; withCode: number }>();
   for (const m of mined) {
@@ -288,6 +313,11 @@ function classify(cfg: BookConfig, detailNew: boolean): Report {
 
   const freshByChapter = new Map<number, MinedExample[]>();
   for (const f of fresh) freshByChapter.set(f.chapter, [...(freshByChapter.get(f.chapter) ?? []), f]);
+
+  for (const d of duplicates) {
+    lines.push(`  dupe     ch${String(d.chapter).padEnd(3)}         prompt re-used verbatim; importing the first only`);
+    lines.push(`             ${d.prompt.slice(0, 66)}`);
+  }
 
   lines.push("");
   lines.push(`  new      ${fresh.length} example(s) to import as drafts:`);
@@ -319,8 +349,17 @@ function classify(cfg: BookConfig, detailNew: boolean): Report {
           response: f.response!,
         },
       });
+      if (!looksLikeInstruction(f.prompt)) suspects.push(f);
       if (detailNew) lines.push(`                    [${f.kind}] ${f.prompt.slice(0, 84)}`);
     }
+  }
+
+  if (suspects.length > 0) {
+    lines.push("");
+    lines.push(
+      `  suspect  ${suspects.length} imported prompt(s) do not read like an instruction — worth a look:`,
+    );
+    for (const s of suspects) lines.push(`             ch${s.chapter}  ${s.prompt.slice(0, 70)}`);
   }
 
   return { lines, plan, counts, perChapter, minedCount: mined.length, shippedCount: shipped.length };

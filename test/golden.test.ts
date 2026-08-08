@@ -18,12 +18,14 @@ describe("responses round-trip byte-identically from the authored JSON", () => {
     .filter((f) => f.endsWith(".json"))
     .map((filename) => JSON.parse(readFileSync(join(BOOKS, filename), "utf8")) as RawBook);
 
-  /** Every authored response, keyed by its authored id. */
+  /** Every published authored response, keyed by its authored id. */
   const authored = new Map<string, string>();
   for (const book of raw) {
     for (const section of book.sections ?? []) {
       for (const chapter of section.chapters ?? []) {
         for (const example of chapter.examples ?? []) {
+          // Drafts and retired examples are not served, so they are not pinned.
+          if (example.status) continue;
           if (example.prompts) {
             for (const step of example.prompts) authored.set(step.id, normalizeResponse(step.response));
           } else {
@@ -61,8 +63,8 @@ describe("content inventory", () => {
       content.books.map((b) => [b.id, b.sections.flatMap((s) => s.chapters).flatMap((c) => c.examples).length]),
     );
     expect(byBook).toEqual({
-      "ai-first-java-programming": 17,
-      "ai-first-python-programming": 21,
+      "ai-first-java-programming": 16,
+      "ai-first-python-programming": 14,
     });
   });
 });

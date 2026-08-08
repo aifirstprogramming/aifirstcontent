@@ -80,6 +80,17 @@ const CAPTION = /^\s*(?:code block|listing)\s*(\d+)\s*[-.]\s*([\dxX?]+)\s*[:.]?\
 const HEADING = /^Heading[1-9]$|^ChapterTitle$/;
 /** Characters and openings that mean "this is code, not an English sentence". */
 const CODEY = /[{};=<>[\]]|^\s*(#|\/\/|import |from |public |def |class |print\()|\w+\(/;
+/**
+ * Captions that introduce program output rather than code.
+ *
+ * Needed because some exercises show their code as a screenshot and only the
+ * *output* as a text listing — py-3-10 is one. Walking back from such a listing
+ * finds the right prompt but the wrong body, and the result is output stored as
+ * an exercise's code. Execution caught it; this stops it happening.
+ */
+const OUTPUT_CAPTION =
+  /\b(output|printed|prints|printout|result(?:s|ing)? (?:of|from)|console|terminal|displayed)\b/i;
+
 /** Styles a listing body can use. The Python manuscripts are inconsistent here. */
 const BODY_STYLES = new Set(["Code", "BodyTextFirst", "BodyTextCont"]);
 /**
@@ -121,19 +132,67 @@ function parseCaption(text: string): { chapter: number; seq: number | null; rest
 }
 
 /**
+ * Control-flow keywords that start a statement, never a prompt.
+ *
+ * Deliberately excludes `print`: "Print the price of a specified item using an f
+ * string" is a real exercise, and rejecting leading keywords wholesale threw it
+ * away. Only keywords that cannot begin an instruction are listed.
+ */
+const CONTROL_FLOW = /^(for|while|elif|else|try|except|finally|with|return|yield|def|class|import|from|public|private|static|void)\b/i;
+
+/**
+ * Program output very often reads "Label: value" — "Total in cash register: $18",
+ * "Color: Blue, Type: Sedan". No prompt in either book is phrased that way, and
+ * such lines are Code-styled prose, so nothing else distinguishes them.
+ */
+const LABELLED_VALUE = /: *\S/;
+
+/**
+ * Words that make a line an instruction. Used only to flag a prompt as suspect
+ * for review, never to reject one — the list could never be complete, and a
+ * missing verb would silently drop a real exercise.
+ */
+const INSTRUCTION = /\b(write|create|modif|updat|use|using|add|ask|help|print|make|generat|show|build|convert|sort|find|calculat|describ|handl|chang|remov|check|take|explain|implement|fix|unpack|declar|initialis|initializ|refactor|replac)/i;
+
+/** Does this prompt read like an instruction? Informational, not a filter. */
+export function looksLikeInstruction(text: string): boolean {
+  return INSTRUCTION.test(text) || text.trim().endsWith("?");
+}
+
+/** Are all parentheses accounted for? A fragment like `else "tie!")` is not. */
+function balanced(t: string): boolean {
+  let depth = 0;
+  for (const ch of t) {
+    if (ch === "(") depth++;
+    else if (ch === ")") depth--;
+    if (depth < 0) return false;
+  }
+  return depth === 0;
+}
+
+/**
  * A prompt reads like a sentence; code does not.
  *
- * Note what is *not* tested here. Rejecting lines that begin with a keyword looks
- * attractive but throws away real exercises — "Print the price of a specified item
- * using an f string" is a prompt. Trailing punctuation is the reliable tell: a
- * statement like `for item in shopping_list:` ends in a colon, and no prompt does.
+ * Every rule here was added because something real slipped through: docstrings
+ * ("\"\"\"Check if the pet has enough energy…\"\"\"") are Code-styled prose and were
+ * mined as prompts, as were fragments like `for pet in self.__pets` and one line
+ * of program output.
  */
 function isProse(text: string): boolean {
   const t = text.trim();
   if (t.length < 15 || t.length > 500) return false;
   if (CODEY.test(t)) return false;
   if (t.endsWith(":")) return false; // block opener, so: code
-  return t.split(/\s+/).length >= 4;
+  if (/^(\"\"\"|''')/.test(t) || /(\"\"\"|''')$/.test(t)) return false; // docstring
+  if (CONTROL_FLOW.test(t)) return false;
+  if (/\bself\.|__/.test(t)) return false; // attribute access or dunder: code
+  if (!balanced(t)) return false;
+  // "Label: value" is the shape of program output, not of any prompt in either
+  // book. This is the last of the output lines that reads as prose.
+  if (LABELLED_VALUE.test(t) && !INSTRUCTION.test(t)) return false;
+  // Five words, not four: it excludes stray output such as "Inventory change: 9
+  // items" while keeping the shortest real prompt, "Write a Hello World app".
+  return t.split(/\s+/).length >= 5;
 }
 
 export function inferKind(language: string, code: string): Kind {
@@ -242,6 +301,10 @@ export function minePython(paras: Paragraph[], cfg: BookConfig, fileChapter: num
 
   for (let i = 0; i < paras.length; i++) {
     if (paras[i].style !== "CodeCaption") continue;
+    // An output listing never supplies an example's code, and must not claim the
+    // prompt either: doing so would hide the real listing behind an already-taken
+    // prompt.
+    if (OUTPUT_CAPTION.test(paras[i].text)) continue;
 
     // Body of this listing: the following run of one consistent style.
     let k = i + 1;

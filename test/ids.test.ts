@@ -66,11 +66,11 @@ describe("resolve", () => {
   });
 
   it("resolves a step id to that step", () => {
-    const r = resolve("py-2-06.2", content);
+    const r = resolve("py-3-01.2", content);
     expect(r.kind).toBe("step");
     if (r.kind !== "step") throw new Error("expected a step");
     expect(r.step.index).toBe(2);
-    expect(r.example.id).toBe("py-2-06");
+    expect(r.example.id).toBe("py-3-01");
   });
 
   it("prefers the example when a single-prompt example shares its step id", () => {

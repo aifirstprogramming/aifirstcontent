@@ -58,9 +58,21 @@ describe("loading the real books", () => {
     ]);
   });
 
-  it("loads every authored example and step", () => {
-    expect(content.examples).toHaveLength(38);
-    expect(content.steps).toHaveLength(48);
+  it("loads every published example and step", () => {
+    // Published only: drafts awaiting an explanation and a proving run, and
+    // retired examples the books no longer contain, are filtered out.
+    expect(content.examples).toHaveLength(30);
+    expect(content.steps).toHaveLength(39);
+  });
+
+  it("hides drafts and retired examples unless asked", () => {
+    const all = loadFromDirectory(BOOKS, { includeUnpublished: true });
+    expect(all.examples.length).toBeGreaterThan(content.examples.length);
+    // Nothing unpublished may leak into the default view, since a draft has not
+    // been proved to run and a retired example is not in the book.
+    expect(content.examples.every((e) => e.status === undefined)).toBe(true);
+    expect(all.examples.some((e) => e.status === "draft")).toBe(true);
+    expect(all.examples.some((e) => e.status === "retired")).toBe(true);
   });
 
   it("gives single-prompt examples a step whose id equals the example id", () => {

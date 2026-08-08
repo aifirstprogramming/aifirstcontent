@@ -29,6 +29,7 @@ describe("interactive exercises in the pack", () => {
   const interactive = content.steps.filter((s) => s.interactive);
 
   it("finds the input-reading steps", () => {
+    // Published interactive steps; drafts are not yet required to carry samples.
     expect(interactive.length).toBe(11);
   });
 

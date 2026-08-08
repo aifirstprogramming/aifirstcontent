@@ -102,6 +102,46 @@ use `5`, `20` and `35` so the `if`, the `else` and the `elif` each actually fire
 When a learner runs an exercise from a real terminal, the CLI attaches their keyboard instead and the
 sample is unused.
 
+## Importing from the manuscripts
+
+`bun run scrape` compares the Word manuscripts against this pack and reports; add
+`--write` to apply, then `bun run ids`.
+
+```sh
+bun run scrape                 # report both books, write nothing
+bun run scrape --book java     # one book
+bun run scrape --new           # list new examples individually
+bun run scrape --show py-3-08  # ours vs the book, for one exercise
+bun run scrape --write         # apply, then: bun run ids && bun run check
+```
+
+The manuscript paths are hard-coded in `scripts/lib/mine.ts` and point at a local
+Nextcloud folder, **so this cannot run in CI** — it is an authoring tool. Its
+output is committed; CI validates the result.
+
+What it applies automatically and what it refuses to is the design, documented in
+`scripts/lib/apply.ts`. Briefly: it takes the book's code when only the code
+differs, and the book's prompt when only the prompt differs. It retires an
+exercise the manuscripts no longer contain, keeping the id so a learner's existing
+progress entry still refers to something. It imports new exercises as drafts. It
+never applies a change where both the prompt and the code moved, because that
+pairing is only ever a guess — those are reported for a human.
+
+Two conventions make this possible, one per book:
+
+- **Java** labels prompts: `Prompt: …` in a body paragraph, followed by the code
+  listing it produced. Pseudo-code and syntax listings have no label, which is how
+  they stay out.
+- **Python** does not label them. A prompt is Code-styled prose, and so is program
+  output, so they cannot be told apart by their text. What is reliable is
+  structure: a prompt always precedes the listing it generated, so the scraper
+  anchors on listings and walks *back*.
+
+Expect imperfection at the edges and check the `suspect` list it prints — prompts
+that do not read like an instruction are usually stray program output. Every
+published example is executed by `bun run run-exercises`, which is what actually
+caught output being stored as an exercise's code.
+
 ## Progress unit
 
 Learner progress is tracked per **example** (38 today), not per step. Steps are individually viewable

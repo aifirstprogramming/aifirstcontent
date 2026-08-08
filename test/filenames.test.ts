@@ -19,7 +19,7 @@ describe("suggestFilename", () => {
 
   it("defaults a multi-step example to its final step", () => {
     // The steps are progressive, so the last one is the finished program.
-    const example = byId("py-2-06");
+    const example = byId("py-3-01");
     expect(suggestFilename(example)).toBe(suggestFilename(example, example.steps[example.steps.length - 1]));
   });
 
