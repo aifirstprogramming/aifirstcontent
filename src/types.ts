@@ -35,10 +35,30 @@ export interface RawPromptStep {
  * a `prompts` array of progressive steps (each step typically modifies the
  * previous one's output).
  */
+/**
+ * How runnable an example is, which decides how a runner can execute it.
+ *
+ * Later chapters teach Maven projects, classes with no entry point, and JUnit
+ * tests. Those are not single files that can be run, and pretending otherwise
+ * would break the rule that an exercise is complete only when it ran.
+ */
+export type Kind = "program" | "class" | "test" | "snippet" | "project";
+
+/**
+ * Publication state. Absent means published.
+ *
+ * `draft`    imported from a manuscript but not yet explained or proved to run.
+ * `retired`  no longer in the book. Kept so a learner's existing progress entry
+ *            still refers to something, but not served.
+ */
+export type Status = "draft" | "retired";
+
 export interface RawExample {
   id: string;
   title: string;
   description?: string;
+  kind?: Kind;
+  status?: Status;
   prompt?: string;
   response?: RawResponse;
   prompts?: RawPromptStep[];
@@ -121,6 +141,9 @@ export interface Example {
   multiStep: boolean;
   /** True when any step reads stdin. */
   interactive: boolean;
+  kind: Kind;
+  /** Absent when published; see Status. */
+  status?: Status;
   bookId: string;
   /** Short book id prefix, e.g. "py". Used to scope commands to one book. */
   bookTag: string;

@@ -87,7 +87,21 @@ for (const { filename, book } of entries) {
 let exampleCount = 0;
 let stepCount = 0;
 let interactiveCount = 0;
+let draftCount = 0;
+let retiredCount = 0;
+for (const { book } of entries) {
+  for (const section of book.sections ?? []) {
+    for (const chapter of section.chapters ?? []) {
+      for (const ex of chapter.examples ?? []) {
+        if (ex.status === "draft") draftCount++;
+        if (ex.status === "retired") retiredCount++;
+      }
+    }
+  }
+}
 try {
+  // Published only: a draft has not been explained or proved to run yet, so the
+  // requirements below deliberately do not apply to it.
   const content = loadFromRaw(entries, { strict: true });
   exampleCount = content.examples.length;
   stepCount = content.steps.length;
@@ -120,7 +134,10 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
+const unpublished =
+  draftCount || retiredCount ? `, ${draftCount} draft, ${retiredCount} retired (not served)` : "";
 console.log(
-  `✓ ${filenames.length} book(s), ${exampleCount} examples, ${stepCount} steps ` +
-    `(${interactiveCount} interactive, all with sample input), ${seen.size} unique ids, schema valid.`,
+  `✓ ${filenames.length} book(s), ${exampleCount} published examples, ${stepCount} steps ` +
+    `(${interactiveCount} interactive, all with sample input)${unpublished}, ` +
+    `${seen.size} unique ids, schema valid.`,
 );

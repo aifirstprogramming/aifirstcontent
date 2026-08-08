@@ -100,6 +100,14 @@ export interface LoadOptions {
    * wants the lenient path.
    */
   strict?: boolean;
+  /**
+   * Include drafts and retired examples.
+   *
+   * Off by default, so no consumer can accidentally serve an exercise that has
+   * not been explained and proved to run, or one the book no longer contains.
+   * Only the authoring scripts turn this on.
+   */
+  includeUnpublished?: boolean;
 }
 
 /** Build normalized content from already-parsed book JSON. */
@@ -139,6 +147,8 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
             continue;
           }
 
+          if (rawExample.status && !(options.includeUnpublished ?? false)) continue;
+
           const example: Example = {
             id: rawExample.id,
             title: rawExample.title,
@@ -147,6 +157,8 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
             steps: [],
             multiStep: Array.isArray(rawExample.prompts) && rawExample.prompts.length > 0,
             interactive: false,
+            kind: rawExample.kind ?? "program",
+            ...(rawExample.status ? { status: rawExample.status } : {}),
             bookId,
             bookTag: tag,
             bookTitle: raw.title,

@@ -138,6 +138,12 @@
         },
         "stdin": {
           "$ref": "#/definitions/stdin"
+        },
+        "kind": {
+          "$ref": "#/definitions/kind"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
         }
       },
       "oneOf": [
@@ -209,6 +215,23 @@
     "stdin": {
       "type": "string",
       "description": "Sample input for an exercise that reads stdin. Required whenever the response reads input (enforced by scripts/validate.ts): an assistant cannot type into a running program, so without a sample these exercises could never be completed through one."
+    },
+    "kind": {
+      "enum": [
+        "program",
+        "class",
+        "test",
+        "snippet",
+        "project"
+      ],
+      "description": "How runnable the example is. `program` runs as a single file; `class` has no entry point; `test` needs a test runner; `project` needs several files. Defaults to program."
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "retired"
+      ],
+      "description": "Publication state; omit when published. `draft` is imported from a manuscript but not yet explained or proved to run. `retired` is no longer in the book, kept only so an existing learner progress entry still refers to something. Neither is served to readers."
     }
   }
 }
