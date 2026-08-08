@@ -66,8 +66,8 @@ function substantial(code: string): boolean {
   return lines.length >= 2 && code.replace(/\s/g, "").length >= 40;
 }
 
-/** Do two prompts share enough words to be a rewording rather than a coincidence? */
-function similar(a: string, b: string): boolean {
+/** Fraction of the shorter prompt's significant words that both share. */
+function overlap(a: string, b: string): number {
   const words = (s: string) =>
     new Set(
       promptKey(s)
@@ -76,10 +76,78 @@ function similar(a: string, b: string): boolean {
     );
   const wa = words(a);
   const wb = words(b);
-  if (wa.size === 0 || wb.size === 0) return false;
+  if (wa.size === 0 || wb.size === 0) return 0;
   let shared = 0;
   for (const w of wa) if (wb.has(w)) shared++;
-  return shared / Math.min(wa.size, wb.size) >= 0.4;
+  // Jaccard, not min-size: "Write a Hello World app" and "Write a program that
+  // says hello three times" share two words and would otherwise look alike.
+  return shared / (wa.size + wb.size - shared);
+}
+
+/** Do two prompts share enough words to be a rewording rather than a coincidence? */
+function similar(a: string, b: string): boolean {
+  return overlap(a, b) >= 0.4;
+}
+
+/**
+ * The mined example whose prompt most resembles this one, if any is close enough.
+ *
+ * Used to recognise a revised exercise — prompt reworded and code changed
+ * together — which would otherwise look like one deletion plus one new example.
+ */
+function assignRevisions(
+  shipped: ShippedStep[],
+  mined: MinedExample[],
+  byPrompt: Map<string, MinedExample>,
+): Map<string, MinedExample> {
+  const unmatched = shipped.filter((s) => !byPrompt.has(promptKey(s.prompt)));
+  const free = mined.filter((m) => m.response && !isShippedExactly(m, shipped));
+
+  type Pair = { id: string; mined: MinedExample; score: number };
+  const pairs: Pair[] = [];
+  for (const st of unmatched) {
+    for (const m of free) {
+      // A revision rewords the prompt but keeps most of the code, so require both.
+      if (lineOverlap(st.response, m.response!) < 0.4) continue;
+      const score = overlap(st.prompt, m.prompt);
+      // Deliberately high: a weak match pairs unrelated exercises, and a wrong
+      // pairing costs more than reporting one extra new example.
+      if (score < 0.5) continue;
+      pairs.push({ id: st.id, mined: m, score });
+    }
+  }
+  pairs.sort((a, b) => b.score - a.score);
+
+  const out = new Map<string, MinedExample>();
+  const usedMined = new Set<MinedExample>();
+  for (const p of pairs) {
+    if (out.has(p.id) || usedMined.has(p.mined)) continue;
+    out.set(p.id, p.mined);
+    usedMined.add(p.mined);
+  }
+  return out;
+}
+
+function isShippedExactly(m: MinedExample, shipped: ShippedStep[]): boolean {
+  const key = promptKey(m.prompt);
+  return shipped.some((s) => promptKey(s.prompt) === key);
+}
+
+/** Fraction of shared non-blank code lines. */
+function lineOverlap(a: string, b: string): number {
+  const lines = (s: string) =>
+    new Set(
+      codeKey(s)
+        .split("\n")
+        .map((l) => l.trim())
+        .filter(Boolean),
+    );
+  const la = lines(a);
+  const lb = lines(b);
+  if (la.size === 0 || lb.size === 0) return 0;
+  let shared = 0;
+  for (const l of la) if (lb.has(l)) shared++;
+  return shared / Math.min(la.size, lb.size);
 }
 
 /** Human-readable summary of how two code blocks differ. */
@@ -109,6 +177,7 @@ const detailNew = argv.includes("--new");
 let totalNew = 0;
 let totalDrift = 0;
 let totalAbsent = 0;
+let totalRevised = 0;
 
 for (const cfg of BOOKS) {
   if (only && only !== cfg.tag) continue;
@@ -170,6 +239,12 @@ for (const cfg of BOOKS) {
 
   const matchedPrompts = new Set<string>();
 
+  // Pre-assign revisions globally: for every shipped example with no exact prompt
+  // match, score it against every unclaimed mined example and take the best pairs
+  // first. First-come assignment lets one example claim a mined match that fits a
+  // later one better.
+  const revisions = assignRevisions(shipped, mined, byPrompt);
+
   for (const st of shipped) {
     const key = promptKey(st.prompt);
     let m = byPrompt.get(key);
@@ -186,9 +261,20 @@ for (const cfg of BOOKS) {
         console.log(`             book : ${byCodeHit.prompt.slice(0, 68)}`);
         continue;
       }
-      // Distinguish "the book no longer has this" from "the extractor missed it".
-      // Conflating them risks deleting a perfectly good example, so the prompt is
-      // also searched for in the raw manuscript text.
+      // The exercise may have been revised: prompt reworded *and* code changed.
+      // Reporting that as "absent" would invite deleting a perfectly good example,
+      // so look for the closest surviving prompt before concluding anything.
+      const candidate = revisions.get(st.id);
+      if (candidate) {
+        totalRevised++;
+        matchedPrompts.add(promptKey(candidate.prompt));
+        console.log(`  revised  ${st.id.padEnd(12)} prompt and code both changed in the book`);
+        console.log(`             ours : ${st.prompt.slice(0, 68)}`);
+        console.log(`             book : ${candidate.prompt.slice(0, 68)}`);
+        continue;
+      }
+      // Still nothing: is the text there at all? An extraction gap must not be
+      // mistaken for a deletion.
       if (fullText.includes(promptKey(st.prompt))) {
         console.log(`  unmined  ${st.id.padEnd(12)} prompt is in the text but was not extracted — "${st.title}"`);
         continue;
@@ -238,7 +324,7 @@ for (const cfg of BOOKS) {
 if (!showId) {
   console.log("=".repeat(76));
   console.log(
-    `${totalNew} new, ${totalDrift} drifted, ${totalAbsent} absent. ` +
+    `${totalNew} new, ${totalDrift} drifted, ${totalRevised} revised, ${totalAbsent} absent. ` +
       `Nothing written — this phase reports only.`,
   );
 }

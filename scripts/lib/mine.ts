@@ -47,11 +47,7 @@ export interface BookConfig {
   tag: BookTag;
   language: string;
   root: string;
-  /**
-   * Whether the book's Appendix carries exercises. Python's Appendix is a real
-   * content chapter ("Core Concepts") whose listings keep chapter-2 numbering;
-   * Java's is a data-type reference table with no prompts.
-   */
+  /** Whether the book's Appendix is part of the book. Neither is, today. */
   includeAppendix: boolean;
 }
 
@@ -66,7 +62,9 @@ export const BOOKS: BookConfig[] = [
     tag: "py",
     language: "python",
     root: "/home/steve/Nextcloud/Book Writing/AI First Python Programming/Chapters",
-    includeAppendix: true,
+    // The Python Appendix is not part of the book yet and may never be, so it is
+    // not a chapter and its examples are not imported.
+    includeAppendix: false,
   },
 ];
 
@@ -122,11 +120,19 @@ function parseCaption(text: string): { chapter: number; seq: number | null; rest
   return { chapter: Number(m[1]), seq, rest: m[3].trim() };
 }
 
-/** A prompt reads like a sentence; code does not. */
+/**
+ * A prompt reads like a sentence; code does not.
+ *
+ * Note what is *not* tested here. Rejecting lines that begin with a keyword looks
+ * attractive but throws away real exercises — "Print the price of a specified item
+ * using an f string" is a prompt. Trailing punctuation is the reliable tell: a
+ * statement like `for item in shopping_list:` ends in a colon, and no prompt does.
+ */
 function isProse(text: string): boolean {
   const t = text.trim();
   if (t.length < 15 || t.length > 500) return false;
   if (CODEY.test(t)) return false;
+  if (t.endsWith(":")) return false; // block opener, so: code
   return t.split(/\s+/).length >= 4;
 }
 
