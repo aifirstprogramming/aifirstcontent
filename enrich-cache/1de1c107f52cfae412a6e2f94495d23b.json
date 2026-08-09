@@ -1,0 +1,25 @@
+{
+  "summary": "This program asks for the current temperature and gives one of two pieces of advice: wear a hat when it is below 10 degrees, and no hat when it is not. It is the starting point for a decision that will later grow a third branch with elif.",
+  "lines": [
+    {
+      "code": "temp = float(input(\"Temperature (°C): \"))",
+      "text": "input always hands back text, so float() converts what was typed into a number that can be compared with 10. Without that conversion, Python would refuse to compare a string to a number."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "The condition is a question with a yes-or-no answer, and the colon plus the indented line beneath it marks off the code that runs only when the answer is yes."
+    },
+    {
+      "code": "    print(\"Wear a hat!\")",
+      "text": "The four spaces of indentation are what put this line inside the if. Python uses indentation, not braces, to decide which lines belong to a block."
+    },
+    {
+      "code": "else:",
+      "text": "else is the catch-all for every temperature that is not below 10, which is the piece this exercise asks you to add. Because exactly one of the two branches runs, the program always says something."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "20\n",
+  "expectsUncaughtException": false
+}

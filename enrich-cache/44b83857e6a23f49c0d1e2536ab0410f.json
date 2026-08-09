@@ -1,0 +1,29 @@
+{
+  "summary": "This program deals two cards from a shuffled deck \\u2014 one for you, one for the computer \\u2014 and declares whoever holds the higher card the winner. It reuses the card generator from earlier, now that each card carries a numeric value alongside its name.",
+  "lines": [
+    {
+      "code": "    deck = [(f'{rank} of {suit}', value) for suit in suits for value, rank in enumerate(ranks)]",
+      "text": "Each card is now a pair: its printable name and a number for comparing. `enumerate(ranks)` hands back a position along with each rank, so '2' scores 0 and 'Ace' scores 12 \\u2014 the exact ordering the game needs."
+    },
+    {
+      "code": "        yield card",
+      "text": "`yield` is what makes this a generator: the deck is handed out one card at a time, on request, instead of all at once. This is why the game can simply ask for the next card whenever a player draws."
+    },
+    {
+      "code": "deck = card_generator()",
+      "text": "Calling the generator function does not deal any cards yet; it creates the generator object that will produce them. Note that this `deck` is a separate variable from the list inside the function."
+    },
+    {
+      "code": "(player_card, player_rank), (computer_card, computer_rank) = next(deck), next(deck)",
+      "text": "Each `next(deck)` draws one card, and the tuple on the left unpacks both cards into four named variables in a single step. Because the generator never repeats a card, the player and the computer cannot draw the same one."
+    },
+    {
+      "code": "print(\"Player wins!\" if player_rank > computer_rank",
+      "text": "This is a conditional expression: Python picks one of the three strings before `print` ever runs. Comparing the numeric ranks, not the card names, is what makes 'Ace' beat '10' correctly."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

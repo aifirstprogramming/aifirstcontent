@@ -1,0 +1,35 @@
+{
+  "summary": "This program builds a small library of Book objects in an ArrayList, then walks through that list and copies every book whose genre is Fantasy into a second list, which it prints. It shows how to filter a collection without disturbing the original.",
+  "lines": [
+    {
+      "code": "        List<Book> fantasyBooks = new ArrayList<>();",
+      "text": "This is the separate pile you set aside for your friend: a new list that will hold only the matching books, while the original library list stays exactly as it was."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop hands you each Book in the collection one at a time, so you never have to manage an index or worry about how many books there are."
+    },
+    {
+      "code": "            if (book.getGenre().equalsIgnoreCase(\"Fantasy\")) {",
+      "text": "The filter criterion asks each book for its genre through its getter. Using equalsIgnoreCase rather than == means \"fantasy\", \"Fantasy\", and \"FANTASY\" all match, which is what you want when comparing text."
+    },
+    {
+      "code": "                fantasyBooks.add(book);",
+      "text": "Only the object reference is added to the second list, so both lists point at the same Book; nothing is copied or removed from the library."
+    },
+    {
+      "code": "        for (Book book : fantasyBooks) {",
+      "text": "A second loop prints the subset, and passing the Book straight to println works because the Book class defines a toString method that formats its own details."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

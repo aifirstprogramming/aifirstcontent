@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores the number of feet for a penguin, a panda, and a hippo in three variables, adds them together, and prints each animal's count along with the total.",
+  "lines": [
+    {
+      "code": "penguin_feet = 2",
+      "text": "Each animal's foot count gets its own named variable, so the program reads like the problem Samantha described instead of a bare list of numbers."
+    },
+    {
+      "code": "total_feet = penguin_feet + panda_feet + hippo_feet",
+      "text": "The addition happens on the values stored in the variables, not on typed-in numbers, so changing an animal's count above automatically changes the total here."
+    },
+    {
+      "code": "print(f\"Penguin feet: {penguin_feet}\")",
+      "text": "The f before the quotes marks this as an f-string, and anything inside the curly braces is replaced by the variable's value when the line runs."
+    },
+    {
+      "code": "print(f\"Total feet: {total_feet}\")",
+      "text": "This is the answer Samantha actually wanted: ten feet means ten shoes to design."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

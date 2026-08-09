@@ -1,0 +1,29 @@
+{
+  "summary": "This is the Thermostat class updated with an eco mode setting. When eco mode is on, the thermostat waits longer before heating and longer before cooling, so it runs less often and uses less energy.",
+  "lines": [
+    {
+      "code": "    private final boolean ecoMode;",
+      "text": "Eco mode is stored alongside the temperature as a second piece of state, and because it is final it is fixed for the life of the object — a thermostat is created either in eco mode or not."
+    },
+    {
+      "code": "    public Thermostat(int currentTemp, boolean ecoMode) {",
+      "text": "The constructor now takes two arguments instead of one, so every place that created a Thermostat has to be updated. This is exactly the kind of change the existing unit tests are there to catch."
+    },
+    {
+      "code": "        int heatingThreshold = ecoMode ? 65 : 68;",
+      "text": "The ternary operator reads as \"if ecoMode is true use 65, otherwise use 68\" — a compact way to pick between two values. Eco mode lets the room get colder before the heat kicks in."
+    },
+    {
+      "code": "        int coolingThreshold = ecoMode ? 78 : 75;",
+      "text": "The cooling threshold moves the other way, so eco mode widens the comfortable band at both ends: 65–78 instead of 68–75, and the system stays idle far more of the time."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "With both threshold checks already returning, reaching this line means the temperature sits inside the band and nothing needs to run."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

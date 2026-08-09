@@ -1,0 +1,33 @@
+{
+  "summary": "This is the robot pet family after the AI added a new feature: every pet class now has a speak method that returns a different sentence depending on the pet's type, its battery level, and its mood. The battery property still clamps any value into the 0-100 range, so speak can rely on it.",
+  "lines": [
+    {
+      "code": "        self.battery = battery",
+      "text": "Assigning to self.battery in the constructor runs the property setter, not a plain attribute assignment, so a pet created with battery=150 or battery=-5 is corrected before anything else touches it."
+    },
+    {
+      "code": "            self._battery = 0",
+      "text": "The setter stores the cleaned-up number in the private _battery attribute; this is where the two new unit tests for the battery bounds aim their assertions."
+    },
+    {
+      "code": "        self.battery += amount",
+      "text": "Charging reads the property and writes it back, which means charging past 100 is clamped for free rather than needing its own check here."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'I need to recharge...'\"",
+      "text": "The battery check comes first in every speak method, so a tired pet says it needs charging even when its mood is happy. That ordering is the behaviour the tests need to pin down."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Purrr! I am a happy kitty!'\"",
+      "text": "Each subclass overrides speak with its own wording, so calling speak on a RobotCat runs the cat's version instead of the one inherited from RobotPet."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Woof.'\"",
+      "text": "The final return is the fallback for a charged pet whose mood is anything other than \"happy\", so every path through speak produces a string."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

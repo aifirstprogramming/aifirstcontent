@@ -1,0 +1,29 @@
+{
+  "summary": "This program uses an ArrayDeque to model a browser's history: each page you visit is pushed onto the front, pressing \"back\" takes a page off the front, and old entries are cleared off the back. It prints the history after each operation so you can watch both ends of the deque change.",
+  "lines": [
+    {
+      "code": "        Deque<String> history = new ArrayDeque<>();",
+      "text": "The variable is declared with the Deque interface but built with ArrayDeque, so the code only depends on the double-ended queue behaviour and the class supplying it could be swapped later."
+    },
+    {
+      "code": "        history.addFirst(\"https://example.com/home\");",
+      "text": "The home page is added first, which means it ends up buried at the very back once four more pages are pushed onto the front ahead of it. Newest at the front, oldest at the back."
+    },
+    {
+      "code": "        history.forEach(System.out::println);",
+      "text": "Iterating a deque walks from the front to the back, so the printed list reads newest first and oldest last, exactly like a stack of numbered plates viewed from the top."
+    },
+    {
+      "code": "        String lastVisited = history.pollFirst();",
+      "text": "This is the back button: pollFirst removes the current page from the front and hands it back, leaving the previous page as the new front. Unlike removeFirst, poll returns null on an empty deque instead of throwing."
+    },
+    {
+      "code": "        String oldest1 = history.pollLast();",
+      "text": "Clearing old history works from the opposite end, and being able to remove from either end is precisely what makes a Deque more useful here than a plain Queue."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,35 @@
+{
+  "summary": "This version of the library builds a HashMap that pairs each book's title with the whole Book object, so a single lookup by title hands back the complete record instead of just one field. It then looks up \"The Hobbit\" and prints its details, guarding against a missing key first.",
+  "lines": [
+    {
+      "code": "        Map<String, Book> bookAuthors = new HashMap<>();",
+      "text": "The value type is now Book rather than String, so each entry stores the entire object instead of just the author's name. Map is the interface you declare, HashMap is the implementation you create."
+    },
+    {
+      "code": "            bookAuthors.put(book.getTitle(), book);",
+      "text": "Each pass through the loop files one book under its own title, building the index once so that later lookups never have to walk the list again."
+    },
+    {
+      "code": "        Book foundBook = bookAuthors.get(titleToLookUp);",
+      "text": "A map lookup jumps straight to the matching entry, and it returns null rather than an error when the key was never put in."
+    },
+    {
+      "code": "        if (foundBook != null) {",
+      "text": "Checking for null before touching foundBook's fields is what keeps a missing title from becoming a NullPointerException; make this check a habit after every .get()."
+    },
+    {
+      "code": "            System.out.println(\"No book found for title: \" + titleToLookUp);",
+      "text": "Because the \"Define book objects, add to list\" comment is still a placeholder, the list is empty and this else branch is what actually runs — a useful demonstration that the null path works."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

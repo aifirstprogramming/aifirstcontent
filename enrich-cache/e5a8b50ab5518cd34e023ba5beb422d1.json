@@ -1,0 +1,31 @@
+{
+  "summary": "This version of the library builds its genre list as a Set instead of a List, so each genre appears only once no matter how many books share it. It then prints the de-duplicated genres, which is why \"Fantasy\" shows up a single time even though three books belong to that genre.",
+  "lines": [
+    {
+      "code": "        Set<String> genres = new HashSet<>();",
+      "text": "This is the one line that really changed: the collection is now declared as a Set, whose defining promise is that it holds only unique items. HashSet is to Set what ArrayList is to List, the ordinary everyday choice."
+    },
+    {
+      "code": "            genres.add(book.getGenre());",
+      "text": "Every book's genre is added with no duplicate check needed, because handing a Set a value it already holds is not an error and simply changes nothing."
+    },
+    {
+      "code": "        for (String genre : genres) {",
+      "text": "A Set can still be iterated over and asked whether it contains an item, but it keeps no insertion order, so the genres may print in an order you did not choose and cannot be fetched by index."
+    },
+    {
+      "code": "        // Find all Fantasy books, print Fantasy books",
+      "text": "The earlier work from this chapter is collapsed into comments here to keep the listing short; the point of this exercise is the genre collection above, not a rerun of the filtering code."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

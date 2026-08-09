@@ -1,0 +1,33 @@
+{
+  "summary": "This defines the MarketProduct class, the domain object for the farmers' market application: a single item on a vendor's table, described by its name, vendor, price, category, season, and whether it is organic. Every stream exercise in this chapter processes lists of these objects.",
+  "lines": [
+    {
+      "code": "    private final String name;",
+      "text": "Each field is both private and final, so a MarketProduct's data is set once at construction and can never change afterward. Immutable objects like this are exactly what streams prefer, since nothing can quietly rewrite an item mid-pipeline."
+    },
+    {
+      "code": "    public MarketProduct(String name, String vendor, double price, String category, String season, boolean organic) {",
+      "text": "The constructor is the only way to populate the object, so every product must be described completely up front. Watch the order of the arguments when you create one — name and vendor are both Strings, and the compiler cannot tell you that you swapped them."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name `name`, so `this.name` is needed to say \"the field belonging to this object\" rather than the parameter."
+    },
+    {
+      "code": "    public boolean isOrganic() {",
+      "text": "Java convention names a boolean getter `isOrganic` rather than `getOrganic`, which reads naturally in stream filters later in the chapter."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'' +",
+      "text": "The odd-looking `'\\''` is a single-quote character, escaped because a bare quote would end the character literal. It wraps the text values in quotes so printed output clearly shows where each String begins and ends."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Overriding toString means printing a MarketProduct — or a whole list of them — shows readable field values instead of a class name and hash code, which makes debugging stream results far easier."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

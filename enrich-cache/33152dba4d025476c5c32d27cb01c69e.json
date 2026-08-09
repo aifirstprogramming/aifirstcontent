@@ -1,0 +1,35 @@
+{
+  "summary": "GiftCookie is a specialized kind of Cookie for the bakery's gift orders. It inherits everything an ordinary cookie can do and adds its own gift-wrapping steps: boxing, ribbon, and a note.",
+  "lines": [
+    {
+      "code": "public class GiftCookie extends Cookie {",
+      "text": "The extends keyword makes GiftCookie a Cookie, so it already knows how to be mixed and baked; only the gift-specific responsibilities need to be written here."
+    },
+    {
+      "code": "        super(flavor);",
+      "text": "A subclass constructor hands the flavor up to the Cookie constructor so the inherited part of the object is set up properly before any gift logic runs."
+    },
+    {
+      "code": "    public String packageCookie(String giftNote) {",
+      "text": "This is the one public door into the gift-wrapping process, and the rest of the bakery application can only ask for the whole process, never for individual steps."
+    },
+    {
+      "code": "        System.out.println(\"Packaged \" + getFlavor() + \" cookie in a box.\");",
+      "text": "getFlavor() is not defined in this file; it is inherited from Cookie, which is why GiftCookie will not compile unless the Cookie class is available too."
+    },
+    {
+      "code": "    private void tieRibbon() {",
+      "text": "Marking the helper steps private is encapsulation in practice: GiftCookie keeps control of how gift wrapping is done and in what order, so no other code can tie the ribbon before the cookie is in the box."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "",
+      "fromExercise": "java-5-07"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

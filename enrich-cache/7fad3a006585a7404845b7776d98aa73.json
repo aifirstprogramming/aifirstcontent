@@ -1,0 +1,27 @@
+{
+  "summary": "This program asks how many balls Cannoli the dog brought back, how many Mochi the cat brought back, and how many rolled away for good, then adds the three numbers to work out how many balls were thrown in the first place. What you see here is a sample run: the three lines ending in a number are the prompts with the reader's typed answers, and the last line is the program's answer.",
+  "lines": [
+    {
+      "code": "Enter number of balls dog retrieved: 8",
+      "text": "The text up to the colon is the prompt the program shows, and the 8 is what the user types. Whatever you type arrives as a string, so the program wraps the input in int() to typecast it into a number it can add."
+    },
+    {
+      "code": "Enter number of balls never retrieved: 3",
+      "text": "The balls that rolled down the stairs still have to be counted, because they were thrown even though nobody brought them back."
+    },
+    {
+      "code": "Total balls thrown: 13",
+      "text": "The three variables dog, cat, and lost are added together to recover the starting total. Skip the typecasting and Python would join the strings instead, printing 823 rather than 13."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_fetch.py",
+      "content": "dog = int(input(\"Enter number of balls dog retrieved: \"))\ncat = int(input(\"Enter number of balls cat retrieved: \"))\nlost = int(input(\"Enter number of balls never retrieved: \"))\ntotal = dog + cat + lost\nprint(\"Total balls thrown:\", total)\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "pet_fetch.py",
+  "stdin": "8\n2\n3\n",
+  "expectsUncaughtException": false
+}

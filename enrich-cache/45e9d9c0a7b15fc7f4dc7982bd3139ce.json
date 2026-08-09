@@ -1,0 +1,29 @@
+{
+  "summary": "This class models a smart thermostat that stores the current temperature and reports whether the system should be heating, cooling, or sitting idle. It has no main method, so it is compiled and then used by other classes rather than run on its own.",
+  "lines": [
+    {
+      "code": "    private double currentTemp;",
+      "text": "The temperature is kept private so nothing outside the class can change it directly; the only way to set it is through the constructor."
+    },
+    {
+      "code": "    public Thermostat(double currentTemp) {",
+      "text": "The constructor is what lets you create Thermostat objects, each one carrying its own temperature reading."
+    },
+    {
+      "code": "        this.currentTemp = currentTemp;",
+      "text": "The parameter and the field share a name, so `this.` is required to say \"the field belonging to this object\" rather than the parameter."
+    },
+    {
+      "code": "        if (currentTemp < 68.0) return \"Heating\";",
+      "text": "Note the strict less-than: at exactly 68.0 the thermostat is not heating. Boundary values like this are where bugs hide, and they are the first thing worth writing a test for."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "With the two threshold checks returning early, anything that reaches this line is in the comfortable middle range, so no separate condition is needed for idle."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

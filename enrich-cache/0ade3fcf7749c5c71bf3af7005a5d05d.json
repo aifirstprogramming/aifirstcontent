@@ -1,0 +1,21 @@
+{
+  "summary": "This program counts laps backward, printing \"Lap 3\", \"Lap 2\", and \"Lap 1\" before announcing that all laps are complete. It is the countdown version of the same for loop, changed only in the three control pieces inside the parentheses.",
+  "lines": [
+    {
+      "code": "        for (int lap = 3; lap >= 1; lap--) {",
+      "text": "All three control pieces had to change together to count down: the counter starts at the high number, the condition tests greater-than-or-equal-to the low number, and -- subtracts one each time around. Change only one of them and the loop either runs zero times or never stops."
+    },
+    {
+      "code": "            System.out.println(\"Lap \" + lap);",
+      "text": "The body runs once per iteration and reads lap fresh each time, which is how one printed line becomes three different ones."
+    },
+    {
+      "code": "        System.out.println(\"All laps complete.\");    }",
+      "text": "This statement sits outside the loop's braces, so it runs a single time after the countdown finishes. The closing brace trailing on the same line is only formatting; Java ignores the extra spacing."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

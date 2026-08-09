@@ -1,0 +1,44 @@
+{
+  "summary": "This version of the playlist app stores songs in a Deque \"a double-ended queue\" so songs can be added and played from either the front or the back. It adds four songs (one of them jumped to the front), peeks at both ends without removing anything, then drains the playlist by alternating between the first and last song.",
+  "lines": [
+    {
+      "code": "import java.util.Deque;",
+      "text": "Deque is the interface you program against; the concrete class chosen below, ArrayDeque, lives in java.util too and normally needs its own import line beside this one."
+    },
+    {
+      "code": "        Deque<Song> songQueue = new ArrayDeque<>();",
+      "text": "The variable's type is the Deque interface while the object is an ArrayDeque, which gives fast adds and removes at both ends. The angle brackets on the right stay empty because Java infers Song from the declaration."
+    },
+    {
+      "code": "        songQueue.addFirst(new Song(\"One More Time\", \"Daft Punk\", \"Electronic\", 10)); // Add to front",
+      "text": "This is the move a plain Queue cannot make: instead of joining the back of the line with addLast, the song cuts to the very front and will print first."
+    },
+    {
+      "code": "        System.out.println(songQueue.peekFirst());",
+      "text": "peekFirst reports the song at the front but leaves it in the playlist, which is how you display \"up next\" without playing it. Its counterpart peekLast does the same at the other end."
+    },
+    {
+      "code": "            if (songQueue.size() % 2 == 0) {",
+      "text": "Each poll removes one song, so the remaining size flips between even and odd on every pass and the loop alternates between pollFirst and pollLast."
+    },
+    {
+      "code": "        System.out.println(\"\\nDeque after processing all songs: \" + songQueue);",
+      "text": "Unlike peeking, polling removes the song, so after the loop the Deque prints as empty brackets."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    },
+    {
+      "path": "ArrayDeque.java",
+      "content": "// Support file for this exercise only.\n// The printed program uses ArrayDeque without importing java.util.ArrayDeque,\n// so this thin stand-in in the same package supplies the name. In your own\n// code, add \"import java.util.ArrayDeque;\" at the top of the file instead.\npublic class ArrayDeque<E> extends java.util.ArrayDeque<E> {\n    private static final long serialVersionUID = 1L;\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

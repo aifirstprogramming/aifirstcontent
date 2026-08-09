@@ -1,0 +1,29 @@
+{
+  "summary": "This program picks a game level name from a number using the ternary operator, a compact one-expression alternative to an if/else chain, and prints the result.",
+  "lines": [
+    {
+      "code": "        int levelNumber = 17; // change this value to test",
+      "text": "The single number that drives the whole decision; edit it and re-run to see each branch fire in turn."
+    },
+    {
+      "code": "        String level = levelNumber < 10 ? \"novice\"",
+      "text": "A ternary is an expression that produces a value, so it can sit directly on the right of an assignment: the condition before the ? is tested, and the value after it is used when the test is true."
+    },
+    {
+      "code": "                        : levelNumber < 20 ? \"intermediate\"",
+      "text": "The part after the colon is the \"otherwise\" value, and here it is another ternary. Chaining this way is how a ternary handles more than two outcomes, and because we only reach it when levelNumber is not below 10, the test needs no lower bound."
+    },
+    {
+      "code": "                        : \"expert\";",
+      "text": "Every ternary must supply a final else value, so this last branch has no condition and catches anything 20 or above. The semicolon ends the assignment statement that began three lines earlier."
+    },
+    {
+      "code": "        System.out.println(level);",
+      "text": "The decision was already made when level was assigned, so printing is a separate, trivial step; keeping the choice and the output apart lets you reuse level elsewhere."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks the user how many cupcakes and how many llamas there are, then divides them evenly. Instead of crashing on bad input, it catches the two errors that are likely and prints a friendly message.",
+  "lines": [
+    {
+      "code": "try:",
+      "text": "Everything that might go wrong lives inside the try block, so if any line in it fails, Python jumps straight to a matching except block instead of stopping the program."
+    },
+    {
+      "code": "    cupcakes = int(input(\"How many cupcakes do you have? \"))",
+      "text": "The text typed by the user is always a string, so it must be typecast with int() before it can be used in arithmetic — and this is exactly the call that fails if the user types \"three\" or \"2.5\"."
+    },
+    {
+      "code": "    print(f\"Each llama gets {cupcakes_per_llama:.2f} cupcake(s)!\")",
+      "text": "The :.2f inside the f-string rounds the result to two decimal places, which keeps the output readable when the division doesn't come out even."
+    },
+    {
+      "code": "except ValueError:",
+      "text": "A ValueError is what int() raises when the text isn't a whole number, so catching it turns a crash into a clear instruction to the user."
+    },
+    {
+      "code": "except ZeroDivisionError:",
+      "text": "Except blocks can be chained so each kind of failure gets its own response; this one covers the case where the user enters zero llamas, which mathematics won't allow."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "12\n0\n",
+  "expectsUncaughtException": false
+}

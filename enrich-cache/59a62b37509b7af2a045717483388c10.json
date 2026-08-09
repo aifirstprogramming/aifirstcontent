@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks the user to type their name, reads what they type from the console, and prints a personalized welcome message.",
+  "lines": [
+    {
+      "code": "        java.util.Scanner scanner = new java.util.Scanner(System.in);",
+      "text": "A Scanner is the tool Java uses to read input, and passing System.in tells it to read from the console where the user is typing. The full package name java.util.Scanner is spelled out because the class lives in Java's utility package; exercise 2-12 shows the shorter form using an import."
+    },
+    {
+      "code": "        System.out.print(\"Enter your name: \");",
+      "text": "Using print instead of println leaves the cursor on the same line, so the user types their name right after the prompt rather than on the line below."
+    },
+    {
+      "code": "        String name = scanner.nextLine();",
+      "text": "nextLine reads everything the user typed up to the Enter key and stores it in the name variable, which is what makes the welcome sign dynamic rather than hard-coded."
+    },
+    {
+      "code": "        System.out.println(\"Welcome \" + name);",
+      "text": "The + here joins the fixed text to the value the user supplied. Note the space inside the quotes after \"Welcome\" \\u2014 without it the output would read \"WelcomeAva\"."
+    },
+    {
+      "code": "        scanner.close();",
+      "text": "Closing the Scanner releases the input resource when the program is finished with it, a habit worth forming for anything you open."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "Ava\n",
+  "expectsUncaughtException": false
+}

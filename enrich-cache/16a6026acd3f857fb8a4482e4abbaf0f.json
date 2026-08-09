@@ -1,0 +1,29 @@
+{
+  "summary": "This is the domain class for the weather app: a small, read-only record of one day's weather, holding the date, the temperature in Celsius, and the condition. The stream pipelines in the app filter, map, and average collections of these objects.",
+  "lines": [
+    {
+      "code": "    private final double celsius;   // temperature in °C",
+      "text": "The temperature is stored once, in Celsius, and marked final so it can never change after construction. Keeping a single source of truth means the Fahrenheit conversion later becomes a map step over the stream rather than a second field to keep in sync."
+    },
+    {
+      "code": "    private final String condition; // e.g., Sunny, Rainy, Cloudy",
+      "text": "The condition is a plain String, so the filter that finds rainy days will compare text. Be consistent about spelling and capitalization when you create entries, because \"Rainy\" and \"rainy\" are different values to a String comparison."
+    },
+    {
+      "code": "    public WeatherEntry(String date, double celsius, String condition) {",
+      "text": "Because every field is final, the constructor is the only chance to set them; each entry arrives fully formed and stays that way. Immutable objects like this are exactly what streams like to work with."
+    },
+    {
+      "code": "    public double getCelsius() {",
+      "text": "The stream pipelines reach the data through getters like this one, which is what lets a lambda such as w -> w.getCelsius() feed a mapToDouble for the weekly average."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Overriding toString gives each entry a readable form, so printing a filtered stream of rainy days shows the date, temperature, and condition instead of a meaningless object hash."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

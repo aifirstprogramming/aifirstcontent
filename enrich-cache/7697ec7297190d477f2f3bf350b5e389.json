@@ -1,0 +1,29 @@
+{
+  "summary": "This program converts a Celsius temperature to Fahrenheit by handing the value off to a function that does the math and returns the result. The main method then prints both temperatures in one message.",
+  "lines": [
+    {
+      "code": "        double celsius = 25;",
+      "text": "The temperature is stored as a double rather than an int so that any decimal places in the conversion are kept instead of being chopped off."
+    },
+    {
+      "code": "        double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "This single line does three things: it calls the function, passes celsius in as the argument, and captures the value the function returns in a new variable. A function with a return type is only useful if you catch what it gives back."
+    },
+    {
+      "code": "        System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
+      "text": "Joining a double to text with + turns the number into part of the message, which is why 25.0 and 77.0 show up with their decimal points."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "The parameter here happens to be named celsius, the same as the variable in main, but that is a coincidence rather than a requirement — the two are separate variables and either could be renamed."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Because celsius is a double, multiplying by 9 first produces a double, so dividing by 5 keeps the fraction. Writing 9/5 * celsius instead would divide two whole numbers, give 1, and quietly return the wrong answer."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

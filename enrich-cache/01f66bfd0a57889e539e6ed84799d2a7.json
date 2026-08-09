@@ -1,0 +1,29 @@
+{
+  "summary": "This defines a House class: a blueprint describing what the program should remember about a house, namely its address and its number of bedrooms and bathrooms. It has no main method, so it is meant to be compiled and then used by other classes rather than run on its own.",
+  "lines": [
+    {
+      "code": "    private String address;",
+      "text": "The fields (also called member variables or properties) are the attributes we decided our builder use case cares about. Marking them private means no other class can reach in and change them directly, which is why the getters and setters below exist."
+    },
+    {
+      "code": "    private double bathrooms;",
+      "text": "Bathrooms is a double rather than an int because houses really do have 1.5 or 2.5 bathrooms; choosing the type that matches the real-world quantity is part of designing the domain."
+    },
+    {
+      "code": "    public House(String address, int bedrooms, double bathrooms) {",
+      "text": "This is the constructor, the special method called to build one actual house object. It shares the class's name and has no return type, and it demands all three values up front so a House can never exist without them."
+    },
+    {
+      "code": "        this.address = address;",
+      "text": "The parameter and the field have the same name, so this.address means \"the field belonging to this object\" while plain address means the value just passed in. Without the this. prefix the line would assign the parameter to itself and the field would stay empty."
+    },
+    {
+      "code": "    public String getAddress() {",
+      "text": "A getter hands out a copy of a private field's value to the outside world. Pairing it with setAddress gives controlled access: the class decides what may be read and what may be changed."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

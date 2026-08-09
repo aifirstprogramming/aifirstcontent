@@ -1,0 +1,25 @@
+{
+  "summary": "This program defines a RobotPet class, a blueprint for creating robot pet objects that each carry a name, a battery level, and a mood. It then creates three distinct pets and prints each one's attributes.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "This is the constructor, a special method Python runs automatically whenever a new RobotPet is created. The arguments after self are the pieces of information you must supply about the pet."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "The argument name only exists while the constructor runs; assigning it to self.name stores it on the pet object itself so it can be read back later. The same pattern saves battery and mood."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Calling the class like a function builds one pet in a single line, and the arguments are matched to the constructor's parameters in order. This is what makes creating many unique pets so much less work than writing a dictionary for each."
+    },
+    {
+      "code": "print(f\"{pet1.name} - Battery: {pet1.battery}, Mood: {pet1.mood}\")",
+      "text": "Dot notation reads an attribute back off a particular object, so pet1.name is Rover's name and never Sparky's. Each pet keeps its own separate copy of the three attributes."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

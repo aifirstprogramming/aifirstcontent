@@ -1,0 +1,25 @@
+{
+  "summary": "This program builds a dictionary where each key is a student's name and each value is a list of that student's magic classes, then prints one tidy line per student. It shows how nesting a list inside a dictionary lets a single key hold many items.",
+  "lines": [
+    {
+      "code": "    \"Sally\": [\"Spell Theory\", \"Potion Brewing\", \"Wand Mastery\", \"Magical Creatures\"],",
+      "text": "The value here is a list in square brackets, not a single string, which is what lifts the dictionary beyond one paired value per key. Sally's four classes stay in the order they were written."
+    },
+    {
+      "code": "    \"Luna\": [\"Astronomy\", \"Wandlore\", \"Magical History\", \"Creature Communication\"]",
+      "text": "The last entry takes no trailing comma before the closing brace, and the closing brace sits on its own line so the whole bulletin board reads as one block."
+    },
+    {
+      "code": "for student, classes in student_classes.items():",
+      "text": "Each item from a dictionary comes out as a name-and-value pair, and listing two variables unpacks that pair in one step: student gets the key, classes gets the whole list."
+    },
+    {
+      "code": "    print(f\"{student}'s classes: {', '.join(classes)}\")",
+      "text": "join glues the list items into a single string separated by a comma and a space, which is far neater than printing the raw list with its brackets and quotes."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

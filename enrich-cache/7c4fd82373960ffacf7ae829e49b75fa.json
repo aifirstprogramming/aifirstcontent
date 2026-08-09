@@ -1,0 +1,33 @@
+{
+  "summary": "This version of the temperature converter keeps asking until the user types a number that is both numeric and inside the valid Celsius range of -273.15 to 100, then converts it to Fahrenheit. It combines a while loop with try-catch so a bad entry no longer ends the program.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius (-273.15 to 100): \");",
+      "text": "The prompt now states the acceptable range up front, so the user knows what counts as valid before typing anything rather than discovering it through a rejection."
+    },
+    {
+      "code": "            while (true) {",
+      "text": "This loop is what lets the application keep running after a bad entry. It repeats forever until a break statement stops it, so the user gets another chance instead of having to restart the program."
+    },
+    {
+      "code": "                    if (value < -273.15 || value > 100) {",
+      "text": "Parsing succeeded, so no exception was thrown, but 200 is still not a real Celsius temperature. This is the extra validation layer that exception handling alone cannot give you."
+    },
+    {
+      "code": "                        continue;",
+      "text": "continue jumps straight back to the top of the while loop to read another line, skipping the assignment and the break below it."
+    },
+    {
+      "code": "                    break;",
+      "text": "Once a value passes both checks it is stored in celsius and break ends the loop, letting the program fall through to the conversion."
+    },
+    {
+      "code": "                } catch (NumberFormatException e) {",
+      "text": "Placing the catch inside the loop means non-numeric text is reported and then the loop simply asks again, rather than the whole program giving up."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "200\nwarm\n25\n",
+  "expectsUncaughtException": false
+}

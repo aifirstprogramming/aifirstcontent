@@ -1,0 +1,29 @@
+{
+  "summary": "This is the domain class for the sports team stats app: each Player object holds a name, a position, and the number of goals scored, along with getters and a toString method. It carries no logic of its own — it exists so the stream pipelines in the main app have objects to group, sort, and summarize.",
+  "lines": [
+    {
+      "code": "    private final String name;",
+      "text": "Marking the fields private keeps them out of reach of other classes, and final means a Player's values are fixed the moment it is built. Immutable objects like this are the ideal input for streams, since no pipeline stage can quietly change the data underneath you."
+    },
+    {
+      "code": "    public Player(String name, String position, int goals) {",
+      "text": "Because there are no setters, the constructor is the only way to supply a player's details, so every Player is fully formed as soon as it exists."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name name, so this.name says \"the field belonging to this object\" while the bare name is the value that was passed in. Dropping this. here would assign the parameter to itself and leave the field empty."
+    },
+    {
+      "code": "    public String getPosition() {",
+      "text": "This getter is what makes grouping possible: the main app hands it to the stream as the method reference Player::getPosition, and the collector uses each returned position as a key."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Providing toString means printing a player, or a whole map of players grouped by position, produces readable output instead of a class name and hash code."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

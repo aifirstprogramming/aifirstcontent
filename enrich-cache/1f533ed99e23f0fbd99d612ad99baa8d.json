@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks two yes/no questions and recommends one of four desserts, using an if statement placed inside another if statement to combine the two answers.",
+  "lines": [
+    {
+      "code": "hot = input(\"Hot outside? (y/n): \").strip().lower()",
+      "text": "input always hands back text, so .strip() removes any stray spaces or the newline and .lower() turns \"Y\" into \"y\" \ting only has to be compared against one form."
+    },
+    {
+      "code": "if hot == \"y\":",
+      "text": "This is the outer decision, and it splits the program into the hot-day world and the cool-day world before the chocolate question is even considered."
+    },
+    {
+      "code": "    if choc == \"y\":",
+      "text": "The extra level of indentation is what makes this a nested decision: it is only reached when the outer condition was true, so it decides between the two hot-day desserts."
+    },
+    {
+      "code": "else:",
+      "text": "This else lines up with the outer if, not the inner one, so it opens the cool-day branch that holds its own complete if/else pair."
+    },
+    {
+      "code": "print(\"You should have:\", dessert)",
+      "text": "Every one of the four paths assigns dessert, so by the time this line runs the name is guaranteed to exist; leaving one branch out would crash here."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "n\ny\n",
+  "expectsUncaughtException": false
+}

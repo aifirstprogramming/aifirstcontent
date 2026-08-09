@@ -1,0 +1,33 @@
+{
+  "summary": "This is a Room domain class: a blueprint for one room in a house, holding its name, length, and width, with methods to read and change those values and to print the object in readable form.",
+  "lines": [
+    {
+      "code": "    private double length;",
+      "text": "Lengths and widths are declared as double because room dimensions are measured, not counted, so 12.5 feet needs to be representable."
+    },
+    {
+      "code": "    public Room() {\n    }",
+      "text": "This empty no-argument constructor is the piece that differs from House: it lets you create a bare Room first and fill in the details later through the setters."
+    },
+    {
+      "code": "    public Room(String name, double length, double width) {",
+      "text": "Two constructors with different parameter lists can coexist in one class; Java picks the one that matches the arguments you supply."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name name, so this.name says \"the field belonging to this object\" while the bare name is the value passed in."
+    },
+    {
+      "code": "    public void setWidth(double width) {",
+      "text": "Keeping the fields private and exposing setters is what lets the class stay in charge of its own data, which is the whole point of encapsulation."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'' +",
+      "text": "The escape sequence '\\'' puts a literal single quote into the text, so a room's name appears in quotes when the object is printed."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

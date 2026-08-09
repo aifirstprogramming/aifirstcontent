@@ -1,0 +1,25 @@
+{
+  "summary": "This program asks for a temperature and gives clothing advice, using an elif branch to catch hot weather as well as cold. Only one of the three messages ever prints.",
+  "lines": [
+    {
+      "code": "temp = float(input(\"Temperature (°C): \"))",
+      "text": "input always hands back text, so float() converts what was typed into a decimal number that can be compared against 10 and 30."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "Python checks this condition first; if it is true, the cold-weather message prints and the rest of the chain is skipped entirely."
+    },
+    {
+      "code": "elif temp > 30:",
+      "text": "elif is short for \"else if,\" and it lets you add a second question to the same if statement — it is only asked when the first condition turned out false."
+    },
+    {
+      "code": "else:",
+      "text": "The else branch is the catch-all for anything neither condition matched, which here means a comfortable temperature between 10 and 30."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "35\n",
+  "expectsUncaughtException": false
+}

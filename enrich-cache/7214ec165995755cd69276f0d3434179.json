@@ -1,0 +1,29 @@
+{
+  "summary": "This is the RobotPet family after asking the AI to add a new feature: every pet now has its own way of speaking, chosen by its battery level and its mood. Each subclass overrides both show_talent and speak, so the same method call produces a different sentence for a cat, a bird, and a dog.",
+  "lines": [
+    {
+      "code": "    @battery.setter\n    def battery(self, value):",
+      "text": "The setter is what makes the new feature trustworthy: no matter what a caller passes in, the stored battery stays between 0 and 100, so the \"below 30\" check in speak can never be fooled by a nonsense value."
+    },
+    {
+      "code": "    def speak(self):\n        if self.battery < 30:\n            return f\"{self.name} says: 'I need to recharge...'\"",
+      "text": "The order of the checks is the whole logic of the feature. A low battery is tested first, so a happy pet with a nearly empty battery still asks for a charge instead of chirping cheerfully."
+    },
+    {
+      "code": "        if self.mood == \"happy\":\n            return f\"{self.name} says: 'I am happy to be here!'\"\n        return f\"{self.name} says: 'Hello!'\"",
+      "text": "With enough battery, mood decides between the happy line and the plain fallback, which is the third branch every subclass repeats and every test needs to cover."
+    },
+    {
+      "code": "class RobotCat(RobotPet):\n    def show_talent(self):\n        return f\"{self.name} pounces on a laser dot!\"",
+      "text": "Each subclass inherits the name, battery, mood, and charge behaviour from RobotPet and only replaces the parts that differ, so adding a fourth pet type means writing two short methods rather than a whole class."
+    },
+    {
+      "code": "    def speak(self):\n        if self.battery < 30:\n            return f\"{self.name} says: 'Woof... need... charge...'\"",
+      "text": "Because each subclass defines its own speak, calling pet.speak() on a list of mixed pets gives each one its own voice without any if-statement asking what type it is."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

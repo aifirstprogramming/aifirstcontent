@@ -1,0 +1,25 @@
+{
+  "summary": "This program keeps a guest list for an event in a TreeSet, a collection that refuses duplicate entries and keeps what it holds in sorted order. Eight names are added, two of them repeats, and the program reports the real guest count and prints the list alphabetically.",
+  "lines": [
+    {
+      "code": "        Set<String> guests = new TreeSet<>();",
+      "text": "The variable is declared as the general Set type but created as the specific subtype TreeSet, which is what gives you both de-duplication and automatic alphabetical ordering. Declaring it as Set means the rest of the code only relies on set behaviour, so you could swap in a different set later."
+    },
+    {
+      "code": "        guests.add(\"Jordan\"); // duplicate",
+      "text": "Adding a name that is already in the set is not an error and does not crash anything; the set simply ignores it, which is exactly the protection you want against a guest who RSVPs twice."
+    },
+    {
+      "code": "        System.out.println(\"Guest count: \" + guests.size());",
+      "text": "Eight calls to .add() were made, but size() reports six, because the two duplicate RSVPs never became separate entries."
+    },
+    {
+      "code": "        for (String guest : guests) {",
+      "text": "Iterating a TreeSet hands back the names in alphabetical order without any sorting code of your own — the collection maintained that order as each name was added."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

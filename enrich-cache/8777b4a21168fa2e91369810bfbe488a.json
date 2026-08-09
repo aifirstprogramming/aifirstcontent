@@ -1,0 +1,39 @@
+{
+  "summary": "This is the test file that covers the new speak method on each robot pet. For every pet type it checks the three messages speak can produce — low battery, happy mood, and the plain neutral greeting — plus a check that the pet's own name always appears in what it says.",
+  "lines": [
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "The tests live in their own file and pull the four pet classes in from the program's module, so testing never means editing or running the main program."
+    },
+    {
+      "code": "    …",
+      "text": "The ellipsis stands for the setUp method and the earlier tests that were already in each test class; the printed page shows only the new speak tests being added. Because of it, this file as printed is a fragment rather than a program you can run."
+    },
+    {
+      "code": "        self.pet.battery = 10",
+      "text": "Rather than draining the battery through gameplay, the test sets the attribute straight to a value below 30 to put the pet in exactly the state the branch needs."
+    },
+    {
+      "code": "        self.pet.mood = \"happy\"",
+      "text": "Testing the happy message means also raising the battery on the next line, because a flat battery takes priority inside speak and would hide the mood message entirely."
+    },
+    {
+      "code": "        self.assertIn(\"Hello\", self.pet.speak())",
+      "text": "assertIn checks that the returned message contains a word, not that it matches character for character, so the test still passes if you later reword the greeting around it."
+    },
+    {
+      "code": "    def test_speak_contains_name(self):",
+      "text": "Each pet type repeats this test to confirm the message identifies the pet, which is the easiest detail to lose when four classes each write their own version of speak."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "class RobotPet:\n    def __init__(self, name, battery=100, mood=\"neutral\"):\n        self.name = name\n        self.battery = battery\n        self.mood = mood\n\n    def speak(self):\n        if self.battery < 30:\n            return f\"{self.name} mumbles: I need a recharge.\"\n        if self.mood == \"happy\":\n            return f\"{self.name} says: I am so happy to see you!\"\n        return f\"Hello, I am {self.name}.\"\n\n\nclass RobotCat(RobotPet):\n    def speak(self):\n        if self.battery < 30:\n            return f\"{self.name} is too tired to purr.\"\n        if self.mood == \"happy\":\n            return f\"{self.name} is one happy kitty!\"\n        return f\"Meow! I am {self.name}.\"\n\n\nclass RobotBird(RobotPet):\n    def speak(self):\n        if self.battery < 30:\n            return f\"{self.name} peeps: my battery is low.\"\n        if self.mood == \"happy\":\n            return f\"{self.name} sings a lovely song!\"\n        return f\"Chirp! I am {self.name}.\"\n\n\nclass RobotDog(RobotPet):\n    def speak(self):\n        if self.battery < 30:\n            return f\"{self.name} whines: I need to charge.\"\n        if self.mood == \"happy\":\n            return f\"Best day ever, barks {self.name}!\"\n        return f\"Woof! I am {self.name}.\"\n\n\nif __name__ == \"__main__\":\n    pets = [RobotPet(\"Robo\"), RobotCat(\"Whiskers\"),\n            RobotBird(\"Tweety\"), RobotDog(\"Rex\")]\n    for pet in pets:\n        pet.battery = 50\n        pet.mood = \"neutral\"\n        print(pet.speak())\n        pet.mood = \"happy\"\n        print(pet.speak())\n        pet.battery = 10\n        print(pet.speak())\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "pet_talents.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

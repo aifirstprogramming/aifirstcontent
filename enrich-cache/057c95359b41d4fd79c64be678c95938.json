@@ -1,0 +1,29 @@
+{
+  "summary": "This program takes Alex's birthday party shopping list and updates it with Portuguese groceries, using list operations to change, add, and remove items before printing the finished list.",
+  "lines": [
+    {
+      "code": "shopping_list[4] = \"chouriço\"  # Replace snacks with Portuguese sausage",
+      "text": "Lists are mutable, so assigning to a position overwrites whatever was stored there. Index 4 is the fifth item, because Python starts counting at 0."
+    },
+    {
+      "code": "shopping_list.append(\"pastéis de nata\")  # Portuguese custard tarts",
+      "text": "append adds a new item onto the end of the list, growing it by one; you never have to say how big the list should be in advance."
+    },
+    {
+      "code": "shopping_list.remove(\"balloons\")  # Remove balloons",
+      "text": "remove deletes by value rather than by position, so you name the item you want gone. If the item is not in the list, Python raises an error instead of quietly doing nothing."
+    },
+    {
+      "code": "for item in shopping_list:",
+      "text": "A for loop walks through the list one item at a time, so the printed list always reflects the current contents no matter how many changes were made above."
+    },
+    {
+      "code": "print(f\"Last item: {shopping_list[-1]}\")",
+      "text": "A negative index counts backward from the end, so -1 is the final item. This is how you reach the last element without knowing the list's length."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

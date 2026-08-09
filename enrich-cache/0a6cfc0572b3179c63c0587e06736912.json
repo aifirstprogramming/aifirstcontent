@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores a fisherman's haul of fish names in a list, including a repeated \"Salmon\", and sorts the list alphabetically so identical catches end up next to each other.",
+  "lines": [
+    {
+      "code": "fish_types = [\"Salmon\", \"Tuna\", \"Bass\", \"Salmon\", \"Trout\", \"Catfish\", \"Cod\", \"Haddock\"]",
+      "text": "A list happily holds the same value twice, which is exactly what we want here: the two salmon are both recorded rather than one overwriting the other."
+    },
+    {
+      "code": "fish_types.sort()",
+      "text": "The built-in sort function does the ordering for us, so we never have to write comparison logic of our own. It rearranges this list in place instead of handing back a new one, which is why nothing is assigned to a variable here."
+    },
+    {
+      "code": "print(fish_types)",
+      "text": "Printing the list after sorting shows the fish in alphabetical order, and the duplicate salmon appear side by side so the fisherman can spot them at a glance."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

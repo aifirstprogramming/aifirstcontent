@@ -1,0 +1,29 @@
+{
+  "summary": "This program stores the value of pi in two decimal types \\  64-bit double, prints both, then adds them and converts the double back down to a float. It shows how Java handles decimal numbers of different sizes and what happens when you squeeze the larger one into the smaller one.",
+  "lines": [
+    {
+      "code": "        float f = 3.14f;                 // 32-bit floating point",
+      "text": "The trailing f is required: Java treats every decimal literal as a double by default, so without it the compiler refuses to put 3.14 into a float variable."
+    },
+    {
+      "code": "        double d = 3.141592653589793;    // 64-bit floating point",
+      "text": "A double has room for roughly twice as many significant digits, which is why it is the usual choice for calculations where precision loss matters."
+    },
+    {
+      "code": "        double sum = f + d;              // float promoted to double",
+      "text": "When a float and a double are added, Java widens the float to a double automatically and the result is a double \\ no cast needed, because nothing can be lost going up in size."
+    },
+    {
+      "code": "        float narrowed = (float) d;      // explicit cast from double to float",
+      "text": "Going the other direction discards digits, so Java makes you write the cast to confirm you accept the loss."
+    },
+    {
+      "code": "        System.out.println(\"double cast to float: \" + narrowed);",
+      "text": "Compare this line's output with the printed double: the tail of pi is simply gone, which is narrowing precision loss you can see."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

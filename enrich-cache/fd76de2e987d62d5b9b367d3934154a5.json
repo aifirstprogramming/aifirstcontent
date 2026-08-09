@@ -1,0 +1,21 @@
+{
+  "summary": "This program asks two questions in a row — what kind of pet you have and what it's called — and then prints a personalized sentence using both answers.",
+  "lines": [
+    {
+      "code": "pet_type = input(\"What type of pet do you have? \")",
+      "text": "A program is not limited to a single input; each call to input() pauses for one answer, and storing that answer in its own variable is what lets you collect several pieces of information."
+    },
+    {
+      "code": "pet_name = input(\"What is your pet's name? \")",
+      "text": "The second question runs only after the first answer is entered, so the order of the prompts on screen is exactly the order of these lines. Note the apostrophe in \"pet's\" sits safely inside double quotes."
+    },
+    {
+      "code": "print(f\"You have a {pet_type} named {pet_name}.\")",
+      "text": "The f before the quote makes this an f-string, so both variable names in braces are replaced by what the user typed, and the rest of the sentence is printed literally."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "dog\nCannoli\n",
+  "expectsUncaughtException": false
+}

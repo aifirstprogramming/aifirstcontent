@@ -1,0 +1,33 @@
+{
+  "summary": "Each robot pet's talent method now begins by asking its parent class whether the pet has enough battery to perform. The shared battery check lives once in RobotPet, and the three subclasses build their own tricks on top of it.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to self.battery inside __init__ goes through the property setter rather than storing the number directly, so a value passed in at creation time is clamped to the 0-100 range just like any later change."
+    },
+    {
+      "code": "        if self.battery == 0:",
+      "text": "The battery rule is written once, here in the base class, so all three pets share it. If the rule ever changes, there is a single place to change it."
+    },
+    {
+      "code": "        return None",
+      "text": "When the battery is healthy, the base method deliberately returns nothing. Returning None is how this method says \"no objection\" and hands the decision back to the subclass."
+    },
+    {
+      "code": "        result = super().show_talent()",
+      "text": "super() reaches up to RobotPet and runs its version of show_talent, which the subclass would otherwise have replaced entirely. Writing RobotPet.show_talent(self) would do exactly the same thing."
+    },
+    {
+      "code": "        if result:",
+      "text": "A message string is truthy and None is falsy, so this one test decides whether to pass the parent's warning along or continue on to the trick."
+    },
+    {
+      "code": "    print(pet.show_talent())",
+      "text": "The same call on each pet in the list produces a different trick, because Python looks up show_talent on the object's own class first."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

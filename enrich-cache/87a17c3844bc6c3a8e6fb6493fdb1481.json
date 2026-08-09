@@ -1,0 +1,29 @@
+{
+  "summary": "This program uses reduce to add up the eggs laid by each chicken in a list of dictionaries, then works out how many muffins that many eggs will make. It prints the egg total and the muffin count with f-strings.",
+  "lines": [
+    {
+      "code": "from functools import reduce",
+      "text": "Unlike map and filter, reduce is not available by default, so it has to be imported from Python's functools library before you can use it."
+    },
+    {
+      "code": "total_eggs = reduce(lambda total, chicken: total + chicken[\"eggs_laid\"], chickens, 0)",
+      "text": "reduce combines a whole list down into one value, and takes three things: the function that does the combining, the list to walk through, and the value to start from. The lambda here has two parameters because reduce hands it the running total so far along with the next chicken."
+    },
+    {
+      "code": "total_eggs = reduce(lambda total, chicken: total + chicken[\"eggs_laid\"], chickens, 0)",
+      "text": "The starting value of 0 matters: Mary has no eggs collected before she begins, so the running total begins at zero. Notice too that there is no list() wrapped around this call, since reduce returns a single number rather than a sequence."
+    },
+    {
+      "code": "muffins = total_eggs * 6",
+      "text": "Because one egg is enough for six muffins, the egg total is multiplied by six to get the batch size Mary can bake."
+    },
+    {
+      "code": "print(f\"Total eggs laid: {total_eggs}\")",
+      "text": "The f before the quote lets you drop a variable straight into the text inside curly braces, so the number appears in the sentence rather than on a line of its own."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

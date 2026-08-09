@@ -1,0 +1,35 @@
+{
+  "summary": "This is the cleaned-up JUnit test class for the TrafficLight from earlier in the chapter. Each test method now checks a single fact about the light \"Red\" \"Green\" \"Yellow\" \"Red\" \"Green\" \"Yellow\" — its starting color, one step of advancement, or whether a stop is required at a particular color.",
+  "lines": [
+    {
+      "code": "    void startsOnRed() {",
+      "text": "The original version crammed every color check into one method, so a failure told you nothing about which case broke. Splitting it out means the starting state gets its own named test that can fail on its own."
+    },
+    {
+      "code": "        assertEquals(\"Red\", light.getColor());",
+      "text": "This asserts the real value the light should hold, rather than merely confirming that a color exists at all. A test that only checks for the presence of something will pass even when the value is wrong."
+    },
+    {
+      "code": "        assertTrue(light.isStopRequired());",
+      "text": "The color is only a label; the behavior drivers care about is whether they must stop. Testing isStopRequired covers the decision the class actually makes."
+    },
+    {
+      "code": "        light.advance();",
+      "text": "Each advancement test does the setup calls, then makes exactly one call as the action being tested, then asserts. That structure keeps the test from re-creating the cycle logic that TrafficLight already owns."
+    },
+    {
+      "code": "    void advancesFromYellowToRed() {",
+      "text": "Verifying that yellow wraps back around to red proves the cycle closes, which is the one place a color-advancing class most often gets it wrong."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "TrafficLight.java",
+      "content": "",
+      "fromExercise": "java-6-11"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

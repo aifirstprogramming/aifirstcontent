@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores three shopping-cart items in variables and joins them into one readable line using the + operator, then prints the result.",
+  "lines": [
+    {
+      "code": "item1 = \"Apples\"",
+      "text": "Each item is a string value held in its own variable, so the text lives in one place and the joining logic below can refer to it by name."
+    },
+    {
+      "code": "cart_list = item1 + \", \" + item2 + \", \" + item3",
+      "text": "The + operator on strings means concatenation, not addition: it glues the pieces together end to end. The \", \" in between is a literal separator, and the space inside the quotes is what keeps the items from running together."
+    },
+    {
+      "code": "print(\"Shopping cart contains: \" + cart_list)",
+      "text": "Building the sentence with concatenation lets you reuse cart_list wherever it is needed, rather than repeating the three item names in the print call."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

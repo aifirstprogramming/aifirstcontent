@@ -1,0 +1,25 @@
+{
+  "summary": "This program asks how many treats a dog ate and how many calories each treat has, then multiplies the two to report the total calories consumed. It shows typecasting text input into numbers so arithmetic works.",
+  "lines": [
+    {
+      "code": "num_treats = int(input(\"How many treats did the dog eat? \"))",
+      "text": "A count of treats is a whole number, so the text coming back from input() is wrapped in int() before it is stored. If the reader types something that is not a number, the conversion fails and the program stops with an error."
+    },
+    {
+      "code": "calories_per_treat = float(input(\"How many calories are in each treat? \"))",
+      "text": "Calorie counts are not always whole, so this one is typecast with float() instead, which accepts decimals like 35.5."
+    },
+    {
+      "code": "total_calories = num_treats * calories_per_treat",
+      "text": "Multiplication only makes sense here because both values were typecast first; multiplying the raw strings would have repeated text rather than done arithmetic."
+    },
+    {
+      "code": "print(f\"The dog consumed {total_calories} calories.\")",
+      "text": "The f-string drops the calculated total into the sentence. Because one value was a float, the result prints with a decimal point, as in 105.0."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "3\n35\n",
+  "expectsUncaughtException": false
+}

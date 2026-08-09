@@ -1,0 +1,21 @@
+{
+  "summary": "This program displays the text \"Hello, World!\" on the screen. It is the traditional first program in any language, and proves that Python is installed and running correctly.",
+  "lines": [
+    {
+      "code": "print(\"Hello, World!\")",
+      "text": "print is a built-in function: you write its name, then parentheses holding the value you want it to handle. Python ships with print already defined, so nothing needs to be imported or set up first."
+    },
+    {
+      "code": "print(\"Hello, World!\")",
+      "text": "The quotation marks turn Hello, World! into a string, which is Python's word for a piece of text. Without them Python would read those words as names of things and complain that it has never heard of them."
+    },
+    {
+      "code": "print(\"Hello, World!\")",
+      "text": "The quotes mark where the text begins and ends and are not part of the output, so what appears on screen is Hello, World! and then a new line. A whole Python program can be one line long; there is no surrounding class or main function to declare."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

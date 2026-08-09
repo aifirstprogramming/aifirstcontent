@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores a price with cents in a double and then converts it to an int, dropping the decimal part so an advertisement can show a round dollar amount. It prints $100 instead of $100.30.",
+  "lines": [
+    {
+      "code": "        double price = 100.30;",
+      "text": "The real selling price needs a type that holds decimals, so it goes in a double."
+    },
+    {
+      "code": "        int adPrice = (int) price; // narrow casting from double to int",
+      "text": "The (int) written in front of price is an explicit cast: because an int cannot hold decimals, Java requires you to state the target type as a way of confirming you accept the loss."
+    },
+    {
+      "code": "        int adPrice = (int) price; // narrow casting from double to int",
+      "text": "Narrowing truncates rather than rounds, so 100.30 becomes 100 — and 100.99 would also become 100, not 101."
+    },
+    {
+      "code": "        System.out.println(\"Advertisement price: $\" + adPrice);",
+      "text": "Joining the number to a string with + turns it into text for display, which is why the dollar sign can sit right next to the value."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

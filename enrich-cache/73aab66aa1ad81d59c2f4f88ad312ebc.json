@@ -1,0 +1,25 @@
+{
+  "summary": "This program tracks a coffee order's progress with a while loop, printing the status in ten percent steps until it passes one hundred, then announcing that the coffee is ready.",
+  "lines": [
+    {
+      "code": "        int status = 0;",
+      "text": "The counter has to exist and hold a starting value before the loop runs, because the loop's condition is checked against it on the very first pass."
+    },
+    {
+      "code": "        while (status <= 100) {",
+      "text": "This condition is tested before every repetition, so the body runs only while the status has not yet passed one hundred. Using <= rather than < is what lets the loop print the \"100%\" line before it exits."
+    },
+    {
+      "code": "            status += 10;",
+      "text": "This is the line that eventually makes the condition false. Leave it out, or put it after the closing brace, and status stays at zero forever, giving you an infinite loop that eats resources and never finishes."
+    },
+    {
+      "code": "        System.out.println(\"Your coffee is ready!\");",
+      "text": "Because this sits outside the loop's braces, it runs exactly once, after the loop has dropped out at status 110."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

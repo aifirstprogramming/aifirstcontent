@@ -1,0 +1,27 @@
+{
+  "summary": "This program builds a larger list of farmers' market products and then runs three stream pipelines that each transform the data in a different way: pulling out the set of vendor names, formatting one vendor's products into a printable menu, and computing discounted prices for that vendor.",
+  "lines": [
+    {
+      "code": "                .map(MarketProduct::getVendor)",
+      "text": "This is the simplest kind of transformation: each MarketProduct flowing through the stream is replaced by just its vendor name, so a stream of products becomes a stream of Strings. The method reference is shorthand for the lambda p -> p.getVendor()."
+    },
+    {
+      "code": "                .collect(Collectors.toSet());",
+      "text": "Collecting into a Set rather than a List discards duplicates automatically, which is why the three Baker's Lane products and three Sunny Fields Farm products each appear only once. A Set also has no guaranteed order, so the printed order may surprise you."
+    },
+    {
+      "code": "                .map(p -> p.getName() + ",
+      "text": "Placeholder"
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

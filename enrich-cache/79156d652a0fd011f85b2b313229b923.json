@@ -1,0 +1,39 @@
+{
+  "summary": "This snippet adds two more stream pipelines to the farmers' market app: one that adds up the price of every product, and one that averages the price of just the organic ones. Both use mapToDouble to turn products into plain numbers so the stream can do the arithmetic.",
+  "lines": [
+    {
+      "code": "        // products variable and add items",
+      "text": "The listing is trimmed to show only the new streams, so this comment stands in for the product list that the full app builds. The methods below expect that list to be passed in."
+    },
+    {
+      "code": "        double totalSum = getTotalPriceSum(products);",
+      "text": "Each new stream follows the same rhythm as the earlier pipelines: declare a variable, call the method that runs the stream, and print the result so you can check it."
+    },
+    {
+      "code": "                .mapToDouble(MarketProduct::getPrice)",
+      "text": "This is the numeric cousin of map: instead of a stream of objects it produces a stream of primitive doubles, which is what makes the math methods available on the next line. The method reference tells the stream to call getPrice on every product."
+    },
+    {
+      "code": "                .sum();",
+      "text": "A specialized numeric stream can add its own values, so no loop and no running total are needed. The products themselves are never changed; the pipeline only produces a new value."
+    },
+    {
+      "code": "                .filter(MarketProduct::isOrganic)",
+      "text": "Filtering before mapping is the usual order, because it narrows the stream to the items you care about and only those get transformed."
+    },
+    {
+      "code": "                .orElse(0.0);",
+      "text": "The average method hands back an OptionalDouble, since a stream with nothing in it has no average to report. Calling orElse supplies 0.0 as the fallback so the method always returns a usable double."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

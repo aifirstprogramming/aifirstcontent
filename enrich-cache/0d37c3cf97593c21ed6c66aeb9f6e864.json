@@ -1,0 +1,25 @@
+{
+  "summary": "This is a deliberately broken version of the RobotPet class: its show_talent method now returns one fixed sentence instead of a talent built from the pet's own name and mood. Running the tests against it shows which tests catch the change.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The constructor is untouched, so every test that only checks the stored attributes still passes; that is why just two of the four tests fail rather than all of them."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "The mood is still stored on the object, but show_talent no longer looks at it. Data can sit on an object completely unused, and nothing about running the program tells you that happened."
+    },
+    {
+      "code": "        return f\"performs a generic trick!\"",
+      "text": "This is the sabotage. Every pet now reports the same talent, and because there are no {} placeholders left, the f prefix does nothing at all here."
+    },
+    {
+      "code": "        return f\"performs a generic trick!\"",
+      "text": "Printing a pet's talent still looks plausible on screen, so a human skim would not catch the bug. The assertions in the test file compare against the exact expected sentence, which is what makes the failure visible; restore the original return once you have seen it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,35 @@
+{
+  "summary": "This is a JUnit test class for the smart thermostat, with one small test per behavior: each of the three statuses in regular mode, each of them again in eco mode, and the display string. Each test builds its own Thermostat and makes a single assertion.",
+  "lines": [
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "The method name states the condition and the expected result, so a failure report tells you what broke without you having to read the body."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(60, false);",
+      "text": "Every test creates its own thermostat, so no test can be affected by a value another test left behind."
+    },
+    {
+      "code": "        assertEquals(\"Idle\", thermostat.getStatus());",
+      "text": "One assertion per test is the whole point of the rewrite: when this one fails you know Idle is broken and that Heating and Cooling still work."
+    },
+    {
+      "code": "        Thermostat thermostatEco = new Thermostat(64, true);",
+      "text": "Passing true for eco mode is what makes 64 degrees count as cold; the same temperature would be Idle in regular mode, which is exactly the boundary worth pinning down."
+    },
+    {
+      "code": "        assertEquals(\"Thermostat status: Idle\", thermostat.printStatusToDisplay());",
+      "text": "Because printStatusToDisplay() returns a String instead of printing it, the full display text can be compared directly in an assertion."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "public class Thermostat {\n    private int temperature;\n    private boolean ecoMode;\n\n    public Thermostat(int temperature, boolean ecoMode) {\n        this.temperature = temperature;\n        this.ecoMode = ecoMode;\n    }\n\n    public String getStatus() {\n        int heatBelow = ecoMode ? 65 : 68;\n        int coolAbove = ecoMode ? 78 : 75;\n\n        if (temperature < heatBelow) {\n            return \"Heating\";\n        } else if (temperature > coolAbove) {\n            return \"Cooling\";\n        } else {\n            return \"Idle\";\n        }\n    }\n\n    public String printStatusToDisplay() {\n        return \"Thermostat status: \" + getStatus();\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

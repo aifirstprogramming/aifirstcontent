@@ -1,0 +1,25 @@
+{
+  "summary": "This is the bakery's cookie template: a domain class that stores one cookie's flavor and can hand back a sentence describing it for the menu. It has no main method, so it is meant to be compiled and used by other classes rather than run on its own.",
+  "lines": [
+    {
+      "code": "    private final String flavor;",
+      "text": "The final modifier locks this field once the object exists, which is why the class has no setFlavor method. A baked chocolate chip cookie cannot be turned into a sugar cookie, and this field reflects that."
+    },
+    {
+      "code": "    public Cookie(String flavor) {",
+      "text": "Because the flavor can never be changed later, the constructor is the only chance to supply it, so every Cookie object must be created with its flavor already decided."
+    },
+    {
+      "code": "        this.flavor = flavor;",
+      "text": "The this keyword distinguishes the field from the constructor parameter of the same name; assigning a final field inside the constructor is allowed exactly once."
+    },
+    {
+      "code": "    public String describe() {",
+      "text": "The method returns the description instead of printing it, which lets the calling application decide where the text goes — a menu, a receipt, or the console."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

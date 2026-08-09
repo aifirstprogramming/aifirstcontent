@@ -1,0 +1,43 @@
+{
+  "summary": "This version of the farmers' market app finds the cheapest and most expensive product in the Craft category using the stream min and max methods, then shows three different ways to deal with the Optional those methods hand back.",
+  "lines": [
+    {
+      "code": "        Optional<MarketProduct> minCraft = getMinByCategoryPrice(products, \"Craft\");",
+      "text": "A stream may find nothing at all, so min and max do not return a product directly \\either either hold a MarketProduct or hold nothing. Java forces you to acknowledge that possibility before you can read the value."
+    },
+    {
+      "code": "        minCraft.ifPresent(p -> System.out.println(\"Cheapest Craft (ifPresent): \" + p));",
+      "text": "The first approach hands the Optional a lambda that runs only when a value is there; when the box is empty nothing happens and nothing is printed. Because the products list in this trimmed example is empty, this line quietly produces no output."
+    },
+    {
+      "code": "        if (maxCraft.isPresent()) {",
+      "text": "The second approach checks first and then calls get(), which is the only safe way to use get(). Calling get() without this guard on an empty Optional throws NoSuchElementException."
+    },
+    {
+      "code": "        MarketProduct fallback = new MarketProduct(\"No Craft Item\", \"N/A\", 0.0, \"Craft\", \"N/A\", false);",
+      "text": "The third approach needs a stand-in product to use when the search comes up empty, so a placeholder is built with a zero price and \"N/A\" fields."
+    },
+    {
+      "code": "        System.out.println(\"Priciest Craft (orElse): \" + maxCraft.orElse(fallback));",
+      "text": "orElse unwraps the Optional in one step, substituting the fallback when it is empty, which keeps the printing code free of if statements."
+    },
+    {
+      "code": "               .min(Comparator.comparingDouble(MarketProduct::getPrice));",
+      "text": "min needs to know what \"smallest\" means, and Comparator.comparingDouble tells it to compare products by the double each one's getPrice returns."
+    },
+    {
+      "code": "                .filter(p -> p.getCategory() != null",
+      "text": "Checking for null before calling equalsIgnoreCase on the category keeps a product with a missing category from crashing the whole stream."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

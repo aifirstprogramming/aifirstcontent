@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores the seven letters of the musical scale in a single string and prints each one on its own line. It shows that a for loop can walk through the characters of a string, not just a range of numbers.",
+  "lines": [
+    {
+      "code": "letters = \"ABCDEFG\"",
+      "text": "The whole musical scale lives in one string, seven characters long. Python treats a string as a sequence of characters, which is exactly what makes it loopable."
+    },
+    {
+      "code": "for letter in letters:",
+      "text": "Here the loop is given a string instead of a range, so `letter` holds one character at a time: first \"A\", then \"B\", and so on through \"G\". Nothing tells the loop to stop after seven turns — it runs out when the string runs out."
+    },
+    {
+      "code": "    print(letter)",
+      "text": "Because print adds a newline each time it is called, and it is called once per turn of the loop, the seven notes come out one per line."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

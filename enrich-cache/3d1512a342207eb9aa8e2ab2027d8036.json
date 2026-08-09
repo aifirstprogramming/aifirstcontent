@@ -1,0 +1,40 @@
+{
+  "summary": "This program builds two sets of song titles \\u2014 yours and a friend's \\u2014 and uses Java's Set operations to work out which songs you share, what a combined playlist would look like, and which songs are yours alone.",
+  "lines": [
+    {
+      "code": "        Set<String> myTitles = new HashSet<>();",
+      "text": "A Set is the right collection here because a playlist of titles has no duplicates, and set-to-set comparison methods come built in. A HashSet keeps no particular order, so the titles may print in a different order than you added them."
+    },
+    {
+      "code": "        Set<String> intersection = new HashSet<>(myTitles);",
+      "text": "Passing myTitles to the constructor makes a copy of your playlist. Every comparison below works on a fresh copy, because these operations change the set they are called on and you do not want to damage the original."
+    },
+    {
+      "code": "        intersection.retainAll(friendTitles);",
+      "text": "retainAll throws away anything that is not also in the friend's playlist, leaving only the songs you have in common."
+    },
+    {
+      "code": "        union.addAll(friendTitles);",
+      "text": "addAll pours the friend's titles into the copy of yours, giving the single road-trip playlist. Because it is a Set, \"Respect\" appears once rather than twice \\u2014 the duplicate is silently dropped."
+    },
+    {
+      "code": "        difference.removeAll(friendTitles);",
+      "text": "removeAll strips out every shared title, leaving the songs only you have. Direction matters: swap the two sets and you would instead get the friend's songs that are new to you."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "HashSet.java",
+      "content": "// The printed listing imports Set but not HashSet. This small stand-in supplies\n// the name so the example compiles and runs exactly as printed; it behaves\n// identically to java.util.HashSet.\npublic class HashSet<E> extends java.util.HashSet<E> {\n    public HashSet() {\n        super();\n    }\n\n    public HashSet(java.util.Collection<? extends E> source) {\n        super(source);\n    }\n}\n",
+      "fromExercise": ""
+    },
+    {
+      "path": "Main.java",
+      "content": "public class Main {\n    public static void main(String[] args) {\n        PlaylistApp.main(args);\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "Main.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

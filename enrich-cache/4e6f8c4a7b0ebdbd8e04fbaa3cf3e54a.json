@@ -1,0 +1,29 @@
+{
+  "summary": "This version of the playlist app stores song titles in a PriorityQueue, which keeps whichever title ranks best by its ordering rule at the front. Iterating over the queue prints the titles in no particular order, but polling them out one at a time plays them alphabetically.",
+  "lines": [
+    {
+      "code": "        PriorityQueue<String> titleQueue = new PriorityQueue<>(); // natural A–Z order",
+      "text": "No comparator is supplied, so the queue falls back to the natural ordering of its elements — for strings that means alphabetical. Chapter 8's later example replaces this with a rule based on energy level."
+    },
+    {
+      "code": "        titleQueue.offer(\"Respect\");",
+      "text": "The offer method is the queue's way of adding an element; the insertion order does not decide position, the ordering rule does."
+    },
+    {
+      "code": "        titleQueue.forEach(System.out::println);",
+      "text": "Iterating a PriorityQueue walks its internal storage, not its priority order, so do not be surprised when these four titles come out jumbled."
+    },
+    {
+      "code": "            String nextTitle = titleQueue.poll(); // removes smallest (A–Z) first",
+      "text": "Only poll enforces the ordering: it removes and returns the element that best matches the rule, which here is the title earliest in the alphabet."
+    },
+    {
+      "code": "        while (!titleQueue.isEmpty()) {",
+      "text": "Because each poll removes an element, testing isEmpty each time round drains the whole queue and stops cleanly instead of returning null off the end."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

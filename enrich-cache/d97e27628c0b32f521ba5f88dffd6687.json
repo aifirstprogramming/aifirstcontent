@@ -1,0 +1,35 @@
+{
+  "summary": "This is the playlist app rewritten so the song queue is a Deque (\"deck\"), a double-ended queue. Songs are added at the front or the back, peeked at from either end, and then played by alternating between pulling from the front and pulling from the back until the collection is empty.",
+  "lines": [
+    {
+      "code": "        Deque<Song> songQueue = new ArrayDeque<>();",
+      "text": "The variable's type is the Deque interface while the object behind it is an ArrayDeque, which is the efficient choice when you need access at both ends. Note that the listing's imports include LinkedList but not ArrayDeque, so add `import java.util.ArrayDeque;` to your own copy before compiling."
+    },
+    {
+      "code": "        songQueue.addFirst(new Song(\"One More Time\", \"Daft Punk\", \"Electronic\", 10)); // Add to front",
+      "text": "This is the move a plain Queue forbids: instead of joining the back of the line with addLast, this song jumps straight to the head of the playlist."
+    },
+    {
+      "code": "        System.out.println(songQueue.peekFirst());",
+      "text": "peekFirst reports the song at the head without removing it, and peekLast does the same at the tail; both return null on an empty Deque rather than throwing."
+    },
+    {
+      "code": "            if (songQueue.size() % 2 == 0) {",
+      "text": "Because every poll shrinks the Deque by one, the size flips between even and odd on each pass, which is what makes the loop alternate between playing from the front and playing from the back."
+    },
+    {
+      "code": "        System.out.println(\"\\nDeque after processing all songs: \" + songQueue);",
+      "text": "pollFirst and pollLast remove the song they return, so once the loop finishes there is nothing left and the Deque prints as empty brackets."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

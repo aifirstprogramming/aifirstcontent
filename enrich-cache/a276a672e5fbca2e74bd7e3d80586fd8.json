@@ -1,0 +1,21 @@
+{
+  "summary": "This short program stores a person's name in a variable and joins it onto a greeting so the message prints as one line of text. It is the starting point for a welcome application, before any user input is involved.",
+  "lines": [
+    {
+      "code": "        String name = \"Ada\";",
+      "text": "The name lives in a regular local variable, not a final constant, so the host can swap in whichever guest is arriving and run the program again."
+    },
+    {
+      "code": "        System.out.println(\"Welcome \" + name);",
+      "text": "The + here is string concatenation: the literal text and the variable's value are assembled into a single string before printing, the way you would paste cut-out words together to form a note."
+    },
+    {
+      "code": "        System.out.println(\"Welcome \" + name);",
+      "text": "Notice the space inside the quotes after \"Welcome\". Concatenation adds nothing of its own, so leaving that space out would print \"WelcomeAda\"."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

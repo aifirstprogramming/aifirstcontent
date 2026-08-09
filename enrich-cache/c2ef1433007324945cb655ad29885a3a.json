@@ -1,0 +1,25 @@
+{
+  "summary": "This three-line program asks you for the current temperature and tells you to wear a hat when it is below 10°C. It is your first program that makes a decision instead of running every line no matter what.",
+  "lines": [
+    {
+      "code": "temp = float(input(\"Temperature (°C): \"))",
+      "text": "input always hands back text, so float() converts what was typed into a number that can be compared against 10; without the conversion, comparing text to a number would fail."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "This is the decision itself: the condition after if is either true or false, and the colon marks the start of the block that runs only when it is true."
+    },
+    {
+      "code": "    print(\"Wear a hat!\")",
+      "text": "The indentation is what puts this line inside the if. Python uses spacing rather than braces to show which lines belong to the decision."
+    },
+    {
+      "code": "    print(\"Wear a hat!\")",
+      "text": "Enter 15 and the program prints nothing at all, which looks broken to a user. That silence is the reason the next step is to add an else branch."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "5\n",
+  "expectsUncaughtException": false
+}

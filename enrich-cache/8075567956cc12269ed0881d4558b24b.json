@@ -1,0 +1,21 @@
+{
+  "summary": "This program counts backwards, printing 5, 4, 3, 2, 1 on separate lines. It uses the three-argument form of `range` to walk a sequence in reverse.",
+  "lines": [
+    {
+      "code": "for i in range(5, 0, -1):",
+      "text": "The three numbers are the start, the stop, and the step: begin at 5, keep going while the value is above 0, and subtract 1 each time. Without the `-1` step, `range` counts upward and produces nothing at all here, since 5 is already past 0."
+    },
+    {
+      "code": "for i in range(5, 0, -1):",
+      "text": "The stop value is still excluded, so writing 0 is what makes the countdown end at 1. A beginner who writes `range(5, 1, -1)` gets 5, 4, 3, 2 and wonders where the 1 went."
+    },
+    {
+      "code": "    print(i)",
+      "text": "The indentation is what puts this line inside the loop, so it runs once per pass with `i` holding the current count."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,44 @@
+{
+  "summary": "This program asks the builder for a house's address, bedroom and bathroom counts, then collects a use and dimensions for each room in the layout, storing them as Room objects inside a House. Once all the input is gathered it prints a summary of the house and every room it contains.",
+  "lines": [
+    {
+      "code": "        int roomCount = input.nextInt();\n        input.nextLine();",
+      "text": "Reading a number leaves the leftover newline sitting in the Scanner, so the extra nextLine() throws it away. Without it, the first room's \"Use of the room\" prompt would read an empty string instead of waiting for the builder to type."
+    },
+    {
+      "code": "        List<Room> rooms = new ArrayList<>();",
+      "text": "A house has many rooms, and this list is how that one-to-many association is represented in code: one House object, any number of Room objects collected together."
+    },
+    {
+      "code": "            rooms.add(new Room(use, length, width));",
+      "text": "Each pass through the loop turns three pieces of typed input into one Room object and adds it to the list, so the number of rooms created is decided while the program runs rather than when it is written."
+    },
+    {
+      "code": "        house.setRooms(rooms);",
+      "text": "This is the moment the association is actually made. The rooms exist on their own until they are handed to the House, which from then on owns the layout."
+    },
+    {
+      "code": "    private static void printHouseInfo(House house) {",
+      "text": "The reporting work is separated into its own method that takes a whole House as its argument, which keeps main focused on gathering input. It is private because nothing outside this class needs to call it."
+    },
+    {
+      "code": "            System.out.println(room.getName() + \" - \" + room.getLength() + \" x \" + room.getWidth());",
+      "text": "The enhanced for loop walks the house's rooms one at a time, asking each Room for its own details through its getters instead of reaching into its fields."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "House.java",
+      "content": "",
+      "fromExercise": "java-5-03"
+    },
+    {
+      "path": "Room.java",
+      "content": "",
+      "fromExercise": "java-5-04"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "123 Maple Street\n3\n2.5\n2\nKitchen\n14\n12\nLiving Room\n18\n15\n",
+  "expectsUncaughtException": false
+}

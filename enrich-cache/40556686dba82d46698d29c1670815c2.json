@@ -1,0 +1,39 @@
+{
+  "summary": "This is a JUnit test that checks the thermostat's printStatusToDisplay() method writes the right text to the console. Because the method prints instead of returning a value, the test has to temporarily capture System.out and inspect the captured text.",
+  "lines": [
+    {
+      "code": "        ByteArrayOutputStream output = new ByteArrayOutputStream();",
+      "text": "A ByteArrayOutputStream is a bucket in memory that collects bytes instead of sending them to the screen, so anything printed into it can be read back as a String later."
+    },
+    {
+      "code": "        PrintStream originalOut = System.out;",
+      "text": "The real console stream is saved first, because the test is about to replace it and has to be able to put it back."
+    },
+    {
+      "code": "        System.setOut(new PrintStream(output));",
+      "text": "This redirects System.out so every println() inside the method under test lands in the in-memory bucket rather than the console."
+    },
+    {
+      "code": "        } finally {\n            System.setOut(originalOut);\n        }",
+      "text": "The finally block runs whether the method succeeds or throws, which guarantees the console is restored; without it, a failure here would silently swallow the output of every later test."
+    },
+    {
+      "code": "        assertEquals(\"Thermostat status: Idle\" + System.lineSeparator(), output.toString());",
+      "text": "println() appends a line ending, so the expected text must include System.lineSeparator() to match on any operating system — hard-coding \"\\n\" is a classic cause of tests that pass on one machine and fail on another."
+    },
+    {
+      "code": "    void printStatusToDisplayPrintsCurrentStatus() {",
+      "text": "Notice how much machinery one small assertion needed. That awkwardness is a design signal: a method that returns its status is far easier to test than one that only prints it."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-07"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

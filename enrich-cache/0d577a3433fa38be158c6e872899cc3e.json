@@ -1,0 +1,35 @@
+{
+  "summary": "These four test methods check the RobotPet charge method: that charging adds the amount given, that the battery never rises above 100 or falls below 0. Each test sets a known starting battery value, calls charge, then asserts the value that should result.",
+  "lines": [
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "Because we don't know what battery value a new pet starts with, the test sets one itself. Fixing a known starting point turns a guess into a repeatable test scenario."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 70)",
+      "text": "With a start of 50 and a charge of 20, 70 is the only correct answer, so this single assertion proves the charge method adds exactly the amount asked for."
+    },
+    {
+      "code": "        self.pet.charge(50)",
+      "text": "Charging 90 by 50 would give 140, which is deliberately impossible. This test is really exercising the battery setter, not the arithmetic in charge."
+    },
+    {
+      "code": "        self.pet.charge(-10)",
+      "text": "A negative charge drains the battery, so the same method covers both directions and 30 becomes 20."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 0)",
+      "text": "Draining 10 by 50 must stop at 0 rather than going negative, which is the lower half of the protection the setter provides."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "robot_pet.py",
+      "content": "",
+      "fromExercise": "py-7-06"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

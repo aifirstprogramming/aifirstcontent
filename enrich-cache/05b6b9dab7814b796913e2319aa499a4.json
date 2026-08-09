@@ -1,0 +1,29 @@
+{
+  "summary": "This program adds a can_walk method to the RobotPet class, which reports whether a pet has enough battery for a walk of any length you ask about. Three pets are created and each is checked for a 30-minute walk.",
+  "lines": [
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "A method is a function that lives inside a class. Like __init__, its first parameter is self, so the method can look at the attributes of whichever pet it was called on; duration is the value you pass in when you call it."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "This is the rule Frederick's shop uses: each minute of walking costs two ticks of battery. Because the duration arrives as a parameter, the same method answers the question for a 5-minute stroll or an hour-long hike."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The comparison itself evaluates to True or False, and return hands that answer back to whoever called the method. Nothing is printed here — a method that returns a value leaves the printing to the caller."
+    },
+    {
+      "code": "print(f\"{pet1.name} can walk 30 minutes: {pet1.can_walk(30)}\")",
+      "text": "Calling the method on pet1 with the dot means Rover is the self inside can_walk, so his own battery is the one checked. The returned True or False is dropped straight into the f-string."
+    },
+    {
+      "code": "print(\"\\n30-minute walk check:\")",
+      "text": "The \\n is an escape sequence for a newline, so this prints a blank line before the heading and separates the two blocks of output."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

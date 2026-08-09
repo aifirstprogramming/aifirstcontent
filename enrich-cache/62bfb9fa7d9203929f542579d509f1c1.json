@@ -1,0 +1,25 @@
+{
+  "summary": "This Restaurant class holds a single method, getSpiceLevel, that turns a number from 1 to 5 into a readable spice description like \"Mild\" or \"Spicy\". It is a small, testable unit: give it a number, get a string back.",
+  "lines": [
+    {
+      "code": "    public String getSpiceLevel(int level) {",
+      "text": "The method takes one int and hands back a String, which is exactly the shape that makes testing easy — a test passes in a level and compares the returned text to what it expects."
+    },
+    {
+      "code": "        return switch (level) {",
+      "text": "This is a switch expression, not a switch statement: the whole switch produces a value, and that value is what gets returned. Notice there are no break statements, so no accidental fall-through."
+    },
+    {
+      "code": "            case 1 -> \"Mild\";",
+      "text": "The arrow form pairs each level with its description in one line. Each case here matches a single value and yields the string for it."
+    },
+    {
+      "code": "            default -> \"Invalid spice level\";",
+      "text": "Every switch expression needs a branch that always matches, since it must produce a value; default catches 0, 6, negatives, and anything else outside the menu. Note that this version reports the problem as text rather than throwing an exception — a worthwhile test case either way."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

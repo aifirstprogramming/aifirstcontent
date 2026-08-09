@@ -1,0 +1,40 @@
+{
+  "summary": "This program asks the builder for a house's address, bedroom and bathroom counts, and then the use and dimensions of each room in the layout. It stores every room as a Room object inside one House object and prints the finished plan back out.",
+  "lines": [
+    {
+      "code": "        double bathrooms = input.nextDouble();",
+      "text": "Bathrooms are read as a double rather than an int because real listings count half baths, so 2.5 has to be a legal answer."
+    },
+    {
+      "code": "        input.nextLine();",
+      "text": "Reading a number leaves the Enter key sitting in the Scanner's buffer, and this throwaway call clears it so the next nextLine() picks up the room's use instead of an empty string."
+    },
+    {
+      "code": "            rooms.add(new Room(use, length, width));",
+      "text": "Each trip through the loop builds a brand-new Room object from that room's answers and appends it to the list, which is how one house ends up owning many rooms."
+    },
+    {
+      "code": "        house.setRooms(rooms);",
+      "text": "This is the association being made concrete: the House does not store loose numbers about rooms, it holds the collection of Room objects itself."
+    },
+    {
+      "code": "        for (Room room : house.getRooms()) {",
+      "text": "The report walks the house's own list of rooms, so the printout grows or shrinks with whatever layout the builder entered."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "House.java",
+      "content": "",
+      "fromExercise": "java-5-03"
+    },
+    {
+      "path": "Room.java",
+      "content": "",
+      "fromExercise": "java-5-04"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "123 Maple Street\n3\n2.5\n2\nKitchen\n12\n14\nLiving Room\n16\n20\n",
+  "expectsUncaughtException": false
+}

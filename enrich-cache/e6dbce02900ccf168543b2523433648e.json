@@ -1,0 +1,33 @@
+{
+  "summary": "This is the expanded version of the speak method: each robot pet now has a distinct message for low battery, full battery, and each mood, instead of only reacting when it was happy. The four classes each define their own speak, so every pet type answers in its own voice.",
+  "lines": [
+    {
+      "code": "        if self.battery < 30:",
+      "text": "The battery checks come before the mood checks, so a pet that is running low says so no matter how happy it is. Order matters in a chain of ifs like this, because the first branch that matches returns and the rest never run."
+    },
+    {
+      "code": "        if self.battery == 100:",
+      "text": "This branch fires only on an exact full charge, so a pet at 99 falls through to its mood message. Using == rather than a range is deliberate here, and it is exactly the kind of boundary a unit test should pin down."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "The last return needs no if: it is the fallback for any mood the earlier branches did not name, which guarantees speak always hands back a string."
+    },
+    {
+      "code": "        if self.mood == \"sad\":",
+      "text": "Before this change a sad pet gave the same reply as a neutral one. Adding the missing case is the new feature, and the tests generated alongside it are what prove each mood now produces its own message."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'Purrr... fully charged!'\"",
+      "text": "Each subclass overrides speak completely rather than calling the parent version, so RobotCat mirrors the same five checks with cat-flavoured wording. Same structure, different voice."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'ARF ARF ARF! LET\\'S PLAY!'\"",
+      "text": "The backslash escapes the apostrophe in LET'S so Python does not read it as the end of a quoted section. Inside a double-quoted f-string it is not strictly required, but it does no harm."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,33 @@
+{
+  "summary": "This defines the Song class, the building block for the playlist we will build throughout the chapter. Each Song object carries a title, artist, genre, and energy level, and knows how to describe itself as a line of text.",
+  "lines": [
+    {
+      "code": "    private int energyLevel;",
+      "text": "Energy level is stored as an int rather than text so it can be compared numerically later, which is exactly what a PriorityQueue needs to decide which song plays next."
+    },
+    {
+      "code": "    public Song(String title, String artist, String genre, int energyLevel) {",
+      "text": "The constructor demands all four values up front, so there is no way to create a half-filled Song floating around your playlist."
+    },
+    {
+      "code": "        this.title = title;",
+      "text": "The parameter and the field share the name title, so `this.title` is how you say \"the field belonging to this object\" instead of the value that was just passed in."
+    },
+    {
+      "code": "    public String getTitle() { return title; }",
+      "text": "The fields are private and only these getters read them back, so once a Song is created its details cannot be quietly changed from elsewhere in the program."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from Object; if you misspell the method name, you get an error instead of a method that is silently never called."
+    },
+    {
+      "code": "        return title + \" by \" + artist +",
+      "text": "Because toString is overridden, printing a Song or a whole collection of Songs produces readable lines rather than cryptic object addresses."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

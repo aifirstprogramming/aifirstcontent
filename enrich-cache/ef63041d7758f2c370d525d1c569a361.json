@@ -1,0 +1,33 @@
+{
+  "summary": "This program defines a RobotPet whose can_walk method works out whether the pet's battery can cover a walk of a given length, then checks that method with two assert statements. Because both checks hold, the program runs through to the final message.",
+  "lines": [
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "The rule that a robot pet burns two battery points per minute of walking lives here, so a 30-minute walk demands 60 points."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The method answers with True or False rather than printing anything, which is exactly what makes it easy to test."
+    },
+    {
+      "code": "rover = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Rover starts with 85 battery points, comfortably above the 60 a half-hour walk costs, so he is the pet we expect to pass."
+    },
+    {
+      "code": "assert rover.can_walk(30) == True, \"Rover should be able to walk for 30 minutes\"",
+      "text": "An assert states something you believe must be true: if the expression is true the line does nothing at all, and if it is false Python stops the program and shows the message after the comma."
+    },
+    {
+      "code": "assert beep.can_walk(30) == False, \"Beep should not be able to walk for 30 minutes\"",
+      "text": "A good test suite checks the negative case too; Beep's 45 points fall short of 60, so can_walk must say no."
+    },
+    {
+      "code": "print(\"All tests passed!\")",
+      "text": "Reaching this line is the whole signal of success, because any failing assert would have halted the program before it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

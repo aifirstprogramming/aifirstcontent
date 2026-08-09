@@ -1,0 +1,29 @@
+{
+  "summary": "This program defines a function that works out what a table owes based on how many items they ordered, then calls it for three different tables and keeps a running total in a cash register variable.",
+  "lines": [
+    {
+      "code": "    amount = len(items_ordered) * 2",
+      "text": "len() counts how many items are in the list that was passed in, and each one costs $2. Beepo never needs to know what the items actually are, only how many there were."
+    },
+    {
+      "code": "    return amount",
+      "text": "This hands the calculated amount back to the main program and ends the function immediately. Without it, the caller would receive None and there would be nothing to add up."
+    },
+    {
+      "code": "cash_register = 0",
+      "text": "The register starts empty before any tables are visited, so that money can be added to it. Trying to add to a variable that does not exist yet is an error."
+    },
+    {
+      "code": "cash_register += collect_payment(1, [\"burger\", \"fries\", \"drink\"])",
+      "text": "The returned amount is caught and added straight into the register. This is the point of a return value: had the result not been stored somewhere, it would simply disappear."
+    },
+    {
+      "code": "print(f\"\\nTotal in cash register: ${cash_register}\")",
+      "text": "The \\n prints a blank line first, separating the three table receipts from the final total. All three calls have finished by now, so the register holds the sum of them all."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

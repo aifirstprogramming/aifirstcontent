@@ -1,0 +1,39 @@
+{
+  "summary": "This is a test suite for the robot pet family: it checks that a pet's battery can never be created outside the 0-100 range, and that each subclass (cat, bird, dog) builds correctly, performs its own talent, and still inherits charging from its parent class.",
+  "lines": [
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "The tests live in their own file and import the four classes from pet_talents.py, so the code under test stays separate from the code that checks it."
+    },
+    {
+      "code": "    …",
+      "text": "This stands in for the tests written earlier in the chapter, which are still part of TestRobotPet; only the two new battery tests are printed here."
+    },
+    {
+      "code": "        pet = RobotPet(\"Volt\", -10, \"neutral\")",
+      "text": "Passing a deliberately illegal battery value is the point: the test proves the setter clamps -10 up to 0 rather than storing nonsense."
+    },
+    {
+      "code": "    def setUp(self):",
+      "text": "unittest runs setUp before every single test method, so each test gets a brand-new pet and cannot be affected by changes another test made."
+    },
+    {
+      "code": "        self.assertNotEqual(self.cat.show_talent(), \"Whiskers performs a generic trick!\")",
+      "text": "This guards the override: if RobotCat ever forgot to define its own show_talent and fell back to the parent's generic version, this test would fail."
+    },
+    {
+      "code": "        self.cat.charge(20)",
+      "text": "Charging a cat tests inheritance rather than the cat itself — charge is defined once on RobotPet, and each subclass test confirms it still works through the child."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-08"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

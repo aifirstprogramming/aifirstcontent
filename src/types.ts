@@ -199,6 +199,14 @@ export interface Example {
   /** Absent when published; see Status. */
   status?: Status;
   scaffold?: Scaffold;
+  /**
+   * Subdirectory to write this exercise into, when its filename is shared with
+   * another exercise. Absent for the common case of a name used once.
+   *
+   * See `exercisePath`: several exercises in a chapter deliberately evolve one
+   * file, and in Java the filename is not ours to choose at all.
+   */
+  dir?: string;
   bookId: string;
   /** Short book id prefix, e.g. "py". Used to scope commands to one book. */
   bookTag: string;

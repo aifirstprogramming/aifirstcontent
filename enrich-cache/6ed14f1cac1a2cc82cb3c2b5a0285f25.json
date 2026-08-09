@@ -1,0 +1,35 @@
+{
+  "summary": "This version of the farmers' market app runs the \"organic summer items sorted by price\" pipeline across multiple threads instead of one. The only change from the earlier version is the method that starts the stream.",
+  "lines": [
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "The book has collapsed the product setup into comments below this line, so the list stays empty and the program prints an empty result; add a few MarketProduct objects here to see real output."
+    },
+    {
+      "code": "        return products.parallelStream()",
+      "text": "This single word is the whole change. Where stream() processes items one at a time in a single lane, parallelStream() splits the list across several threads, processes the chunks simultaneously, and merges the results."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "Filtering is a stateless operation: each product is judged on its own values, with no reference to its neighbors, which is exactly what makes it safe to run in parallel."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "Sorting is stateful, since the order of any one item depends on all the others. Java still gets it right in parallel by sorting each chunk and merging, but that merge is extra work and is where the overhead of parallelism shows up on small lists."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "The pipeline never mutates a MarketProduct or the original list; it builds a brand-new list of names, so there is no shared state for threads to corrupt. That, plus the immutability of MarketProduct, is the answer to the thread safety question."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

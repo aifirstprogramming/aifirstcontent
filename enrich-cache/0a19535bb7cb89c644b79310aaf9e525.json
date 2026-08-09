@@ -1,0 +1,35 @@
+{
+  "summary": "This program builds a playlist of Song objects in a List, then stores the same songs in a HashMap keyed by title and prints them, and finally copies that map into a TreeMap so the same songs come out sorted alphabetically by title.",
+  "lines": [
+    {
+      "code": "        Map<String, Song> songMap = new HashMap<>();",
+      "text": "The variable is declared as the Map interface rather than HashMap, which is what lets you swap in a different implementation later without touching the rest of the code."
+    },
+    {
+      "code": "            songMap.put(song.getTitle(), song);",
+      "text": "Each song is filed under its own title: the title becomes the key for fast lookup, and the whole Song object is the value stored with it."
+    },
+    {
+      "code": "        for (String title : songMap.keySet()) {",
+      "text": "Looping over keySet() gives you every key in the map, but a HashMap makes no promise about the order, so your output here may differ from the book's."
+    },
+    {
+      "code": "        Map<String, Song> songTreeMap = new TreeMap<>(songMap);",
+      "text": "Passing the existing map to the TreeMap constructor copies all four entries across and sorts them by key as they go in, so no extra sorting step is needed."
+    },
+    {
+      "code": "        // Sort by title, energy level, artist",
+      "text": "This placeholder marks where the earlier sorting examples sat; the map comparison output appears after them when you run the full program."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

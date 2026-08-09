@@ -1,0 +1,33 @@
+{
+  "summary": "This program defines a function that takes two pieces of information at once \\u2014 a list of food and a table number \\u2014 and prints out Beepo's delivery for that table. Calling it twice with different arguments shows the same function doing the same job for two different orders.",
+  "lines": [
+    {
+      "code": "def deliver_food(food_list, table_number):",
+      "text": "Two parameters, separated by a comma, let the function receive two pieces of information in one call. Their order matters: whatever you pass first becomes food_list, and whatever you pass second becomes table_number."
+    },
+    {
+      "code": "    \"\"\"Helps Beepo the robot waiter deliver food to a table.\"\"\"",
+      "text": "A docstring sits just inside the function and states in plain words what the function is for, so anyone reading the code later knows Beepo's job without tracing the lines."
+    },
+    {
+      "code": "    for food in food_list:",
+      "text": "A parameter can hold any type of data, including a whole list, so the function loops through the order and prints each item in turn no matter how many dishes were sent in."
+    },
+    {
+      "code": "    print(f\"Food delivered to Table {table_number}!\\n\")",
+      "text": "The \\n adds a blank line at the end, which keeps the two deliveries visually separated when the function runs more than once."
+    },
+    {
+      "code": "deliver_food([\"Pizza\", \"Salad\", \"Water\"], 5)",
+      "text": "The list is written directly inside the parentheses as the first argument and the table number as the second, matching the order of the parameters in the definition."
+    },
+    {
+      "code": "deliver_food([\"Burger\", \"Fries\", \"Soda\"], 12)",
+      "text": "Calling the same function a second time with different arguments is the whole point of writing a function: one set of instructions, reused for every order Beepo takes."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

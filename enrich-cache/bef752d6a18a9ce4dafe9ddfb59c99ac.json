@@ -1,0 +1,29 @@
+{
+  "summary": "This program builds a list of book titles, prints them, then reports how many there are, pulls out the book at a specific position, and adds a title that is already in the list. It shows the three everyday List operations: size, index access, and the fact that duplicates are allowed.",
+  "lines": [
+    {
+      "code": "        List<String> bookTitles = new ArrayList<>();",
+      "text": "The variable is declared as the general List type but created as an ArrayList, so the list grows and shrinks with the number of titles instead of being locked to a fixed length."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal number of books: \" + bookTitles.size());",
+      "text": "The .size() method reports how many items the list currently holds, which is always the real count rather than some capacity you set in advance."
+    },
+    {
+      "code": "        System.out.println(\"First book: \" + bookTitles.get(0));",
+      "text": "Indexes in Java start at 0, so .get(0) returns the title added first, \"The Adventures of Sherlock Holmes\". Asking for .get(1) would give the second title, and using the size as an index would be out of bounds."
+    },
+    {
+      "code": "        bookTitles.add(\"The Hobbit\");",
+      "text": "A List does not check for duplicates, so this second copy of \"The Hobbit\" is added happily and the size goes up to four -- exactly what you want if the library owns two editions of the same book."
+    },
+    {
+      "code": "        for (String title : bookTitles) {",
+      "text": "The same enhanced for loop is reused at the end to prove the duplicate really is stored as its own entry in the list."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

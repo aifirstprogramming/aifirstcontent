@@ -1,0 +1,25 @@
+{
+  "summary": "This program checks a player's level number against a cascade of conditions and prints the matching skill tier. With the number set to 12, it prints \"Intermediate Level\".",
+  "lines": [
+    {
+      "code": "        int number = 12;",
+      "text": "The player's level is fixed here so you can see the middle branch fire; change it to 5 or 25 and rerun to watch a different tier print."
+    },
+    {
+      "code": "        if (number < 10) {",
+      "text": "The first condition is tested first, and only if it fails does Java move on to the next clause. Order matters, because the cascade stops at the first match."
+    },
+    {
+      "code": "        } else if (number < 20) {",
+      "text": "The else-if adds a second criterion to check before falling through to the default. Note that it does not need to say \"10 or more\": reaching this line already means the first condition was false."
+    },
+    {
+      "code": "        } else {",
+      "text": "The else is the default plan for when none of the conditions match, so exactly one of these three messages always prints."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

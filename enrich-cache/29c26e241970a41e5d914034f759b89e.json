@@ -1,0 +1,25 @@
+{
+  "summary": "This defines the RobotPet class, the code that the rest of the chapter will test. Each pet is created with a name, a battery level, and a mood, and show_talent reports the trick it performs.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The initializer takes the three pieces of information every robot pet needs, so a pet cannot exist without a name, a battery level, and a mood."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Storing the battery level on the object gives the tests something whose value can change and be checked later, which is exactly what the tests in this chapter go on to do."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "This is the behaviour under test. Because it is a plain method on the class, a test file can import RobotPet, build one, and call this method directly."
+    },
+    {
+      "code": "        return f\"{self.name} performs a generic trick!\"",
+      "text": "The method returns the sentence rather than printing it, and that difference matters: a returned string can be compared against an expected value in an assertion, while printed output cannot."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

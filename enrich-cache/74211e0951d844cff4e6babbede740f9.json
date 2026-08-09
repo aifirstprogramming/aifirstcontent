@@ -1,0 +1,31 @@
+{
+  "summary": "This is the heart of the parrot-feeding program: a while loop that keeps asking you for seeds until the total the parrot has eaten reaches its capacity of 10.",
+  "lines": [
+    {
+      "code": "while fed < capacity:",
+      "text": "The loop's condition is checked before every pass, so feeding continues only while the running total is still short of capacity; once fed reaches 10 the loop ends on its own without any counter to manage."
+    },
+    {
+      "code": "    feed = int(input(f\"Give seeds (remaining {capacity-fed}): \"))",
+      "text": "Because `input` always hands back text, `int` converts what you typed into a number you can add up, and the prompt recomputes `capacity-fed` each time so it always reflects how much room is left."
+    },
+    {
+      "code": "    fed += max(0, feed)",
+      "text": "`max(0, feed)` quietly guards against a negative entry: the parrot cannot un-eat its food, so anything below zero contributes nothing to the total."
+    },
+    {
+      "code": "    print(f\"Fed {feed} seed(s). Total fed: {fed}.\")",
+      "text": "The two variables are easy to confuse: `feed` is the amount from this one round, while `fed` is the running total that the loop condition watches."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "feed_parrot.py",
+      "content": "",
+      "fromExercise": "py-3-08"
+    }
+  ],
+  "entrypoint": "feed_parrot.py",
+  "stdin": "4\n-2\n3\n3\n",
+  "expectsUncaughtException": false
+}

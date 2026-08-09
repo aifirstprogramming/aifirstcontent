@@ -1,0 +1,39 @@
+{
+  "summary": "This program builds a small list of farmers' market products, prints the whole inventory, then uses a stream pipeline to pull out the names of the organic summer items in price order. The result is a List<String> of just the names.",
+  "lines": [
+    {
+      "code": "        List<String> organicSummerNames = getOrganicSummerItemNamesSortedByPrice(products);",
+      "text": "The filtering work lives in its own method, so main stays readable and the pipeline can be reused with any list of products. The method's return type, List<String>, is the promise that only names come back."
+    },
+    {
+      "code": "        return products.stream()",
+      "text": "Calling stream() on the list opens the pipeline: each product will be handed through the operations that follow. The list itself is never modified."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "The lambda is the rule for keeping a product: organic, and a season that mentions summer. The null check has to come before toLowerCase(), or a product with no season set would crash the pipeline — and testing contains(\"summer\") rather than equality is what lets \"Late Summer\" through."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "Comparator.comparingDouble builds the ordering rule from a single field, and MarketProduct::getPrice is a method reference — shorthand for the lambda p -> p.getPrice()."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "This is where the stream changes type: a stream of MarketProduct becomes a stream of String. Mapping after filtering and sorting matters, because both of those steps need the full object and its price."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "collect is the terminal operation, and nothing above it actually ran until this line was reached. It gathers the surviving names into the List<String> the method returns."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

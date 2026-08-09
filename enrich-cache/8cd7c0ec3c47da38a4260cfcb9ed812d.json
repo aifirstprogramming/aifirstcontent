@@ -1,0 +1,39 @@
+{
+  "summary": "This program builds a list of Book objects from the Chapter 7 library app and sorts it three different ways \by genre and title together, then compares your set of book titles against a friend's to find the overlap, the combination, and the titles only you have read.",
+  "lines": [
+    {
+      "code": "        books.sort(Comparator.comparing(Book::getTitle));",
+      "text": "The list's own sort() method reorders books in place, so there is no second list to keep track of. Comparator.comparing tells it which field to compare, and Book::getTitle is a method reference \\u2014 a way of naming the getter without calling it yourself."
+    },
+    {
+      "code": "        books.sort(Comparator.comparing(Book::getGenre)",
+      "text": "Each sort replaces the previous ordering, so by the time this runs the author sort has already been undone. That is why every sort is printed immediately after it happens."
+    },
+    {
+      "code": "                             .thenComparing(Book::getTitle));",
+      "text": "Chaining thenComparing adds a tie-breaker: books are grouped by genre first, and titles are only compared when two books share the same genre."
+    },
+    {
+      "code": "        Set<String> intersection = new HashSet<>(myTitles);",
+      "text": "The set operations that follow modify the set they are called on, so each comparison starts with a fresh copy of myTitles. Without the copy, retainAll would destroy your original title set before the union could be computed."
+    },
+    {
+      "code": "        intersection.retainAll(friendTitles);",
+      "text": "retainAll keeps only the elements that also appear in the other set, which is the intersection \\u2014 the titles you have both read. Its siblings addAll and removeAll give the union and the difference in exactly the same way."
+    },
+    {
+      "code": "        System.out.println(\"Union: \" + union);",
+      "text": "A HashSet has no defined order, so the titles may print in an order that looks scrambled. That is expected: a set cares about membership, not sequence."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

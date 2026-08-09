@@ -1,0 +1,29 @@
+{
+  "summary": "This program demonstrates Java's four function access modifiers \finby decl\fusing.",
+  "lines": [
+    {
+      "code": "        ShareMessageModifiers demo = new ShareMessageModifiers();",
+      "text": "None of the four sharing functions are marked static, so main cannot call them by name alone; it first creates an instance of the class to call them on. This is the usual pairing of a static main with instance methods."
+    },
+    {
+      "code": "        demo.keepToSelf();",
+      "text": "A private function is visible only inside its own class, and main is inside this class, so this call is legal. Move this same call into any other class and the compiler rejects it, which is the whole point of the modifier."
+    },
+    {
+      "code": "    public void shareWithEveryone() {",
+      "text": "public is the widest setting: any class in any package can call this, like posting to a social media feed where everyone can see it."
+    },
+    {
+      "code": "    protected void shareWithFamily() {",
+      "text": "protected narrows the audience to the same package plus subclasses anywhere, the code equivalent of a family group chat that reaches relatives who live elsewhere."
+    },
+    {
+      "code": "    void shareWithNeighbors() {",
+      "text": "Leaving the modifier off is not an oversight; it is the default, package-private level, reaching only classes in the same package the way a building bulletin reaches only locals."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

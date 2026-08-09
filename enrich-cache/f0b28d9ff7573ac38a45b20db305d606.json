@@ -1,0 +1,33 @@
+{
+  "summary": "This version of RobotPet guards the battery attribute so it can never be set above 100 or below 0. The battery value is read and written through a property, and the setter clamps any out-of-range number to a safe level.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Even inside `__init__`, the assignment goes through the setter rather than storing the number raw, so a pet created with a bad battery value is corrected the moment it is built."
+    },
+    {
+      "code": "    @property",
+      "text": "The `@property` decorator turns the method below it into the read path for `pet.battery`, so reading the attribute quietly calls a method instead of fetching a stored value."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value now lives in `_battery`, and the leading underscore is Python's convention for an internal attribute that code outside the class should leave alone."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This registers the write path, so every `pet.battery = ...` anywhere in the program is routed through the validation below and cannot bypass it."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "These three branches are the whole point of the encapsulation: a negative charge becomes 0, anything over 100 becomes 100, and a sensible value is stored unchanged."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Try changing 85 to 120, or Beep's 45 to -40, and run the program again: the printed batteries come back as 100 and 0, which is how you prove the setter is doing its job."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

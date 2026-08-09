@@ -1,0 +1,21 @@
+{
+  "summary": "This program takes a string with a jumble of capital and lowercase letters and prints an all-capitals version of it using Python's built-in `upper()` method.",
+  "lines": [
+    {
+      "code": "text = \"i lOvE pUpPiEs\"",
+      "text": "The quotes are what make this a string, and Python keeps the letters exactly as typed, mixed cases and all, until you ask for something different."
+    },
+    {
+      "code": "uppercase_text = text.upper()",
+      "text": "`upper()` is a method that belongs to the string itself, which is why it is written after a dot on `text`. It returns a brand-new uppercase string rather than changing `text`, so the result has to be stored in a variable to be of any use."
+    },
+    {
+      "code": "print(uppercase_text)",
+      "text": "Printing the new variable shows I LOVE PUPPIES; printing `text` here instead would still give the original mixed-case version, since strings in Python cannot be modified in place."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

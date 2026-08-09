@@ -1,0 +1,29 @@
+{
+  "summary": "This version of RobotPet keeps the battery level in a property, so every attempt to set it is checked first and forced into the range 0 to 100. The charge() method simply adds to the battery and lets that check do the clamping.",
+  "lines": [
+    {
+      "code": "        self.battery = battery",
+      "text": "Even here in the constructor the assignment goes through the property setter, so a robot pet created with a battery of 150 or -20 is corrected immediately rather than starting out invalid."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This decorator marks the method below it as the code that runs whenever anything assigns to self.battery, which is what lets the class guard the value instead of trusting the caller."
+    },
+    {
+      "code": "        self._battery = value",
+      "text": "The real number lives in the private attribute _battery with an underscore; the property named battery is the guarded doorway in front of it, and mixing the two names up is the easiest mistake to make here."
+    },
+    {
+      "code": "            self._battery = 100",
+      "text": "Anything above full charge is capped at 100, which is the behaviour the unit test in the next exercise will check by charging a pet well past full."
+    },
+    {
+      "code": "        self.battery += amount",
+      "text": "Because += reads the property and then assigns back to it, charge() gets the clamping for free and needs no bounds checking of its own."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

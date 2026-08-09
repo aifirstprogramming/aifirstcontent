@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks for a temperature in Celsius, converts it to Fahrenheit with a helper function, and prints the result. It now handles bad input with a specific catch block for NumberFormatException before falling back to the general one.",
+  "lines": [
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "Declaring the Scanner inside the parentheses of the try means Java closes it for you when the block ends, whether the conversion succeeded or an exception was thrown."
+    },
+    {
+      "code": "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
+      "text": "This is the line that can fail: Double.parseDouble takes the text the user typed and throws a NumberFormatException when that text is not a number in a format Java recognizes. The trim() call removes stray spaces so \"  20  \" still converts cleanly."
+    },
+    {
+      "code": "        } catch (NumberFormatException e) {",
+      "text": "The specific catch must come before the general one. Java runs the first catch block whose type matches, so if Exception were listed first it would swallow every number format error and this friendlier message would never appear."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "The general block stays as the safety net for anything else that goes wrong, so the program still ends with a readable message instead of a stack trace."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Because celsius is a double, celsius * 9 is already a decimal value and dividing by 5 keeps the fraction. Written as 9/5 * celsius this would be integer division and always give 1, a classic source of wrong answers."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "twenty\n",
+  "expectsUncaughtException": false
+}

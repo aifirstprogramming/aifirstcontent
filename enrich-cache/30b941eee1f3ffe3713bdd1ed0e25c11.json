@@ -1,0 +1,21 @@
+{
+  "summary": "This short program stores an item name and its price in two variables, then uses an f-string to build one sentence that includes both values.",
+  "lines": [
+    {
+      "code": "price = 19.99",
+      "text": "A number written with a decimal point is a float, so Python stores 19.99 as a numeric value you could do arithmetic with, not as text."
+    },
+    {
+      "code": "print(f\"The price of the {item} is ${price}\")",
+      "text": "The f before the opening quote marks this as an f-string: Python replaces each name in braces with that variable's value. Without the f, the output would contain the literal characters {item} and {price}."
+    },
+    {
+      "code": "print(f\"The price of the {item} is ${price}\")",
+      "text": "The dollar sign here is just an ordinary character in the text; only the braces are special. Note also that the float prints as 19.99 exactly as typed — if you wanted a guaranteed two decimal places, you would ask for {price:.2f}."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

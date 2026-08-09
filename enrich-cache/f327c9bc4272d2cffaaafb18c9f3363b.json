@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores three status messages in an array and uses a traditional for loop with a counter variable to print each one in order.",
+  "lines": [
+    {
+      "code": "        String[] statuses = {\"Starting\", \"Processing\", \"Finished\"};",
+      "text": "An array holds several values of the same type under one name, and listing them in curly braces fills it in at the moment it is created. Each item now has an index — 0 for \"Starting\", 1 for \"Processing\", and 2 for \"Finished\"."
+    },
+    {
+      "code": "        for (int i = 0; i < statuses.length; i++) {",
+      "text": "The three control pieces start the counter at 0, keep looping while it stays below the number of items, and add one each time around. Using statuses.length instead of typing 3 means the loop still works if you add or remove a status later."
+    },
+    {
+      "code": "        for (int i = 0; i < statuses.length; i++) {",
+      "text": "The condition uses less-than rather than less-than-or-equal-to on purpose: with three items the valid indexes are 0, 1, and 2, so reaching 3 must stop the loop rather than run it."
+    },
+    {
+      "code": "            System.out.println(statuses[i]);",
+      "text": "The counter doubles as the index, so each iteration automatically pulls out the next item in the array. This extra bookkeeping is exactly what a for-each loop lets you skip."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,29 @@
+{
+  "summary": "This version of the coffee maker defines its own exception type, CoffeeConjuringException, and throws it whenever the requested coffee type or shot count doesn't make sense. The first call brews an espresso successfully; the second asks for zero shots, so the custom exception is thrown and the program stops with that message.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Latte\", 0);",
+      "text": "Zero shots fails the validation inside the method, so this call throws and nothing after it runs. That abrupt ending is the point of the example: an uncaught exception ends the program right there."
+    },
+    {
+      "code": "            throw new CoffeeConjuringException(\"Shots must be at least 1. Provided: \" + shots);",
+      "text": "Both invalid-value checks throw the same custom type, but each supplies its own message — one error type covering several related business-rule failures, with the detail carried in the text."
+    },
+    {
+      "code": "    static class CoffeeConjuringException extends RuntimeException {",
+      "text": "The custom exception lives inside MakeCoffeeCustomException as a static nested class, which is fine for a single-file example; in a real application you would give it its own file. Extending RuntimeException means it inherits all the machinery of a Java exception, so you write almost nothing yourself."
+    },
+    {
+      "code": "        CoffeeConjuringException(String message) { super(message); }",
+      "text": "The constructor's only job is to pass the message up to RuntimeException with super, which is what makes it available later through getMessage."
+    },
+    {
+      "code": "        CoffeeConjuringException(String message, Throwable cause) { super(message, cause); }",
+      "text": "The second constructor also accepts a cause, so this exception can wrap a lower-level one and preserve the original reason it was triggered."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": true
+}

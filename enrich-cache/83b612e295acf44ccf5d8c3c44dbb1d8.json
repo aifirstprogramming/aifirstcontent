@@ -1,0 +1,36 @@
+{
+  "summary": "This small application is the \"customer\" of the two domain classes: it creates one plain Cookie and one DecoratedCookie, then asks each object to describe itself and prints the answer. It shows that a subclass object is used exactly like its parent, but supplies its own version of the shared behavior.",
+  "lines": [
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "The Cookie class is only a blueprint; new Cookie(\"Chocolate Chip\") is what actually builds an object in memory, and the flavor passed here is stored inside that one object."
+    },
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday\");",
+      "text": "A DecoratedCookie is created the same way as a Cookie because the subclass inherits the flavor field and passes the argument up to the parent constructor \\u2013 nothing about the flavor had to be written twice."
+    },
+    {
+      "code": "        System.out.println(regular.describe());",
+      "text": "describe() returns a String rather than printing it, so the application decides what to do with the sentence; here it goes to the console, but the same method could feed a receipt or a web page."
+    },
+    {
+      "code": "        System.out.println(decorated.describe());",
+      "text": "This call looks identical to the previous one, yet the output differs: DecoratedCookie overrides describe(), and Java runs the version belonging to the object's actual class."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "public class Cookie {\n    private String flavor;\n\n    public Cookie(String flavor) {\n        this.flavor = flavor;\n    }\n\n    public String getFlavor() {\n        return flavor;\n    }\n\n    public String describe() {\n        return \"This is a plain \" + flavor + \" cookie.\";\n    }\n}\n",
+      "fromExercise": ""
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "",
+      "fromExercise": "java-5-08"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

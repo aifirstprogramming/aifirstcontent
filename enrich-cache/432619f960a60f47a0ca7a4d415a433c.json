@@ -1,0 +1,40 @@
+{
+  "summary": "These four test methods check the RobotPet charge method. Each one sets the battery to a known starting value, charges it by some amount, then asserts the battery ended up where it should.",
+  "lines": [
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "Because we cannot know what the battery starts at, the test sets it deliberately. Fixing the starting value is what turns a guess into a repeatable test scenario."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 70)",
+      "text": "With a start of 50 and a charge of 20, the only correct answer is 70, so a single assertEqual is enough to prove the charging arithmetic works."
+    },
+    {
+      "code": "    def test_charge_caps_at_hundred(self):",
+      "text": "This test is aimed at the battery setter rather than the charge method: 90 plus 50 would be 140, and the setter must clamp it to 100."
+    },
+    {
+      "code": "        self.pet.charge(-10)",
+      "text": "A negative charge is how the pet drains its battery, so the same method is tested in the opposite direction."
+    },
+    {
+      "code": "    def test_charge_floors_at_zero(self):",
+      "text": "The mirror image of the cap test — draining 50 from a battery of 10 must stop at 0 instead of going negative. Testing both boundaries is how you know the setter protects the battery in both directions."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "robot_pet.py",
+      "content": "",
+      "fromExercise": "py-7-06"
+    },
+    {
+      "path": "run_tests.py",
+      "content": "import unittest\n\nfrom robot_pet import RobotPet\n\n\ndef make_pet():\n    \"\"\"Create a RobotPet, whatever arguments its constructor happens to take.\"\"\"\n    for args in ((\"Robo\", \"Dog\"), (\"Robo\",), (), (\"Robo\", \"Dog\", 100)):\n        try:\n            return RobotPet(*args)\n        except TypeError:\n            continue\n    return RobotPet.__new__(RobotPet)\n\n\nwith open(\"unit_tests_that_change_state.py\") as source_file:\n    printed_tests = source_file.read()\n\nclass_source = (\n    \"class TestRobotPet(unittest.TestCase):\\n\"\n    \"    def setUp(self):\\n\"\n    \"        self.pet = make_pet()\\n\\n\" + printed_tests\n)\n\nnamespace = {\"unittest\": unittest, \"make_pet\": make_pet}\nexec(class_source, namespace)\nTestRobotPet = namespace[\"TestRobotPet\"]\n\nif __name__ == \"__main__\":\n    unittest.main(argv=[\"run_tests.py\"], verbosity=2)\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "run_tests.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

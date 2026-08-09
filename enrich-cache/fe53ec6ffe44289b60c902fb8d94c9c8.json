@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores an item's name and its price in two variables, then joins them into one sentence with the + operator and prints it. Because price is a number, it has to be converted to text before it can be glued to the rest of the message.",
+  "lines": [
+    {
+      "code": "price = 19.99",
+      "text": "A number with a decimal point is a float, a separate type from the string in the line above. Note that there are no quotes here: 19.99 is a value you could do arithmetic with, while \"19.99\" would just be text."
+    },
+    {
+      "code": "print(\"The price of the \" + item + \" is $\" + str(price))",
+      "text": "The + operator between strings is concatenation: it joins pieces end to end rather than adding them. The spaces inside the quotes matter, since Python adds none of its own, and leaving them out would produce \"The price of thebook\"."
+    },
+    {
+      "code": "print(\"The price of the \" + item + \" is $\" + str(price))",
+      "text": "str(price) converts the float into its string form so it can be concatenated. Without it Python raises a TypeError, because it refuses to guess whether + between a string and a number means joining or adding."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

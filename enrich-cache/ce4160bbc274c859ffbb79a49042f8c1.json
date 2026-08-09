@@ -1,0 +1,33 @@
+{
+  "summary": "This version of RobotPet guards the battery level so it can never be charged above 100% or drained below 0%. A property and its setter intercept every read and write of `pet.battery`, clamping any unsafe value before it is stored.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Even inside the constructor, this assignment is routed through the setter, so a pet created with a battery of 120 or -40 is corrected before the object ever exists."
+    },
+    {
+      "code": "    @property",
+      "text": "The `@property` decorator turns the method below it into an attribute-style read, which is why the printing code still says `pet1.battery` with no parentheses."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value now lives in `_battery`, and the leading underscore is Python's convention for \"internal, do not touch directly.\""
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This pairs a write handler with the property, so every `pet.battery = ...` anywhere in the program must pass through the validation below."
+    },
+    {
+      "code": "            self._battery = 100",
+      "text": "Rather than raising an error, the setter clamps an over-charge back to the safe maximum, which keeps the battery inside 0-100 no matter what a caller asks for."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "Methods inside the class use the public `self.battery` too, so they always read the validated value instead of reaching for `_battery`."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

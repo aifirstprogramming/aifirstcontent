@@ -1,0 +1,25 @@
+{
+  "summary": "This program prints the multiplication table from 1×1 up to 10×10 as a neat grid of numbers. It uses one for loop inside another so that every row's ten columns get filled in before moving on to the next row.",
+  "lines": [
+    {
+      "code": "for i in range(1, 11):",
+      "text": "The outer loop runs ten times, once per row of the table, and `i` holds the row number. Remember that `range(1, 11)` stops before 11, so this gives you 1 through 10."
+    },
+    {
+      "code": "    for j in range(1, 11):",
+      "text": "The inner loop is the nested one: it runs its full ten times for every single pass of the outer loop, which is what produces 100 numbers rather than 10."
+    },
+    {
+      "code": "        print(f\"{i * j:3}\", end=' ')",
+      "text": "The `:3` inside the f-string pads each product to three characters wide so the columns line up even when the numbers go from one digit to three. The `end=' '` replaces the usual newline with a space, keeping the whole row on one line."
+    },
+    {
+      "code": "    print()",
+      "text": "This bare `print()` sits in the outer loop, not the inner one, so it fires once per row to end the line and start the next. Without it every number would run together on a single endless line."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

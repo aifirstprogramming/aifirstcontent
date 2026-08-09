@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores a Boolean value \\u2014 one of Python's two truth values \\u2014 in a variable and prints it alongside a question. It is the smallest possible demonstration of the bool type.",
+  "lines": [
+    {
+      "code": "is_sunny = True",
+      "text": "True is a Boolean value, not text: it is written with a capital T and no quotation marks. Writing \"True\" instead would store a string, and Python would treat it as a completely different kind of data."
+    },
+    {
+      "code": "print(\"Is it sunny today?\", is_sunny)",
+      "text": "Passing print two arguments separated by a comma lets it show a piece of text and the value of a variable together, inserting a single space between them for you."
+    },
+    {
+      "code": "is_sunny = True",
+      "text": "Naming Boolean variables as yes-or-no questions, like is_sunny or has_paid, makes later code such as if is_sunny: read almost like English."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores three order statuses in an array and prints each one using a for-each loop, which walks through every item without any counter or index.",
+  "lines": [
+    {
+      "code": "        String[] statuses = {\"Starting\", \"Processing\", \"Finished\"};",
+      "text": "An array holds a fixed group of values of one type, and this shorthand creates it and fills it with the three status strings in one step."
+    },
+    {
+      "code": "        for (String status : statuses) {",
+      "text": "Read the colon as \"in\": for each String in statuses, name the current item status and run the body. There is no counter to initialize and no length to check, so the loop is guaranteed to visit every item however many there are."
+    },
+    {
+      "code": "            System.out.println(status);",
+      "text": "Inside the loop, status refers to whichever item is being handled on this pass, so the same line prints a different value each time around."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

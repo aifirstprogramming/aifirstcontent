@@ -1,0 +1,39 @@
+{
+  "summary": "This listing rewrites the speak method so a robot pet's message reflects both its battery level and its mood, and gives each subclass — cat, bird, and dog — its own set of phrases for the same situations.",
+  "lines": [
+    {
+      "code": "    …",
+      "text": "The ellipsis stands for everything in RobotPet that did not change, such as the constructor and the other methods; only speak is being replaced here."
+    },
+    {
+      "code": "        if self.battery < 30:",
+      "text": "The battery checks come before the mood checks, so a nearly dead pet asks to recharge no matter how happy it feels. Order matters in a chain of returns like this one, because the first match wins."
+    },
+    {
+      "code": "        if self.battery == 100:",
+      "text": "This tests for exactly 100, so a pet at 99 skips this line and falls through to its mood message; a full battery is treated as a special celebration, not a range."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "The last return needs no condition: it is the fallback for any mood the method does not recognise, so speak always hands back a string."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'Mrrrow... *sad purring*'\"",
+      "text": "Each subclass overrides speak with the same branch structure but its own voice, which is why the unit tests for the cat, bird, and dog can check the same conditions and expect different words."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'ARF ARF ARF! LET\\'S PLAY!'\"",
+      "text": "The backslash escapes the apostrophe in LET'S. It is not strictly needed inside a double-quoted string, but it does no harm and makes the intent obvious."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "main.py",
+      "content": "# Runs the expanded speak methods from the book listing.\n# The listing writes \"\\u2026\" where the unchanged parts of RobotPet were left out,\n# so we fill that placeholder in with the constructor before running the file.\n\nSOURCE_FILE = \"implementing_a_new_feature_and_testing_it.py\"\n\nCONSTRUCTOR = '''    def __init__(self, name, battery=100, mood=\"happy\"):\n        self.name = name\n        self.battery = battery\n        self.mood = mood\n\n'''\n\nwith open(SOURCE_FILE, encoding=\"utf-8\") as source:\n    lines = source.readlines()\n\nfilled = \"\".join(\n    CONSTRUCTOR if line.strip() == \"\\u2026\" else line for line in lines\n)\n\nnamespace = {}\nexec(compile(filled, SOURCE_FILE, \"exec\"), namespace)\n\nRobotCat = namespace[\"RobotCat\"]\nRobotBird = namespace[\"RobotBird\"]\nRobotDog = namespace[\"RobotDog\"]\n\npets = [\n    RobotCat(\"Whiskers\", battery=100, mood=\"happy\"),\n    RobotBird(\"Tweety\", battery=70, mood=\"excited\"),\n    RobotDog(\"Rex\", battery=55, mood=\"sad\"),\n    RobotDog(\"Buddy\", battery=20, mood=\"happy\"),\n    RobotCat(\"Shadow\", battery=80, mood=\"sleepy\"),\n]\n\nfor pet in pets:\n    print(pet.speak())\n    print(pet.show_talent())\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

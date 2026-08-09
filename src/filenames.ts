@@ -48,6 +48,27 @@ export function suggestFilename(example: Example, step: Step = example.steps[exa
   return `${snakeCase(example.title) || "main"}.py`;
 }
 
+/**
+ * Where an exercise should actually be written, relative to the learner's folder.
+ *
+ * Fifteen filenames are shared across fifty-odd exercises, because whole chapters
+ * evolve a single file. Writing them all to one name means each exercise destroys
+ * the last, which is a poor experience even when the tool is careful about it.
+ *
+ * The obvious fix — number the filename — is not available in Java: `javac`
+ * requires `public class Thermostat` to live in `Thermostat.java`, and renaming the
+ * class would break the promise that the code matches the printed page. So a
+ * clashing exercise gets its own directory instead, which works in both languages,
+ * keeps every version, and keeps a scaffold beside the exercise it belongs to.
+ *
+ * `dir` is assigned by the loader, which is the only place that can see whether a
+ * name is shared.
+ */
+export function exercisePath(example: Example, step?: Step): string {
+  const name = suggestFilename(example, step);
+  return example.dir ? `${example.dir}/${name}` : name;
+}
+
 /** How to execute a written file, given the exercise's language. */
 export function runCommand(language: string, path: string): string[] | undefined {
   if (language === "python") return ["python3", path];

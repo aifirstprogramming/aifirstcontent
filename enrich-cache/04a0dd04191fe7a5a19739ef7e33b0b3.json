@@ -1,0 +1,39 @@
+{
+  "summary": "This trimmed snippet adds two numeric stream pipelines to the farmers' market app: one that totals the price of every product, and one that averages the price of only the organic products. Both use mapToDouble to turn a stream of products into a stream of plain double values that math methods can work on.",
+  "lines": [
+    {
+      "code": "        // products variable and add items",
+      "text": "The book trimmed this example down to just the new code, so the placeholder comment stands in for the product list built in the earlier exercises; the full listing is in your IDE."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal inventory value: $\" + String.format(\"%.2f\", totalSum));",
+      "text": "A double sum can print with a long tail of decimals, so String.format with \"%.2f\" rounds the result to two places for display as money."
+    },
+    {
+      "code": "                .mapToDouble(MarketProduct::getPrice)",
+      "text": "mapToDouble is the specialized version of map that produces a stream of primitive doubles rather than objects, which is what unlocks the math methods on the next line. The method reference MarketProduct::getPrice simply says \"call getPrice on each product.\""
+    },
+    {
+      "code": "                .sum();",
+      "text": "sum() is a terminal operation available only on a numeric stream; it consumes the doubles and hands back a single total, leaving the original product list untouched."
+    },
+    {
+      "code": "                .filter(MarketProduct::isOrganic)",
+      "text": "Filtering before mapping is the usual order: narrow the stream to the items you care about first, then transform only those fewer results."
+    },
+    {
+      "code": "                .orElse(0.0);",
+      "text": "average() cannot return a number when the stream is empty, so it hands back an OptionalDouble; orElse supplies 0.0 as the fallback rather than letting the code fail."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,33 @@
+{
+  "summary": "This program reworks Frederick's RobotPet class into a family of pets: RobotCat, RobotBird, and RobotDog each inherit RobotPet's setup and battery protection, and each adds its own sound method. One of each is created and asked to speak.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to self.battery inside __init__ goes through the property setter rather than storing the number directly, so a pet cannot be born with an impossible battery level. Every subclass gets this checking for free."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "The parent class in parentheses is what makes RobotCat a subclass: it inherits the __init__ and the battery property from RobotPet without repeating a line of them."
+    },
+    {
+      "code": "    def meow(self):",
+      "text": "Each subclass adds only what makes it different. meow belongs to cats alone, so a RobotBird has no meow and calling one would be an error."
+    },
+    {
+      "code": "        return f\"{self.name} says: Meow!\"",
+      "text": "The method reaches self.name, an attribute the parent's __init__ set, showing that inherited attributes are fully available inside a subclass's own methods."
+    },
+    {
+      "code": "cat = RobotCat(\"Whiskers\", 85, \"happy\")",
+      "text": "RobotCat defines no __init__ of its own, so Python uses the one it inherited, which is why the three arguments are still name, battery, and mood."
+    },
+    {
+      "code": "print(bird.chirp())",
+      "text": "Each object answers with its own species' sound method, which is the payoff of inheritance: shared behaviour lives in one place, and only the differences are written three times."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores a herd of goats as a list of dictionaries, each with a name and a calm level, then uses filter with a lambda to keep only the goats calm enough to bring to the baby shower.",
+  "lines": [
+    {
+      "code": "    {\"name\": \"Billy\", \"calm_level\": 8},",
+      "text": "Each goat is its own dictionary, so one entry can carry both the name and the calm level. Grouping related facts like this is what lets a single lambda inspect the calm level and still know which goat it belongs to."
+    },
+    {
+      "code": "calm_goats = list(filter(lambda goat: goat[\"calm_level\"] >= 7, goats))",
+      "text": "filter works like map: you hand it a function and a list. The difference is that the lambda answers a true-or-false question about each goat, and only the goats that answer true survive into the new list."
+    },
+    {
+      "code": "calm_goats = list(filter(lambda goat: goat[\"calm_level\"] >= 7, goats))",
+      "text": "The list() call around filter is required if you want a real list you can print or reuse. Without it you get a filter object that gives up its goats only once, as you loop over it."
+    },
+    {
+      "code": "    print(f\"  {goat['name']} (calm level: {goat['calm_level']})\")",
+      "text": "Inside an f-string delimited by double quotes, the dictionary keys are written with single quotes. Reusing double quotes there would end the string early and break the line."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

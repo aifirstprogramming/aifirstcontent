@@ -42,6 +42,14 @@ export interface MinedExample {
   suggestedTitle: string | null;
   kind: Kind;
   source: string;
+  /**
+   * What the book says around this example, in the book's own words.
+   *
+   * Used only at authoring time, to ground the generated explanation in the
+   * chapter's terminology instead of the model's. Never stored in the pack: it is
+   * the manuscript's prose, and the pack ships explanations written from it.
+   */
+  prose: string;
 }
 
 export interface BookConfig {
@@ -99,6 +107,36 @@ export function books(): BookConfig[] {
 
   if (out.length === 0) throw new Error(configHelp(path));
   return out;
+}
+
+/** Paragraph styles that carry the book's narrative prose. */
+const PROSE_STYLES = new Set(["BodyTextFirst", "BodyTextCont", "BodyText"]);
+
+/**
+ * The book's commentary around an example.
+ *
+ * Books explain code after showing it, so the paragraphs following a listing are
+ * the ones worth having; a little of what precedes the prompt gives the setup. The
+ * window stops at the next prompt or listing so one example never borrows another's
+ * explanation.
+ */
+function proseAround(paras: Paragraph[], promptIdx: number, listingEnd: number): string {
+  const before: string[] = [];
+  for (let i = promptIdx - 1; i >= 0 && before.length < 2; i--) {
+    const p = paras[i];
+    if (p.style === "CodeCaption" || p.style === "Code") break;
+    if (PROSE_STYLES.has(p.style) && p.text.trim()) before.unshift(p.text.trim());
+  }
+
+  const after: string[] = [];
+  for (let i = listingEnd; i < paras.length && after.length < 6; i++) {
+    const p = paras[i];
+    if (p.style === "Code" || PROMPT_LABEL.test(p.text)) break;
+    if (p.style === "CodeCaption" && after.length > 0) break;
+    if (PROSE_STYLES.has(p.style) && p.text.trim()) after.push(p.text.trim());
+  }
+
+  return [...before, ...after].join("\n\n").slice(0, 2000);
 }
 
 const PROMPT_LABEL = /^\s*prompt\s*[:\-–]\s*(.+)$/i;
@@ -345,6 +383,7 @@ export function mineJava(paras: Paragraph[], cfg: BookConfig, fileChapter: numbe
       suggestedTitle: suggestTitle(cfg.tag, caption, heads[i]),
       kind: inferKind(cfg.language, response),
       source,
+      prose: proseAround(paras, i, k),
     });
     i = k;
   }
@@ -405,6 +444,7 @@ export function minePython(paras: Paragraph[], cfg: BookConfig, fileChapter: num
       suggestedTitle: suggestTitle(cfg.tag, caption, heads[promptIdx]),
       kind: inferKind(cfg.language, listing),
       source,
+      prose: proseAround(paras, promptIdx, k),
     });
   }
   return found;
@@ -421,6 +461,7 @@ function blank(cfg: BookConfig, chapter: number, prompt: string, heading: string
     suggestedTitle: heading ? trimTitle(heading) : null,
     kind: "snippet",
     source,
+    prose: "",
   };
 }
 

@@ -1,0 +1,31 @@
+{
+  "summary": "This small app creates a Thermostat object set to 72 degrees and prints the status it reports, so you can check the class's behavior with your own eyes.",
+  "lines": [
+    {
+      "code": "        Thermostat thermostat = new Thermostat(72.0);",
+      "text": "The `new` keyword builds an actual Thermostat object from the class, handing the constructor the starting temperature; write 72.0 rather than 72 because the constructor expects a double."
+    },
+    {
+      "code": "        System.out.println(\"Thermostat status: \" + thermostat.getStatus());",
+      "text": "The plus sign joins the label to the String that getStatus() hands back, so the method is called first and its result becomes part of the printed line."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(72.0);",
+      "text": "We chose 72 deliberately: it sits above the heating threshold of 68 and below the cooling threshold of 75, so we already know the answer should be idle before we run the program."
+    },
+    {
+      "code": "public class ThermostatApp {",
+      "text": "This app class exists only to exercise Thermostat by hand. It works for one scenario, but confirming sixty scenarios this way is exactly the repetitive, easy-to-skip checking that unit tests will replace."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

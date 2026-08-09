@@ -1,0 +1,39 @@
+{
+  "summary": "GiftCookie is a specialized kind of Cookie that adds the gift-wrapping steps a normal cookie never needs. It inherits flavor, mixing, and baking from Cookie, and layers on its own box, ribbon, and gift note behavior.",
+  "lines": [
+    {
+      "code": "public class GiftCookie extends Cookie {",
+      "text": "The extends keyword makes GiftCookie a Cookie, so it already has everything Cookie offers and only needs to describe what is different about a gift order."
+    },
+    {
+      "code": "        super(flavor);",
+      "text": "A subclass constructor cannot set up the inherited parts itself, so it hands the flavor to Cookie's constructor first with super. Every GiftCookie is a fully built Cookie before any gift logic runs."
+    },
+    {
+      "code": "    public String packageCookie(String giftNote) {",
+      "text": "This is the one public entry point into the wrapping process, and it is the only part of the class the rest of the bakery application is meant to call."
+    },
+    {
+      "code": "        packageInBox();",
+      "text": "Calling the three steps in order inside packageCookie is what guarantees the box comes before the ribbon and the note. Callers get the whole sequence or none of it."
+    },
+    {
+      "code": "    private void packageInBox() {",
+      "text": "The private modifier is encapsulation in practice: only GiftCookie can invoke this step, so no other part of the application can reorder or reinvent the wrapping process."
+    },
+    {
+      "code": "        System.out.println(\"Packaged \" + getFlavor() + \" cookie in a box.\");",
+      "text": "The flavor field belongs to Cookie and is not directly reachable here, so the subclass reads it through the inherited getFlavor() method."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "",
+      "fromExercise": "java-5-07"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

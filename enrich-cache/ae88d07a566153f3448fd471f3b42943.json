@@ -1,0 +1,35 @@
+{
+  "summary": "This is a fragment of a Maven pom.xml file, not Java code. It adds Mockito to the project so that tests can create stand-in (mock) objects for collaborators like the TemperatureSensor interface, instead of talking to real hardware.",
+  "lines": [
+    {
+      "code": "    <dependencies>",
+      "text": "Maven keeps every external library the project relies on inside this one block, so adding a library means adding an entry here rather than hunting down a JAR file yourself."
+    },
+    {
+      "code": "        <!-- JUnit 5 dependency -->",
+      "text": "The comment marks the JUnit 5 entry that is already present from earlier in the chapter; Mockito is added alongside it, not in place of it, because you still need JUnit to run the tests."
+    },
+    {
+      "code": "            <artifactId>mockito-core</artifactId>",
+      "text": "The groupId and artifactId together are the library's coordinates, and mockito-core is the part of Mockito that provides mock(), when(), and verify()."
+    },
+    {
+      "code": "            <version>5.12.0</version>",
+      "text": "Pinning an exact version means the build behaves the same on every machine today and a year from now, instead of silently picking up a newer release."
+    },
+    {
+      "code": "            <scope>test</scope>",
+      "text": "The test scope keeps Mockito on the classpath only while compiling and running tests, so a mocking framework never ships inside your production application."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MockitoDependencyNote.java",
+      "content": "public class MockitoDependencyNote {\n    public static void main(String[] args) {\n        System.out.println(\"This exercise is a pom.xml fragment, not Java source.\");\n        System.out.println(\"It declares the Mockito dependency used to mock TemperatureSensor:\");\n        System.out.println(\"  groupId    : org.mockito\");\n        System.out.println(\"  artifactId : mockito-core\");\n        System.out.println(\"  version    : 5.12.0\");\n        System.out.println(\"  scope      : test\");\n        System.out.println();\n        System.out.println(\"Maven reads this block and downloads the library for the test classpath.\");\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "MockitoDependencyNote.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

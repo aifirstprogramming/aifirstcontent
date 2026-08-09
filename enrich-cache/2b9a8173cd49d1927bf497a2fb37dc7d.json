@@ -1,0 +1,31 @@
+{
+  "summary": "This program asks how many balls Cannoli the dog brought back, how many Mochi the cat brought back, and how many rolled away for good, then adds the three answers together to work out how many balls were thrown in the first place.",
+  "lines": [
+    {
+      "code": "Enter number of balls dog retrieved: 8",
+      "text": "The text before the 8 is the prompt written inside input(), and the 8 is what the user types; ending the prompt with a colon and a space keeps the typed answer from running into the words."
+    },
+    {
+      "code": "Enter number of balls cat retrieved: 2",
+      "text": "Each answer is stored in its own variable \\u2014 dog, cat, and lost \\u2014 so the three numbers can be added later instead of being lost as soon as the next question is asked."
+    },
+    {
+      "code": "Enter number of balls never retrieved: 3",
+      "text": "input() always hands back a string, so each answer is wrapped in int() to typecast it to an integer; without that, adding the three would glue them into \"823\" rather than summing them."
+    },
+    {
+      "code": "Total balls thrown: 13",
+      "text": "This is the result of dog + cat + lost, the whole point of the program: the balls that came back and the balls that did not, added up, tell you how many were thrown."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_fetch.py",
+      "content": "dog = int(input(\"Enter number of balls dog retrieved: \"))\ncat = int(input(\"Enter number of balls cat retrieved: \"))\nlost = int(input(\"Enter number of balls never retrieved: \"))\ntotal = dog + cat + lost\nprint(\"Total balls thrown:\", total)\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "pet_fetch.py",
+  "stdin": "8\n2\n3\n",
+  "expectsUncaughtException": false
+}

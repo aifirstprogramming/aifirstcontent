@@ -1,0 +1,17 @@
+{
+  "summary": "This program asks you to type your name in the terminal, then greets you using whatever you typed. It is the simplest example of a program whose output changes depending on what the user enters.",
+  "lines": [
+    {
+      "code": "name = input(\"What is your name? \")",
+      "text": "The text inside input() is the prompt shown in the terminal, and the program pauses here until you type something and press Enter. Whatever you typed is then stored in the variable name."
+    },
+    {
+      "code": "print(f\"Hello, {name}!\")",
+      "text": "The f before the quotes marks this as an f-string, so {name} is replaced by the value the user entered rather than printed literally. This is how the output changes from one run to the next."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "Sushi\n",
+  "expectsUncaughtException": false
+}

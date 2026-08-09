@@ -1,0 +1,27 @@
+{
+  "summary": "This is the output of the Library program: three book titles held in a List<String> and printed one per line by a for loop.",
+  "lines": [
+    {
+      "code": "The Adventures of Sherlock Holmes",
+      "text": "The first title added to the list is the first one printed, because a List keeps its elements in insertion order rather than sorting or shuffling them."
+    },
+    {
+      "code": "Pride and Prejudice",
+      "text": "Each title lands on its own line because the loop body uses println, which appends a newline after every element."
+    },
+    {
+      "code": "The Hobbit",
+      "text": "The loop stops here on its own: a for-each loop walks the list until it runs out of elements, so you never have to track how many titles you added."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Library.java",
+      "content": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class Library {\n    public static void main(String[] args) {\n        List<String> books = new ArrayList<>();\n        books.add(\"The Adventures of Sherlock Holmes\");\n        books.add(\"Pride and Prejudice\");\n        books.add(\"The Hobbit\");\n\n        for (String title : books) {\n            System.out.println(title);\n        }\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "Library.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

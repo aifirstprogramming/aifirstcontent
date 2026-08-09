@@ -1,0 +1,39 @@
+{
+  "summary": "This program builds a larger list of farmers' market products and then runs three separate stream pipelines over it: one that collects the distinct vendor names, one that formats a single vendor's products into a printable menu, and one that computes discounted prices for that vendor. Each pipeline lives in its own helper method so the transformations are easy to read.",
+  "lines": [
+    {
+      "code": "                .map(MarketProduct::getVendor)",
+      "text": "This is map in its simplest role: extracting one field from each object, so a stream of MarketProduct objects becomes a stream of vendor names."
+    },
+    {
+      "code": "                .collect(Collectors.toSet());",
+      "text": "Collecting into a Set discards duplicate vendor names automatically, which is why three Baker's Lane products yield one entry. A Set has no defined order, so the printed vendor list may not match the order the products were added."
+    },
+    {
+      "code": "                .map(p -> p.getName() + \" - $\" + String.format(\"%.2f\", p.getPrice()))",
+      "text": "Here map formats rather than extracts: it stitches two fields into a single display String, with the price rounded to two decimal places. The stream's element type changes from MarketProduct to String."
+    },
+    {
+      "code": "        double factor = 1.0 - discountFraction;",
+      "text": "Computing the multiplier once, before the pipeline starts, keeps the lambda short and avoids repeating the subtraction for every product."
+    },
+    {
+      "code": "                .map(p -> Math.max(0.0, p.getPrice() * factor))",
+      "text": "This map calculates a new value from the old one, producing a stream of Double prices; Math.max guards against a negative result if a discount fraction greater than 1 is ever passed in."
+    },
+    {
+      "code": "        menu.forEach(System.out::println);",
+      "text": "The pipeline only builds the list of formatted strings — printing is a separate step, which is what keeps the helper methods reusable and testable."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

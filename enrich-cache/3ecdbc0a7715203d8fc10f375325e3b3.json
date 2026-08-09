@@ -1,0 +1,21 @@
+{
+  "summary": "This version of the library builds its list of genres in a Set instead of a List, so each genre appears only once no matter how many books share it. The program then prints the de-duplicated genre list.",
+  "lines": [
+    {
+      "code": "        Book fable = new Book(\"Fable\", \"Adrienne Young\", \"Fantasy\");",
+      "text": "Three of the five books carry the genre \"Fantasy\", which is exactly the duplication that cluttered the earlier printout."
+    },
+    {
+      "code": "        Set<String> genres = new HashSet<>();",
+      "text": "This one declaration is the whole change: a Set only holds unique items, and HashSet is the everyday Set the way ArrayList is the everyday List."
+    },
+    {
+      "code": "            genres.add(book.getGenre());",
+      "text": "Every book's genre is added without any duplicate check, because adding a value the Set already holds is not an error \for}, {"
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

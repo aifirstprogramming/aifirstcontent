@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks you to type a Celsius temperature, converts it to Fahrenheit with a helper function, and wraps the risky part in a try-catch block so that mistyped input produces a friendly message instead of a crash.",
+  "lines": [
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "Everything inside these braces is under the safety net: if any line in here fails, Java jumps straight to the catch block. Declaring the Scanner in the parentheses of the try also guarantees it is closed when the block finishes, however it finishes."
+    },
+    {
+      "code": "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
+      "text": "This is the line most likely to go wrong, which is why it sits inside the try. Double.parseDouble turns the typed text into a number, and it refuses anything that is not numeric; trim() first removes stray spaces so a value like \" 25 \" still works."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "Exception is the general type that covers most things that can go wrong, so a beginner can catch everything with one block. The variable e holds the error object itself, available if you want to inspect it."
+    },
+    {
+      "code": "            System.out.println(\"Invalid input. Please enter a numeric temperature value.\");",
+      "text": "Handling an error means deciding what the user sees. This message tells them what went wrong and what to do next, which is far kinder than Java's raw error output."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "The conversion function is untouched by the error handling — it still does one job and returns a value, while main worries about input. Because celsius is a double, celsius * 9 is a double before the division by 5, so no fractional part is lost."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "twenty five\n",
+  "expectsUncaughtException": false
+}

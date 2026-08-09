@@ -1,0 +1,29 @@
+{
+  "summary": "This is the RobotPet class re-implemented with three species subclasses — RobotCat, RobotBird, and RobotDog — each overriding show_talent to describe its own trick. Nothing is printed yet; this file is the new feature that the next step will cover with unit tests.",
+  "lines": [
+    {
+      "code": "    @battery.setter\n    def battery(self, value):",
+      "text": "The setter guards the battery level so it can never leave the 0–100 range, which is exactly the kind of boundary rule worth pinning down with a unit test."
+    },
+    {
+      "code": "    def charge(self, amount):\n        self.battery += amount",
+      "text": "Charging assigns through the property rather than touching self._battery, so the clamping rule applies here too and charging past 100 quietly stops at 100."
+    },
+    {
+      "code": "    def show_talent(self):\n        return f\"{self.name} performs a generic trick!\"",
+      "text": "The base class supplies a fallback talent, so a plain RobotPet still works while each subclass replaces this with something specific."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "Each subclass declares RobotPet as its parent and defines nothing but show_talent, inheriting the constructor, the battery property, and charge unchanged."
+    },
+    {
+      "code": "        return f\"{self.name} catches a frisbee in mid-air!\"",
+      "text": "Because every subclass returns its message instead of printing it, a test can call show_talent and compare the returned string directly."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

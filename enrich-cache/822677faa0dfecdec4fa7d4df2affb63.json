@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores two whole numbers in variables, adds them together into a third variable, and prints the result. It is the previous PrintNumber example extended to perform a mathematical operation.",
+  "lines": [
+    {
+      "code": "        int a = 20;",
+      "text": "A variable declaration names a piece of memory and gives it a value; `int` means it holds a whole number, so `a` can be used later anywhere the value 20 would work."
+    },
+    {
+      "code": "        int sum = a + b;",
+      "text": "The `+` operator adds the two values, and the result is stored in a new variable named `sum`. Naming the result makes the intent of the calculation obvious to anyone reading the code."
+    },
+    {
+      "code": "        System.out.println(sum);",
+      "text": "Passing the variable rather than a number prints whatever `sum` currently holds, so changing the values of `a` and `b` changes the output without touching this line."
+    },
+    {
+      "code": "        int b = 22;",
+      "text": "The AI might have picked different numbers, or added them directly inside `println` and skipped the `sum` variable entirely. Variations like these are fine as long as the code is clear and the result is the same."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

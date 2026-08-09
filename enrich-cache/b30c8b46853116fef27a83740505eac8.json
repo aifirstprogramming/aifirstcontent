@@ -1,0 +1,33 @@
+{
+  "summary": "This program defines a RobotPet class whose battery level is guarded by a property setter, then puts Rover through two walks and a charge to show the guard at work. Walking costs 2% of battery per minute, and charging can never push the battery past 100%.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Even inside __init__, assigning to self.battery goes through the property setter rather than storing the value directly, so a pet can never be created with an impossible starting battery."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This decorator makes the method below run every time anything assigns to .battery, which is where the clamping to the 0-100 range happens. Everywhere else in the program you write plain assignment and the validation follows for free."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "can_walk is a look-before-you-leap check: it reports whether the pet has the energy for the requested walk without changing anything."
+    },
+    {
+      "code": "        self.battery -= duration * 2",
+      "text": "This subtraction is really a read of the getter followed by an assignment through the setter, so the battery drains but can never fall below 0."
+    },
+    {
+      "code": "if pet1.can_walk(duration):",
+      "text": "Asking can_walk first is what makes the second walk of 50 minutes get refused instead of silently draining Rover to nothing."
+    },
+    {
+      "code": "pet1.charge(40)",
+      "text": "Rover is at 65% and asks for 40 more, which would be 105; the setter quietly caps him at 100, which is the whole point of protecting the attribute."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

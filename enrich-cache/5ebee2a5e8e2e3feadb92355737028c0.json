@@ -1,0 +1,29 @@
+{
+  "summary": "This program stores seven facts about a giraffe in variables, each using the data type that fits the fact, then prints them all as a tidy list of labelled lines.",
+  "lines": [
+    {
+      "code": "name = \"Gerald\"",
+      "text": "Text goes in quotes, making this a string \never treated as a word rather than a number."
+    },
+    {
+      "code": "height_m = 5.5",
+      "text": "A measurement with a fractional part needs a float; the variable name records the unit so the number is never ambiguous."
+    },
+    {
+      "code": "is_endangered = False",
+      "text": "A yes-or-no fact is a Boolean, and Python spells its two values `True` and `False` with a capital letter — lowercase `false` would be an error."
+    },
+    {
+      "code": "top_speed_kmh = 60",
+      "text": "Whole counts like speed, spots, and years are integers; there is no need for a decimal point when nothing is ever half a spot."
+    },
+    {
+      "code": "print(f\"Name: {name}\\nHeight: {height_m}m\\nWeight: {weight_kg}kg\\nSpots: {spots}\\nEndangered: {is_endangered}\\nTop Speed: {top_speed_kmh}km/h\\nLifespan: {lifespan_years} years\")",
+      "text": "The `f` before the quote lets each `{variable}` be swapped for its value, and each `\\n` starts a new line, so one print statement produces Samantha's whole notebook page."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

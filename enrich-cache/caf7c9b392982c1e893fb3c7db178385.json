@@ -1,0 +1,39 @@
+{
+  "summary": "This version of the playlist app builds a PriorityQueue of Song objects instead of plain strings, ordering them by energy level from highest to lowest, then drains the queue with poll() so each song is played in priority order.",
+  "lines": [
+    {
+      "code": "        PriorityQueue<Song> energyQueue = new PriorityQueue<>(",
+      "text": "The queue holds full Song domain objects, so the priority is decided by a field inside each song rather than by the text of a title."
+    },
+    {
+      "code": "                Comparator.comparingInt(Song::getEnergyLevel).reversed());",
+      "text": "Comparator.comparingInt pulls the int energyLevel out of each Song, and .reversed() flips the natural low-to-high order so the most energetic song sits at the head of the queue."
+    },
+    {
+      "code": "        energyQueue.addAll(playlist);",
+      "text": "Adding the whole existing playlist in one call lets the queue place each song according to the comparator as it goes in; the original list is left untouched."
+    },
+    {
+      "code": "        while (!energyQueue.isEmpty()) {",
+      "text": "Polling removes elements, so the queue shrinks on every pass and the loop ends once every song has been played."
+    },
+    {
+      "code": "            Song nextSong = energyQueue.poll(); // highest energy first",
+      "text": "Only poll() (or peek()) respects the priority order. Printing or iterating the queue directly would show the internal heap arrangement, which is not sorted."
+    },
+    {
+      "code": "            System.out.println(\"Playing: \" + nextSong);",
+      "text": "Concatenating a Song with a String calls its toString() automatically, which is why the Song class defines one that reports every field."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

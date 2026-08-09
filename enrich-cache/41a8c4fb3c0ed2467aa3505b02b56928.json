@@ -1,0 +1,39 @@
+{
+  "summary": "This program builds a library of five Book objects, then walks through that list to collect each book's genre into a separate List<String> and prints the genres one per line.",
+  "lines": [
+    {
+      "code": "        Book fable = new Book(\"Fable\", \"Adrienne Young\", \"Fantasy\");",
+      "text": "Two new books, Eragon and Fable, join the library, and both are Fantasy — that overlap is what makes the genre list interesting in a moment."
+    },
+    {
+      "code": "        books.add(fable);",
+      "text": "Creating a Book object and putting it in the list are two separate steps; a book only becomes part of the library once it is added to the collection."
+    },
+    {
+      "code": "        List<String> genres = new ArrayList<>();",
+      "text": "The type inside the angle brackets is what a list holds, so this collection stores plain text genres while books holds whole Book objects. Two lists in the same program can hold entirely different types."
+    },
+    {
+      "code": "            genres.add(book.getGenre());",
+      "text": "Each pass through the loop asks a book for its genre and appends that string to the new list, which is how one collection gets built from another."
+    },
+    {
+      "code": "        for (String genre : genres) {",
+      "text": "The loop variable is declared as String here because that is what this list contains — using Book would not compile."
+    },
+    {
+      "code": "        System.out.println(\"\\nGenres in the library:\");",
+      "text": "The \\n escape prints a blank line before the heading, separating this section of output from whatever came before."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

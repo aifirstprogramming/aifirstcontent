@@ -38,7 +38,9 @@ import { loadFromDirectory } from "../src/loader";
 import type { Example, Explanation, Scaffold, Step } from "../src/types";
 import { suggestFilename } from "../src/filenames";
 import { reorder } from "./lib/apply";
+import { promptKey } from "./lib/docx";
 import { anthropicApiKey } from "./lib/localconfig";
+import { books, mineBook } from "./lib/mine";
 import { JUNIT_URL, displayCommand, junitAvailable, verify, verifyCommand } from "./lib/verify";
 
 const ROOT = join(import.meta.dir, "..");
@@ -53,7 +55,7 @@ const CACHE_DIR = join(ROOT, "enrich-cache");
 const MODEL = "claude-opus-5";
 
 /** Bump when the instructions change, so cached output is regenerated. */
-const PROMPT_VERSION = 5;
+const PROMPT_VERSION = 6;
 
 const CONCURRENCY = 4;
 
@@ -75,7 +77,8 @@ const OUTPUT_SCHEMA = {
     lines: {
       type: "array",
       description:
-        "Line-by-line notes, in source order, covering only lines worth commenting on. " +
+        "Three to six notes on the points worth emphasis, in source order. Not one per line: " +
+        "pick what the chapter teaches, what a beginner gets wrong, or what is surprising. " +
         "Each `code` MUST be copied verbatim from the response, including indentation.",
       items: {
         type: "object",
@@ -152,22 +155,31 @@ Hard rules:
    printed page. If it cannot run on its own, add surrounding files in scaffoldFiles.
 2. Every "code" value in lines MUST be copied character-for-character from the response,
    including indentation. Do not paraphrase a line, merge two lines, or invent one.
-3. Cover the lines that teach something. Skip closing braces and blank lines. A short program
-   may need three notes; a long one should still skip the obvious.
-4. Explain what the line does and why, in one or two plain sentences. No hedging, no restating
+3. Notes are for the points worth emphasis, not a walkthrough of every line. Three to six is
+   usually right, and never more than eight however long the program is. Pick what the chapter
+   is actually teaching, what a beginner would get wrong, or what is surprising. Skip anything
+   the code already says plainly -- a reader can ask about any line they do not follow, and a
+   note per line buries the two that mattered. Do not spend one on the class declaration, the
+   main method, or an import unless the exercise is actually about them; by chapter 2 the
+   reader has seen those every time.
+4. Ground it in the book. You are given the chapter's own words about this example; use its
+   terminology, its framing, and the analogies it has already set up, so the explanation reads
+   like the book rather than a second opinion. Do not quote it at length or repeat the setup --
+   the reader has just read it.
+5. Explain what the line does and why, in one or two plain sentences. No hedging, no restating
    the code in words ("this line prints X" adds nothing to print(X) -- say what it is for).
    Every note must be a complete, grammatical sentence that reads well on a printed page. Re-read
    each one before returning it: a half-finished clause is worse than no note at all.
-5. Only python3, java, and javac are available. There is no Maven, no Gradle, no pip install,
+6. Only python3, java, and javac are available. There is no Maven, no Gradle, no pip install,
    and no network. JUnit tests run through the JUnit console launcher, so a Java test needs no
    build file. If you would need a tool that is not available, leave scaffoldFiles empty.
-6. stdin is required if and only if the code reads input. Choose values that reach the
+7. stdin is required if and only if the code reads input. Choose values that reach the
    behaviour the exercise teaches -- if it branches on temperature, pick one that fires the
    branch being demonstrated.
 
-7. If the code refers to a class that another exercise in the same chapter defines, add a
+8. If the code refers to a class that another exercise in the same chapter defines, add a
    scaffold file with fromExercise set to that exercise's id. Do not retype the class.
-8. Set expectsUncaughtException only when the exercise's point is that it throws -- a comment
+9. Set expectsUncaughtException only when the exercise's point is that it throws -- a comment
    like "this call will throw" is the signal. Those programs exit non-zero on purpose.
 
 On scaffolding, be conservative. Most exercises run as they are. A Java class with no main
@@ -223,6 +235,18 @@ function userPrompt(
     "```",
   ];
 
+  const prose = bookProse(step);
+  if (prose) {
+    parts.push(
+      "",
+      "What the book itself says around this example. Use its terminology and framing;",
+      "do not quote it back or repeat the setup:",
+      "```",
+      prose,
+      "```",
+    );
+  }
+
   const peers = siblings(example, all);
   if (peers) {
     parts.push(
@@ -247,6 +271,33 @@ function userPrompt(
     );
   }
   return parts.join("\n");
+}
+
+/**
+ * What the book says around each example, keyed by its prompt.
+ *
+ * Mined from the manuscripts at run time rather than stored in the pack: it is the
+ * book's own prose, and what ships is the explanation written from it. Without this
+ * the model wrote from the code alone, so the wording drifted from the chapter and
+ * each explanation read like a different author.
+ */
+let proseByPrompt: Map<string, string> | undefined;
+
+function bookProse(step: Step): string {
+  if (!proseByPrompt) {
+    proseByPrompt = new Map();
+    try {
+      for (const cfg of books()) {
+        for (const m of mineBook(cfg)) {
+          if (m.prose) proseByPrompt.set(promptKey(m.prompt), m.prose);
+        }
+      }
+    } catch {
+      // No manuscripts on this machine: the explanation is still generated, just
+      // without the book's wording to lean on.
+    }
+  }
+  return proseByPrompt.get(promptKey(step.prompt)) ?? "";
 }
 
 // --- cache -----------------------------------------------------------------
@@ -358,6 +409,11 @@ function checkLines(step: Step, out: ModelOutput): string[] {
 function checkProse(out: ModelOutput): string[] {
   const bad: string[] = [];
   if (out.summary.trim().split(/\s+/).length < 5) bad.push(`summary too short: "${out.summary}"`);
+  // A note per line buries the two that mattered, so the limit is enforced rather
+  // than merely requested.
+  if (out.lines.length > 8) {
+    bad.push(`${out.lines.length} notes is a walkthrough, not emphasis — keep the ${8} that matter most`);
+  }
   for (const line of out.lines) {
     const t = line.text.trim();
     if (t.split(/\s+/).length < 4) bad.push(`note too short for \`${line.code.trim()}\`: "${t}"`);
@@ -554,6 +610,16 @@ async function enrichExample(example: Example): Promise<void> {
         lastFailure = { command: "(prose check)", output: prose.join("\n") };
         continue;
       }
+
+      // Emphasis decides *which* lines are worth a note; the code decides the order
+      // they are read in. Sorting here keeps the notes lined up with the listing
+      // rather than trusting the model to return them in order.
+      const order = new Map<string, number>();
+      step.response.split("\n").forEach((line, i) => {
+        const key = line.trim();
+        if (key && !order.has(key)) order.set(key, i);
+      });
+      out.lines.sort((a, b) => (order.get(a.code.trim()) ?? 0) - (order.get(b.code.trim()) ?? 0));
 
       const scaffold = toScaffold(out, suggestFilename(example, step), step.response);
       const stdin = out.stdin === "" ? undefined : out.stdin;

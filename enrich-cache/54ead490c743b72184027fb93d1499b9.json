@@ -1,0 +1,29 @@
+{
+  "summary": "This defines a RobotPet class whose battery level is guarded by a property setter, then three subclasses \\u2014 RobotCat, RobotBird, and RobotDog \\u2014 that each override show_talent with their own species trick. Nothing is printed yet; the file just supplies the classes that the chapter's unit tests will exercise.",
+  "lines": [
+    {
+      "code": "        self.battery = battery",
+      "text": "Even inside __init__ this assignment goes through the battery setter rather than storing the number directly, so a pet created with a battery of 250 is clamped the moment it is born."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "The setter is the single place where the rule \"battery stays between 0 and 100\" lives, which is exactly the kind of behaviour a unit test can pin down with a couple of out-of-range values."
+    },
+    {
+      "code": "        self.battery += amount",
+      "text": "charge does no checking of its own; it reads the current level, adds to it, and hands the result back to the setter, which caps it at 100."
+    },
+    {
+      "code": "        return f\"{self.name} performs a generic trick!\"",
+      "text": "The base class returns its message instead of printing it, which is what lets a test compare the result against an expected string."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "Each subclass inherits the name, battery, and charge behaviour untouched and redefines only show_talent \\u2014 the whole point of subclassing here is that one method differs per species."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

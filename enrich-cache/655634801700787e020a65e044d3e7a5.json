@@ -1,0 +1,25 @@
+{
+  "summary": "This program defines a single growPlant function that takes sunlight and water as parameters, then calls it with specific values from main. The function prints the conditions it was given and uses a ternary operator to decide whether the plant is growing or needs care.",
+  "lines": [
+    {
+      "code": "        growPlant(true, 3);",
+      "text": "This is the function call, and the values true and 3 are the arguments. Because the definition asks for a boolean followed by an int, they must be passed in that order and in those types."
+    },
+    {
+      "code": "    public static void growPlant(boolean sunlight, int water) {",
+      "text": "The two parameters are placeholders for data the function needs from outside, just as a houseplant needs sunlight and water brought to it. Every call supplies fresh values without any change to the code inside."
+    },
+    {
+      "code": "        System.out.println(\"Plant placed in soil.\");",
+      "text": "The soil is provided inside the function itself, so it is not a parameter. Some things a function needs are its own; only what varies gets passed in."
+    },
+    {
+      "code": "        String status = (sunlight && water >= 3) ? \"Growing\" : \"Needs care\";",
+      "text": "A ternary operator evaluates the condition and produces one of two values: \"Growing\" when there is sunlight and the water level is at least 3, otherwise \"Needs care\". It is a compact stand-in for a full if/else that assigns a value."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

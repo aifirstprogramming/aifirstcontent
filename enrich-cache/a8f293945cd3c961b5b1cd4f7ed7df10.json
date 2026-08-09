@@ -1,0 +1,29 @@
+{
+  "summary": "This program builds a small glossary of Java collection terms using a Map, where each term is the key and its definition is the value. It looks up one definition by name, then prints every term in alphabetical order.",
+  "lines": [
+    {
+      "code": "        Map<String, String> glossary = new HashMap<>();",
+      "text": "A glossary pairs a name with a definition, which is exactly what a map does: both the key and the value are declared as String here. The variable is typed as the Map interface while the object created is a HashMap."
+    },
+    {
+      "code": "        glossary.put(\"List\", \"An ordered collection (also known as a sequence) that may contain duplicate elements. Allows positional access and insertion of elements.\");",
+      "text": "Each call to put() stores one entry, with the term as the key and the definition as the value. Putting the same key twice would replace the old definition rather than add a second entry."
+    },
+    {
+      "code": "        System.out.println(termToFind + \": \" + glossary.get(termToFind));",
+      "text": "This is the payoff of using a map: get() hands back the definition directly from the term, with no searching through the collection."
+    },
+    {
+      "code": "        TreeSet<String> sortedTerms = new TreeSet<>(glossary.keySet());",
+      "text": "A HashMap keeps no particular order, so keySet() is copied into a TreeSet, which sorts its elements as they go in. Handing an existing collection to the TreeSet constructor fills it in one step."
+    },
+    {
+      "code": "        for (String term : sortedTerms) {",
+      "text": "Iterating over the TreeSet visits the terms alphabetically, which is why the sorted copy was made instead of looping over the map's keys directly."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

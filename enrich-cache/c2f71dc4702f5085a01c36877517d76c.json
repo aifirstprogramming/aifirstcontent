@@ -1,0 +1,25 @@
+{
+  "summary": "This program counts from 1 to 10 with a while loop, but skips printing any number that divides evenly by 3, so you see 1, 2, 4, 5, 7, 8, 10.",
+  "lines": [
+    {
+      "code": "    if i % 3 == 0:",
+      "text": "The modulo operator gives the remainder of a division, so a remainder of zero means `i` is an exact multiple of 3 and should be skipped."
+    },
+    {
+      "code": "        i += 1",
+      "text": "This increment has to happen before `continue`, because `continue` jumps straight back to the condition and any line below it would never run. Forget this one and `i` stays at 3 forever, giving an infinite loop."
+    },
+    {
+      "code": "        continue",
+      "text": "`continue` abandons the rest of this pass through the loop and starts the next one, which is how the multiples of 3 get skipped instead of printed."
+    },
+    {
+      "code": "    i += 1",
+      "text": "The normal path needs its own increment as well, since the loop only advances when you move the counter yourself."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

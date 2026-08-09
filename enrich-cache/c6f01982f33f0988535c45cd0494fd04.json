@@ -1,0 +1,25 @@
+{
+  "summary": "This builds a dictionary named shop that holds Sally's three items paired with their prices. Each item name is a key, and the price stored alongside it is that key's value.",
+  "lines": [
+    {
+      "code": "shop = {",
+      "text": "The curly braces open a dictionary, which is Python's structure for storing data in pairs rather than in a plain sequence. Everything between this brace and the closing one is Sally's whole inventory."
+    },
+    {
+      "code": "    \"sword\": 150,",
+      "text": "The colon is what makes this a pair: \"sword\" is the key an adventurer would ask for, and 150 is the value Sally charges for it. The trailing comma separates this pair from the next one."
+    },
+    {
+      "code": "    \"potion\": 25",
+      "text": "The last pair needs no comma after it, and its price is deliberately the cheapest so the beginning adventurer on a budget can afford one. Each key in a dictionary must be unique, which is exactly why every item can carry its own price."
+    },
+    {
+      "code": "}",
+      "text": "The closing brace finishes the dictionary and the assignment, so shop now refers to all three pairs at once. Note that nothing is printed yet -- this exercise only builds the inventory, and looking a price up by name comes next."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

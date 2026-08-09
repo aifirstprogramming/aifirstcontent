@@ -1,0 +1,35 @@
+{
+  "summary": "This is the rewritten thermostat test class, where every status is checked in its own test method instead of being bundled together. Each test builds one Thermostat, asks it for a single answer, and makes a single assertion about it.",
+  "lines": [
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "The method name states the condition and the expected result, so a failure report tells you what broke without you reading the body. This is the habit that makes a growing test suite readable."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(60, false);",
+      "text": "Each test creates its own fresh thermostat, so no test can be affected by changes another test made. The second argument, false, means eco mode is off, which is what puts this test in the regular-mode group."
+    },
+    {
+      "code": "        assertEquals(\"Cooling\", thermostat.getStatus());",
+      "text": "One assertion per test is the whole point of the rewrite: if this fails, the Heating and Idle tests still pass and tell you those branches are fine."
+    },
+    {
+      "code": "        Thermostat thermostatEco = new Thermostat(64, true);",
+      "text": "Passing true turns on eco mode, and 64 degrees is chosen deliberately because it would be Idle in regular mode. The temperature is picked to prove the eco threshold actually moved."
+    },
+    {
+      "code": "        assertEquals(\"Thermostat status: Idle\", thermostat.printStatusToDisplay());",
+      "text": "Because printStatusToDisplay returns a String rather than printing, the display text itself can be asserted, including the label and spacing."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-09"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

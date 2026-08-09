@@ -1,0 +1,33 @@
+{
+  "summary": "This program defines a makeCoffee() method that takes two arguments — the type of coffee and the number of shots — and calls it twice with different values. Inside the method, a bit of extra business logic decides whether the order earns a magical flavor boost.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "The two values in the parentheses are arguments, passed in the same order as the parameters the method declares. A String goes first and an int second, because that is the order makeCoffee() expects."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "The parameters type and shots act as local variables inside the method, holding whatever values the caller supplied. Because the method is declared void, it prints its results rather than returning a value to main()."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "This is the business logic that makes the method worth writing: the method does more than echo its arguments, it computes something from them."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "A comparison produces a true or false value, which is stored in a boolean rather than tested immediately. One shot gives 42, which is not greater than 50, so only the Espresso order earns the boost."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "Because the condition is already a boolean, it can be used directly in the if statement — there is no need to write hasAlchemyBoost == true."
+    },
+    {
+      "code": "        System.out.println();",
+      "text": "An empty println prints just a blank line, separating the output of one coffee order from the next when the method runs twice."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

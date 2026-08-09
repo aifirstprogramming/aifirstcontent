@@ -1,0 +1,33 @@
+{
+  "summary": "This program builds two sets of song titles \\\\u2014 yours and a friend's \\\\u2014 and then uses the Set operations retainAll, addAll, and removeAll to work out which songs you share, what a combined playlist would look like, and which songs are yours alone.",
+  "lines": [
+    {
+      "code": "import java.util.Set;",
+      "text": "The imports at the top carry over from the earlier steps of this playlist app, and one is missing here: because the code creates HashSet objects, add `import java.util.HashSet;` to this list or the file will not compile."
+    },
+    {
+      "code": "        Set<String> myTitles = new HashSet<>();",
+      "text": "The variable is declared as the Set interface but built as a HashSet, which is the usual Java habit of coding to the general type and choosing the implementation on the right. A Set refuses duplicates, so adding \"Respect\" a second time would silently change nothing."
+    },
+    {
+      "code": "        Set<String> intersection = new HashSet<>(myTitles);",
+      "text": "Passing a set into the HashSet constructor makes a working copy of your playlist. Each of the three operations below modifies its copy in place, so myTitles and friendTitles are never damaged and can be compared again."
+    },
+    {
+      "code": "        intersection.retainAll(friendTitles);",
+      "text": "retainAll throws away every element that is not also in the friend's playlist, leaving only the songs the two of you have in common."
+    },
+    {
+      "code": "        difference.removeAll(friendTitles);",
+      "text": "removeAll strips out the friend's songs, leaving the ones only you have. The direction matters: starting from friendTitles and removing myTitles would instead give you the songs of theirs you have not heard."
+    },
+    {
+      "code": "        System.out.println(\"Union: \" + union);",
+      "text": "A HashSet makes no promise about order, so the titles may print in an order that looks random and can differ between runs. Use a TreeSet if you want the results in alphabetical order."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

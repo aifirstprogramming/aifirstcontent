@@ -1,0 +1,40 @@
+{
+  "summary": "This is the unit test file the AI wrote to cover the robot pet subclasses: two tests confirm a new pet's battery is clamped into the 0–100 range, and then one test class per pet type checks that a cat, bird, and dog are created correctly, perform their own talent, and can still be charged.",
+  "lines": [
+    {
+      "code": "        pet = RobotPet(\"Volt\", 150, \"neutral\")",
+      "text": "Passing a deliberately impossible battery value is how you test a setter's guard rails; the test asserts the object quietly corrects it to 100 rather than storing nonsense."
+    },
+    {
+      "code": "    def setUp(self):",
+      "text": "setUp runs before every single test method in the class, so each test gets its own freshly built pet and cannot be affected by changes another test made."
+    },
+    {
+      "code": "        self.assertIn(\"Whiskers\", self.cat.show_talent())",
+      "text": "Checking that the name appears somewhere inside the returned message is deliberately looser than comparing the whole sentence, so a reworded talent message will not break the test."
+    },
+    {
+      "code": "        self.assertNotEqual(self.cat.show_talent(), \"Whiskers performs a generic trick!\")",
+      "text": "This is the test that proves the subclass really overrode the method: if RobotCat had forgotten its own show_talent, the inherited generic message would come back and the assertion would fail."
+    },
+    {
+      "code": "        self.cat.charge(20)",
+      "text": "charge is defined on RobotPet, not on RobotCat, so testing it through the cat confirms the subclass inherits its parent's behaviour along with adding its own."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-08"
+    },
+    {
+      "path": "run_tests.py",
+      "content": "import unittest\n\nFILENAME = \"implementing_a_new_feature_and_testing_it.py\"\n\n# The printed test file uses \"...\" to stand for the tests shown earlier in the\n# chapter. Swap that placeholder for a real statement so the file can be run.\nwith open(FILENAME, encoding=\"utf-8\") as handle:\n    source = handle.read().replace(\"\\u2026\", \"pass\")\n\nnamespace = {\"__name__\": \"printed_tests\", \"__file__\": FILENAME}\nexec(compile(source, FILENAME, \"exec\"), namespace)\n\nloader = unittest.TestLoader()\nsuite = unittest.TestSuite()\nfor value in list(namespace.values()):\n    if isinstance(value, type) and issubclass(value, unittest.TestCase):\n        suite.addTests(loader.loadTestsFromTestCase(value))\n\nunittest.TextTestRunner(verbosity=2).run(suite)\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "run_tests.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

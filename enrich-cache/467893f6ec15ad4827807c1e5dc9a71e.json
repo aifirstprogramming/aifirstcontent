@@ -1,0 +1,45 @@
+{
+  "summary": "This is the bakery's main application: it creates three kinds of cookie objects, prints each one as a menu line, and then processes a gift order with a personal note. It ties together the Cookie class and its two subclasses into a program a small business could actually run.",
+  "lines": [
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday Cake\");",
+      "text": "A DecoratedCookie is created exactly like a plain Cookie, because the subclass inherits the flavor attribute and passes it up to the parent constructor."
+    },
+    {
+      "code": "        showCookieOption(gift);",
+      "text": "The same helper method accepts a regular cookie, a decorated cookie, and a gift cookie, since every subclass is also a Cookie. This is the payoff of inheritance: the menu code does not need to know which kind it received."
+    },
+    {
+      "code": "        System.out.println(gift.packageCookie(\"Enjoy your sweet surprise!\"));",
+      "text": "packageCookie belongs only to GiftCookie, so it can be called on the gift variable but not on regular or decorated. The gift note is supplied by the caller, which keeps the packaging logic reusable for any message."
+    },
+    {
+      "code": "    private static void showCookieOption(Cookie cookie) {",
+      "text": "Declaring the parameter as Cookie rather than a specific subclass is what lets one method display all three items; private keeps this formatting helper an internal detail of the application, and static means it can be called directly from main without an object."
+    },
+    {
+      "code": "        System.out.println(\"- \" + cookie.describe());",
+      "text": "The application asks each cookie to describe itself instead of reaching in for its attributes, which is abstraction at work: the menu only needs the simple description each class chooses to expose."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "",
+      "fromExercise": "java-5-07"
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "",
+      "fromExercise": "java-5-08"
+    },
+    {
+      "path": "GiftCookie.java",
+      "content": "",
+      "fromExercise": "java-5-10"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

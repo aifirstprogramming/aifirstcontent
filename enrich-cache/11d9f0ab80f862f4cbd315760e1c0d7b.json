@@ -1,0 +1,25 @@
+{
+  "summary": "This program defines a function named showWelcomeMessage() that prints a greeting, and the main method calls that function twice so the message appears two times.",
+  "lines": [
+    {
+      "code": "        showWelcomeMessage();",
+      "text": "Calling a function is just writing its name followed by parentheses and a semicolon; control jumps to the function's body, runs it, and comes back to continue where it left off."
+    },
+    {
+      "code": "        showWelcomeMessage();",
+      "text": "The second call reuses the same function rather than repeating the print statement, which is the whole point of writing a function: define the work once, use it as many times as you need."
+    },
+    {
+      "code": "    public static void showWelcomeMessage() {",
+      "text": "This line is the function definition, and every piece of it matters: public is the modifier that controls who can call it, void is the return type saying it hands nothing back, and the empty parentheses mean it takes no parameters."
+    },
+    {
+      "code": "    }",
+      "text": "The function is defined after the closing brace of main, not inside it — functions sit side by side as members of the class, and Java finds showWelcomeMessage() regardless of whether it appears above or below main."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

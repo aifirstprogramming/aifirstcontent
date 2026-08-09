@@ -1,0 +1,25 @@
+{
+  "summary": "This program uses a for loop to run three laps around a track, printing each lap number, then prints a message once the loop finishes.",
+  "lines": [
+    {
+      "code": "        for (int lap = 1; lap <= 3; lap++) {",
+      "text": "All three parts of the loop's control live in the parentheses, separated by semicolons: the counter starts at 1, the loop keeps going while lap is 3 or less, and lap grows by one after each pass. Because the number of iterations is known up front, there is no need to check anything by hand the way a while loop would."
+    },
+    {
+      "code": "        for (int lap = 1; lap <= 3; lap++) {",
+      "text": "Starting at 1 and using <= 3 gives laps 1, 2, and 3. Beginners often mix these up and write < 3, which stops after two laps, or start at 0 and print a \"Lap 0\" nobody ran."
+    },
+    {
+      "code": "            System.out.println(\"Lap \" + lap);",
+      "text": "This is the body that repeats, and it can use lap because the counter is in scope inside the loop. The + joins the text with the current number, so each pass prints a different line."
+    },
+    {
+      "code": "        System.out.println(\"All laps complete.\");",
+      "text": "This line sits outside the closing brace of the loop, so it runs once after the condition finally fails. Indentation alone does not decide that — the braces do."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This program prints the word \"Hello\" three times using a for loop instead of three separate print statements.",
+  "lines": [
+    {
+      "code": "for i in range(3):",
+      "text": "This is the loop's instruction to repeat the indented code three times. Changing the 3 to 100 would print \"Hello\" a hundred times, which is where loops start saving you real work."
+    },
+    {
+      "code": "for i in range(3):",
+      "text": "The variable i holds the current count on each pass, starting at 0. This program never uses i, but the loop still needs somewhere to keep track of where it is."
+    },
+    {
+      "code": "    print(\"Hello\")",
+      "text": "The indentation is what puts this line inside the loop. Without those spaces, Python would treat it as code that comes after the loop and print \"Hello\" only once."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

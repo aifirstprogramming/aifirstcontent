@@ -1,0 +1,29 @@
+{
+  "summary": "This class models a traffic light that starts on red and cycles red \\u2192 green \\u2192 yellow \\u2192 red each time advance() is called, plus a method that reports whether traffic must stop. It is the subject under test for the badly written traffic light tests that follow.",
+  "lines": [
+    {
+      "code": "    private String color = \"Red\";",
+      "text": "The light's colour is private, so tests can only observe it through getColor(), and the initial value fixes the starting state every new TrafficLight begins in."
+    },
+    {
+      "code": "        if (\"Red\".equals(color)) {",
+      "text": "Calling equals on the literal rather than on color is a deliberate habit: it can never throw a NullPointerException, however the field was set."
+    },
+    {
+      "code": "        } else if (\"Green\".equals(color)) {",
+      "text": "The chain of else-if branches is what makes advance() a cycle; each call moves exactly one step, so a test that expects green must first advance once from the starting red."
+    },
+    {
+      "code": "        } else {",
+      "text": "The final else quietly treats anything that is not red or green as yellow, which is why the whole cycle relies on the field never holding an unexpected value."
+    },
+    {
+      "code": "        return !\"Green\".equals(color);",
+      "text": "One negated comparison covers two stop colours, red and yellow, so a thorough test class needs a separate, clearly named test for each of them rather than a single catch-all assertion."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

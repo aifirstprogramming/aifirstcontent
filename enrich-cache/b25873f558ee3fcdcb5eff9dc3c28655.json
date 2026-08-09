@@ -1,0 +1,29 @@
+{
+  "summary": "This program stores nine facts about one car in a single tuple and then prints a couple of those facts back out by their position. Because a car's make, model, and year never change, a tuple is a better fit than a list.",
+  "lines": [
+    {
+      "code": "car = (",
+      "text": "The parentheses are what make this a tuple rather than a list. Once the closing parenthesis is reached, the contents are locked in for good — no item can be replaced, added, or removed."
+    },
+    {
+      "code": "    \"Toyota\",           # make",
+      "text": "A tuple has no field names, so the comment beside each item is the only record of what that position means. Keeping the order intact matters, because position is the only way back to a value."
+    },
+    {
+      "code": "    2022,               # year",
+      "text": "One tuple can hold text, whole numbers, and decimals side by side; 2022 is stored as a number while the make and model are strings."
+    },
+    {
+      "code": "print(f\"{car[0]} {car[1]} ({car[2]})\")",
+      "text": "Items are pulled out by index, and counting starts at 0, so car[0] is the make and car[2] is the year. This is the same square-bracket access you used with lists — reading from a tuple is not restricted, only changing it."
+    },
+    {
+      "code": "print(f\"Color: {car[5]}, Type: {car[3]}, Fuel: {car[7]}\")",
+      "text": "The indexes can be used in any order you like, but you have to count positions by hand every time you want a value. That bookkeeping is exactly what unpacking, coming up next, removes."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

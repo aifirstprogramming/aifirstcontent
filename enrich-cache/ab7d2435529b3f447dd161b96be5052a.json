@@ -1,0 +1,45 @@
+{
+  "summary": "This is the finished bakery application: it creates one plain cookie, one decorated cookie, and one gift cookie, prints them as the day's menu, and then processes a gift order with a personal note attached.",
+  "lines": [
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "Each of the three objects is built from the same blueprint family, so one line of code is enough to bring a menu item into existence with its own flavor."
+    },
+    {
+      "code": "        showCookieOption(gift);",
+      "text": "A GiftCookie is a Cookie, so it can be handed to a method that only asks for a Cookie — the subclass objects need no special treatment here."
+    },
+    {
+      "code": "        System.out.println(gift.packageCookie(\"Enjoy your sweet surprise!\"));",
+      "text": "Only the gift variable can call packageCookie, because packaging behavior belongs to GiftCookie rather than to every cookie in the bakery."
+    },
+    {
+      "code": "    private static void showCookieOption(Cookie cookie) {",
+      "text": "Declaring the parameter as the parent type Cookie lets this one helper print any kind of cookie, and marking it private keeps it as an internal detail of the application."
+    },
+    {
+      "code": "        System.out.println(\"- \" + cookie.describe());",
+      "text": "The helper never asks what kind of cookie it received; each object runs its own version of describe(), which is why the three menu lines read differently."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "public class Cookie {\n    private String flavor;\n\n    public Cookie(String flavor) {\n        this.flavor = flavor;\n    }\n\n    public String getFlavor() {\n        return flavor;\n    }\n\n    public String describe() {\n        return \"A classic \" + flavor + \" cookie.\";\n    }\n}\n",
+      "fromExercise": ""
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "public class DecoratedCookie extends Cookie {\n\n    public DecoratedCookie(String flavor) {\n        super(flavor);\n    }\n\n    @Override\n    public String describe() {\n        return \"This \" + getFlavor() + \" cookie is decorated with sprinkles and icing!\";\n    }\n}\n",
+      "fromExercise": ""
+    },
+    {
+      "path": "GiftCookie.java",
+      "content": "public class GiftCookie extends Cookie {\n\n    public GiftCookie(String flavor) {\n        super(flavor);\n    }\n\n    @Override\n    public String describe() {\n        return \"A \" + getFlavor() + \" cookie, ready to be wrapped as a gift.\";\n    }\n\n    public String packageCookie() {\n        return \"Packaged \" + getFlavor() + \" cookie in a gift box.\";\n    }\n\n    public String packageCookie(String giftNote) {\n        return packageCookie() + \" Gift note: \" + giftNote;\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

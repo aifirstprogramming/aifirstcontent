@@ -1,0 +1,29 @@
+{
+  "summary": "This version of the coffee program checks its arguments before doing any work: if the coffee type is missing or the shot count is less than one, it throws an IllegalArgumentException and stops. The first call brews normally, and the second call deliberately passes 0 shots so you can see the error halt the program.",
+  "lines": [
+    {
+      "code": "        // This call will throw the particular error",
+      "text": "The second call is here on purpose. It shows what happens when a bad value arrives from another system, such as an inventory check that reports zero shots available."
+    },
+    {
+      "code": "            throw new IllegalArgumentException(\"Coffee type must not be null or blank.\");",
+      "text": "Throwing is the opposite of catching: instead of recovering, the method refuses to continue and hands the problem back to its caller. IllegalArgumentException is Java's standard way to say a value passed in was not acceptable."
+    },
+    {
+      "code": "        if (shots < 1) {",
+      "text": "Guard checks like this sit at the very top of the method, before any brewing happens, so the method never does half the work with data it cannot use."
+    },
+    {
+      "code": "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+      "text": "Nothing below the guards runs unless both checks pass, which is why the output shows the Espresso brewing in full and then stops abruptly on the Latte."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "With two shots the magic power is 84, so the boost message appears; a single shot would fall below the threshold of 50 and skip it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": true
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This is the redesigned display method on the Thermostat class: instead of printing the status to the console, it builds the status text and hands it back to whoever called it. That one change makes the method both more useful to a real device display and far easier to test.",
+  "lines": [
+    {
+      "code": "    //variables, constructor, and getStatus method",
+      "text": "The comment stands in for the parts of Thermostat you already wrote and are not changing; only the display method is being reworked here."
+    },
+    {
+      "code": "    public String printStatusToDisplay() {",
+      "text": "The return type changes from void to String, which is the whole point of the exercise. A method that returns a value can be checked directly with an assertion, so the test no longer has to hijack the console to see what happened."
+    },
+    {
+      "code": "        return \"Thermostat status: \" + getStatus();",
+      "text": "The label is joined to the result of the existing getStatus() method with +, so this method never duplicates the heating logic \ned text can now be sent to a device display, a log, a web page, or a test."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

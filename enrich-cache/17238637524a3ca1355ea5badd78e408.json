@@ -1,0 +1,35 @@
+{
+  "summary": "This is the finished House domain class: it stores an address, bedroom count, and bathroom count privately, exposes them through getters and setters, and now overrides toString() so printing a House shows its actual values instead of a cryptic memory reference.",
+  "lines": [
+    {
+      "code": "    private String address;",
+      "text": "The member variables are marked private so nothing outside the class can reach in and change them directly; access goes through the methods below, which is what encapsulation means in practice."
+    },
+    {
+      "code": "        this.address = address;",
+      "text": "Inside the constructor, the parameter and the field share the name address, so this.address makes it unambiguous: the field belonging to this object gets the value that was passed in."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells Java you are deliberately replacing a method that every object already inherits. If you misspell the method name or get the signature wrong, the compiler catches it here rather than silently leaving the unhelpful default in place."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Java calls this method for you whenever a House appears in println or is joined to a string, so overriding it once fixes the output everywhere the object is printed."
+    },
+    {
+      "code": "                \"address='\" + address + '\\'' +",
+      "text": "The single quotes are cosmetic, wrapping the address so it reads as text in the output; '\\'' is the escaped character literal for a single quote, since a bare ' would end the literal early."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "HouseBuilder.java",
+      "content": "",
+      "fromExercise": "java-5-02"
+    }
+  ],
+  "entrypoint": "HouseBuilder.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

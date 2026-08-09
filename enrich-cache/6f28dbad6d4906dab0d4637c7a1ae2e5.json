@@ -1,0 +1,44 @@
+{
+  "summary": "This program builds a RobotPetShelter class that keeps its robot pets in a private list, with methods to add a pet, list every pet, and look one up by name. Three pets from the previous section are created, added to the shelter, and then Rex is found by name so his talent can be shown.",
+  "lines": [
+    {
+      "code": "        self.__pets = []",
+      "text": "The shelter's one attribute is the list that holds the pets, and the double underscore keeps it private so pets can only get in and out through the shelter's own methods."
+    },
+    {
+      "code": "        if not self.__pets:",
+      "text": "An empty list is falsy, so this guard reports that the shelter is empty instead of returning a blank string."
+    },
+    {
+      "code": "            f\"{pet.name} ({type(pet).__name__}) - Battery: {pet.battery}%, Mood: {pet.mood}\"",
+      "text": "type(pet).__name__ asks each object which class it came from, so a cat, a bird, and a dog each label themselves correctly with no extra work in the shelter."
+    },
+    {
+      "code": "            if pet.name.lower() == name.lower():",
+      "text": "Lowercasing both names makes the search case-insensitive, so \"rex\", \"Rex\", and \"REX\" all find the same pet."
+    },
+    {
+      "code": "        return None",
+      "text": "When the loop finishes without a match, the method hands back None, which is why the main body tests the result before calling a method on it."
+    },
+    {
+      "code": "shelter.add_pet(cat)",
+      "text": "This is composition in action: the pet objects now live inside a shelter object rather than in a loose list beside the code."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "robot_pets.py",
+      "content": "",
+      "fromExercise": "py-6-06"
+    },
+    {
+      "path": "run_shelter.py",
+      "content": "\"\"\"Sets up the robot pet classes from the previous section, then runs this program.\"\"\"\nimport builtins\nimport contextlib\nimport io\nimport os\nimport runpy\n\n# Load the pet classes quietly, so only the shelter program's output is shown.\nwith contextlib.redirect_stdout(io.StringIO()):\n    pets = runpy.run_path(\"robot_pets.py\")\n\nfor name in (\"RobotPet\", \"RobotCat\", \"RobotBird\", \"RobotDog\"):\n    setattr(builtins, name, pets[name])\n\nhere = os.path.dirname(os.path.abspath(__file__))\nfor filename in sorted(os.listdir(here)):\n    if filename.endswith(\".py\") and filename not in (\"run_shelter.py\", \"robot_pets.py\"):\n        runpy.run_path(os.path.join(here, filename), run_name=\"__main__\")\n        break\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "run_shelter.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

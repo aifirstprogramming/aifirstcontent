@@ -1,0 +1,29 @@
+{
+  "summary": "This is a fragment of a Maven build file (pom.xml) that adds the Mockito library to the project so tests can create fake stand-ins for real objects, such as a TemperatureSensor that does not exist yet.",
+  "lines": [
+    {
+      "code": "    <dependencies>",
+      "text": "Maven builds keep every outside library the project needs inside this one block, so adding a tool means declaring it here rather than downloading a file by hand."
+    },
+    {
+      "code": "        <!-- JUnit 5 dependency -->",
+      "text": "An XML comment marking where the JUnit 5 entry already sits; Mockito is added alongside JUnit, not instead of it, since Mockito supplies the fakes while JUnit still runs the tests."
+    },
+    {
+      "code": "            <artifactId>mockito-core</artifactId>",
+      "text": "The groupId and artifactId together name the exact library Maven should fetch, the way a first and last name identify one person; mockito-core is the mocking engine itself."
+    },
+    {
+      "code": "            <version>5.12.0</version>",
+      "text": "Pinning an exact version keeps the build reproducible, so the code that passes today does not break tomorrow when a newer Mockito is released."
+    },
+    {
+      "code": "            <scope>test</scope>",
+      "text": "The test scope makes Mockito available to test code only, keeping it out of the shipped application; mocking is a testing technique and production code should never depend on it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

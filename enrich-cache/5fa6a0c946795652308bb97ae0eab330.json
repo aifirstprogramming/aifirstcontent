@@ -1,0 +1,21 @@
+{
+  "summary": "This is the traditional first program in any language: it displays the text \"Hello, World!\" on the screen. In Python it takes exactly one line, with no setup or boilerplate around it.",
+  "lines": [
+    {
+      "code": "print(\"Hello, World!\")",
+      "text": "A complete Python program can be a single line. There is no class to declare and no main function to define \top from top to bottom, which is a large part of why Python is a good first language."
+    },
+    {
+      "code": "print",
+      "text": "print is a built-in function, so it is always available without importing anything. The parentheses after the name are how you call it, and whatever you put inside them is what gets displayed."
+    },
+    {
+      "code": "\"Hello, World!\"",
+      "text": "Text in Python must be wrapped in quotation marks, which makes it a string. Without the quotes Python would read Hello as the name of something you had defined earlier and report an error."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

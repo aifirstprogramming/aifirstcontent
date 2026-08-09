@@ -1,0 +1,36 @@
+{
+  "summary": "This small application puts the two bakery domain classes to work: it makes one plain Cookie and one DecoratedCookie, then prints the description each object returns about itself.",
+  "lines": [
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "Calling the constructor with new builds one actual cookie in memory from the Cookie blueprint, and the flavor you pass in is stored inside that object."
+    },
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday\");",
+      "text": "A DecoratedCookie is created exactly the same way, because a subclass is still a full-fledged class you can instantiate; \"Birthday\" here is the decoration theme rather than a flavor."
+    },
+    {
+      "code": "        System.out.println(regular.describe());",
+      "text": "The describe() method returns a String rather than printing it, so the application decides where the text goes — here to the console."
+    },
+    {
+      "code": "        System.out.println(decorated.describe());",
+      "text": "This is the same method name as above, but DecoratedCookie overrides describe(), so each object runs its own version and the output differs."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "",
+      "fromExercise": "java-5-07"
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "",
+      "fromExercise": "java-5-08"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

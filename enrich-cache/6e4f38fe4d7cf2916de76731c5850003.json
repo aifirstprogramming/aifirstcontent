@@ -1,0 +1,25 @@
+{
+  "summary": "This program counts down from 5 to 1, pausing one second between each number, then announces blastoff. It shows how a for loop can run backward using a third argument to range.",
+  "lines": [
+    {
+      "code": "import time",
+      "text": "The time module is part of Python's standard library, and it gives us the sleep function used below to make the countdown feel like a real countdown."
+    },
+    {
+      "code": "for i in range(5, 0, -1):",
+      "text": "The third argument, -1, is the step: instead of adding 1 each pass, the loop subtracts 1. Since the loop stops before reaching the second number, the stop value must be 0 for the countdown to include 1."
+    },
+    {
+      "code": "    time.sleep(1)",
+      "text": "Pausing the program for one second on each pass is what stretches the five numbers over five seconds rather than printing them all instantly."
+    },
+    {
+      "code": "print(\"🚀 Blastoff!\")",
+      "text": "This line sits outside the loop, with no indentation, so it runs once after the countdown finishes rather than after every number."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

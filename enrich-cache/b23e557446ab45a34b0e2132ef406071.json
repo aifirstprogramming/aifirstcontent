@@ -1,0 +1,29 @@
+{
+  "summary": "This version of the RobotPet class guards its battery level: instead of storing whatever number it is handed, it clamps the value into the range 0 to 100. The charge() method adds to the battery and relies on that guard to stop at a full charge.",
+  "lines": [
+    {
+      "code": "        self.battery = battery",
+      "text": "Even inside the constructor, this assignment goes through the battery setter rather than storing the value directly, so a robot pet created with a battery of 150 starts at 100."
+    },
+    {
+      "code": "    @property\n    def battery(self):\n        return self._battery",
+      "text": "The @property decorator turns battery into an attribute that is really a method call, so pet.battery still reads like plain data while the class keeps control of it."
+    },
+    {
+      "code": "    @battery.setter\n    def battery(self, value):",
+      "text": "The setter is the gatekeeper: every time anything writes to pet.battery, this method runs first and decides what actually gets stored."
+    },
+    {
+      "code": "            self._battery = 100",
+      "text": "The underscore name is where the real value lives. Writing self._battery here rather than self.battery is essential, because assigning to self.battery would call the setter again and loop forever."
+    },
+    {
+      "code": "        self.battery += amount",
+      "text": "Because charge() adds through the property instead of touching _battery, the clamping happens automatically, and this is exactly the behaviour the unit test for charge() will check."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

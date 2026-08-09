@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores the average weight of an apple and an orange as decimal numbers, averages the two values, and prints the result in a sentence.",
+  "lines": [
+    {
+      "code": "apple_weight = 0.33",
+      "text": "A number written with a decimal point is a float, Python's type for fractional values, which is what you need for a weight in pounds rather than a whole count."
+    },
+    {
+      "code": "average_weight = (apple_weight + orange_weight) / 2",
+      "text": "The parentheses matter: they force the addition to happen first, so the sum is divided by 2. Without them, Python's order of operations would divide only orange_weight by 2 and give a different answer."
+    },
+    {
+      "code": "average_weight = (apple_weight + orange_weight) / 2",
+      "text": "Note that the prompt asked to add the two weights while the code averages them; when your description is loose, the AI picks one reading, so read the result before trusting it."
+    },
+    {
+      "code": "print(\"The average weight of an apple and an orange is\", average_weight, \"pounds.\")",
+      "text": "Passing print several arguments separated by commas lets you mix text with a number directly, and Python puts a single space between each piece automatically."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

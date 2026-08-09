@@ -1,0 +1,25 @@
+{
+  "summary": "This program works out how many people a cake will serve when each guest gets two slices, and how many slices are left over. It uses the division operator to get the number of guests and the modulus operator to get the remainder.",
+  "lines": [
+    {
+      "code": "        int slicesAvailable = 23;",
+      "text": "Starting with 23 slices and a portion size of 2 gives a division that does not come out even, which is exactly what makes the leftover interesting."
+    },
+    {
+      "code": "        int peopleFullyServed = slicesAvailable / slicesPerPerson; // integer division",
+      "text": "Because both operands are int, Java performs integer division and throws away any fraction, so 23 / 2 is 11 rather than 11.5 — and that is the honest answer here, since half a portion does not fully serve anyone."
+    },
+    {
+      "code": "        int leftoverSlices = slicesAvailable % slicesPerPerson;    // modulus (remainder)",
+      "text": "The modulus operator returns what division discarded, which is the single slice left for the guest of honor to take home."
+    },
+    {
+      "code": "        System.out.println(\"People fully served: \" + peopleFullyServed);",
+      "text": "Names like peopleFullyServed and slicesPerPerson attach meaning to the numbers, so the calculation reads like the question it answers instead of a bare 23 / 2."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

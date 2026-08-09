@@ -1,0 +1,25 @@
+{
+  "summary": "This program declares two boolean variables, prints their values, and then combines them with logical operators to work out a third value. It shows that a boolean can only ever hold true or false, and that Java can calculate one boolean from others.",
+  "lines": [
+    {
+      "code": "        boolean isJavaFun = true;",
+      "text": "A boolean variable stores one of exactly two values, true or false. Notice that true is a Java keyword, not the text \"true\" in quotes, so no quotation marks belong here."
+    },
+    {
+      "code": "        System.out.println(\"isJavaFun = \" + isJavaFun);",
+      "text": "When a boolean is joined to a string with +, Java converts it to the word true or false for display, which is why the output reads as plain English."
+    },
+    {
+      "code": "        boolean readyToShip = isJavaFun && !hasBugs;",
+      "text": "This is the logical part: ! flips hasBugs from false to true, and && demands that both sides be true before the whole expression is true. The value is computed from the other two variables rather than typed in by hand."
+    },
+    {
+      "code": "        System.out.println(\"readyToShip = \" + readyToShip);",
+      "text": "The result is true here because Java is fun and there are no bugs; change either starting variable and this line reports a different answer, which is the decision tree in action."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,25 @@
+{
+  "summary": "This is the smart thermostat class, now with a method that writes its current mode to the device display. The status logic itself is unchanged: the thermostat reports Heating, Cooling, or Idle based on the current temperature and whether eco mode is on.",
+  "lines": [
+    {
+      "code": "        int heatingThreshold = ecoMode ? 65 : 68;",
+      "text": "The conditional operator picks one of two values: 65 when ecoMode is true, otherwise 68. Eco mode lets the room get colder before the heat kicks in, which is exactly the behavior a test can pin down."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "If neither the heating nor the cooling check fired, the temperature sits between the two thresholds and the thermostat has nothing to do. Because the earlier ifs return, reaching this line means the comfortable range."
+    },
+    {
+      "code": "    public void printStatusToDisplay() {",
+      "text": "The return type void means this method hands nothing back to its caller \\a a test discovers the problem this creates: there is no value to assert on, only a side effect on the console."
+    },
+    {
+      "code": "        System.out.println(\"Thermostat status: \" + getStatus());",
+      "text": "The new method calls getStatus() rather than repeating the threshold logic, so the display can never disagree with the thermostat's actual mode."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,29 @@
+{
+  "summary": "This program stores one whole number in a short variable and a larger one in an int, then shows what happens when the two are used together in arithmetic. It prints both values along with their sum and the doubled short.",
+  "lines": [
+    {
+      "code": "        short shortValue = 12_345;          // 16-bit",
+      "text": "A short reserves only 16 bits, so it holds whole numbers from -32,768 to 32,767 — enough for 12,345 but nowhere near a million. The underscores in the literal are purely for readability; Java ignores them, so 12_345 and 12345 are the same number."
+    },
+    {
+      "code": "        int intValue = 1_000_000;           // 32-bit",
+      "text": "An int uses 32 bits and comfortably holds a million, which is why it is the everyday choice for whole numbers when memory is not tight."
+    },
+    {
+      "code": "        int sum = shortValue + intValue;    // short promoted to int",
+      "text": "Java automatically widens the short to an int before adding, because moving to a larger type cannot lose any part of the value. This is implicit widening casting, and you never have to ask for it."
+    },
+    {
+      "code": "        short doubled = (short) (shortValue * 2); // cast back to short",
+      "text": "Multiplying a short produces an int result, so storing it back into a short is a narrowing conversion that Java refuses to do on its own. The (short) in front is you taking responsibility for the fit — and since 24,690 is under 32,767, nothing is lost here."
+    },
+    {
+      "code": "        System.out.println(\"short: \" + shortValue);",
+      "text": "The + between a string and a number is concatenation, not addition: Java converts shortValue to text and joins it onto the label."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

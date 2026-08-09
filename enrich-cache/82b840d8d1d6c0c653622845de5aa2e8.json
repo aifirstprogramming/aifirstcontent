@@ -1,0 +1,33 @@
+{
+  "summary": "This version of the temperature converter adds a finally block, so a farewell message always prints when the program finishes — whether the conversion succeeded or an exception was caught. The rest of the program still loops until the user types a numeric Celsius value inside the allowed range.",
+  "lines": [
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "Declaring the Scanner inside the parentheses of the try makes it a try-with-resources, so Java closes the scanner for you when the block ends. This is the same \"clean up after the meal\" idea the finally block handles for anything Java cannot close automatically."
+    },
+    {
+      "code": "                        System.out.print(\"Out of range. Enter a value between -273.15 and 100: \");",
+      "text": "An out-of-range temperature is not treated as a crash-worthy error; the user is simply asked again, which is the friendlier choice for input typed by a person."
+    },
+    {
+      "code": "                } catch (NumberFormatException e) {",
+      "text": "This inner catch handles only the specific failure of Double.parseDouble on text that is not a number, leaving the outer catch free to deal with anything else that might go wrong."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "The outer catch is the safety net for unexpected problems, and catching the general Exception type means nothing escapes without a readable message."
+    },
+    {
+      "code": "        } finally {",
+      "text": "The finally block is the only change from the previous version, and it runs no matter what happens above it — successful conversion, caught exception, or otherwise."
+    },
+    {
+      "code": "            System.out.println(\"Exiting temperature converter.\");",
+      "text": "Because it lives in finally, this closing message is guaranteed, which is exactly where you would put code that releases files, database connections, or other resources."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "abc\n200\n25\n",
+  "expectsUncaughtException": false
+}

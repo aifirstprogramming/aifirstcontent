@@ -1,0 +1,31 @@
+{
+  "summary": "This program builds a library as an ArrayList of Book objects, prints them, and then demonstrates three more List methods: remove() to take a book off the shelf, contains() to ask whether a particular book is present, and isEmpty() to check whether the shelf has anything left on it.",
+  "lines": [
+    {
+      "code": "        System.out.println(\"Total number of books after adding duplicate: \" + books.size());",
+      "text": "Because a List allows duplicates, the second copy of The Hobbit really is stored, and the count rises to four — which is what makes the removal that follows worth watching closely."
+    },
+    {
+      "code": "        books.remove(hobbit);",
+      "text": "remove() deletes only the first matching element, not every match, so donating one copy of The Hobbit leaves the other still on the shelf."
+    },
+    {
+      "code": "        System.out.println(\"\\nContains 'Pride and Prejudice'?: \" + books.contains(pride));",
+      "text": "contains() compares the item you pass in against each element in the list and returns a boolean; here it is true because pride is the very same Book object that was added earlier."
+    },
+    {
+      "code": "        System.out.println(\"\\nIs the library empty?: \" + books.isEmpty());",
+      "text": "isEmpty() states the question directly instead of writing size() == 0, and it reports false because books still remain after the removal."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

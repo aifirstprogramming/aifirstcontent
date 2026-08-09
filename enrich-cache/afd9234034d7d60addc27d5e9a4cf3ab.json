@@ -1,0 +1,25 @@
+{
+  "summary": "This is the traditional first Java program: it prints the single line \"Hello, World!\" to the screen and then ends. Everything else in the file is the minimum structure Java requires before you are allowed to run one statement.",
+  "lines": [
+    {
+      "code": "public class HelloWorld {",
+      "text": "Every Java statement lives inside a class, and the class name must match the file name exactly, so this code has to be saved as HelloWorld.java. Getting this pair out of step is the most common first error a beginner meets."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the entry point: when you run the program, Java looks for a method with precisely this signature and starts there. The words are not decoration, and changing any of them means Java can no longer find where to begin."
+    },
+    {
+      "code": "        System.out.println(\"Hello, World!\");",
+      "text": "System.out is the standard output stream (your console) and println writes the text followed by a newline. The text in double quotes is a string literal, printed exactly as typed, and the semicolon ends the statement."
+    },
+    {
+      "code": "}",
+      "text": "Braces come in pairs and close in the reverse order they were opened: this last one closes the class, after the inner braces have closed main. Indentation is only for human readers, but keeping it tidy is how you spot a missing brace."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

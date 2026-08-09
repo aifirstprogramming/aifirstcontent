@@ -1,0 +1,35 @@
+{
+  "summary": "This program stores a playlist in a Queue so songs are played strictly in the order they were added, then drains the queue one song at a time. It shows the three core queue operations: offer to add at the back, peek to look at the front, and poll to remove from the front.",
+  "lines": [
+    {
+      "code": "        Queue<Song> songQueue = new LinkedList<>();",
+      "text": "The variable is typed as Queue but built from a LinkedList, so the code can only use the queue's first-in, first-out operations even though the underlying object could do more. This is what keeps a song from jumping the line."
+    },
+    {
+      "code": "        songQueue.offer(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "The offer method tries to add the song to the back of the queue and returns false if it cannot, rather than throwing an exception the way add would."
+    },
+    {
+      "code": "        System.out.println(songQueue.peek());",
+      "text": "Peeking reports which song is up next without removing it, exactly like a streaming service showing the next episode before it plays."
+    },
+    {
+      "code": "            Song playing = songQueue.poll();",
+      "text": "Each call to poll removes and returns the song at the front of the queue, which is why the loop condition eventually becomes false and the drain terminates."
+    },
+    {
+      "code": "        System.out.println(\"Queue after processing all songs: \" + songQueue);",
+      "text": "Because polling removes items as it processes them, the queue is empty at the end and prints as an empty pair of brackets."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

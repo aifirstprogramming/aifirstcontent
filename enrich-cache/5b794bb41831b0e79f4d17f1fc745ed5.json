@@ -1,0 +1,29 @@
+{
+  "summary": "This program shows Java's boolean type, which holds only true or false. It creates booleans directly, derives them from number comparisons, and combines them with logical operators, printing each result.",
+  "lines": [
+    {
+      "code": "        boolean isJavaFun = true;",
+      "text": "A boolean variable has exactly two possible values, true and false, written as bare keywords with no quotation marks."
+    },
+    {
+      "code": "        boolean allPassed = passedTests == totalTests;",
+      "text": "A comparison is itself an expression that produces a boolean, so the result of == can be stored in a variable rather than tested immediately. Note that == compares values while a single = assigns, which is a common slip."
+    },
+    {
+      "code": "        boolean needsAttention = !allPassed && anyPassed;",
+      "text": "The ! operator flips a boolean to its opposite and && produces true only when both sides are true, so this variable means that not everything passed but something did."
+    },
+    {
+      "code": "        boolean readyToSubmit = isJavaFun && !hasErrors && allPassed;",
+      "text": "Several conditions can be chained with && to form a single yes-or-no answer; because allPassed is false here, readyToSubmit is false no matter what the other two say."
+    },
+    {
+      "code": "        System.out.println(\"needsAttention: \" + needsAttention);",
+      "text": "Joining a boolean to a string with + converts it automatically to the text true or false, which is how the program reports its results without any if statement."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

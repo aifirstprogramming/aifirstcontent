@@ -1,0 +1,35 @@
+{
+  "summary": "This program builds a library as a list of Book objects instead of a list of plain title strings, then prints the collection, reports its size, fetches the first book by position, and shows that a List happily accepts the same book twice.",
+  "lines": [
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The type inside the angle brackets is now Book, so every slot in this collection holds a whole object with a title, an author, and a genre rather than a single piece of text. The variable is declared as the List interface but created as an ArrayList, the flexible resizable implementation."
+    },
+    {
+      "code": "        books.add(new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\"));",
+      "text": "Each call creates a Book object on the spot and hands it to .add(), which appends it to the end of the list. The three constructor arguments must be given in the order the Book class declares them."
+    },
+    {
+      "code": "            System.out.println(book);",
+      "text": "Printing an object calls its toString method automatically, which is why the Book class defines one — without it you would see a cryptic class name and hash code instead of the book's details."
+    },
+    {
+      "code": "        System.out.println(\"First book: \" + books.get(0));",
+      "text": "A List keeps its items in order and numbers them from zero, so .get(0) returns the first Book that was added. Asking for a position that does not exist throws an exception, so index numbering matters."
+    },
+    {
+      "code": "        books.add(new Book(\"The Hobbit\", \"J.R.R. Tolkien\", \"Fantasy\"));",
+      "text": "This is a second, separate Book object that happens to carry the same values, and a List allows duplicates without complaint. The size grows to four, which is the behaviour a Set will change later in the chapter."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

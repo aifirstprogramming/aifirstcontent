@@ -1,0 +1,31 @@
+{
+  "summary": "This short program creates three House objects — one for each famous fictional address — and tries to print each one with System.out.println. The output is not what you would hope for, which is exactly the lesson.",
+  "lines": [
+    {
+      "code": "        House privetDrive = new House(\"4 Privet Drive\", 3, 2.5);",
+      "text": "Each call to new builds a brand-new House object in memory and hands back a reference to it, which we store in a variable. The three values in parentheses are passed to the constructor in the order it declares them: address, bedrooms, then bathrooms."
+    },
+    {
+      "code": "        System.out.println(privetDrive);",
+      "text": "Printing an object does not print its fields. Java quietly calls the object's toString method, and since House has not supplied one, you get the inherited default: the class name plus an @ and a hexadecimal hash code, such as House@1b6d3586."
+    },
+    {
+      "code": "        House holmesHouse = new House(\"221B Baker Street\", 1, 1.0);",
+      "text": "Notice that 1.0 is written with a decimal point because the bathrooms field is a double; passing a whole-number literal like 1 would work here through automatic widening, but writing 1.0 makes the type you mean obvious."
+    },
+    {
+      "code": "        House friendsHouse = new House(\"90 Bedford Street\", 2, 1.0);",
+      "text": "Three separate objects now exist from the same class, each with its own copy of the fields. The class is the blueprint; these are three independent houses built from it."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "House.java",
+      "content": "",
+      "fromExercise": "java-5-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

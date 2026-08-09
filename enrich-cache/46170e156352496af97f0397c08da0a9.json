@@ -1,0 +1,17 @@
+{
+  "summary": "This program stores the number 42 in a variable and prints it to the console. It is the same shape as the reminder example, but the variable holds a number instead of text.",
+  "lines": [
+    {
+      "code": "        int number = 42;",
+      "text": "The type comes first: `int` tells Java this variable holds a whole number, so the value 42 is stored as a number rather than as text. Try changing 42 to your own favorite number and running the program again."
+    },
+    {
+      "code": "        System.out.println(number);",
+      "text": "There are no quotation marks around `number`, so Java prints the value stored in the variable rather than the word \"number\". Wrapping it in quotes is the most common beginner slip here."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

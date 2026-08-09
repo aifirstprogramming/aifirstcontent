@@ -1,0 +1,35 @@
+{
+  "summary": "This is the thermostat's JUnit test class with a second test added for the new eco mode feature. One test checks that a cold room reports \"Heating\", and the new one checks that with eco mode on, a cooler room is still considered comfortable.",
+  "lines": [
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "The original test is left untouched. Re-running it after adding eco mode is regression testing: it proves the new feature did not break the behavior that already worked."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(60, false);",
+      "text": "Each test builds its own thermostat, so the two tests can never interfere with one another. Passing false here keeps eco mode off and exercises the original thresholds."
+    },
+    {
+      "code": "    void ecoModeAllowsCoolerTemperaturesBeforeHeating() {",
+      "text": "A test method name is documentation. Reading it tells you the requirement being verified without looking at a single line inside the method."
+    },
+    {
+      "code": "        Thermostat thermostatEco = new Thermostat(66, true);",
+      "text": "The true argument turns eco mode on, which is what shifts the heating threshold downward inside getStatus()."
+    },
+    {
+      "code": "        assertEquals(\"Idle\", thermostatEco.getStatus());",
+      "text": "66 degrees would have triggered heating before, but with eco mode on the expected status is \"Idle\". The expected value always comes first in assertEquals, followed by the actual result."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-05"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

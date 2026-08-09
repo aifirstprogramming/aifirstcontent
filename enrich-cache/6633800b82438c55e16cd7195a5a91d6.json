@@ -1,0 +1,35 @@
+{
+  "summary": "This version of the playlist app copies the sorted playlist into a LinkedList, then inserts a new song at a chosen position and removes another one by index, printing the playlist after each change so you can see the chain relink.",
+  "lines": [
+    {
+      "code": "        LinkedList<Song> linked = new LinkedList<>(playlist);",
+      "text": "Passing the existing playlist to the LinkedList constructor copies every song across, so you keep the same songs in a structure where each entry holds a reference to the ones before and after it instead of a fixed position."
+    },
+    {
+      "code": "        int insertAt = 1; // between Respect and One More Time",
+      "text": "Because indexes start at 0, index 1 is the second slot in the playlist; naming the position in a variable also makes the printed messages below match exactly what happened."
+    },
+    {
+      "code": "        linked.add(insertAt, new Song(\"Songbird\", \"Fleetwood Mac\", \"Rock\", 2));",
+      "text": "The two-argument add() puts the song at that position by relinking its neighbours, rather than shifting all the songs after it the way an ArrayList would."
+    },
+    {
+      "code": "        Song removed = linked.remove(removeAt);",
+      "text": "Removing by index returns the song that was taken out, which is why it can be stored and printed; note that the index refers to the list as it stands now, after the insertion."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getArtist));",
+      "text": "This earlier sort is why the LinkedList prints in artist order rather than the order the songs were added — the copy inherits whatever order the playlist was left in."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

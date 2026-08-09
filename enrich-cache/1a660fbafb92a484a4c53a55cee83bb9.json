@@ -1,0 +1,35 @@
+{
+  "summary": "This snippet swaps the playlist's PriorityQueue from plain strings to Song objects, ordering them by their energyLevel from highest to lowest. Draining the queue with poll() plays the most energetic song first, no matter what order the songs were added in.",
+  "lines": [
+    {
+      "code": "                Comparator.comparingInt(Song::getEnergyLevel).reversed());",
+      "text": "A PriorityQueue of domain objects has no natural order to fall back on, so it must be handed a Comparator. comparingInt pulls the int out of each Song and orders it smallest first, and .reversed() flips that so the high-energy songs come off the front."
+    },
+    {
+      "code": "        energyQueue.addAll(playlist);",
+      "text": "The songs are copied out of the existing playlist in one call, and each one sifts into position in the heap as it arrives. The original list is left untouched and still in its own order."
+    },
+    {
+      "code": "        while (!energyQueue.isEmpty()) {",
+      "text": "Reading a priority queue is destructive: the loop keeps going until the queue is empty because each poll() removes a song. Printing energyQueue directly would show the heap's internal layout, not a tidy high-to-low list."
+    },
+    {
+      "code": "            Song nextSong = energyQueue.poll(); // highest energy first",
+      "text": "poll() removes and returns the head, which under this comparator is always the highest-energy song remaining. Because the isEmpty() check guards the loop, poll() never returns null here."
+    },
+    {
+      "code": "            System.out.println(\"Playing: \" + nextSong);",
+      "text": "Concatenating a Song into a string calls its toString(), which is why the Song class defines one — without it you would see a class name and a hash code."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "EnergyPlaylistDemo.java",
+      "content": "import java.util.ArrayList;\nimport java.util.Comparator;\nimport java.util.List;\nimport java.util.PriorityQueue;\n\n// Runnable harness: supplies the playlist that the printed snippet assumes\n// has already been built earlier in PlaylistApp.\npublic class EnergyPlaylistDemo {\n\n    static class Song {\n        private final String title;\n        private final String artist;\n        private final int energyLevel;\n\n        Song(String title, String artist, int energyLevel) {\n            this.title = title;\n            this.artist = artist;\n            this.energyLevel = energyLevel;\n        }\n\n        public int getEnergyLevel() {\n            return energyLevel;\n        }\n\n        @Override\n        public String toString() {\n            return title + \" by \" + artist + \" (energy \" + energyLevel + \")\";\n        }\n    }\n\n    public static void main(String[] args) {\n        List<Song> playlist = new ArrayList<>();\n        playlist.add(new Song(\"Bohemian Rhapsody\", \"Queen\", 7));\n        playlist.add(new Song(\"Blinding Lights\", \"The Weeknd\", 9));\n        playlist.add(new Song(\"Someone Like You\", \"Adele\", 3));\n        playlist.add(new Song(\"Uptown Funk\", \"Bruno Mars\", 10));\n        playlist.add(new Song(\"Fix You\", \"Coldplay\", 4));\n\n        System.out.println(\"\\n--- Priority Playlist (Songs by Energy, High \\u2192 Low) ---\");\n        PriorityQueue<Song> energyQueue = new PriorityQueue<>(\n                Comparator.comparingInt(Song::getEnergyLevel).reversed());\n        energyQueue.addAll(playlist);\n\n        System.out.println(\"Processing by energy with poll():\");\n        while (!energyQueue.isEmpty()) {\n            Song nextSong = energyQueue.poll();\n            System.out.println(\"Playing: \" + nextSong);\n        }\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "EnergyPlaylistDemo.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores a reminder message in a variable and then prints that variable to the console. It is the first step beyond printing text directly: the text now lives in a named container that can be reused and changed in one place.",
+  "lines": [
+    {
+      "code": "        String reminder = \"Don't forget to submit the report by 5 PM.\";",
+      "text": "Java requires you to state the type of data a variable holds, so the declaration begins with String, the type used for text. The name reminder is the label you use to refer to that text later, and the value in double quotes is what gets stored in it."
+    },
+    {
+      "code": "        System.out.println(reminder);",
+      "text": "Notice there are no quotation marks here: passing reminder without quotes tells Java to look up the value stored in the variable, whereas \"reminder\" would print the word itself."
+    },
+    {
+      "code": "public class DisplayReminder {",
+      "text": "The class name must match the file name exactly, so this code belongs in a file called DisplayReminder.java."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

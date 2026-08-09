@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks the user to type their name at the console and then greets them by name. It is the same program as before, except the Scanner class is brought in with an import statement at the top instead of being spelled out with its full package name inside the code.",
+  "lines": [
+    {
+      "code": "import java.util.Scanner;",
+      "text": "The import tells Java once, at the top of the file, that \"Scanner\" means the Scanner class in the java.util package. This is the alternative to writing java.util.Scanner everywhere the class is used, and it is what you ask the AI for when it generates the full package name inline."
+    },
+    {
+      "code": "        Scanner scanner = new Scanner(System.in);",
+      "text": "Because of the import, the class needs only its short name here. The Scanner is attached to System.in, the console, so it reads whatever the user types."
+    },
+    {
+      "code": "        System.out.print(\"Enter your name: \");",
+      "text": "print is used rather than println so the cursor stays on the same line, letting the user type their answer right after the prompt."
+    },
+    {
+      "code": "        String name = scanner.nextLine();",
+      "text": "nextLine() waits for the user to press Enter and hands back the whole line as text, which is stored in the name variable for later use."
+    },
+    {
+      "code": "        scanner.close();",
+      "text": "Closing the Scanner releases the console input so the program is not left waiting for more typing, freeing it up for whatever comes next."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "Ada Lovelace\n",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,39 @@
+{
+  "summary": "This is the farmers' market app with two stream pipelines updated: the vendor list is now deduplicated and alphabetized inside the pipeline, and the vendor menu is cut off after three items. It shows how sorting, deduplicating, and limiting are each just another step added to a stream.",
+  "lines": [
+    {
+      "code": "        List<String> vendors = getVendorSet(products);",
+      "text": "The variable is now a List<String> rather than a Set<String>, because the pipeline itself handles both the uniqueness and the ordering instead of relying on a collection type to force them."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "This earlier pipeline was already sorting, comparing organic summer items by price from low to high exactly the way Comparator.comparing worked for collections in Chapter 8."
+    },
+    {
+      "code": "                .distinct()",
+      "text": "distinct() drops repeated vendor names as they flow through, playing the same role HashSet did in Chapter 7 but without creating a separate collection to hold them."
+    },
+    {
+      "code": "                .sorted()",
+      "text": "With no comparator supplied, sorted() uses the natural order of the elements, which for strings is alphabetical; the original products list is untouched."
+    },
+    {
+      "code": "                // .sorted(Comparator.comparing(MarketProduct::getName))",
+      "text": "This step is left commented out on purpose so you can see that order in the pipeline matters: sorting before the limit would give the three alphabetically first items instead of the first three found."
+    },
+    {
+      "code": "                .limit(3)",
+      "text": "limit(3) stops the pipeline once three menu lines exist, which is what a vendor with a small display board needs."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "FarmersMarketAppRunner.java",
+      "content": "import java.util.ArrayList;\nimport java.util.Comparator;\nimport java.util.List;\nimport java.util.stream.Collectors;\n\n// Runnable driver for the pipelines shown in FarmersMarketApp. It carries a small\n// stand-in product class and sample data so the sorted, distinct, and limit steps\n// can be executed and their output compared.\npublic class FarmersMarketAppRunner {\n\n    static class Product {\n        private final String name;\n        private final double price;\n        private final boolean organic;\n        private final String season;\n        private final String vendor;\n\n        Product(String name, double price, boolean organic, String season, String vendor) {\n            this.name = name;\n            this.price = price;\n            this.organic = organic;\n            this.season = season;\n            this.vendor = vendor;\n        }\n\n        public String getName() { return name; }\n        public double getPrice() { return price; }\n        public boolean isOrganic() { return organic; }\n        public String getSeason() { return season; }\n        public String getVendor() { return vendor; }\n    }\n\n    public static void main(String[] args) {\n        List<Product> products = new ArrayList<>();\n        products.add(new Product(\"Heirloom Tomatoes\", 4.50, true, \"Summer\", \"Green Acres\"));\n        products.add(new Product(\"Sweet Corn\", 3.25, true, \"Summer\", \"Green Acres\"));\n        products.add(new Product(\"Sourdough Loaf\", 6.00, false, \"All\", \"Baker's Lane\"));\n        products.add(new Product(\"Blueberry Scone\", 3.75, false, \"Summer\", \"Baker's Lane\"));\n        products.add(new Product(\"Cinnamon Roll\", 4.25, false, \"All\", \"Baker's Lane\"));\n        products.add(new Product(\"Apple Turnover\", 3.95, false, \"Fall\", \"Baker's Lane\"));\n        products.add(new Product(\"Goat Cheese\", 7.50, true, \"Summer\", \"Hillside Dairy\"));\n\n        List<String> organicSummerNames = products.stream()\n                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))\n                .sorted(Comparator.comparingDouble(Product::getPrice))\n                .map(Product::getName)\n                .collect(Collectors.toList());\n        System.out.println(\"\\nOrganic summer items by price: \" + organicSummerNames);\n\n        List<String> vendors = products.stream()\n                .map(Product::getVendor)\n                .filter(v -> v != null && !v.isBlank())\n                .distinct()\n                .sorted()\n                .collect(Collectors.toList());\n        System.out.println(\"\\nVendors (sorted): \" + vendors);\n\n        String vendor = \"Baker's Lane\";\n        List<String> menu = products.stream()\n                .filter(p -> p.getVendor() != null && p.getVendor().equalsIgnoreCase(vendor))\n                .map(p -> p.getName() + \" - $\" + String.format(\"%.2f\", p.getPrice()))\n                .limit(3)\n                .collect(Collectors.toList());\n        System.out.println(\"\\n\" + vendor + \" menu:\");\n        menu.forEach(System.out::println);\n\n        List<Double> discountedPrices = products.stream()\n                .filter(p -> p.getVendor() != null && p.getVendor().equalsIgnoreCase(vendor))\n                .map(p -> Math.round(p.getPrice() * 0.90 * 100) / 100.0)\n                .collect(Collectors.toList());\n        System.out.println(\"\\nDiscounted prices for \" + vendor + \": \" + discountedPrices);\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "FarmersMarketAppRunner.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

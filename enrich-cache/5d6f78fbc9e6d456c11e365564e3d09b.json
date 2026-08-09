@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores Sam's three winter clothing items in a tuple and then uses tuple unpacking to move each item into its own named variable, so the rest of the code can talk about a hat, outerwear, and shoes instead of positions.",
+  "lines": [
+    {
+      "code": "winter_gear = (\"Beanie\", \"Parka\", \"Boots\")",
+      "text": "Sam's clothes start packed tightly together in a single tuple, where each item is only identified by its position in the parentheses."
+    },
+    {
+      "code": "hat, outerwear, shoes = winter_gear",
+      "text": "This is the unpacking itself: one line hands out the three values in the tuple to three new variables, in order, so \"Beanie\" lands in hat and \"Boots\" lands in shoes. The number of variables on the left has to match the number of items in the tuple exactly, or Python raises a ValueError."
+    },
+    {
+      "code": "print(f\"Sam's Winter Gear:\")",
+      "text": "The f prefix here is harmless but unnecessary, since this string has no {} placeholders to fill in — a plain string would print the same heading."
+    },
+    {
+      "code": "print(f\"Hat: {hat}\")",
+      "text": "Because the value now lives in a variable with an English name, the print statement reads like a sentence; compare this to writing winter_gear[0] and having to remember what position zero meant."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

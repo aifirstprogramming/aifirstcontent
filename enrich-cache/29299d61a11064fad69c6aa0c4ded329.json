@@ -1,0 +1,29 @@
+{
+  "summary": "This program keeps a travel packing list in a List of Strings, prints it as a numbered list, then adds one item and removes another before printing the list again to confirm the changes.",
+  "lines": [
+    {
+      "code": "        items.add(\"Socks\"); // Add a duplicate item",
+      "text": "A List happily holds the same value more than once, which is exactly what a packing list needs when you are bringing several pairs of socks for a multi-day trip."
+    },
+    {
+      "code": "            System.out.println((i + 1) + \". \" + items.get(i));",
+      "text": "List positions start at 0, so the loop counter is printed as i + 1 to give the human-friendly numbering people expect on a checklist, while items.get(i) still uses the real index."
+    },
+    {
+      "code": "        System.out.println(\"\\nAdding 'Shampoo' to the list...\");",
+      "text": "The \\n inside the text is an escape sequence that produces a blank line, separating the first printed list from the messages that follow."
+    },
+    {
+      "code": "        items.remove(\"Socks\");",
+      "text": "Removing by name deletes only the first matching item, so the second \"Socks\" stays in the list; this is the behavior to expect whenever duplicates are present."
+    },
+    {
+      "code": "        for (int i = 0; i < items.size(); i++) {",
+      "text": "Because the loop asks the list for its own size each time rather than hard-coding 4, printing the list again after adding and removing items needs no changes at all."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

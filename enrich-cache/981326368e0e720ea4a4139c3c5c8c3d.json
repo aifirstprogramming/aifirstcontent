@@ -1,0 +1,31 @@
+{
+  "summary": "This program builds a list of Book objects and then creates a HashMap that pairs each book's title with its author, so an author can be retrieved by title in a single step. It looks up \"The Hobbit\" and prints the matching author.",
+  "lines": [
+    {
+      "code": "        Map<String, String> bookAuthors = new HashMap<>();",
+      "text": "The variable is declared with the Map interface but created as a HashMap, the common subtype; the two type parameters say the keys are Strings (titles) and the values are Strings (authors)."
+    },
+    {
+      "code": "            bookAuthors.put(book.getTitle(), book.getAuthor());",
+      "text": "The .put() method stores a key-value pair, so each pass through the loop files one book's author under its title. Keys are unique, so putting the same title twice would replace the earlier author rather than add a second entry."
+    },
+    {
+      "code": "        String author = bookAuthors.get(titleToLookUp);",
+      "text": "This is the payoff of the map: .get() jumps straight to the pair stored under that key instead of looping through every Book and comparing titles. If no book had that title, .get() would hand back null."
+    },
+    {
+      "code": "        // Create a set of genres, print genres",
+      "text": "These trailing comments are the earlier tasks in the library example, left in place as a record of what the class has been asked to do; the new map code was inserted above them, right after the books list is filled."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

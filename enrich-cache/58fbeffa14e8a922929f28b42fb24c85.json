@@ -1,0 +1,25 @@
+{
+  "summary": "This program makes three variables to hold how many apples, oranges, and bananas you have, then prints each count to the console.",
+  "lines": [
+    {
+      "code": "apples = 5",
+      "text": "The equals sign is not a question about equality; it puts the value 5 into a basket named apples. The name goes on the left, the value you are storing goes on the right."
+    },
+    {
+      "code": "bananas = 7",
+      "text": "Each basket holds its own value independently, so creating a third variable does not disturb the first two."
+    },
+    {
+      "code": "print(\"Apples:\", apples)",
+      "text": "The quoted text is printed literally, while apples without quotes prints the value stored inside it. Writing \"apples\" here would print the word rather than the number 5."
+    },
+    {
+      "code": "print(\"Oranges:\", oranges)",
+      "text": "Passing two things to print separated by a comma puts them on one line with a space between them, which is why the label and the count read naturally together."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

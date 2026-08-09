@@ -1,0 +1,39 @@
+{
+  "summary": "This is a test file that checks the RobotPet class behaves as expected. It uses Python's built-in unittest module to create a small set of automated checks that run every time you execute the file.",
+  "lines": [
+    {
+      "code": "class TestRobotPet(unittest.TestCase):",
+      "text": "A test class inherits from unittest.TestCase, which is what gives you the assert methods and lets the test runner discover the class."
+    },
+    {
+      "code": "    def setUp(self):",
+      "text": "setUp runs before every single test method, so each test gets its own freshly built pet and no test can be affected by changes another test made."
+    },
+    {
+      "code": "    def test_init_attributes(self):",
+      "text": "Every test method's name must begin with test_, or unittest will silently skip it — this is the most common reason a beginner's test \"passes\" without running."
+    },
+    {
+      "code": "        self.assertIn(\"Robo\", result)",
+      "text": "assertIn checks that the name appears somewhere inside the returned text, which is more robust than demanding the whole sentence match exactly."
+    },
+    {
+      "code": "        self.assertNotIn(\"Robo\", pet2.show_talent())",
+      "text": "Asserting what should not be there catches a real bug: a talent hard-coded to one name would still pass the earlier tests but fail here."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "This hands control to the test runner, which finds every test_ method in the file, runs them, and prints a dot per pass along with a summary."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-03"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

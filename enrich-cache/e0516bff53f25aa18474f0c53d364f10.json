@@ -1,0 +1,33 @@
+{
+  "summary": "This program prints a numbered pizza menu, reads the customer's choice from the keyboard, and either confirms the order or reports an invalid selection. It brings together an array, a for loop, a ternary operator, and an if/else statement.",
+  "lines": [
+    {
+      "code": "        String[] pizzas = {\"Margherita\", \"Pepperoni\", \"Veggie\"};",
+      "text": "The three menu items live in a single array rather than three separate variables, so the menu can be displayed with one loop and checked against one length."
+    },
+    {
+      "code": "            System.out.println((i + 1) + \". \" + pizzas[i]);",
+      "text": "Array positions start at 0, but a customer expects the menu to start at 1, so the loop prints i + 1 as the label while still reading pizzas[i]."
+    },
+    {
+      "code": "        int choice = scanner.hasNextInt() ? scanner.nextInt() : -1;",
+      "text": "The ternary operator asks hasNextInt() whether the waiting input really is a whole number before calling nextInt(). If someone types letters, choice becomes -1 instead of the program crashing."
+    },
+    {
+      "code": "        if (choice >= 1 && choice <= pizzas.length) {",
+      "text": "Both halves of the range must hold, which is why && joins them. Comparing against pizzas.length rather than the literal 3 means the check still works if you add a fourth pizza to the array."
+    },
+    {
+      "code": "            String selected = pizzas[choice - 1];",
+      "text": "Subtracting 1 converts the customer's menu number back into an array index, undoing the i + 1 used when the menu was printed."
+    },
+    {
+      "code": "        scanner.close();",
+      "text": "Closing the Scanner releases the input it was holding, a habit worth forming now even though this short program is about to end anyway."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "2\n",
+  "expectsUncaughtException": false
+}

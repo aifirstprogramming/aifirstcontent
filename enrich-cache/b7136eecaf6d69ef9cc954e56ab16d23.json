@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks whether you prefer Celsius, stores that answer as a True/False value, then reads a temperature and gives clothing advice. If you chose Fahrenheit, it converts your number to Celsius first so the comparisons still make sense.",
+  "lines": [
+    {
+      "code": "use_celsius = input(\"Use Celsius? (yes/no): \").strip().lower() == \"yes\"",
+      "text": "The comparison `== \"yes\"` produces a Boolean, so `use_celsius` holds True or False rather than the text the user typed. Calling `.strip()` removes stray spaces and `.lower()` folds \"YES\" or \"Yes\" down to \"yes\", so small differences in typing still count as agreement; anything else, including \"no\", makes it False."
+    },
+    {
+      "code": "if use_celsius:",
+      "text": "A Boolean variable can be tested on its own — there is no need to write `if use_celsius == True`, because the variable already is the answer to the question."
+    },
+    {
+      "code": "    temp_f = float(input(\"Temperature (°F): \"))",
+      "text": "`input` always hands back text, so `float` is needed to turn \"70\" into a number you can do arithmetic and comparisons with."
+    },
+    {
+      "code": "    temp = (temp_f - 32) * 5 / 9",
+      "text": "The Fahrenheit reading is converted into Celsius and stored in `temp`, so the rest of the program only ever deals with one scale. This is why 70°F is treated as mild instead of triggering the sunscreen advice."
+    },
+    {
+      "code": "elif temp > 30:",
+      "text": "`elif` is only reached when the `if` above it was False, and the final `else` catches everything left over — every temperature between 10 and 30 lands there."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "no\n70\n",
+  "expectsUncaughtException": false
+}

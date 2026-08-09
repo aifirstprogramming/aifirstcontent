@@ -1,0 +1,27 @@
+{
+  "summary": "This is the improved version of the thermostat's display method: instead of printing the status to the console, it returns the status message as a String so the caller can decide what to do with it.",
+  "lines": [
+    {
+      "code": "    //variables, constructor, and getStatus method",
+      "text": "The comment stands in for the parts of the class that do not change — the fields, the constructor, and getStatus() are all still there, and only the display method is being reworked."
+    },
+    {
+      "code": "    public String printStatusToDisplay() {",
+      "text": "The return type changes from void to String, which is the whole point of the exercise: a method that hands back a value can be checked with a single assertion, with no need to capture and restore System.out."
+    },
+    {
+      "code": "        return \"Thermostat status: \" + getStatus();",
+      "text": "The method still builds the same human-readable line by calling the existing getStatus(), but now it hands that text to whoever asked for it, so the same message can go to a device display, a log, or a test."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "ThermostatDemo.java",
+      "content": "public class ThermostatDemo {\n\n    static class Thermostat {\n        private int temperature;\n        private boolean ecoMode;\n\n        public Thermostat(int temperature, boolean ecoMode) {\n            this.temperature = temperature;\n            this.ecoMode = ecoMode;\n        }\n\n        public String getStatus() {\n            int threshold = ecoMode ? 65 : 70;\n            if (temperature < threshold) {\n                return \"Heating\";\n            }\n            return \"Idle\";\n        }\n\n        public String printStatusToDisplay() {\n            return \"Thermostat status: \" + getStatus();\n        }\n    }\n\n    public static void main(String[] args) {\n        Thermostat thermostat = new Thermostat(68, false);\n        System.out.println(thermostat.printStatusToDisplay());\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "ThermostatDemo.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

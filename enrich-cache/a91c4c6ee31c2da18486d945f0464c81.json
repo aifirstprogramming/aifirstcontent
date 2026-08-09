@@ -1,0 +1,33 @@
+{
+  "summary": "This program models a printer's job queue: four filenames are added to the back of a queue, then a loop repeatedly looks at the job at the front and removes it until nothing is left. It shows the queue's first-in, first-out order in action.",
+  "lines": [
+    {
+      "code": "        Queue<String> printQueue = new LinkedList<>();",
+      "text": "The variable is declared as the Queue interface but built from a LinkedList, so the code can only use queue behaviour while LinkedList does the actual storing."
+    },
+    {
+      "code": "        printQueue.offer(\"Report.pdf\");",
+      "text": "offer adds a job to the back of the line, which is why Report.pdf ends up printing first and Invoice.xls last."
+    },
+    {
+      "code": "        int jobs = printQueue.size();",
+      "text": "The total is captured before any processing starts, because the queue's own size shrinks with every job removed and could no longer report the original count."
+    },
+    {
+      "code": "        while (!printQueue.isEmpty()) {",
+      "text": "Checking for an empty queue before each pass is the safe way to drain it; peeking or polling blindly on an empty queue would give you back null."
+    },
+    {
+      "code": "            System.out.println(\"Ready to print: \" + printQueue.peek());",
+      "text": "peek reports the job at the front without taking it out, so the queue is unchanged and the same job is still there for the next line."
+    },
+    {
+      "code": "            String processedJob = printQueue.poll();",
+      "text": "poll is the one that actually removes the front job, handing it back so it can be reported as printed."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

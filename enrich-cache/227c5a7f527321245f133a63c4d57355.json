@@ -1,0 +1,21 @@
+{
+  "summary": "This two-line program prints the numbers 1, 2, 3, 4, and 5, each on its own line. It uses a for loop with range() to walk through a sequence of numbers instead of writing five separate print statements.",
+  "lines": [
+    {
+      "code": "for i in range(1, 6):",
+      "text": "range(1, 6) produces the numbers starting at 1 and stopping just before 6, so the loop runs five times. The end value is not included, which is why counting to 5 needs a 6 here — this is the single most common off-by-one mistake beginners make."
+    },
+    {
+      "code": "for i in range(1, 6):",
+      "text": "The variable i is the loop variable: on each pass through the loop Python assigns it the next number in the range, so its value changes automatically without you writing i = i + 1."
+    },
+    {
+      "code": "    print(i)",
+      "text": "The indentation is what puts this line inside the loop body, so it is what gets repeated. Remove the indentation and Python would report an error, because a for statement must be followed by an indented block."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

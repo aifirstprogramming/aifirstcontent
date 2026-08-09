@@ -1,0 +1,31 @@
+{
+  "summary": "This short program creates three Room objects using Room's no-argument constructor and prints each one. It shows how you can bring objects into existence first and supply their details later.",
+  "lines": [
+    {
+      "code": "        Room room1 = new Room();",
+      "text": "Calling the constructor with empty parentheses uses the no-arg constructor, so the object exists before anyone has decided its name or dimensions. Java fills the untouched fields with defaults: 0 for numbers and null for text."
+    },
+    {
+      "code": "        Room room3 = new Room();",
+      "text": "Each new creates a separate object in memory, so room1, room2, and room3 are three distinct rooms even though they were built the same way. The builder can later call setters such as room1.setName(\"Living Room\") to flesh out each one independently."
+    },
+    {
+      "code": "        System.out.println(\"Created rooms:\");",
+      "text": "A plain heading line before the object output makes it obvious which lines came from the rooms themselves, a habit worth keeping in any program that dumps data."
+    },
+    {
+      "code": "        System.out.println(room1);",
+      "text": "Passing an object to println asks the object to describe itself through its toString method, which is why the empty room prints with its default field values rather than a raw memory address."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Room.java",
+      "content": "",
+      "fromExercise": "java-5-04"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

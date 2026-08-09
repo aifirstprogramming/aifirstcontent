@@ -1,0 +1,39 @@
+{
+  "summary": "This is the farmers' market app with two of its stream pipelines reworked: the vendor list is now deduplicated and sorted alphabetically inside the pipeline, and the vendor menu is capped at three entries. It shows how sorting, deduplicating, and limiting each become their own step in a stream.",
+  "lines": [
+    {
+      "code": "        List<String> vendors = getVendorSet(products);",
+      "text": "The variable is now a List rather than a Set, because the pipeline itself takes care of removing duplicates and ordering the vendors instead of relying on a collection type to do it."
+    },
+    {
+      "code": "                .filter(v -> v != null && !v.isBlank())",
+      "text": "Vendor names are screened for null and empty text before anything else happens, so blanks never reach the sorted list."
+    },
+    {
+      "code": "                .distinct()",
+      "text": "This drops repeated vendor names, doing the same job HashSet did in Chapter 7 but without needing a second collection to hold the results."
+    },
+    {
+      "code": "                .sorted()",
+      "text": "With no comparator supplied, sorted() uses the natural ordering of String, which is alphabetical, and it arranges the stream's elements without touching the original products list."
+    },
+    {
+      "code": "                .limit(3)",
+      "text": "Only the first three formatted menu entries survive the pipeline, which is what a vendor with a small display board would want."
+    },
+    {
+      "code": "                // .sorted(Comparator.comparing(MarketProduct::getName))",
+      "text": "This step is left commented out on purpose: adding it would reorder the products before limit(3) runs, so a different three items would end up on the menu."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

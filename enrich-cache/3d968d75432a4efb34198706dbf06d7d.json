@@ -1,0 +1,29 @@
+{
+  "summary": "This program defines a function that sends Beepo the robot waiter to a table and greets the customers there, then calls it three times with three different table numbers.",
+  "lines": [
+    {
+      "code": "def beepo_greet(table_number):",
+      "text": "The `def` keyword defines the function, and `table_number` is its parameter \\u2014 a placeholder that stands in for whichever table number is supplied when the function is called."
+    },
+    {
+      "code": "    \"\"\"Beepo the robot waiter greets at the specified table.\"\"\"",
+      "text": "A docstring is a short description placed as the first line inside a function, explaining in plain words what the function is for so anyone reading the code later knows its purpose."
+    },
+    {
+      "code": "    print(f\"Beep boop! Rolling up to table {table_number}...\")",
+      "text": "The body of the function is indented, and everything indented under `def` belongs to the function. The f-string drops the current value of `table_number` into the message, so the wording changes with each call."
+    },
+    {
+      "code": "beepo_greet(1)",
+      "text": "Defining a function does nothing on its own; this call is what actually runs the body. The `1` is the argument, and it becomes the value of `table_number` for the duration of this call."
+    },
+    {
+      "code": "beepo_greet(12)",
+      "text": "Three calls with three different arguments reuse the same four lines of logic, which is the point of a function \\u2014 Beepo visits a different table each time without you rewriting the greeting."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

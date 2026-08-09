@@ -1,0 +1,33 @@
+{
+  "summary": "This is a domain class that models a single room in a house, storing its name, length, and width. It packages that data together with the methods needed to read and change each field, plus a method that describes the room as text.",
+  "lines": [
+    {
+      "code": "    private double length;",
+      "text": "The measurements are declared private so nothing outside the class can reach in and change them directly; access happens only through the methods below. Using double rather than int lets a room be 12.5 feet long."
+    },
+    {
+      "code": "    public Room(String name, double length, double width) {",
+      "text": "This second constructor lets you build a fully described room in one step, while the empty constructor above it is there for when you want a blank Room and will fill in the values later."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name name, so this.name says \"the field belonging to this object\" and name alone means the value just passed in. Drop the this and you would assign the parameter to itself, leaving the field empty."
+    },
+    {
+      "code": "    public void setWidth(double width) {",
+      "text": "Each field gets a matching getter and setter pair, the standard way a domain class exposes its data: read it with getWidth(), replace it with setWidth(). Because the change goes through a method, you have a place to add validation later."
+    },
+    {
+      "code": "    @Override",
+      "text": "This is the piece that differs from the House class: it announces that the method below replaces a method Java already gave every object. The compiler will flag a mistake in the signature, so the annotation is a safety net rather than decoration."
+    },
+    {
+      "code": "        return \"Room{\" +",
+      "text": "toString() builds the readable description that Java uses whenever a Room is printed or joined to a String, which is why passing a Room to System.out.println shows its field values instead of a cryptic memory reference."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

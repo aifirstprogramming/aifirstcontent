@@ -1,0 +1,33 @@
+{
+  "summary": "This defines the RobotPet class from the robot pet shop, giving each pet a name, a battery level, and a mood, plus a can_walk method that works out whether the battery can cover a walk of a given length. Two pets are then created so there is something concrete to test.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The initializer is what runs when you create a pet, and its three parameters become the pet's starting state. Every test you write later begins by choosing these values."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "This docstring records the rule the method is meant to follow, in minutes. When you ask the AI to generate tests, this sentence is what it uses to decide what correct behaviour looks like."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "This is the pet shop's rule made concrete: robot pets spend 2 battery points for every minute of walking, so a 10-minute walk costs 20 points."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "A comparison evaluates to True or False, so the method hands back a plain boolean rather than printing anything. That is exactly what an assert statement needs to check."
+    },
+    {
+      "code": "rover = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Creating a pet with a known battery level is what makes testing possible: because you chose 85, you can predict in advance which walks should be allowed and assert it."
+    },
+    {
+      "code": "beep = RobotPet(\"Beep\", 45, \"tired\")",
+      "text": "A second pet with a much lower battery gives you a contrasting case, so your tests can confirm can_walk says no as well as yes."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

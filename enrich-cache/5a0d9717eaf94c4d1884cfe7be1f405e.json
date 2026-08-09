@@ -1,0 +1,29 @@
+{
+  "summary": "This program counts upward one number at a time, pausing after each one to ask the user whether to continue, and stops only when the user types \"stop\". It shows a loop whose ending is decided by the person at the keyboard rather than by a fixed count.",
+  "lines": [
+    {
+      "code": "while True:",
+      "text": "A condition that is always true means the loop never ends on its own; the only way out is the break inside the body. This is the shape you reach for when you cannot know in advance how many times the loop should run."
+    },
+    {
+      "code": "    s = input(\"Press Enter to continue or type stop: \")",
+      "text": "The loop pauses here on every pass, which is what lets the user, rather than a counter, decide when the program finishes. Pressing Enter alone hands back an empty string, which is not the stop word, so counting continues."
+    },
+    {
+      "code": "    if s.strip().lower() == \"stop\":",
+      "text": "Calling strip removes stray spaces and the newline, and lower folds capitals down, so STOP and ' Stop ' are all accepted. Comparing raw input would reject anything but a perfectly typed lowercase word."
+    },
+    {
+      "code": "        break",
+      "text": "The break statement is the exit door out of an infinite loop; it abandons the loop immediately and continues with whatever follows it."
+    },
+    {
+      "code": "    count += 1",
+      "text": "Because this sits after the break, it only runs when the user chose to continue, so the number shown next time is one higher."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "\n\n\nstop\n",
+  "expectsUncaughtException": false
+}

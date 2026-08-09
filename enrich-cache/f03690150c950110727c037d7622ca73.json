@@ -1,0 +1,25 @@
+{
+  "summary": "This program figures out how many pizzas to order for a party by storing the party size, the slices in each pizza, and how many slices each person will eat, then doing the arithmetic and printing all the values back out.",
+  "lines": [
+    {
+      "code": "        int slicesPerPerson = 2;",
+      "text": "All three starting values are whole numbers held in int variables, which is the right choice here because you cannot invite half a person or order a fraction of a pizza. Change any of these three and run the program again to see the order recalculated."
+    },
+    {
+      "code": "        int totalSlicesNeeded = peopleInParty * slicesPerPerson;",
+      "text": "A variable can hold the result of a calculation, not just a value you type in, and that result then becomes an ingredient in the next calculation."
+    },
+    {
+      "code": "        int pizzasNeeded = (totalSlicesNeeded + slicesPerPizza - 1) / slicesPerPizza;",
+      "text": "Dividing two ints in Java throws away any remainder, so 20 slices divided by 8 would give 2 pizzas and leave four people hungry. Adding one less than a full pizza before dividing rounds the answer up, which is how a real order works."
+    },
+    {
+      "code": "        System.out.println(\"People: \" + peopleInParty);",
+      "text": "The plus sign between text in quotes and a variable joins them into one message rather than adding numbers; Java converts the number to text for you. Printing the inputs alongside the answer lets the customer confirm the order is based on the right assumptions."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

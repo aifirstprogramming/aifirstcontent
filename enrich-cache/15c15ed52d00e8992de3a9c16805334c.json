@@ -1,0 +1,33 @@
+{
+  "summary": "This version of the Restaurant class adds a placeOrder method that only accepts orders at 11:00 AM or later. Rather than asking the system directly what time it is, the class receives a Clock it can be told about, so tests can hand it any time they like.",
+  "lines": [
+    {
+      "code": "    private static final LocalTime ORDER_OPEN_TIME = LocalTime.of(11, 0);",
+      "text": "Opening time is stored once as a named constant instead of being written as 11 inside the comparison, so the rule is stated in one obvious place."
+    },
+    {
+      "code": "    private final Clock clock;",
+      "text": "The clock is the external dependency the class cannot control, so it is held as a field rather than being reached for at the moment it is needed. This is what makes the time swappable in a test."
+    },
+    {
+      "code": "    public Restaurant() {",
+      "text": "The no-argument constructor is what real code uses; it quietly supplies the system clock so ordinary callers never have to think about clocks at all."
+    },
+    {
+      "code": "    public Restaurant(Clock clock) {",
+      "text": "This second constructor is the door the test walks through: it hands in a fixed clock so the \"before 11\" and \"after 11\" scenarios can both be exercised on demand."
+    },
+    {
+      "code": "    //spice level method",
+      "text": "The spice level method from the earlier restaurant example still belongs here; the book leaves it as a placeholder to keep the focus on the new ordering feature."
+    },
+    {
+      "code": "        LocalTime currentTime = LocalTime.now(clock);",
+      "text": "Passing the clock to LocalTime.now() is the whole trick. Calling LocalTime.now() with no argument would read the real machine time and make this method untestable."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

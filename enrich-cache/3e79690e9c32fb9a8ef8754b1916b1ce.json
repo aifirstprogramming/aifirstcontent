@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores a player's game level in a variable and prints \"Novice Level\" only when that level is below 10. It is the simplest form of a decision in Java: one condition, one outcome.",
+  "lines": [
+    {
+      "code": "        int number = 5;",
+      "text": "The player's current level is held in a variable so the decision below can be made about whatever value happens to be there. Change this to 15 and the program prints nothing at all."
+    },
+    {
+      "code": "        if (number < 10) {",
+      "text": "The condition to evaluate goes inside the parentheses after the if keyword, and the less-than operator asks whether the level falls under the novice threshold. Thresholds like this are one of the most common kinds of condition you will write, whether for discounts, alerts, or game levels."
+    },
+    {
+      "code": "            System.out.println(\"Novice Level\");",
+      "text": "Everything inside the braces runs only when the condition is true, which is why this line is indented one level further than the if. Without a matching else clause, a level of 10 or higher produces no message whatsoever."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

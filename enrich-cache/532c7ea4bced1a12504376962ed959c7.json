@@ -1,0 +1,21 @@
+{
+  "summary": "This declares a Java interface named TemperatureSensor, which lists one behavior any temperature sensor must provide: returning the current temperature as a whole number. It is a contract, not a working sensor.",
+  "lines": [
+    {
+      "code": "public interface TemperatureSensor {",
+      "text": "The keyword is interface rather than class, so this file describes only what a temperature sensor does, never what one is made of. Just as Bluetooth is a set of functionalities rather than a physical thing, TemperatureSensor names a capability that headphones-style concrete classes will later supply."
+    },
+    {
+      "code": "    int getCurrentTemperature();",
+      "text": "The method ends in a semicolon instead of a body in braces, which is how an interface says \"every sensor must offer this, and each one decides for itself how.\" The int return type is the whole contract the Thermostat depends on: it can ask for a temperature without caring whether the answer came from a backyard sensor, a satellite, or a weather channel."
+    },
+    {
+      "code": "}",
+      "text": "Nothing else belongs here — no fields, no constructor, no logic. Keeping the interface this small is what lets you swap in a real sensor for production and a fake one for testing without touching the Thermostat."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

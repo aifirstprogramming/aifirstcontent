@@ -1,0 +1,29 @@
+{
+  "summary": "This program feeds Bruno's parrot seeds a handful at a time, asking you how many to give and keeping a running total, and it stops as soon as the parrot has had enough.",
+  "lines": [
+    {
+      "code": "while fed < capacity:",
+      "text": "The loop keeps going as long as the running total is still short of the parrot's capacity, so the number of feedings is decided by what you type rather than fixed in advance."
+    },
+    {
+      "code": "    feed = int(input(f\"Give seeds (remaining {capacity-fed}): \"))",
+      "text": "Whatever you type arrives as text, so int() converts it to a number before it can be added; the prompt recalculates the remaining amount each time round the loop."
+    },
+    {
+      "code": "    fed += max(0, feed)",
+      "text": "max(0, feed) treats a negative entry as zero, so nobody can take seeds back out of the parrot and stall the loop forever."
+    },
+    {
+      "code": "    print(f\"Fed {feed} seed(s). Total fed: {fed}.\")",
+      "text": "These two names look almost identical but mean different things: feed is the handful you just gave, while fed is everything the parrot has eaten so far."
+    },
+    {
+      "code": "print(\"Parrot is full!\")",
+      "text": "Because this line sits outside the loop with no indentation, it runs once at the end, after the condition finally fails."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "4\n3\n5\n",
+  "expectsUncaughtException": false
+}

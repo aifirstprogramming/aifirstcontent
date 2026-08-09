@@ -1,0 +1,39 @@
+{
+  "summary": "This program builds a playlist as a List of Song objects, prints it in the order the songs were added, and then reorders the same list three times with the sort method: alphabetically by title, by energy level from high to low, and alphabetically by artist.",
+  "lines": [
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "A List is the right storage choice here because a playlist can hold the same song twice and cares about playback order, unlike a TreeSet or a Map."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getTitle));",
+      "text": "Comparator.comparing builds the ordering rule from a single getter, and Song::getTitle is a method reference that names getTitle without calling it. The sort rearranges the elements of playlist in place rather than handing back a new list."
+    },
+    {
+      "code": "        playlist.forEach(System.out::println);",
+      "text": "forEach is a shorter way to write the for-each loop used earlier, passing each song straight to println."
+    },
+    {
+      "code": "Comparator.comparingInt(Song::getEnergyLevel)",
+      "text": "Use comparingInt when the field being compared is an int, so the value is compared as a number instead of being wrapped in an Integer object."
+    },
+    {
+      "code": "     .reversed());",
+      "text": "reversed() flips whichever comparator it is chained onto, which is how you get descending order without writing a separate comparison method."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getArtist));",
+      "text": "Each sort call starts from whatever order the list is in at that moment, so this one takes the energy-sorted list and reorders it by artist; sorting is just a view for display and does not change which songs were added."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

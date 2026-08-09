@@ -9,6 +9,7 @@
 
 import { readdirSync, readFileSync } from "node:fs";
 import { basename, join } from "node:path";
+import { suggestFilename } from "./filenames";
 import type {
   Book,
   Chapter,
@@ -198,7 +199,25 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
     books.push({ id: bookId, tag, title: raw.title, language, sections });
   }
 
+  assignDirectories(examples);
   return { books, examples, steps, version: options.version };
+}
+
+/**
+ * Give an exercise its own directory when its filename is shared.
+ *
+ * Decided here because it is the only place that sees every example at once. A
+ * name used once stays where a reader would expect it, at the top of their folder.
+ */
+function assignDirectories(examples: Example[]): void {
+  const seen = new Map<string, number>();
+  for (const e of examples) {
+    const key = `${e.bookTag}/${suggestFilename(e)}`;
+    seen.set(key, (seen.get(key) ?? 0) + 1);
+  }
+  for (const e of examples) {
+    if ((seen.get(`${e.bookTag}/${suggestFilename(e)}`) ?? 0) > 1) e.dir = e.id;
+  }
 }
 
 function buildSteps(rawExample: RawExample, exampleId: string, language: Language): Step[] {

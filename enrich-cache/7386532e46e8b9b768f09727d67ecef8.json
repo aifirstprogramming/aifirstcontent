@@ -1,0 +1,35 @@
+{
+  "summary": "This is a JUnit test class that checks one rule of the Thermostat: when the current temperature is 60 degrees, which is below the 68-degree threshold, the status should be \"Heating\". Instead of you reading the output and judging it, JUnit runs the check and reports pass or fail.",
+  "lines": [
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import brings the assertEquals method itself into scope, so you can call it by name rather than writing Assertions.assertEquals every time."
+    },
+    {
+      "code": "    @Test",
+      "text": "This annotation is what marks the method below as a test. Without it JUnit ignores the method entirely, which is a common reason a new test appears to never run."
+    },
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "A test method takes no arguments and returns nothing, and its name is documentation: when the test fails, this sentence is what the report shows you."
+    },
+    {
+      "code": "        Thermostat t = new Thermostat(60.0);",
+      "text": "Each test builds its own Thermostat, so the scenario is spelled out in the test rather than left over from an earlier one. The value 60.0 is chosen deliberately to sit below the 68-degree threshold."
+    },
+    {
+      "code": "        assertEquals(\"Heating\", t.getStatus());",
+      "text": "The expected value comes first and the actual value second; swapping them still compiles but makes failure messages read backwards. If the two strings differ, JUnit fails this test and tells you exactly what it got instead."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

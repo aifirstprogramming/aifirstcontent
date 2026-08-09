@@ -1,0 +1,39 @@
+{
+  "summary": "This JUnit test checks that a thermostat's printStatusToDisplay() method writes the right text to the console. Because the method prints instead of returning a value, the test has to temporarily capture System.out into a buffer and compare that buffer's contents to the expected line.",
+  "lines": [
+    {
+      "code": "        Thermostat thermostat = new Thermostat(72, false);",
+      "text": "A thermostat at 72 degrees with eco mode off is neither heating nor cooling, so its status is \"Idle\" — a known starting point the assertion can rely on."
+    },
+    {
+      "code": "        ByteArrayOutputStream output = new ByteArrayOutputStream();",
+      "text": "This is an in-memory place for text to land instead of the terminal, so the test can read back whatever the method printed."
+    },
+    {
+      "code": "        PrintStream originalOut = System.out;",
+      "text": "The real console stream is saved first; without this handle there would be no way to put System.out back the way it was."
+    },
+    {
+      "code": "        System.setOut(new PrintStream(output));",
+      "text": "From here on, anything printed goes into the buffer rather than the console. This is the test changing the program's behavior just to observe it, which is the awkwardness that motivates redesigning the method."
+    },
+    {
+      "code": "            System.setOut(originalOut);",
+      "text": "Restoring the console inside finally guarantees it happens even if the method under test throws, so a failure here does not silently break every test that runs afterward."
+    },
+    {
+      "code": "        assertEquals(\"Thermostat status: Idle\" + System.lineSeparator(), output.toString());",
+      "text": "println appends the platform's own line ending, so System.lineSeparator() is used instead of a hardcoded \"\\n\" to keep the test passing on any operating system."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-07"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

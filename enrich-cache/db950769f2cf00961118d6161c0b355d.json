@@ -1,0 +1,39 @@
+{
+  "summary": "This is the unit test file for the new speak method: for each kind of robot pet it checks the low-battery message, the happy message, the neutral message, and that the pet's own name appears in whatever it says.",
+  "lines": [
+    {
+      "code": "    …",
+      "text": "The ellipsis stands for the setUp method and the earlier tests from the previous listing, which are unchanged; only the speak tests are new here. In your own file, keep that existing code and add these methods below it."
+    },
+    {
+      "code": "        self.assertIn(\"recharge\", self.pet.speak())",
+      "text": "assertIn checks that one string appears somewhere inside another, so the test passes as long as the message mentions recharging. That is deliberate: asserting the exact sentence would break the moment you reword the message."
+    },
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "The happy and neutral tests set the battery well above the low-battery threshold, otherwise the low-battery message would win and the test would be checking the wrong branch."
+    },
+    {
+      "code": "    def test_speak_contains_name(self):",
+      "text": "This test leaves mood and battery at whatever setUp gave them, because the pet's name should show up in the message no matter which branch runs."
+    },
+    {
+      "code": "class TestRobotCat(unittest.TestCase):",
+      "text": "Each pet type gets its own test case class, since each one overrides speak with its own wording. The four classes are near-identical in shape, which is exactly what you want when comparing subclass behaviour."
+    },
+    {
+      "code": "        self.assertIn(\"Best day\", self.dog.speak())",
+      "text": "The substring has to match character for character, including capital letters and the space, so a message reading \"best day\" would fail this test."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-10"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,33 @@
+{
+  "summary": "This program models basic houseplant care with four functions, each showing a different return type: one that returns nothing, one that returns a boolean, one an int, and one a String. The main method calls each in turn and prints the values that come back.",
+  "lines": [
+    {
+      "code": "        plantInSoil();",
+      "text": "This call stands alone as its own statement because plantInSoil() hands nothing back — trying to wrap it in a println would be an error, since there is no value to print."
+    },
+    {
+      "code": "        System.out.println(\"Sunlight available: \" + hasSunlight());",
+      "text": "The other three calls sit inside println because each one produces a value; the call is replaced by whatever the function returns before the message is joined together and printed."
+    },
+    {
+      "code": "    public static void plantInSoil() {",
+      "text": "A return type of void declares complete emptiness — the function does its work by printing and sends nothing back to the caller."
+    },
+    {
+      "code": "    public static boolean hasSunlight() {",
+      "text": "Once a function declares a return type other than void, it must actually return a value of that type; boolean here means the return statement has to supply true or false."
+    },
+    {
+      "code": "        return 3;",
+      "text": "waterLevel() returns the int 3, and Java converts that number to text automatically when the + joins it to the message in main."
+    },
+    {
+      "code": "    public static String growthStatus() {",
+      "text": "Reference types such as String can be returned just as easily as primitives, so a function is free to hand back a whole message rather than a single number or flag."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

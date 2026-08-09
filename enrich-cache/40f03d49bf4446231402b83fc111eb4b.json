@@ -1,0 +1,21 @@
+{
+  "summary": "This program divides an 11-inch sheet of printer paper into 2 equal pieces and prints the length of each piece. Because the two measurements are stored as whole numbers, they are widened to double so the division keeps its fractional part.",
+  "lines": [
+    {
+      "code": "        int paperLengthInches = 11; // length of printer paper (US Letter long side)",
+      "text": "The paper's length is a whole number of inches, so int is the natural type to hold it. The comment records where the value came from, which is exactly what comments are for."
+    },
+    {
+      "code": "        double eachPieceLength = (double) paperLengthInches / (double) pieces;",
+      "text": "The (double) in front of each value is the widening cast: it promotes each int to a decimal type before the division happens, so the result is 5.5 rather than 5. Without the casts Java would divide integer by integer, throw away the remainder, and quietly give the wrong answer."
+    },
+    {
+      "code": "        System.out.println(\"Each piece length: \" + eachPieceLength + \" inches\");",
+      "text": "The + here joins text to a number: Java converts eachPieceLength to its printable form and glues the three parts into one line of output."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}
