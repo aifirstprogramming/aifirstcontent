@@ -22,6 +22,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join } from "node:path";
 import { readParagraphs, type Paragraph } from "./docx";
+import { configHelp, configPath, readLocalConfig } from "./localconfig";
 
 export type BookTag = "java" | "py";
 
@@ -72,24 +73,6 @@ const BOOK_SHAPE: Omit<BookConfig, "root">[] = [
   },
 ];
 
-/** Override with AIFIRST_MANUSCRIPTS to keep the config outside the checkout. */
-export function manuscriptConfigPath(): string {
-  return process.env.AIFIRST_MANUSCRIPTS ?? join(import.meta.dir, "..", "..", "manuscripts.json");
-}
-
-function configHelp(path: string): string {
-  return [
-    `No manuscript config at ${path}.`,
-    "",
-    "The books are not in this repository, so the scraper needs to be told where they are:",
-    "",
-    "    cp manuscripts.example.json manuscripts.json",
-    "    $EDITOR manuscripts.json",
-    "",
-    "manuscripts.json is gitignored. Set AIFIRST_MANUSCRIPTS to keep it elsewhere.",
-  ].join("\n");
-}
-
 /**
  * The books to scrape, with the manuscript root for each.
  *
@@ -97,15 +80,8 @@ function configHelp(path: string): string {
  * message rather than an empty scrape that looks like "nothing changed".
  */
 export function books(): BookConfig[] {
-  const path = manuscriptConfigPath();
-  if (!existsSync(path)) throw new Error(configHelp(path));
-
-  let raw: Record<string, { root?: string }>;
-  try {
-    raw = JSON.parse(readFileSync(path, "utf8"));
-  } catch (e) {
-    throw new Error(`${path} is not valid JSON: ${(e as Error).message}`);
-  }
+  const path = configPath();
+  const raw = readLocalConfig() as Record<string, { root?: string } | undefined>;
 
   const out: BookConfig[] = [];
   for (const shape of BOOK_SHAPE) {

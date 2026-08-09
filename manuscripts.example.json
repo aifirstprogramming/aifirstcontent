@@ -1,21 +1,34 @@
 {
   "//": [
-    "Where the book manuscripts live on this machine.",
+    "Local configuration for the authoring scripts. NOT COMMITTED.",
     "",
-    "The books are not open source, so their paths are not committed. Copy this file",
-    "to manuscripts.json (gitignored) and set the roots, or point AIFIRST_MANUSCRIPTS",
-    "at a copy kept outside the checkout.",
+    "Copy this to manuscripts.json (gitignored) and fill it in, or point",
+    "AIFIRST_MANUSCRIPTS at a copy kept outside the checkout entirely.",
     "",
-    "Each root is the folder holding that book's chapter .docx files. Omit a book you",
-    "do not have a copy of: the scraper will just skip it.",
+    "  chmod 600 manuscripts.json     it holds an API key",
     "",
-    "Only `bun run scrape` reads this. Nothing else in the repo needs it, and CI never",
-    "has it."
+    "Only `bun run scrape` and `bun run enrich` read this. Nothing that ships does,",
+    "and CI has neither the file nor the key."
+  ],
+
+  "//manuscripts": [
+    "Each root is the folder holding that book's chapter .docx files. The books are",
+    "not open source, which is why these paths are not committed. Omit a book you do",
+    "not have and the scraper skips it; a path that does not exist is an error,",
+    "because silently scraping nothing looks exactly like 'no changes'."
   ],
   "java": {
     "root": "/path/to/AI First Java Programming"
   },
   "py": {
     "root": "/path/to/AI First Python Programming/Chapters"
-  }
+  },
+
+  "//anthropicApiKey": [
+    "Used by `bun run enrich` to write explanations. ANTHROPIC_API_KEY in the",
+    "environment takes precedence, so a machine that already exports one needs",
+    "nothing here. The script refuses to read a key from this file if git is not",
+    "actually ignoring it."
+  ],
+  "anthropicApiKey": "sk-ant-..."
 }

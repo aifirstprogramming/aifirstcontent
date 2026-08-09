@@ -38,6 +38,7 @@ import { loadFromDirectory } from "../src/loader";
 import type { Example, Explanation, Scaffold, Step } from "../src/types";
 import { suggestFilename } from "../src/filenames";
 import { reorder } from "./lib/apply";
+import { anthropicApiKey } from "./lib/localconfig";
 import { JUNIT_URL, displayCommand, junitAvailable, verify, verifyCommand } from "./lib/verify";
 
 const ROOT = join(import.meta.dir, "..");
@@ -277,7 +278,14 @@ function writeCache(key: string, value: ModelOutput): void {
 
 // --- the model call --------------------------------------------------------
 
-const client = new Anthropic();
+// The key comes from ANTHROPIC_API_KEY, or from the gitignored local config next
+// to the manuscript paths. Constructed lazily so --dry-run, which calls no model,
+// works on a machine with neither.
+let clientInstance: Anthropic | undefined;
+function client(): Anthropic {
+  if (!clientInstance) clientInstance = new Anthropic({ apiKey: anthropicApiKey() });
+  return clientInstance;
+}
 
 async function generate(
   example: Example,
@@ -293,7 +301,7 @@ async function generate(
 
   // Streaming because max_tokens is generous: a non-streaming request at this size
   // risks an HTTP timeout on a long explanation.
-  const stream = client.messages.stream({
+  const stream = client().messages.stream({
     model: MODEL,
     max_tokens: 32000,
     system: SYSTEM,
