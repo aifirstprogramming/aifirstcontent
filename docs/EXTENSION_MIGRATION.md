@@ -161,6 +161,34 @@ Content pack 1.1.x added, additively:
   runner, so it can ignore them — though `interactive` would let the webview warn "this one asks for
   input".
 
+### Pack 1.2.x: `explanation` — please do use this one
+
+Every published step now carries the walkthrough a reader should see:
+
+```ts
+step.explanation?.summary        // one or two sentences
+step.explanation?.lines          // [{ code, text }], in source order
+step.explanation?.run            // the command that runs it
+```
+
+**This field exists because of the extension.** The CLI has a model behind it and could
+improvise an explanation; the extension cannot, so before this the two surfaces
+disagreed — the terminal explained the code and the editor just showed it. The text is
+generated once at authoring time, verified by executing the exercise, and committed. The
+CLI now renders exactly these words, so if the webview renders them too, both surfaces
+and the printed page finally say the same thing.
+
+Rendering it is a webview change, not a matching problem: `lines[].code` is copied
+character-for-character from the response, so each note can be attached to its line
+without fuzzy matching. Content CI enforces that every published step has one.
+
+Two smaller fields come with it, both safe to ignore in a viewer:
+
+- `scaffold` — extra files that make a fragment runnable, and `expectsException` for
+  exercises that throw on purpose. Both matter only to something that executes code.
+- `kind` (`program` / `class` / `test` / `snippet` / `project`) and `status`. The loader
+  already hides drafts and retired examples, so a consumer never sees them.
+
 ---
 
 ## Verification
