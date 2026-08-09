@@ -56,3 +56,14 @@ jobs:
           files: |
             books/*.json
             schema/content.schema.json
+
+      # Cross-repo notify: GITHUB_TOKEN can't dispatch to other repos, hence the PAT.
+      - name: Notify consumers
+        run: |
+          for repo in aifirstextension aifirstcli; do
+            gh api repos/aifirstprogramming/$repo/dispatches \
+              -f event_type=content-released \
+              -F client_payload[tag]="${GITHUB_REF_NAME}"
+          done
+        env:
+          GH_TOKEN: ${{ secrets.CONTENT_DISPATCH_TOKEN }}

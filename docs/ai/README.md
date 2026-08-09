@@ -25,6 +25,7 @@ absolute paths from the machine it ran on were replaced with `<scratch>/` and `~
 | Plan | Date | Outcome |
 | --- | --- | --- |
 | [Scrape the manuscripts, and pre-compute everything a reader sees](plans/2026-08-08-scrape-manuscripts-and-precompute.md) — the import pipeline that took the pack from 38 hand-entered examples to 139 imported ones, each with a stored explanation and each verified by execution | 2026-08-08 | Shipped as v1.2.0 and v1.3.0 |
+| [Notify aifirstextension and aifirstcli when a release goes out](plans/2026-08-09-notify-consumers-on-release.md) — a release.yml step that dispatches a content-released event with the tag to both consumer repos | 2026-08-09 | Shipped |
 
 ## Related documents already in this repository
 
