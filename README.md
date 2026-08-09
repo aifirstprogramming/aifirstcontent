@@ -135,7 +135,9 @@ differs, and the book's prompt when only the prompt differs. It retires an
 exercise the manuscripts no longer contain, keeping the id so a learner's existing
 progress entry still refers to something. It imports new exercises as drafts. It
 never applies a change where both the prompt and the code moved, because that
-pairing is only ever a guess — those are reported for a human.
+pairing is only ever a guess. It imports the manuscript's version as a draft
+alongside the existing exercise and reports both, so a guess can never suppress
+real content.
 
 Two conventions make this possible, one per book:
 
@@ -203,7 +205,7 @@ curl -sSLo ~/.aifirst-toolcache/junit-console.jar \
 
 ## Progress unit
 
-Learner progress is tracked per **example** (138 today), not per step. Steps are individually viewable
+Learner progress is tracked per **example** (139 today), not per step. Steps are individually viewable
 and applicable, but the titled example is the unit the book presents and therefore the unit a learner
 thinks in.
 
@@ -223,7 +225,7 @@ since those run under Bun and use `import.meta`.
 
 | Book | Examples | Chapters with content |
 |---|---|---|
-| AI First Python Programming | 51 | 1–7 of 10 |
+| AI First Python Programming | 52 | 1–7 of 10 |
 | AI First Java Programming | 87 | 1–9 of 12 |
 
 Every one of them has been executed, and carries a stored explanation.

@@ -258,15 +258,22 @@ function classify(cfg: BookConfig, detailNew: boolean): Report {
       continue;
     }
 
-    // Both changed. Only ever a fuzzy guess, so it is reported and never applied:
-    // mistakenly pairing two exercises would overwrite a good one.
+    // Both changed. Only ever a fuzzy guess, so the change is never applied to the
+    // shipped exercise: pairing two exercises wrongly would overwrite a good one.
+    //
+    // Deliberately *not* claimed, though. Treating the manuscript's version as
+    // accounted for is what hid the book's rocket countdown: it was paired with
+    // "counts from 1 to 5", so it never appeared as new and never made it into the
+    // pack at all. A guess that suppresses real content is worse than a duplicate a
+    // human can see, so the manuscript's version is imported as a draft alongside
+    // the existing exercise and one of the two is chosen by hand.
     const revised = revisions.get(st.id);
     if (revised) {
-      claimed.add(promptKey(revised.prompt));
       counts.revised++;
-      lines.push(`  revised  ${st.id.padEnd(12)} prompt and code both changed — confirm by hand`);
+      lines.push(`  revised  ${st.id.padEnd(12)} prompt and code both changed — keep one`);
       lines.push(`             ours : ${st.prompt.slice(0, 66)}`);
       lines.push(`             book : ${revised.prompt.slice(0, 66)}`);
+      lines.push(`             the book's version imports as a draft; retire whichever you don't want`);
       continue;
     }
 

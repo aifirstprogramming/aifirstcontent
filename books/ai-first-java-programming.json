@@ -345,6 +345,7 @@
               "id": "java-2-07",
               "title": "Java Data Types: Boolean",
               "description": "Explore the boolean data type in Java.",
+              "status": "retired",
               "prompt": "Write intro code using a boolean data type without using logic like an if statement.",
               "response": [
                 "public class BooleanType {",
@@ -642,6 +643,52 @@
                   }
                 ],
                 "run": "java WelcomeNameInput.java"
+              }
+            },
+            {
+              "id": "java-2-13",
+              "title": "Example showing boolean data type",
+              "kind": "program",
+              "prompt": "Write intro code using a boolean data type without conditional logic.",
+              "response": [
+                "public class BooleanType {",
+                "    public static void main(String[] args) {",
+                "        boolean isJavaFun = true;",
+                "        boolean hasBugs = false;",
+                "",
+                "        System.out.println(\"isJavaFun = \" + isJavaFun);",
+                "        System.out.println(\"hasBugs = \" + hasBugs);",
+                "",
+                "        boolean readyToShip = isJavaFun && !hasBugs;",
+                "        System.out.println(\"readyToShip = \" + readyToShip);",
+                "    }",
+                "}"
+              ],
+              "explanation": {
+                "summary": "This program stores two true/false values in boolean variables, prints them, and then combines them with logical operators to produce a third boolean. It shows that boolean values can be computed and displayed like any other data, without needing an if statement.",
+                "lines": [
+                  {
+                    "code": "        boolean isJavaFun = true;",
+                    "text": "A boolean variable holds only one of two values, true or false. Note that true is a Java keyword, not the text \"true\" in quotes."
+                  },
+                  {
+                    "code": "        boolean hasBugs = false;",
+                    "text": "The second boolean starts out false, which will matter when the two are combined below."
+                  },
+                  {
+                    "code": "        System.out.println(\"isJavaFun = \" + isJavaFun);",
+                    "text": "When a boolean is joined to a string with +, Java automatically converts it to the words true or false for display."
+                  },
+                  {
+                    "code": "        boolean readyToShip = isJavaFun && !hasBugs;",
+                    "text": "The && operator yields true only when both sides are true, and ! flips a boolean to its opposite. So this reads as \"Java is fun and there are no bugs,\" which works out to true."
+                  },
+                  {
+                    "code": "        System.out.println(\"readyToShip = \" + readyToShip);",
+                    "text": "Printing the computed result shows that logical expressions produce a boolean value you can store and reuse, with no conditional statement involved."
+                  }
+                ],
+                "run": "java BooleanType.java"
               }
             }
           ]
