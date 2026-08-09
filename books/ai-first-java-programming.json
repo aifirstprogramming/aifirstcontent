@@ -375,7 +375,7 @@
                 "}"
               ],
               "explanation": {
-                "summary": "This program shows Java's boolean type, which holds only true or false. It creates booleans directly, produces them from number comparisons, and combines them with the logical operators AND (&&) and NOT (!) \u2014 all without any if statement.",
+                "summary": "This program shows Java's boolean type, which holds only true or false. It creates booleans directly, produces them from number comparisons, and combines them with the logical operators AND (&&) and NOT (!) — all without any if statement.",
                 "lines": [
                   {
                     "code": "        boolean isJavaFun = true;",
@@ -1273,7 +1273,7 @@
                 "        System.out.println(\"Protected: like a family group chat, relatives (subclasses) and neighbors (same package) see it.\");",
                 "    }",
                 "",
-                "    // Next: package-private (no modifier) \u2014 only classes in the same package",
+                "    // Next: package-private (no modifier) — only classes in the same package",
                 "    void shareWithNeighbors() {",
                 "        System.out.println(\"Package-private: like a neighborhood bulletin, only locals (same package) see it.\");",
                 "    }",
@@ -1285,7 +1285,7 @@
                 "}"
               ],
               "explanation": {
-                "summary": "This program demonstrates Java's four access levels for methods \u2014 public, protected, package-private, and private \u2014 by comparing each one to a way of sharing a message with people. All four are called from main inside the same class, which is the one place where every level is visible.",
+                "summary": "This program demonstrates Java's four access levels for methods — public, protected, package-private, and private — by comparing each one to a way of sharing a message with people. All four are called from main inside the same class, which is the one place where every level is visible.",
                 "lines": [
                   {
                     "code": "        ShareMessageModifiers demo = new ShareMessageModifiers();",
@@ -1446,7 +1446,7 @@
                 "    public static void main(String[] args) {",
                 "        double celsius = 25;",
                 "        double fahrenheit = celsiusToFahrenheit(celsius);",
-                "        System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                "        System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                 "    }",
                 "",
                 "    public static double celsiusToFahrenheit(double celsius) {",
@@ -1466,7 +1466,7 @@
                     "text": "This calls the conversion function and saves the value it returns, which is how a method's result becomes usable data in the caller."
                   },
                   {
-                    "code": "        System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                    "code": "        System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                     "text": "Joining numbers to text with + turns the doubles into readable output, giving the travel agency a sentence rather than a bare number."
                   },
                   {
@@ -1493,7 +1493,7 @@
                 "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
                 "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
                 "            double fahrenheit = celsiusToFahrenheit(celsius);",
-                "            System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                 "        } catch (Exception e) {",
                 "            System.out.println(\"Invalid input. Please enter a numeric temperature value.\");",
                 "        }",
@@ -1518,14 +1518,14 @@
                   },
                   {
                     "code": "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
-                    "text": "The typed line is read as text, trim removes any stray spaces, and parseDouble turns it into a number \u2014 this is the step that fails if the text is not numeric."
+                    "text": "The typed line is read as text, trim removes any stray spaces, and parseDouble turns it into a number — this is the step that fails if the text is not numeric."
                   },
                   {
                     "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
                     "text": "The conversion itself lives in its own function, so main stays focused on talking to the user."
                   },
                   {
-                    "code": "            System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                    "code": "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                     "text": "Joining numbers to text with + builds one readable sentence out of both values."
                   },
                   {
@@ -1560,7 +1560,7 @@
                 "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
                 "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
                 "            double fahrenheit = celsiusToFahrenheit(celsius);",
-                "            System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                 "        } catch (NumberFormatException e) {",
                 "            System.out.println(\"Invalid input. Please enter a numeric temperature value.\");",
                 "        } catch (Exception e) {",
@@ -1639,7 +1639,7 @@
                 "                }",
                 "            }",
                 "            double fahrenheit = celsiusToFahrenheit(celsius);",
-                "            System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                 "        } catch (Exception e) {",
                 "            System.out.println(\"An unexpected error occurred. \" + e.getMessage());",
                 "        }",
@@ -1707,7 +1707,7 @@
                     "text": "Calls the conversion function with the validated value. Java automatically unwraps the Double object into the plain double the method expects."
                   },
                   {
-                    "code": "            System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                    "code": "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                     "text": "Shows both temperatures in one sentence so the result is self-explanatory."
                   },
                   {
@@ -1752,7 +1752,7 @@
                 "                }",
                 "            }",
                 "            double fahrenheit = celsiusToFahrenheit(celsius);",
-                "            System.out.println(celsius + \"\u00b0C is \" + fahrenheit + \"\u00b0F\");",
+                "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
                 "        } catch (Exception e) {",
                 "            System.out.println(\"An unexpected error occurred. \" + e.getMessage());",
                 "        } finally {",
@@ -1795,7 +1795,7 @@
                   },
                   {
                     "code": "                    if (value < -273.15 || value > 100) {",
-                    "text": "Absolute zero is -273.15\u00b0C, so anything below that is physically impossible and is rejected along with values above the chosen upper limit."
+                    "text": "Absolute zero is -273.15°C, so anything below that is physically impossible and is rejected along with values above the chosen upper limit."
                   },
                   {
                     "code": "                        continue;",
@@ -1846,23 +1846,23 @@
                 "    }",
                 "",
                 "    static void makeCoffee(String type, int shots) {",
-                "        System.out.println(\"\ud83d\udd2e Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+                "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
                 "",
                 "        // Magic business logic",
                 "        int magicPower = shots * 42;",
                 "        boolean hasAlchemyBoost = magicPower > 50;",
                 "",
                 "        if (hasAlchemyBoost) {",
-                "            System.out.println(\"\u2728 Arcane energy detected! Coffee gains +50% flavor boost!\");",
+                "            System.out.println(\"✨ Arcane energy detected! Coffee gains +50% flavor boost!\");",
                 "        }",
                 "",
-                "        System.out.println(\"\u2615 Your \" + type + \" is ready!\");",
+                "        System.out.println(\"☕ Your \" + type + \" is ready!\");",
                 "        System.out.println();",
                 "    }",
                 "}"
               ],
               "explanation": {
-                "summary": "This program defines a makeCoffee function that takes two arguments \u2014 the drink type and the number of espresso shots \u2014 and calls it twice with different values. Inside, a small calculation decides whether the coffee earns a bonus message, showing how a function can hold logic as well as printing.",
+                "summary": "This program defines a makeCoffee function that takes two arguments — the drink type and the number of espresso shots — and calls it twice with different values. Inside, a small calculation decides whether the coffee earns a bonus message, showing how a function can hold logic as well as printing.",
                 "lines": [
                   {
                     "code": "        makeCoffee(\"Espresso\", 2);",
@@ -1877,12 +1877,12 @@
                     "text": "Declares the function's two parameters with their types, so the compiler knows type holds text and shots holds a whole number. void means the function prints its results rather than handing a value back."
                   },
                   {
-                    "code": "        System.out.println(\"\ud83d\udd2e Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+                    "code": "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
                     "text": "Joining text and variables with + builds one message, and Java automatically converts the number in shots into characters for printing."
                   },
                   {
                     "code": "        int magicPower = shots * 42;",
-                    "text": "Turns the incoming argument into a new value, which is what makes the function more than a printer \u2014 it computes something from its input."
+                    "text": "Turns the incoming argument into a new value, which is what makes the function more than a printer — it computes something from its input."
                   },
                   {
                     "code": "        boolean hasAlchemyBoost = magicPower > 50;",
@@ -1921,16 +1921,16 @@
                 "            throw new IllegalArgumentException(\"Shots must be at least 1.\");",
                 "        }",
                 "",
-                "        System.out.println(\"\ud83d\udd2e Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+                "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
                 "",
                 "        int magicPower = shots * 42;",
                 "        boolean hasAlchemyBoost = magicPower > 50;",
                 "",
                 "        if (hasAlchemyBoost) {",
-                "            System.out.println(\"\u2728 Arcane energy detected! Coffee gains +50% flavor boost!\");",
+                "            System.out.println(\"✨ Arcane energy detected! Coffee gains +50% flavor boost!\");",
                 "        }",
                 "",
-                "        System.out.println(\"\u2615 Your \" + type + \" is ready!\");",
+                "        System.out.println(\"☕ Your \" + type + \" is ready!\");",
                 "        System.out.println();",
                 "    }",
                 "}"
@@ -1968,7 +1968,7 @@
                     "text": "This is the error the second call in main sets off; a throw leaves the method immediately, so no brewing messages follow."
                   },
                   {
-                    "code": "        System.out.println(\"\ud83d\udd2e Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+                    "code": "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
                     "text": "Reaching this line means both guard checks passed, so the arguments are safe to use from here on."
                   },
                   {
@@ -2008,16 +2008,16 @@
                 "            throw new CoffeeConjuringException(\"Shots must be at least 1. Provided: \" + shots);",
                 "        }",
                 "",
-                "        System.out.println(\"\ud83d\udd2e Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+                "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
                 "",
                 "        int magicPower = shots * 42;",
                 "        boolean hasAlchemyBoost = magicPower > 50;",
                 "",
                 "        if (hasAlchemyBoost) {",
-                "            System.out.println(\"\u2728 Arcane energy detected! Coffee gains +50% flavor boost!\");",
+                "            System.out.println(\"✨ Arcane energy detected! Coffee gains +50% flavor boost!\");",
                 "        }",
                 "",
-                "        System.out.println(\"\u2615 Your \" + type + \" is ready!\");",
+                "        System.out.println(\"☕ Your \" + type + \" is ready!\");",
                 "        System.out.println();",
                 "    }",
                 "",
@@ -2042,7 +2042,7 @@
                   },
                   {
                     "code": "    static void makeCoffee(String type, int shots) {",
-                    "text": "The method takes the drink type and shot count as parameters, and returns nothing \u2014 its job is to print the brewing steps."
+                    "text": "The method takes the drink type and shot count as parameters, and returns nothing — its job is to print the brewing steps."
                   },
                   {
                     "code": "        if (type == null || type.isBlank()) {",
@@ -3386,7 +3386,7 @@
                   },
                   {
                     "code": "        Thermostat thermostatEco = new Thermostat(66, true);",
-                    "text": "Uses 66 degrees with eco mode on \u2014 a temperature that would trigger heating in normal mode but sits above the lower eco threshold."
+                    "text": "Uses 66 degrees with eco mode on — a temperature that would trigger heating in normal mode but sits above the lower eco threshold."
                   },
                   {
                     "code": "        assertEquals(\"Idle\", thermostatEco.getStatus());",
@@ -3672,7 +3672,7 @@
                 "}"
               ],
               "explanation": {
-                "summary": "This is a JUnit test class for the Thermostat class. It contains one focused test per possible outcome \\u2014 heating, idle, and cooling in normal mode, the same three in eco mode, and one for the display string \\u2014 so that a failure tells you exactly which behaviour broke.",
+                "summary": "This is a JUnit test class for the Thermostat class. It contains one focused test per possible outcome — heating, idle, and cooling in normal mode, the same three in eco mode, and one for the display string — so that a failure tells you exactly which behaviour broke.",
                 "lines": [
                   {
                     "code": "import org.junit.jupiter.api.Test;",
@@ -3704,7 +3704,7 @@
                   },
                   {
                     "code": "        Thermostat thermostatEco = new Thermostat(64, true);",
-                    "text": "At 64 degrees a normal thermostat would still call for heat, but eco mode tolerates cooler air \\u2014 this value is chosen to land just inside the eco heating range."
+                    "text": "At 64 degrees a normal thermostat would still call for heat, but eco mode tolerates cooler air — this value is chosen to land just inside the eco heating range."
                   },
                   {
                     "code": "        Thermostat thermostatEco = new Thermostat(79, true);",
@@ -3876,7 +3876,7 @@
                 "}"
               ],
               "explanation": {
-                "summary": "This is a JUnit test class for the TrafficLight class, checking that a new light starts on red, cycles red \\u2192 green \\u2192 yellow \\u2192 red as advance() is called, and reports correctly whether drivers must stop. Each test covers exactly one behaviour, so a failure tells you precisely what broke.",
+                "summary": "This is a JUnit test class for the TrafficLight class, checking that a new light starts on red, cycles red → green → yellow → red as advance() is called, and reports correctly whether drivers must stop. Each test covers exactly one behaviour, so a failure tells you precisely what broke.",
                 "lines": [
                   {
                     "code": "import org.junit.jupiter.api.Test;",
@@ -3912,7 +3912,7 @@
                   },
                   {
                     "code": "        light.advance();",
-                    "text": "This is the action under test, deliberately separated by a blank line from the setup above it so the arrange\\u2013act\\u2013assert structure is visible."
+                    "text": "This is the action under test, deliberately separated by a blank line from the setup above it so the arrange–act–assert structure is visible."
                   },
                   {
                     "code": "        assertEquals(\"Green\", light.getColor());",
@@ -4824,7 +4824,7 @@
                   },
                   {
                     "code": "        for (String genre : genres) {",
-                    "text": "A HashSet has no defined order, so the genres may print in any sequence \u2014 use a TreeSet when order matters."
+                    "text": "A HashSet has no defined order, so the genres may print in any sequence — use a TreeSet when order matters."
                   }
                 ],
                 "run": "java Library.java"
@@ -5096,7 +5096,7 @@
                   },
                   {
                     "code": "        Book foundBook = bookAuthors.get(titleToLookUp);",
-                    "text": "get returns the matching Book, or null when the map holds no entry for that key \u2014 it does not throw an error."
+                    "text": "get returns the matching Book, or null when the map holds no entry for that key — it does not throw an error."
                   },
                   {
                     "code": "        if (foundBook != null) {",
@@ -5186,7 +5186,7 @@
                   },
                   {
                     "code": "        TreeSet<String> sortedTerms = new TreeSet<>(glossary.keySet());",
-                    "text": "keySet gives you all the terms in the map, and passing them to a TreeSet constructor copies them into sorted order \u2014 a HashMap on its own has no reliable ordering."
+                    "text": "keySet gives you all the terms in the map, and passing them to a TreeSet constructor copies them into sorted order — a HashMap on its own has no reliable ordering."
                   },
                   {
                     "code": "        for (String term : sortedTerms) {",
@@ -5317,7 +5317,7 @@
                 "        playlist.sort(",
                 "Comparator.comparingInt(Song::getEnergyLevel)",
                 "     .reversed());",
-                "        System.out.println(\"\\nSorted by Energy Level (High \u2192 Low):\");",
+                "        System.out.println(\"\\nSorted by Energy Level (High → Low):\");",
                 "        playlist.forEach(System.out::println);",
                 "",
                 "        // Sort by artist alphabetically",
@@ -5328,7 +5328,7 @@
                 "}"
               ],
               "explanation": {
-                "summary": "This program builds a list of Song objects and then sorts it three times \u2014 by title, by energy level from highest to lowest, and by artist \u2014 printing the playlist after each sort. It shows how Comparator lets you order the same list by different fields without writing your own sorting code.",
+                "summary": "This program builds a list of Song objects and then sorts it three times — by title, by energy level from highest to lowest, and by artist — printing the playlist after each sort. It shows how Comparator lets you order the same list by different fields without writing your own sorting code.",
                 "lines": [
                   {
                     "code": "import java.util.Comparator;",
@@ -5352,7 +5352,7 @@
                   },
                   {
                     "code": "        playlist.sort(Comparator.comparing(Song::getTitle));",
-                    "text": "Comparator.comparing takes a method that pulls out a value to compare \u2014 here the title \u2014 and sort rearranges the list in place using it."
+                    "text": "Comparator.comparing takes a method that pulls out a value to compare — here the title — and sort rearranges the list in place using it."
                   },
                   {
                     "code": "        playlist.forEach(System.out::println);",
@@ -6109,7 +6109,7 @@
                   },
                   {
                     "code": "        String oldest1 = history.pollLast();",
-                    "text": "pollLast removes from the opposite end, so this trims the oldest visited page \u2014 the kind of housekeeping a browser does when its history grows too long."
+                    "text": "pollLast removes from the opposite end, so this trims the oldest visited page — the kind of housekeeping a browser does when its history grows too long."
                   }
                 ],
                 "run": "java fixed/BrowserHistoryExample.java"
@@ -6154,7 +6154,7 @@
                 "",
                 "        // Example: Playlist as a PriorityQueue (String titles only)",
                 "        System.out.println(\"\\n--- Priority Playlist (String titles) ---\");",
-                "        PriorityQueue<String> titleQueue = new PriorityQueue<>(); // natural A\u2013Z order",
+                "        PriorityQueue<String> titleQueue = new PriorityQueue<>(); // natural A–Z order",
                 "        titleQueue.offer(\"Respect\");",
                 "        titleQueue.offer(\"Clair de Lune\");",
                 "        titleQueue.offer(\"Circle of Life\");",
@@ -6165,17 +6165,17 @@
                 "",
                 "        System.out.println(\"\\nProcessing by priority with poll():\");",
                 "        while (!titleQueue.isEmpty()) {",
-                "            String nextTitle = titleQueue.poll(); // removes smallest (A\u2013Z) first",
+                "            String nextTitle = titleQueue.poll(); // removes smallest (A–Z) first",
                 "            System.out.println(\"Playing: \" + nextTitle);",
                 "        }",
                 "    }",
                 "}"
               ],
               "explanation": {
-                "summary": "This program stores four song titles in a PriorityQueue and then removes them one at a time, showing that a priority queue hands back its smallest element first \u2014 here, the title that comes first alphabetically.",
+                "summary": "This program stores four song titles in a PriorityQueue and then removes them one at a time, showing that a priority queue hands back its smallest element first — here, the title that comes first alphabetically.",
                 "lines": [
                   {
-                    "code": "        PriorityQueue<String> titleQueue = new PriorityQueue<>(); // natural A\u2013Z order",
+                    "code": "        PriorityQueue<String> titleQueue = new PriorityQueue<>(); // natural A–Z order",
                     "text": "A PriorityQueue keeps its elements ordered by priority rather than by arrival. With no comparator supplied, Strings use their natural order, so the alphabetically first title has the highest priority."
                   },
                   {
@@ -6184,14 +6184,14 @@
                   },
                   {
                     "code": "        titleQueue.forEach(System.out::println);",
-                    "text": "Iterating a PriorityQueue does not walk the elements in sorted order \u2014 only the head is guaranteed to be the smallest, which is why the printout looks partly shuffled."
+                    "text": "Iterating a PriorityQueue does not walk the elements in sorted order — only the head is guaranteed to be the smallest, which is why the printout looks partly shuffled."
                   },
                   {
                     "code": "        while (!titleQueue.isEmpty()) {",
                     "text": "Looping until the queue is empty drains it completely, one element per pass."
                   },
                   {
-                    "code": "            String nextTitle = titleQueue.poll(); // removes smallest (A\u2013Z) first",
+                    "code": "            String nextTitle = titleQueue.poll(); // removes smallest (A–Z) first",
                     "text": "The poll method removes and returns the head of the queue, so repeated calls deliver the titles in full alphabetical order: Circle of Life, Clair de Lune, One More Time, Respect."
                   }
                 ],
@@ -6225,8 +6225,8 @@
                 "        // Song Title Sets: Intersection, Union, Difference",
                 "        // Example: Playlist as a Deque",
                 "",
-                "        // Example: Playlist as a PriorityQueue of Song objects by energy (High \u2192 Low)",
-                "        System.out.println(\"\\n--- Priority Playlist (Songs by Energy, High \u2192 Low) ---\");",
+                "        // Example: Playlist as a PriorityQueue of Song objects by energy (High → Low)",
+                "        System.out.println(\"\\n--- Priority Playlist (Songs by Energy, High → Low) ---\");",
                 "        PriorityQueue<Song> energyQueue = new PriorityQueue<>(",
                 "                Comparator.comparingInt(Song::getEnergyLevel).reversed());",
                 "        // Add songs from the existing playlist",
@@ -6423,7 +6423,7 @@
           "examples": [
             {
               "id": "java-9-01",
-              "title": "MarketProduct domain class for farmers\u2019 market app",
+              "title": "MarketProduct domain class for farmers’ market app",
               "kind": "class",
               "prompt": "Please create a subfolder with a small Maven Java app that includes JUnit as a dependency. Create two Java files: MarketProduct.java with fields for name, vendor, price (double), category, season, and organic (boolean). Also create a FarmersMarketApp.java with a main() method that stores various MarketProduct objects in a list.",
               "response": [
@@ -6539,7 +6539,7 @@
             },
             {
               "id": "java-9-02",
-              "title": "Farmers\u2019 market stream and lambdas",
+              "title": "Farmers’ market stream and lambdas",
               "kind": "program",
               "prompt": "Using the farmers market list, write a stream pipeline that finds all organic summer items, sorts them by price, extracts just their names, and collects the results into a List<String>.",
               "response": [
@@ -6894,7 +6894,7 @@
               "response": [
                 "public class WeatherEntry {",
                 "    private final String date;      // e.g., 2026-07-01",
-                "    private final double celsius;   // temperature in \u00b0C",
+                "    private final double celsius;   // temperature in °C",
                 "    private final String condition; // e.g., Sunny, Rainy, Cloudy",
                 "",
                 "    public WeatherEntry(String date, double celsius, String condition) {",
@@ -6933,7 +6933,7 @@
                     "text": "The date is stored as text in ISO order (year-month-day), which sorts correctly as a plain string. Marking the field final means it can never change after the object is built."
                   },
                   {
-                    "code": "    private final double celsius;   // temperature in \u00b0C",
+                    "code": "    private final double celsius;   // temperature in °C",
                     "text": "Temperature uses double because readings carry fractional degrees, such as 21.5."
                   },
                   {
@@ -6983,7 +6983,7 @@
             },
             {
               "id": "java-9-06",
-              "title": "Update farmers\u2019 market app to sort, limit, and deduplicate results",
+              "title": "Update farmers’ market app to sort, limit, and deduplicate results",
               "kind": "snippet",
               "prompt": "Could you please make the following changes to the FarmersMarketApp streams? 1. getVendorSet should be a list that is sorted alphabetically. 2. getVendorMenu needs to limit to 3 results.",
               "response": [
@@ -7113,7 +7113,7 @@
                   },
                   {
                     "code": "                .sorted()",
-                    "text": "With no comparator, sorted() uses the natural order of the elements, which for strings is alphabetical \u2014 this is the first change the reader asked for."
+                    "text": "With no comparator, sorted() uses the natural order of the elements, which for strings is alphabetical — this is the first change the reader asked for."
                   },
                   {
                     "code": "                .filter(p -> p.getVendor() != null && vendor != null && p.getVendor().equalsIgnoreCase(vendor))",
@@ -7447,7 +7447,7 @@
                   },
                   {
                     "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
-                    "text": "Sorting a parallel stream forces the results to be merged back into price order, so the parallel speedup is partly spent on that coordination \u2014 one reason parallel pays off only on large data sets."
+                    "text": "Sorting a parallel stream forces the results to be merged back into price order, so the parallel speedup is partly spent on that coordination — one reason parallel pays off only on large data sets."
                   },
                   {
                     "code": "                .map(MarketProduct::getName)",

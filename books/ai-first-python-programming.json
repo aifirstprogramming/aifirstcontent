@@ -64,7 +64,7 @@
                   },
                   {
                     "code": "print(\"Bananas:\", bananas)",
-                    "text": "Notice that the quoted text is printed literally while the bare word bananas is looked up as a variable \u2014 that difference is the heart of this exercise."
+                    "text": "Notice that the quoted text is printed literally while the bare word bananas is looked up as a variable — that difference is the heart of this exercise."
                   }
                 ],
                 "run": "python3 basket_of_fruits.py"
@@ -477,7 +477,7 @@
               ],
               "stdin": "8\n2\n3\n",
               "explanation": {
-                "summary": "This program asks for three counts \\u2014 balls the dog brought back, balls the cat brought back, and balls that were never retrieved \\u2014 and adds them together to report how many balls were thrown in total. What the book shows is a sample run: the numbers after each colon are what the reader typed in.",
+                "summary": "This program asks for three counts — balls the dog brought back, balls the cat brought back, and balls that were never retrieved — and adds them together to report how many balls were thrown in total. What the book shows is a sample run: the numbers after each colon are what the reader typed in.",
                 "lines": [
                   {
                     "code": "Enter number of balls dog retrieved: 8",
@@ -524,7 +524,7 @@
                   "id": "py-3-01.1",
                   "prompt": "Write a 3 line program that tells you to wear a hat if the temperature is too low.",
                   "response": [
-                    "temp = float(input(\"Temperature (\u00b0C): \"))",
+                    "temp = float(input(\"Temperature (°C): \"))",
                     "if temp < 10:",
                     "    print(\"Wear a hat!\")"
                   ],
@@ -533,7 +533,7 @@
                     "summary": "This program asks you for the current temperature and, when it is below 10 degrees Celsius, advises you to wear a hat. It is the smallest possible example of a decision in code.",
                     "lines": [
                       {
-                        "code": "temp = float(input(\"Temperature (\u00b0C): \"))",
+                        "code": "temp = float(input(\"Temperature (°C): \"))",
                         "text": "input always hands back text, so float converts what you typed into a decimal number that can be compared with other numbers."
                       },
                       {
@@ -552,7 +552,7 @@
                   "id": "py-3-01.2",
                   "prompt": "Modify this code to also tell you when not to wear a hat.",
                   "response": [
-                    "temp = float(input(\"Temperature (\u00b0C): \"))",
+                    "temp = float(input(\"Temperature (°C): \"))",
                     "if temp < 10:",
                     "    print(\"Wear a hat!\")",
                     "else:",
@@ -563,7 +563,7 @@
                     "summary": "This program asks for the current temperature and then advises whether you need a hat. It uses an if/else pair so that exactly one of the two messages is printed, no matter what number you type.",
                     "lines": [
                       {
-                        "code": "temp = float(input(\"Temperature (\u00b0C): \"))",
+                        "code": "temp = float(input(\"Temperature (°C): \"))",
                         "text": "input always hands back text, so float() converts what was typed into a decimal number that can be compared with 10. The result is stored in temp for the test on the next line."
                       },
                       {
@@ -576,7 +576,7 @@
                       },
                       {
                         "code": "else:",
-                        "text": "The else branch covers every case the condition missed \u2014 here, 10 degrees or warmer \u2014 so the program always gives an answer."
+                        "text": "The else branch covers every case the condition missed — here, 10 degrees or warmer — so the program always gives an answer."
                       },
                       {
                         "code": "    print(\"No hat needed.\")",
@@ -590,7 +590,7 @@
                   "id": "py-3-01.3",
                   "prompt": "Use an elif to tell you if you need to wear sunscreen because it's too hot",
                   "response": [
-                    "temp = float(input(\"Temperature (\u00b0C): \"))",
+                    "temp = float(input(\"Temperature (°C): \"))",
                     "if temp < 10:",
                     "    print(\"Wear a hat!\")",
                     "elif temp > 30:",
@@ -603,7 +603,7 @@
                     "summary": "This program asks for a temperature and gives clothing advice, choosing between three possible messages depending on how cold or hot it is.",
                     "lines": [
                       {
-                        "code": "temp = float(input(\"Temperature (\u00b0C): \"))",
+                        "code": "temp = float(input(\"Temperature (°C): \"))",
                         "text": "input always hands back text, so float converts what the reader typed into a decimal number that can be compared with 10 and 30."
                       },
                       {
@@ -722,7 +722,7 @@
                 "lines": [
                   {
                     "code": "for i in range(1, 6):",
-                    "text": "range(1, 6) produces the numbers 1, 2, 3, 4, 5 \u2014 the first number is included but the second is not, so you write one past where you want to stop. On each pass through the loop, the variable i holds the next number in that sequence."
+                    "text": "range(1, 6) produces the numbers 1, 2, 3, 4, 5 — the first number is included but the second is not, so you write one past where you want to stop. On each pass through the loop, the variable i holds the next number in that sequence."
                   },
                   {
                     "code": "    print(i)",
@@ -869,7 +869,7 @@
                   },
                   {
                     "code": "print(\"Parrot is full!\")",
-                    "text": "This line sits outside the loop, so it runs once the condition finally fails \u2014 that is, the moment the total reaches capacity."
+                    "text": "This line sits outside the loop, so it runs once the condition finally fails — that is, the moment the total reaches capacity."
                   }
                 ],
                 "run": "python3 feed_parrot_until_full.py"
@@ -981,9 +981,9 @@
                 "use_celsius = input(\"Use Celsius? (yes/no): \").strip().lower() == \"yes\"",
                 "",
                 "if use_celsius:",
-                "    temp = float(input(\"Temperature (\u00b0C): \"))",
+                "    temp = float(input(\"Temperature (°C): \"))",
                 "else:",
-                "    temp_f = float(input(\"Temperature (\u00b0F): \"))",
+                "    temp_f = float(input(\"Temperature (°F): \"))",
                 "    temp = (temp_f - 32) * 5 / 9",
                 "",
                 "if temp < 10:",
@@ -1003,14 +1003,14 @@
                   },
                   {
                     "code": "if use_celsius:",
-                    "text": "A boolean variable can be tested directly, with no comparison needed \u2014 this reads almost like an English sentence."
+                    "text": "A boolean variable can be tested directly, with no comparison needed — this reads almost like an English sentence."
                   },
                   {
-                    "code": "    temp = float(input(\"Temperature (\u00b0C): \"))",
+                    "code": "    temp = float(input(\"Temperature (°C): \"))",
                     "text": "input always hands back text, so float converts it into a number that can be compared and used in arithmetic."
                   },
                   {
-                    "code": "    temp_f = float(input(\"Temperature (\u00b0F): \"))",
+                    "code": "    temp_f = float(input(\"Temperature (°F): \"))",
                     "text": "The Fahrenheit reading is stored under its own name to keep it distinct from the Celsius value used later."
                   },
                   {
@@ -1097,10 +1097,10 @@
                 "shopping_list = [\"cake\", \"balloons\", \"decorations\", \"drinks\", \"snacks\", \"plates\", \"napkins\"]",
                 "",
                 "# Change an item",
-                "shopping_list[4] = \"chouri\u00e7o\"  # Replace snacks with Portuguese sausage",
+                "shopping_list[4] = \"chouriço\"  # Replace snacks with Portuguese sausage",
                 "",
                 "# Add Portuguese item",
-                "shopping_list.append(\"past\u00e9is de nata\")  # Portuguese custard tarts",
+                "shopping_list.append(\"pastéis de nata\")  # Portuguese custard tarts",
                 "",
                 "# Remove an item",
                 "shopping_list.remove(\"balloons\")  # Remove balloons",
@@ -1121,11 +1121,11 @@
                     "text": "A list holds several values in one variable, in the order you write them. Square brackets create the list, and commas separate the items."
                   },
                   {
-                    "code": "shopping_list[4] = \"chouri\u00e7o\"  # Replace snacks with Portuguese sausage",
+                    "code": "shopping_list[4] = \"chouriço\"  # Replace snacks with Portuguese sausage",
                     "text": "Lists are mutable, so you can overwrite a single slot by assigning to its index. Counting starts at 0, so index 4 is the fifth item, \"snacks\"."
                   },
                   {
-                    "code": "shopping_list.append(\"past\u00e9is de nata\")  # Portuguese custard tarts",
+                    "code": "shopping_list.append(\"pastéis de nata\")  # Portuguese custard tarts",
                     "text": "The append method adds one new item to the end of the list, making the list longer by one."
                   },
                   {
@@ -1523,7 +1523,7 @@
                 "deliver_food([\"Burger\", \"Fries\", \"Soda\"], 12)"
               ],
               "explanation": {
-                "summary": "This program defines a function that takes two pieces of information \u2014 a list of food items and a table number \u2014 and prints a delivery report for Beepo the robot waiter. The function is then called twice with different orders, showing how one definition can serve many situations.",
+                "summary": "This program defines a function that takes two pieces of information — a list of food items and a table number — and prints a delivery report for Beepo the robot waiter. The function is then called twice with different orders, showing how one definition can serve many situations.",
                 "lines": [
                   {
                     "code": "def deliver_food(food_list, table_number):",
@@ -1570,7 +1570,7 @@
                 "def collect_payment(table_number, items_ordered):",
                 "    \"\"\"Collects payment from a table based on items ordered ($2 each)\"\"\"",
                 "    amount = len(items_ordered) * 2",
-                "    print(f\"Table {table_number}: {len(items_ordered)} items \u00d7 $2 = ${amount}\")",
+                "    print(f\"Table {table_number}: {len(items_ordered)} items × $2 = ${amount}\")",
                 "    return amount",
                 "",
                 "# Cash register",
@@ -1600,7 +1600,7 @@
                     "text": "len() counts how many items are in the list, and multiplying by 2 gives the bill in dollars."
                   },
                   {
-                    "code": "    print(f\"Table {table_number}: {len(items_ordered)} items \u00d7 $2 = ${amount}\")",
+                    "code": "    print(f\"Table {table_number}: {len(items_ordered)} items × $2 = ${amount}\")",
                     "text": "Beepo announces the bill out loud, showing the working so the customer can check it."
                   },
                   {
@@ -1688,7 +1688,7 @@
                   },
                   {
                     "code": "deck = card_generator()",
-                    "text": "Creates the generator object. Nothing has been shuffled yet \u2014 the function body only starts running when the first card is requested."
+                    "text": "Creates the generator object. Nothing has been shuffled yet — the function body only starts running when the first card is requested."
                   },
                   {
                     "code": "(player_card, player_rank), (computer_card, computer_rank) = next(deck), next(deck)",
@@ -2192,7 +2192,7 @@
               "id": "py-6-05",
               "title": "Inheritance",
               "kind": "program",
-              "prompt": "Add robot pet subclasses for a cat, bird, and dog. Then create one of each type. Finally, call each animal\u2019s method.",
+              "prompt": "Add robot pet subclasses for a cat, bird, and dog. Then create one of each type. Finally, call each animal’s method.",
               "response": [
                 "class RobotPet:",
                 "    def __init__(self, name, battery, mood):",
@@ -2236,7 +2236,7 @@
                 "print(dog.bark())"
               ],
               "explanation": {
-                "summary": "This program defines a general RobotPet class and then three specialised versions of it \u2014 a cat, a bird, and a dog \u2014 each adding its own sound method. One of each is created and asked to speak.",
+                "summary": "This program defines a general RobotPet class and then three specialised versions of it — a cat, a bird, and a dog — each adding its own sound method. One of each is created and asked to speak.",
                 "lines": [
                   {
                     "code": "class RobotPet:",
@@ -2272,7 +2272,7 @@
                   },
                   {
                     "code": "    def meow(self):",
-                    "text": "This is the cat's own addition \u2014 a method that exists only on RobotCat, not on the base class or its siblings."
+                    "text": "This is the cat's own addition — a method that exists only on RobotCat, not on the base class or its siblings."
                   },
                   {
                     "code": "        return f\"{self.name} says: Meow!\"",
@@ -2469,7 +2469,7 @@
                 "    print(found.show_talent())"
               ],
               "explanation": {
-                "summary": "This program builds a RobotPetShelter that keeps its collection of robot pets in a private list, and gives the outside world three safe ways to work with that list: add a pet, print them all, and search for one by name. It is an example of composition \u2014 a shelter is not a kind of pet, it is an object made up of other objects.",
+                "summary": "This program builds a RobotPetShelter that keeps its collection of robot pets in a private list, and gives the outside world three safe ways to work with that list: add a pet, print them all, and search for one by name. It is an example of composition — a shelter is not a kind of pet, it is an object made up of other objects.",
                 "lines": [
                   {
                     "code": "        self.__pets = []",
@@ -2525,7 +2525,7 @@
                   },
                   {
                     "code": "    print(found.show_talent())",
-                    "text": "Because the returned object is a real RobotDog, its own version of show_talent runs \u2014 polymorphism working through the shelter."
+                    "text": "Because the returned object is a real RobotDog, its own version of show_talent runs — polymorphism working through the shelter."
                   }
                 ],
                 "run": "python3 main.py"
@@ -3116,7 +3116,7 @@
                 "        return f\"{self.name} catches a frisbee in mid-air!\""
               ],
               "explanation": {
-                "summary": "This code defines a RobotPet base class that manages a pet's name, battery level, and mood, then creates three subclasses \\u2014 cat, bird, and dog \\u2014 that each override show_talent with their own trick.",
+                "summary": "This code defines a RobotPet base class that manages a pet's name, battery level, and mood, then creates three subclasses — cat, bird, and dog — that each override show_talent with their own trick.",
                 "lines": [
                   {
                     "code": "class RobotPet:",
@@ -3185,7 +3185,7 @@
                 "",
                 "class TestRobotPet(unittest.TestCase):",
                 "",
-                "    \u2026",
+                "    …",
                 "",
                 "    def test_battery_clamped_below_zero_on_init(self):",
                 "        pet = RobotPet(\"Volt\", -10, \"neutral\")",
@@ -3267,7 +3267,7 @@
                     "text": "Each group of related tests is a class that inherits from unittest.TestCase, which is what gives you the assertEqual, assertIn and similar checking methods."
                   },
                   {
-                    "code": "    \u2026",
+                    "code": "    …",
                     "text": "The ellipsis stands in for the RobotPet tests written earlier in the chapter; in a real file you would keep those tests here rather than typing a literal ellipsis."
                   },
                   {
@@ -3503,7 +3503,7 @@
                 "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
                 "",
                 "class TestRobotPet(unittest.TestCase):",
-                "    \u2026",
+                "    …",
                 "",
                 "    def test_speak_low_battery(self):",
                 "        self.pet.battery = 10",
@@ -3523,7 +3523,7 @@
                 "        self.assertIn(\"Robo\", self.pet.speak())",
                 "",
                 "class TestRobotCat(unittest.TestCase):",
-                "    \u2026",
+                "    …",
                 "",
                 "    def test_speak_low_battery(self):",
                 "        self.cat.battery = 10",
@@ -3543,7 +3543,7 @@
                 "        self.assertIn(\"Whiskers\", self.cat.speak())",
                 "",
                 "class TestRobotBird(unittest.TestCase):",
-                "    \u2026",
+                "    …",
                 "",
                 "    def test_speak_low_battery(self):",
                 "        self.bird.battery = 10",
@@ -3563,7 +3563,7 @@
                 "        self.assertIn(\"Tweety\", self.bird.speak())",
                 "",
                 "class TestRobotDog(unittest.TestCase):",
-                "    \u2026",
+                "    …",
                 "",
                 "    def test_speak_low_battery(self):",
                 "        self.dog.battery = 10",
@@ -3586,7 +3586,7 @@
                 "    unittest.main()"
               ],
               "explanation": {
-                "summary": "This is a unittest suite for the new `speak` method that each robot pet class provides. For every pet it checks three branches of the method \u2014 low battery, a happy mood, and the plain neutral greeting \u2014 plus a fourth test confirming the pet's own name appears in whatever it says.",
+                "summary": "This is a unittest suite for the new `speak` method that each robot pet class provides. For every pet it checks three branches of the method — low battery, a happy mood, and the plain neutral greeting — plus a fourth test confirming the pet's own name appears in whatever it says.",
                 "lines": [
                   {
                     "code": "import unittest",
@@ -3601,7 +3601,7 @@
                     "text": "Each pet class gets its own TestCase subclass; grouping tests this way keeps the results readable and lets each group share one setUp."
                   },
                   {
-                    "code": "    \u2026",
+                    "code": "    …",
                     "text": "The book uses an ellipsis to stand for the setUp method printed earlier in the chapter, which creates the fresh pet object that every test in the class uses."
                   },
                   {
@@ -3672,7 +3672,7 @@
               "prompt": "Expand the speak function to handle more cases",
               "response": [
                 "class RobotPet:",
-                "    \u2026",
+                "    …",
                 "",
                 "    def speak(self):",
                 "        if self.battery < 30:",
@@ -3743,7 +3743,7 @@
                 "lines": [
                   {
                     "code": "class RobotPet:",
-                    "text": "The shared parent class. The \"\u2026\" underneath stands for the parts written in earlier exercises (the __init__ that stores name, mood, and battery), which the book leaves out so the new feature stands alone."
+                    "text": "The shared parent class. The \"…\" underneath stands for the parts written in earlier exercises (the __init__ that stores name, mood, and battery), which the book leaves out so the new feature stands alone."
                   },
                   {
                     "code": "    def speak(self):",
