@@ -120,43 +120,71 @@ export function materialize(
   return { mainFile, problems };
 }
 
-/** The command that decides whether this exercise passes. */
+/**
+ * The commands that decide whether this exercise passes, run in order.
+ *
+ * A sequence rather than one command because a Java exercise with a scaffold has to
+ * be compiled before it runs: `java Foo.java` only pulls in sibling source files on
+ * JDK 22 and later (JEP 458). Relying on that passed on a JDK 26 laptop and failed
+ * on CI's JDK 21 -- and would have failed for any learner on an LTS release, which
+ * is the case that actually matters.
+ */
 export function verifyCommand(
   example: Example,
   step: Step,
   mainFile: string,
   scaffold: Scaffold | undefined,
-): { argv: string[]; skipped?: string } {
+): { commands: string[][]; skipped?: string } {
   const entry = scaffold?.entrypoint;
   const kind = example.kind;
 
   if (example.language === "python") {
     // A scaffold entrypoint wins: for a snippet, the exercise's own file is
     // imported by the driver rather than run directly.
-    if (entry) return { argv: ["python3", entry] };
-    if (kind === "test") return { argv: ["python3", "-m", "unittest", "-v", mainFile.replace(/\.py$/, "")] };
+    if (entry) return { commands: [["python3", entry]] };
+    if (kind === "test") {
+      return { commands: [["python3", "-m", "unittest", "-v", mainFile.replace(/\.py$/, "")]] };
+    }
     // `class` included: running the file executes its definitions, which catches a
     // syntax or name error without inventing a driver.
-    return { argv: ["python3", mainFile] };
+    return { commands: [["python3", mainFile]] };
   }
 
   if (example.language === "java") {
     if (kind === "test") {
       if (!junitAvailable()) {
-        return { argv: [], skipped: `JUnit launcher missing; fetch it to ${JUNIT_JAR}` };
+        return { commands: [], skipped: `JUnit launcher missing; fetch it to ${JUNIT_JAR}` };
       }
-      return { argv: ["__junit__", mainFile] };
+      return { commands: [["__junit__", mainFile]] };
     }
-    if (entry) return { argv: ["java", entry] };
-    // The single-file source launcher needs an entry point. Without one, compiling
-    // is the strongest honest check.
-    if (kind === "class" || !hasJavaMain(step.response)) {
-      return { argv: ["javac", "-d", "out", mainFile] };
+
+    const runFile = entry ?? mainFile;
+    const hasMain = entry !== undefined || hasJavaMain(step.response);
+
+    // No entry point: compiling is the strongest honest check for a class.
+    if (!hasMain) return { commands: [["javac", "-d", "out", mainFile]] };
+
+    // With extra sources, compile and then run, so the exercise works on any JDK a
+    // learner is likely to have.
+    //
+    // Only the entry file is named: -sourcepath lets javac pull in the others as they
+    // are referenced. That matters for a snippet, whose own file is a fragment the
+    // book prints with an elision -- it compiles as part of the program that uses it,
+    // which is the only sense in which a fragment can be said to work, and naming it
+    // explicitly would demand it stand alone.
+    if ((scaffold?.files ?? []).some((f) => f.path.endsWith(".java"))) {
+      return {
+        commands: [
+          ["javac", "-d", "out", "-sourcepath", ".", runFile],
+          ["java", "-cp", "out", runFile.replace(/\.java$/, "")],
+        ],
+      };
     }
-    return { argv: runCommand("java", mainFile) ?? ["java", mainFile] };
+
+    return { commands: [runCommand("java", runFile) ?? ["java", runFile]] };
   }
 
-  return { argv: [], skipped: `no verification defined for language ${example.language}` };
+  return { commands: [], skipped: `no verification defined for language ${example.language}` };
 }
 
 /**
@@ -254,7 +282,7 @@ export function verify(
       return { ok: false, command: "", output: problems.join("\n") };
     }
 
-    const { argv, skipped } = verifyCommand(example, step, mainFile, scaffold);
+    const { commands, skipped } = verifyCommand(example, step, mainFile, scaffold);
     if (skipped) return { ok: false, command: "", output: "", skipped };
 
     // Only when a scaffold entrypoint means the response would not otherwise run,
@@ -267,28 +295,38 @@ export function verify(
       if (bad) return bad;
     }
 
-    if (argv[0] === "__junit__") return runJunit(dir, mainFile, timeoutMs);
+    if (commands[0]?.[0] === "__junit__") return runJunit(dir, mainFile, timeoutMs);
 
     mkdirSync(join(dir, "out"), { recursive: true });
-    const result = spawnSync(argv[0], argv.slice(1), {
-      cwd: dir,
-      encoding: "utf8",
-      timeout: timeoutMs,
-      // An exercise that reads input and gets none would hang until the timeout,
-      // so an empty string still closes the stream.
-      input: stdin ?? "",
-    });
 
-    const stdout = result.stdout ?? "";
-    const stderr = result.stderr ?? "";
-    const output = `${stdout}${stderr}`.trim();
-    if (result.error) {
-      return { ok: false, command: argv.join(" "), output: `${output}\n${result.error.message}`.trim() };
+    // Every command must succeed. Only the last one runs the program, so only it may
+    // end in a deliberate exception -- a compile step never can.
+    for (let n = 0; n < commands.length; n++) {
+      const argv = commands[n];
+      const last = n === commands.length - 1;
+      const result = spawnSync(argv[0], argv.slice(1), {
+        cwd: dir,
+        encoding: "utf8",
+        timeout: timeoutMs,
+        // An exercise that reads input and gets none would hang until the timeout,
+        // so an empty string still closes the stream.
+        input: stdin ?? "",
+      });
+
+      const stdout = result.stdout ?? "";
+      const stderr = result.stderr ?? "";
+      const output = `${stdout}${stderr}`.trim();
+      if (result.error) {
+        return { ok: false, command: argv.join(" "), output: `${output}\n${result.error.message}`.trim() };
+      }
+      const ok =
+        result.status === 0 ||
+        (last && (options.expectsUncaughtException ?? false) && threwAtRuntime(stdout, stderr));
+      if (!ok) return { ok: false, command: argv.join(" "), output };
+      if (last) return { ok: true, command: argv.join(" "), output };
     }
-    const ok =
-      result.status === 0 ||
-      ((options.expectsUncaughtException ?? false) && threwAtRuntime(stdout, stderr));
-    return { ok, command: argv.join(" "), output };
+
+    return { ok: false, command: "", output: "no verification command for this exercise" };
   } finally {
     try {
       rmSync(dir, { recursive: true, force: true });

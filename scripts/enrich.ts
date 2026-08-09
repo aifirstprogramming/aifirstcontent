@@ -540,7 +540,7 @@ async function enrichExample(example: Example): Promise<void> {
       }
 
       if (r.ok) {
-        const { argv: cmd } = verifyCommand(example, step, suggestFilename(example, step), scaffold);
+        const { commands: cmds } = verifyCommand(example, step, suggestFilename(example, step), scaffold);
         enriched.set(step.id, {
           id: step.id,
           explanation: {
@@ -548,7 +548,7 @@ async function enrichExample(example: Example): Promise<void> {
             lines: out.lines,
             // Set here, not by the model: the line a reader is shown is the command
             // that actually ran.
-            run: cmd.join(" "),
+            run: cmds.map((c) => c.join(" ")).join(" && "),
           },
           ...(scaffold ? { scaffold } : {}),
           ...(stdin !== undefined ? { stdin } : {}),

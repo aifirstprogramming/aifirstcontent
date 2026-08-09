@@ -2892,7 +2892,7 @@
                     "text": "The base pet has no special skill, so it returns a fixed sentence. The f prefix does nothing useful here because there are no braces to fill in, but it is harmless."
                   }
                 ],
-                "run": "python3 writing_your_first_unit_test.py"
+                "run": "python3 test_robot_pet.py"
               },
               "scaffold": {
                 "files": [

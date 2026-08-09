@@ -2234,7 +2234,7 @@
                     "text": "A third House; note that 1.0 is written as a decimal because the bathroom count is a double."
                   }
                 ],
-                "run": "java HouseBuilder.java"
+                "run": "javac -d out -sourcepath . HouseBuilder.java && java -cp out HouseBuilder"
               },
               "scaffold": {
                 "files": [
@@ -2344,7 +2344,7 @@
                     "text": "An int joined to a String is converted to its digits automatically, so no extra conversion call is needed."
                   }
                 ],
-                "run": "java HouseBuilder.java"
+                "run": "javac -d out -sourcepath . HouseBuilder.java && java -cp out HouseBuilder"
               },
               "scaffold": {
                 "files": [
@@ -2512,7 +2512,7 @@
                     "text": "Passing an object to println invokes its toString() method, so what you see here is whatever description the Room class defines."
                   }
                 ],
-                "run": "java RoomDesign.java"
+                "run": "javac -d out -sourcepath . RoomDesign.java && java -cp out RoomDesign"
               },
               "scaffold": {
                 "files": [
@@ -2653,7 +2653,7 @@
                     "text": "Each Room is asked for its own data through its getters, which is the object doing the work of describing itself."
                   }
                 ],
-                "run": "java HouseBuilder.java"
+                "run": "javac -d out -sourcepath . HouseBuilder.java && java -cp out HouseBuilder"
               },
               "scaffold": {
                 "files": [
@@ -2714,7 +2714,7 @@
                     "text": "Builds the sentence by joining text with the field's value and hands it back to the caller, which is free to print it, store it, or display it."
                   }
                 ],
-                "run": "javac -d out Cookie.java"
+                "run": "javac -d out -sourcepath . CookieDemo.java && java -cp out CookieDemo"
               },
               "scaffold": {
                 "files": [
@@ -2772,7 +2772,7 @@
                     "text": "The flavor is read through the inherited getter rather than the field directly, which is what keeps Cookie's data private and still usable."
                   }
                 ],
-                "run": "java Main.java"
+                "run": "javac -d out -sourcepath . Main.java && java -cp out Main"
               },
               "scaffold": {
                 "files": [
@@ -2836,7 +2836,7 @@
                     "text": "The same method name on the decorated cookie runs the subclass's overridden version, which is polymorphism in action."
                   }
                 ],
-                "run": "java CookieBakery.java"
+                "run": "javac -d out -sourcepath . CookieBakery.java && java -cp out CookieBakery"
               },
               "scaffold": {
                 "files": [
@@ -2927,7 +2927,7 @@
                     "text": "The `\\\"` escape sequence puts literal double quotes into the output, since a bare quote would end the string early."
                   }
                 ],
-                "run": "java Main.java"
+                "run": "javac -d out -sourcepath . Main.java && java -cp out Main"
               },
               "scaffold": {
                 "files": [
@@ -3012,7 +3012,7 @@
                     "text": "Each object runs its own version of describe(), so the output differs per cookie type even though the calling code is identical; this is polymorphism in action."
                   }
                 ],
-                "run": "java CookieBakery.java"
+                "run": "javac -d out -sourcepath . CookieBakery.java && java -cp out CookieBakery"
               },
               "scaffold": {
                 "files": [
@@ -3125,7 +3125,7 @@
                     "text": "Asking the object for its status and printing the result is manual testing: you compare what appears on screen against what you believe should happen at 72 degrees."
                   }
                 ],
-                "run": "java ThermostatApp.java"
+                "run": "javac -d out -sourcepath . ThermostatApp.java && java -cp out ThermostatApp"
               },
               "scaffold": {
                 "files": [
@@ -3243,7 +3243,7 @@
                     "text": "Any number outside 1 through 5 lands here, which both satisfies the compiler's demand that a switch expression always produce a value and gives tests a defined result for bad input such as 0 or 6."
                   }
                 ],
-                "run": "javac -d out Restaurant.java"
+                "run": "javac -d out -sourcepath . RestaurantDemo.java && java -cp out RestaurantDemo"
               },
               "scaffold": {
                 "files": [
@@ -3318,7 +3318,7 @@
                     "text": "If neither branch fired, the temperature sits inside the acceptable band and the thermostat does nothing."
                   }
                 ],
-                "run": "javac -d out Thermostat.java"
+                "run": "javac -d out -sourcepath . ThermostatDemo.java && java -cp out ThermostatDemo"
               },
               "scaffold": {
                 "files": [
@@ -3606,7 +3606,7 @@
                     "text": "The + operator joins the label to whatever getStatus() reports, and return sends that finished sentence back to the caller. A test can now capture this string and assert on it, which is impossible when a method only prints."
                   }
                 ],
-                "run": "java ThermostatDemo.java"
+                "run": "javac -d out -sourcepath . ThermostatDemo.java && java -cp out ThermostatDemo"
               },
               "scaffold": {
                 "files": [
@@ -3968,7 +3968,7 @@
                     "text": "This is the single method every sensor must provide, declared with a semicolon instead of a body because the implementing class supplies the actual reading."
                   }
                 ],
-                "run": "java TemperatureSensorDemo.java"
+                "run": "javac -d out -sourcepath . TemperatureSensorDemo.java && java -cp out TemperatureSensorDemo"
               },
               "scaffold": {
                 "files": [
@@ -4034,7 +4034,7 @@
                     "text": "Test scope makes Mockito available to test code only, so a mocking framework never ends up shipped inside your production build."
                   }
                 ],
-                "run": "java PomSnippetNote.java"
+                "run": "javac -d out -sourcepath . PomSnippetNote.java && java -cp out PomSnippetNote"
               },
               "scaffold": {
                 "files": [
@@ -4133,7 +4133,7 @@
                     "text": "Reaching this line means the time is 11:00 or later, so the order is accepted and echoed back with the item name."
                   }
                 ],
-                "run": "javac -d out Restaurant.java"
+                "run": "javac -d out -sourcepath . RestaurantDemo.java && java -cp out RestaurantDemo"
               },
               "scaffold": {
                 "files": [
@@ -4177,7 +4177,7 @@
                     "text": "The last title added is printed last, and the loop then ends because there are no more elements to visit."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -4353,7 +4353,7 @@
                     "text": "The count rises to four, demonstrating that duplicates are allowed in a List and motivating the Set collection later in the chapter."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -4463,7 +4463,7 @@
                     "text": "isEmpty() states plainly whether the list has any elements, which reads better than comparing size() to zero."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -4560,7 +4560,7 @@
                     "text": "Passing an object to println calls its toString method, which is why Book needs a readable toString of its own."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -4736,7 +4736,7 @@
                     "text": "Looping over the new list proves it was filled correctly and shows that genres repeat, since three books share the Fantasy genre."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -4827,7 +4827,7 @@
                     "text": "A HashSet has no defined order, so the genres may print in any sequence — use a TreeSet when order matters."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -5005,7 +5005,7 @@
                     "text": "Echoing the title alongside the result makes the output self-explanatory instead of a bare name."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -5115,7 +5115,7 @@
                     "text": "With the list still empty the map has no entries, so this is the branch that actually runs."
                   }
                 ],
-                "run": "java Library.java"
+                "run": "javac -d out -sourcepath . Library.java && java -cp out Library"
               },
               "scaffold": {
                 "files": [
@@ -5273,7 +5273,7 @@
                     "text": "The int energyLevel is converted to text automatically when combined with strings using +."
                   }
                 ],
-                "run": "javac -d out Song.java"
+                "run": "javac -d out -sourcepath . PlaylistApp.java && java -cp out PlaylistApp"
               },
               "scaffold": {
                 "files": [
@@ -5371,7 +5371,7 @@
                     "text": "Sorting again discards the previous ordering: the list keeps only whatever arrangement the most recent sort produced."
                   }
                 ],
-                "run": "java PlaylistApp.java"
+                "run": "javac -d out -sourcepath . PlaylistApp.java && java -cp out PlaylistApp"
               },
               "scaffold": {
                 "files": [
@@ -5473,7 +5473,7 @@
                     "text": "Iterating a TreeMap always visits keys in sorted order, so the titles print alphabetically without any explicit sorting step."
                   }
                 ],
-                "run": "java PlaylistApp.java"
+                "run": "javac -d out -sourcepath . PlaylistApp.java && java -cp out PlaylistApp"
               },
               "scaffold": {
                 "files": [
@@ -5581,7 +5581,7 @@
                     "text": "removeAll strips out every title the friend also has, leaving the songs that are unique to your playlist."
                   }
                 ],
-                "run": "java PlaylistApp.java"
+                "run": "javac -d out -sourcepath . PlaylistApp.java && java -cp out PlaylistApp"
               },
               "scaffold": {
                 "files": [
@@ -5720,7 +5720,7 @@
                     "text": "Deletes every title the friend also has, leaving the titles unique to my collection."
                   }
                 ],
-                "run": "java BookListApp.java"
+                "run": "javac -d out -sourcepath . BookListApp.java && java -cp out BookListApp"
               },
               "scaffold": {
                 "files": [
@@ -5823,7 +5823,7 @@
                     "text": "Printing the queue at the end shows empty brackets, confirming that polling consumed every element."
                   }
                 ],
-                "run": "java PlaylistApp.java"
+                "run": "javac -d out -sourcepath . PlaylistApp.java && java -cp out PlaylistApp"
               },
               "scaffold": {
                 "files": [
@@ -6023,7 +6023,7 @@
                     "text": "Printing the deque at the end confirms every song was consumed, so the output is an empty pair of brackets."
                   }
                 ],
-                "run": "java PlaylistApp.java"
+                "run": "javac -d out -sourcepath . PlaylistApp.java && java -cp out PlaylistApp"
               },
               "scaffold": {
                 "files": [
@@ -6112,7 +6112,7 @@
                     "text": "pollLast removes from the opposite end, so this trims the oldest visited page — the kind of housekeeping a browser does when its history grows too long."
                   }
                 ],
-                "run": "java fixed/BrowserHistoryExample.java"
+                "run": "javac -d out -sourcepath . fixed/BrowserHistoryExample.java && java -cp out fixed/BrowserHistoryExample"
               },
               "scaffold": {
                 "files": [
@@ -6272,7 +6272,7 @@
                     "text": "Concatenating the object into a string calls the Song class's toString method, which is why a whole song's details appear instead of a memory address."
                   }
                 ],
-                "run": "java EnergyQueueDemo.java"
+                "run": "javac -d out -sourcepath . EnergyQueueDemo.java && java -cp out EnergyQueueDemo"
               },
               "scaffold": {
                 "files": [
@@ -6404,7 +6404,7 @@
                     "text": "remove(int) takes the element out of the list and returns it, which lets the program report exactly which song was dropped."
                   }
                 ],
-                "run": "java PlaylistApp.java"
+                "run": "javac -d out -sourcepath . PlaylistApp.java && java -cp out PlaylistApp"
               },
               "scaffold": {
                 "files": [
@@ -6525,7 +6525,7 @@
                     "text": "The `'\\''` is an escaped single quote character, so the output wraps text values in quotes and makes it obvious where a name starts and ends."
                   }
                 ],
-                "run": "javac -d out MarketProduct.java"
+                "run": "javac -d out -sourcepath . FarmersMarketApp.java && java -cp out FarmersMarketApp"
               },
               "scaffold": {
                 "files": [
@@ -6632,7 +6632,7 @@
                     "text": "collect is the terminal operation that actually runs the pipeline and packages the results into a List<String>."
                   }
                 ],
-                "run": "java FarmersMarketApp.java"
+                "run": "javac -d out -sourcepath . FarmersMarketApp.java && java -cp out FarmersMarketApp"
               },
               "scaffold": {
                 "files": [
@@ -6782,7 +6782,7 @@
                     "text": "Each price is mapped to its discounted value, and `Math.max` guards against a negative result if the discount fraction were ever greater than one."
                   }
                 ],
-                "run": "java FarmersMarketApp.java"
+                "run": "javac -d out -sourcepath . FarmersMarketApp.java && java -cp out FarmersMarketApp"
               },
               "scaffold": {
                 "files": [
@@ -6874,7 +6874,7 @@
                     "text": "orElse supplies a fallback value when the Optional is empty, which avoids an exception if the market has no organic items."
                   }
                 ],
-                "run": "java MarketDemo.java"
+                "run": "javac -d out -sourcepath . MarketDemo.java && java -cp out MarketDemo"
               },
               "scaffold": {
                 "files": [
@@ -6969,7 +6969,7 @@
                     "text": "The escape sequence '\\'' is a single-quote character, which wraps the date in quotes to make the printed output easier to read."
                   }
                 ],
-                "run": "javac -d out WeatherEntry.java"
+                "run": "javac -d out -sourcepath . WeatherApp.java && java -cp out WeatherApp"
               },
               "scaffold": {
                 "files": [
@@ -7132,7 +7132,7 @@
                     "text": "limit stops the stream after three elements, which is the second requested change; because it comes after map, it counts finished menu lines."
                   }
                 ],
-                "run": "java MarketDemo.java"
+                "run": "javac -d out -sourcepath . MarketDemo.java && java -cp out MarketDemo"
               },
               "scaffold": {
                 "files": [
@@ -7275,7 +7275,7 @@
                     "text": "max uses the identical comparator and simply picks the opposite end of the ordering."
                   }
                 ],
-                "run": "java FarmersMarketApp.java"
+                "run": "javac -d out -sourcepath . FarmersMarketApp.java && java -cp out FarmersMarketApp"
               },
               "scaffold": {
                 "files": [
@@ -7381,7 +7381,7 @@
                     "text": "Wraps the name in single quotes. The escape sequence '\\'' is how you write a single-quote character in Java source."
                   }
                 ],
-                "run": "javac -d out Player.java"
+                "run": "javac -d out -sourcepath . TeamStatsApp.java && java -cp out TeamStatsApp"
               },
               "scaffold": {
                 "files": [
@@ -7458,7 +7458,7 @@
                     "text": "Collectors.toList handles the merging of per-thread partial results for you, so you never touch a shared list yourself and no synchronization is needed."
                   }
                 ],
-                "run": "java FarmersMarketApp.java"
+                "run": "javac -d out -sourcepath . FarmersMarketApp.java && java -cp out FarmersMarketApp"
               },
               "scaffold": {
                 "files": [
