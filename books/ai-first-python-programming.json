@@ -468,6 +468,7 @@
               "id": "py-2-13",
               "title": "Pet Fetch",
               "kind": "program",
+              "status": "retired",
               "prompt": "Write a 5 line program to calculate the number of balls thrown. Take user input for the number of balls the dog retrieved, the number of balls the cat retrieved, and the number of balls that never got retrieved.",
               "response": [
                 "Enter number of balls dog retrieved: 8",
@@ -506,8 +507,7 @@
                   }
                 ],
                 "entrypoint": "main.py"
-              },
-              "status": "retired"
+              }
             }
           ]
         },

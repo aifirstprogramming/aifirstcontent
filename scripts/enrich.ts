@@ -358,17 +358,38 @@ function checkProse(out: ModelOutput): string[] {
   return bad;
 }
 
-function toScaffold(out: ModelOutput): Scaffold | undefined {
-  if (out.scaffoldFiles.length === 0) return undefined;
+/**
+ * Drop a scaffold file that merely restates the exercise.
+ *
+ * The instruction not to do this is in the prompt, and the model mostly follows it
+ * -- but for java-8-09 it shipped a "fixed/" copy of the whole exercise, a habit left
+ * over from when that code had a typo in the manuscript. A duplicate is the exact
+ * drift risk `fromExercise` exists to avoid, so it is rejected here rather than
+ * merely discouraged.
+ */
+function isDuplicate(file: { path: string; content: string }, mainFile: string, response: string): boolean {
+  const name = file.path.split("/").pop() ?? file.path;
+  if (name === mainFile) return true;
+  const strip = (t: string) => t.replace(/\s+/g, " ").trim();
+  return strip(file.content) === strip(response);
+}
+
+function toScaffold(out: ModelOutput, mainFile: string, response: string): Scaffold | undefined {
+  const files = out.scaffoldFiles.filter((f) => !isDuplicate(f, mainFile, response));
+  if (files.length === 0) return undefined;
   return {
-    files: out.scaffoldFiles.map((f) =>
+    files: files.map((f) =>
       // A reference beats a copy: if the class this exercise needs is defined by
       // another exercise, pointing at it means the two cannot drift apart.
       f.fromExercise
         ? { path: f.path, fromExercise: f.fromExercise }
         : { path: f.path, content: f.content },
     ),
-    ...(out.entrypoint ? { entrypoint: out.entrypoint } : {}),
+    // An entrypoint pointing at a file that was just dropped would send the runner
+    // at nothing.
+    ...(out.entrypoint && files.some((f) => f.path === out.entrypoint)
+      ? { entrypoint: out.entrypoint }
+      : {}),
   };
 }
 
@@ -526,7 +547,7 @@ async function enrichExample(example: Example): Promise<void> {
         continue;
       }
 
-      const scaffold = toScaffold(out);
+      const scaffold = toScaffold(out, suggestFilename(example, step), step.response);
       const stdin = out.stdin === "" ? undefined : out.stdin;
       const r = verify(example, step, scaffold, stdin, {
         responseOf,

@@ -19,7 +19,7 @@
  *           falls out of the algorithm with no caption-text guessing.
  */
 
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join } from "node:path";
 import { readParagraphs, type Paragraph } from "./docx";
 
@@ -51,22 +51,79 @@ export interface BookConfig {
   includeAppendix: boolean;
 }
 
-export const BOOKS: BookConfig[] = [
+/**
+ * What is true about each book regardless of whose machine this runs on.
+ *
+ * Where the manuscripts actually live is not here: the books are not open source,
+ * so their paths belong in a local config file rather than in a public repository.
+ */
+const BOOK_SHAPE: Omit<BookConfig, "root">[] = [
   {
     tag: "java",
     language: "java",
-    root: "/home/steve/Nextcloud/Book Writing/AI First Java Programming",
     includeAppendix: false,
   },
   {
     tag: "py",
     language: "python",
-    root: "/home/steve/Nextcloud/Book Writing/AI First Python Programming/Chapters",
     // The Python Appendix is not part of the book yet and may never be, so it is
     // not a chapter and its examples are not imported.
     includeAppendix: false,
   },
 ];
+
+/** Override with AIFIRST_MANUSCRIPTS to keep the config outside the checkout. */
+export function manuscriptConfigPath(): string {
+  return process.env.AIFIRST_MANUSCRIPTS ?? join(import.meta.dir, "..", "..", "manuscripts.json");
+}
+
+function configHelp(path: string): string {
+  return [
+    `No manuscript config at ${path}.`,
+    "",
+    "The books are not in this repository, so the scraper needs to be told where they are:",
+    "",
+    "    cp manuscripts.example.json manuscripts.json",
+    "    $EDITOR manuscripts.json",
+    "",
+    "manuscripts.json is gitignored. Set AIFIRST_MANUSCRIPTS to keep it elsewhere.",
+  ].join("\n");
+}
+
+/**
+ * The books to scrape, with the manuscript root for each.
+ *
+ * Read lazily and validated up front, so a missing or stale path is one clear
+ * message rather than an empty scrape that looks like "nothing changed".
+ */
+export function books(): BookConfig[] {
+  const path = manuscriptConfigPath();
+  if (!existsSync(path)) throw new Error(configHelp(path));
+
+  let raw: Record<string, { root?: string }>;
+  try {
+    raw = JSON.parse(readFileSync(path, "utf8"));
+  } catch (e) {
+    throw new Error(`${path} is not valid JSON: ${(e as Error).message}`);
+  }
+
+  const out: BookConfig[] = [];
+  for (const shape of BOOK_SHAPE) {
+    const root = raw[shape.tag]?.root;
+    if (!root) {
+      // A book with no configured path is skipped rather than fatal: someone may
+      // hold only one manuscript, and scraping the other is still useful.
+      continue;
+    }
+    if (!existsSync(root)) {
+      throw new Error(`${path}: the ${shape.tag} root does not exist: ${root}`);
+    }
+    out.push({ ...shape, root });
+  }
+
+  if (out.length === 0) throw new Error(configHelp(path));
+  return out;
+}
 
 const PROMPT_LABEL = /^\s*prompt\s*[:\-–]\s*(.+)$/i;
 /**

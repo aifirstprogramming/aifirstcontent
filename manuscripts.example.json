@@ -1,0 +1,21 @@
+{
+  "//": [
+    "Where the book manuscripts live on this machine.",
+    "",
+    "The books are not open source, so their paths are not committed. Copy this file",
+    "to manuscripts.json (gitignored) and set the roots, or point AIFIRST_MANUSCRIPTS",
+    "at a copy kept outside the checkout.",
+    "",
+    "Each root is the folder holding that book's chapter .docx files. Omit a book you",
+    "do not have a copy of: the scraper will just skip it.",
+    "",
+    "Only `bun run scrape` reads this. Nothing else in the repo needs it, and CI never",
+    "has it."
+  ],
+  "java": {
+    "root": "/path/to/AI First Java Programming"
+  },
+  "py": {
+    "root": "/path/to/AI First Python Programming/Chapters"
+  }
+}

@@ -115,9 +115,19 @@ bun run scrape --show py-3-08  # ours vs the book, for one exercise
 bun run scrape --write         # apply, then: bun run ids && bun run check
 ```
 
-The manuscript paths are hard-coded in `scripts/lib/mine.ts` and point at a local
-Nextcloud folder, **so this cannot run in CI** — it is an authoring tool. Its
-output is committed; CI validates the result.
+First tell it where the books are. **They are not in this repository and their paths
+are not committed** — the manuscripts are not open source, so where they live is local
+configuration:
+
+```sh
+cp manuscripts.example.json manuscripts.json   # gitignored
+$EDITOR manuscripts.json
+```
+
+Set `AIFIRST_MANUSCRIPTS` to keep that file outside the checkout. Omit a book you do
+not have a copy of and the scraper skips it. Nothing else in the repo reads this, and
+**CI never has it** — the scraper is an authoring tool whose output is committed, and
+CI validates the result.
 
 What it applies automatically and what it refuses to is the design, documented in
 `scripts/lib/apply.ts`. Briefly: it takes the book's code when only the code
@@ -193,7 +203,7 @@ curl -sSLo ~/.aifirst-toolcache/junit-console.jar \
 
 ## Progress unit
 
-Learner progress is tracked per **example** (137 today), not per step. Steps are individually viewable
+Learner progress is tracked per **example** (138 today), not per step. Steps are individually viewable
 and applicable, but the titled example is the unit the book presents and therefore the unit a learner
 thinks in.
 
@@ -214,7 +224,7 @@ since those run under Bun and use `import.meta`.
 | Book | Examples | Chapters with content |
 |---|---|---|
 | AI First Python Programming | 51 | 1–7 of 10 |
-| AI First Java Programming | 86 | 1–9 of 12 |
+| AI First Java Programming | 87 | 1–9 of 12 |
 
 Every one of them has been executed, and carries a stored explanation.
 

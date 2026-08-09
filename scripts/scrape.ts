@@ -21,7 +21,7 @@ import { join } from "node:path";
 import { applyToBook, bookChapters, type Classification } from "./lib/apply";
 import { codeKey, promptKey, readParagraphs } from "./lib/docx";
 import {
-  BOOKS,
+  books,
   looksLikeInstruction,
   manuscriptFiles,
   mineBook,
@@ -375,7 +375,17 @@ const write = argv.includes("--write");
 
 const totals: Counts = { drift: 0, reworded: 0, revised: 0, unmined: 0, absent: 0, added: 0 };
 
-for (const cfg of BOOKS) {
+// A missing or wrong manuscript path is a setup problem, not a crash: print what
+// to do and stop, rather than a stack trace through the miner.
+let configured: BookConfig[];
+try {
+  configured = books();
+} catch (e) {
+  console.error(`${(e as Error).message}`);
+  process.exit(1);
+}
+
+for (const cfg of configured) {
   if (only && only !== cfg.tag) continue;
   const filename = bookFile(cfg.tag);
 

@@ -1,0 +1,37 @@
+{
+  "summary": "This program models a browser's history with an ArrayDeque, where the newest page sits at the front and the oldest at the back. It pushes five URLs on, removes the current page to simulate pressing Back, then trims the two oldest entries off the far end.",
+  "lines": [
+    {
+      "code": "        Deque<String> history = new ArrayDeque<>();",
+      "text": "Deque is the interface for a double-ended queue, so items can be added and removed at either end; ArrayDeque is the fast, array-backed implementation of it."
+    },
+    {
+      "code": "        history.addFirst(\"https://example.com/home\");",
+      "text": "addFirst pushes a URL onto the front of the deque, which mirrors how a browser treats the page you just visited as the current one."
+    },
+    {
+      "code": "        history.forEach(System.out::println);",
+      "text": "forEach walks the deque from front to back, and the method reference System.out::println tells it to print each element as it goes."
+    },
+    {
+      "code": "        String lastVisited = history.pollFirst();",
+      "text": "pollFirst removes and returns the front element, which is the page you are leaving when you press Back; it returns null instead of throwing if the deque is empty."
+    },
+    {
+      "code": "        System.out.println(\"\\nGo back: remove current page (front): \" + lastVisited);",
+      "text": "The \\n escape starts a blank line before the message, keeping each stage of the output visually separate."
+    },
+    {
+      "code": "        String oldest1 = history.pollLast();",
+      "text": "pollLast removes from the opposite end, which holds the oldest visited page, the way a real browser eventually discards ancient history."
+    },
+    {
+      "code": "        String oldest2 = history.pollLast();",
+      "text": "A second call to pollLast drops the next-oldest entry, leaving only the two most recent pages in the deque."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

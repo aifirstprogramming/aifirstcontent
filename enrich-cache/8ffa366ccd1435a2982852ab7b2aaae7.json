@@ -1,0 +1,49 @@
+{
+  "summary": "This program models a web browser's history with an ArrayDeque, a collection you can add to and remove from at either end. New pages are pushed onto the front, going back removes the front entry, and the oldest entries are trimmed off the back.",
+  "lines": [
+    {
+      "code": "import java.util.Deque;",
+      "text": "Deque (pronounced \"deck\") is the interface for a double-ended queue, which allows insertion and removal at both the front and the back."
+    },
+    {
+      "code": "import java.util.ArrayDeque;",
+      "text": "ArrayDeque is the array-backed implementation of Deque, and it is the usual choice when you need fast operations at both ends."
+    },
+    {
+      "code": "        Deque<String> history = new ArrayDeque<>();",
+      "text": "Declaring the variable with the Deque interface type keeps the program tied to the behaviour rather than the implementation, so ArrayDeque could be swapped out later."
+    },
+    {
+      "code": "        history.addFirst(\"https://example.com/home\");",
+      "text": "addFirst pushes a URL onto the front of the deque, matching how a browser treats the most recently visited page as the current one."
+    },
+    {
+      "code": "        history.addFirst(\"https://example.com/blog\");",
+      "text": "Because each page was added to the front, the blog page ends up first and the home page last, so the deque reads newest to oldest."
+    },
+    {
+      "code": "        history.forEach(System.out::println);",
+      "text": "forEach walks the deque from front to back, and the method reference System.out::println is shorthand for a lambda that prints each element."
+    },
+    {
+      "code": "        String lastVisited = history.pollFirst();",
+      "text": "pollFirst removes and returns the front element, which simulates the Back button leaving the current page. It returns null on an empty deque instead of throwing an exception."
+    },
+    {
+      "code": "        System.out.println(\"\\nGo back: remove current page (front): \" + lastVisited);",
+      "text": "The \\n escape sequence inserts a blank line before the text, separating the sections of output visually."
+    },
+    {
+      "code": "        String oldest1 = history.pollLast();",
+      "text": "pollLast removes from the opposite end, where the oldest visited pages sit, which is how a browser caps the size of its stored history."
+    },
+    {
+      "code": "        String oldest2 = history.pollLast();",
+      "text": "A second call to pollLast trims the next-oldest entry, leaving only the two most recent pages in the deque."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}
