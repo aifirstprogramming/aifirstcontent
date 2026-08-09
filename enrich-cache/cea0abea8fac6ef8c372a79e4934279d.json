@@ -1,0 +1,52 @@
+{
+  "summary": "This code defines a RobotPet class that stores a name, a battery level, and a mood, plus a can_walk method that works out whether the battery can cover a walk of a given length. Two robot pets are then created so their walking ability can be tested.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "This begins the blueprint for a robot pet; every pet created from it will share the same structure and behaviour."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The __init__ method runs automatically whenever a new RobotPet is created, and it receives the three details that describe that pet."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "The name passed in is stored on the object itself, so each pet remembers its own name after __init__ finishes."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "The battery level is stored as an attribute because can_walk needs to read it later."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "The mood is kept alongside the other details; it is not used by can_walk, but it is part of what describes a pet."
+    },
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "This method belongs to each pet, and self gives it access to that particular pet's battery when deciding about a walk of duration minutes."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "A docstring records what the method promises to do, which is exactly the behaviour an assert statement would later check."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "The rule of this program is that every minute of walking costs two units of battery, so the cost is calculated before it is compared."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The comparison produces True or False, and returning it lets the caller decide what to do rather than printing a message here."
+    },
+    {
+      "code": "rover = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "This creates a well-charged pet, a good case for checking that can_walk says yes."
+    },
+    {
+      "code": "beep = RobotPet(\"Beep\", 45, \"tired\")",
+      "text": "Beep has less battery, so it is the case that shows can_walk correctly refusing a long walk."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

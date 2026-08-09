@@ -1,0 +1,59 @@
+{
+  "summary": "This program stores two playlists as sets of song titles and uses the built-in set operations to find which songs both friends share, the combined list of all songs, and the songs only the first person has.",
+  "lines": [
+    {
+      "code": "import java.util.Set;",
+      "text": "Set is the interface you program against; the concrete HashSet class also lives in java.util, so a complete program needs the line import java.util.HashSet; alongside this one."
+    },
+    {
+      "code": "        Set<String> myTitles = new HashSet<>();",
+      "text": "The variable is typed as the Set interface while the object is a HashSet, which keeps no duplicates and does not preserve insertion order."
+    },
+    {
+      "code": "        myTitles.add(\"Respect\");",
+      "text": "add puts a title into the set; adding the same title twice would simply leave the set unchanged, which is what makes a set the right tool for a collection of unique songs."
+    },
+    {
+      "code": "        Set<String> friendTitles = new HashSet<>();",
+      "text": "The friend's playlist is a second, independent set so the two can be compared."
+    },
+    {
+      "code": "        Set<String> intersection = new HashSet<>(myTitles);",
+      "text": "Passing a set to the HashSet constructor makes a copy, so the operations that follow modify the copy and leave myTitles intact."
+    },
+    {
+      "code": "        intersection.retainAll(friendTitles);",
+      "text": "retainAll keeps only the elements that also appear in the other set, which leaves exactly the songs both playlists have in common."
+    },
+    {
+      "code": "        System.out.println(\"\\nIntersection: \" + intersection);",
+      "text": "The \\n prints a blank line first for readability, and the set prints its elements inside square brackets in whatever order HashSet happens to store them."
+    },
+    {
+      "code": "        Set<String> union = new HashSet<>(myTitles);",
+      "text": "Another fresh copy of your playlist, this time as the starting point for the union."
+    },
+    {
+      "code": "        union.addAll(friendTitles);",
+      "text": "addAll merges in every title from the friend's set, and because duplicates are ignored, \"Respect\" appears only once in the result."
+    },
+    {
+      "code": "        Set<String> difference = new HashSet<>(myTitles);",
+      "text": "A third copy, because each set operation destroys the set it is applied to."
+    },
+    {
+      "code": "        difference.removeAll(friendTitles);",
+      "text": "removeAll strips out every title the friend also has, leaving the songs that are unique to your playlist."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "HashSet.java",
+      "content": "import java.util.Collection;\n\n// Compatibility shim. The snippet on the page uses HashSet but its import list\n// omits java.util.HashSet, so this small subclass lets the printed code compile\n// and run unchanged. In your own programs, delete this file and add the line\n// import java.util.HashSet; at the top of PlaylistApp.java instead.\npublic class HashSet<E> extends java.util.HashSet<E> {\n    public HashSet() {\n        super();\n    }\n\n    public HashSet(Collection<? extends E> source) {\n        super(source);\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

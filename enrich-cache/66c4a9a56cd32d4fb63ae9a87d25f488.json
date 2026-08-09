@@ -1,0 +1,17 @@
+{
+  "summary": "This program prints the word \"Hello\" three times using a loop, so the instruction only has to be written once.",
+  "lines": [
+    {
+      "code": "for i in range(3):",
+      "text": "range(3) produces the three numbers 0, 1, and 2, and the for loop runs its body once for each of them. The variable i holds the current number, even though this program never uses it."
+    },
+    {
+      "code": "    print(\"Hello\")",
+      "text": "The indentation is what puts this line inside the loop, so it runs on every pass rather than just once."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

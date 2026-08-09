@@ -1,0 +1,45 @@
+{
+  "summary": "This program keeps a travel packing list in an ArrayList of strings, prints it as a numbered list, then adds one item and removes another before printing the updated list. It shows that a List allows duplicate values and that removing by name only takes out the first match.",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the concrete list implementation supplied by the Java library, and it must be imported before it can be used."
+    },
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that describes what any list can do, so importing both lets you declare the variable as a List while building an ArrayList."
+    },
+    {
+      "code": "        List<String> items = new ArrayList<>();",
+      "text": "The variable is typed as List but holds an ArrayList, a common Java habit that keeps the code tied to the general behaviour rather than one implementation. The <String> says every element is a string."
+    },
+    {
+      "code": "        items.add(\"Toothbrush\");",
+      "text": "add appends an element to the end of the list, so the order in which you call it is the order the items keep."
+    },
+    {
+      "code": "        items.add(\"Socks\"); // Add a duplicate item",
+      "text": "A List happily stores the same value twice, which is exactly what you want for a packing list holding two pairs of socks."
+    },
+    {
+      "code": "        for (int i = 0; i < items.size(); i++) {",
+      "text": "size() reports how many elements the list currently holds, and because list positions start at 0 the loop must stop before that number."
+    },
+    {
+      "code": "            System.out.println((i + 1) + \". \" + items.get(i));",
+      "text": "get(i) fetches the element at position i, and printing i + 1 turns the zero-based index into the 1, 2, 3 numbering a reader expects."
+    },
+    {
+      "code": "        System.out.println(\"\\nAdding 'Shampoo' to the list...\");",
+      "text": "The \\n escape starts a blank line before the message, which separates the two printed lists visually."
+    },
+    {
+      "code": "        items.remove(\"Socks\");",
+      "text": "Passing a string to remove deletes the first element equal to it and leaves the second \"Socks\" in place, so a duplicate needs a second call to disappear entirely."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,76 @@
+{
+  "summary": "This code defines a RobotPet base class and three subclasses (RobotCat, RobotBird, RobotDog) that each speak differently depending on their type, remaining battery, and mood. The battery value is kept inside the sensible range 0-100 by a property setter.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The initializer collects the three pieces of state that every robot pet needs: a name, a battery level, and a mood."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Assigning to self.battery here does not store the value directly; it goes through the property setter below, so even the starting value gets clamped."
+    },
+    {
+      "code": "    @property",
+      "text": "The @property decorator turns the method underneath into an attribute you read as pet.battery, with no parentheses."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in _battery, and the leading underscore signals that outside code should leave it alone and use the property instead."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This registers the next method as the code that runs whenever anything assigns to battery, which is where the validation happens."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "Any negative assignment is treated as an empty battery rather than an error, so the object can never hold an impossible reading."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "The upper guard means repeated charging saturates at a full battery instead of climbing forever."
+    },
+    {
+      "code": "    def charge(self, amount):",
+      "text": "Charging is written as ordinary addition because the setter already enforces the 0-100 limits for free."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "The base class provides a generic talent so that every pet answers the method, and each subclass replaces it with something specific."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "This is the new feature: what a pet says now depends on its state rather than being a fixed string."
+    },
+    {
+      "code": "        if self.battery < 30:",
+      "text": "The low-battery check comes first so that an exhausted pet complains about power no matter how good its mood is."
+    },
+    {
+      "code": "        if self.mood == \"happy\":",
+      "text": "With enough charge, mood decides between the cheerful line and the neutral one below."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "Reaching the end of the method gives the default greeting, covering every mood that is not \"happy\"."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "RobotCat inherits the name, battery, mood, property, and charge behaviour, so it only has to describe what makes a cat different."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "Overriding speak with the same three-branch shape means calling speak on any pet works identically while the wording changes per species — this is polymorphism, and it is what the unit tests will check."
+    },
+    {
+      "code": "class RobotBird(RobotPet):",
+      "text": "Each new species is a small subclass, which is why adding one requires no change to the base class."
+    },
+    {
+      "code": "class RobotDog(RobotPet):",
+      "text": "The dog follows the same pattern, giving you three types whose low-battery, happy, and neutral lines can each be asserted in a test."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

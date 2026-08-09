@@ -1,0 +1,45 @@
+{
+  "summary": "This is the Thermostat class with eco mode, plus a new printStatusToDisplay method that writes the current status to the console. It shows how a method that prints instead of returning a value is harder to test later.",
+  "lines": [
+    {
+      "code": "private final int currentTemp;",
+      "text": "The current temperature is stored as final, so it is set once when the thermostat is created and never changes afterwards."
+    },
+    {
+      "code": "        private final boolean ecoMode;",
+      "text": "A true/false flag recording whether the thermostat is running in energy-saving mode."
+    },
+    {
+      "code": "    public Thermostat(int currentTemp, boolean ecoMode) {",
+      "text": "The constructor takes both settings at once, so every Thermostat object exists in a fully configured state."
+    },
+    {
+      "code": "        int heatingThreshold = ecoMode ? 65 : 68;",
+      "text": "The conditional operator picks 65 in eco mode and 68 otherwise, letting the house get cooler before the heat comes on when saving energy."
+    },
+    {
+      "code": "        int coolingThreshold = ecoMode ? 78 : 75;",
+      "text": "Likewise, eco mode tolerates a warmer room before cooling starts."
+    },
+    {
+      "code": "        if (currentTemp < heatingThreshold) {",
+      "text": "Below the heating threshold the thermostat calls for heat, so this check comes first."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "If neither threshold was crossed, the temperature is comfortable and nothing needs to run."
+    },
+    {
+      "code": "    public void printStatusToDisplay() {",
+      "text": "A void method returns nothing, so the only way to observe its work is by watching the console \rise\n needs to capture that output to test it."
+    },
+    {
+      "code": "        System.out.println(\"Thermostat status: \" + getStatus());",
+      "text": "The message reuses getStatus rather than repeating the threshold logic, keeping the decision rules in a single place."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

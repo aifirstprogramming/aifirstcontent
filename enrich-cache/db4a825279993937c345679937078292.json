@@ -1,0 +1,64 @@
+{
+  "summary": "This program reads a Celsius temperature from the keyboard and keeps asking until the reader types a real number that falls between absolute zero (-273.15) and 100. Once a valid value arrives, it converts it to Fahrenheit and prints the result.",
+  "lines": [
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "A try-with-resources block creates the Scanner that reads the keyboard and automatically closes it when the block ends, so nothing is left open."
+    },
+    {
+      "code": "            Double celsius = null;",
+      "text": "The capital-D `Double` is the object version of the number type, which can hold `null` to mean \"no valid value yet\"; a plain `double` could not."
+    },
+    {
+      "code": "            while (true) {",
+      "text": "An intentionally endless loop keeps re-prompting; the only ways out are the `break` below or an exception."
+    },
+    {
+      "code": "                String input = scanner.nextLine().trim();",
+      "text": "Reading the whole line as text lets the program inspect it before trusting it, and `trim()` removes stray spaces the reader may have typed."
+    },
+    {
+      "code": "                    double value = Double.parseDouble(input);",
+      "text": "This attempts to turn the text into a number, and throws a `NumberFormatException` when the text is not numeric."
+    },
+    {
+      "code": "                    if (value < -273.15 || value > 100) {",
+      "text": "This is the range check: anything colder than absolute zero or hotter than 100 is rejected."
+    },
+    {
+      "code": "                        continue;",
+      "text": "`continue` jumps straight back to the top of the loop so the out-of-range value is discarded and a fresh line is read."
+    },
+    {
+      "code": "                    celsius = value;",
+      "text": "Only a number that passed both the parsing and the range test gets stored."
+    },
+    {
+      "code": "                    break;",
+      "text": "With a good value in hand, `break` leaves the loop and lets the conversion run."
+    },
+    {
+      "code": "                } catch (NumberFormatException e) {",
+      "text": "This catch handles non-numeric text such as \"abc\" by printing a hint; the loop then repeats naturally."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "Java automatically unwraps the `Double` object into the plain `double` the method expects."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "A final safety net reports any other failure, such as the input stream ending before a valid number is entered."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "Keeping the formula in its own method means the validation loop above stays focused on checking input."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Because `celsius` is a `double`, `celsius * 9` is a decimal value and the division by 5 keeps its fractional part."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "500\nabc\n25\n"
+}

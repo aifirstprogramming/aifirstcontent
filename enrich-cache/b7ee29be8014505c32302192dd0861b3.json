@@ -1,0 +1,96 @@
+{
+  "summary": "This program is the farmers' market report from earlier in the chapter, now updated so that the vendor list comes back alphabetically with duplicates removed, and so that a vendor's menu shows at most three items. Each report is a separate static method holding one stream pipeline.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "Comparator supplies the ready-made comparison objects that sorted() needs when you want to order by something other than a value's natural order, such as by price."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "Every report below reads from this one list, so the streams have a single source of data."
+    },
+    {
+      "code": "        List<String> organicSummerNames = getOrganicSummerItemNamesSortedByPrice(products);",
+      "text": "Calling a named method instead of writing the pipeline inline keeps main readable and lets you test each report on its own."
+    },
+    {
+      "code": "        List<String> vendors = getVendorSet(products);",
+      "text": "The method name still says \"Set\", but it now returns a List because a list can hold a guaranteed order while a plain set cannot."
+    },
+    {
+      "code": "        String vendor = \"Baker's Lane\";",
+      "text": "Storing the vendor name in a variable means the menu lookup and the discount calculation below cannot drift apart."
+    },
+    {
+      "code": "        menu.forEach(System.out::println);",
+      "text": "forEach with a method reference prints each menu line on its own row, which reads better than printing the whole list in brackets."
+    },
+    {
+      "code": "        List<Double> discountedPrices = getDiscountedPricesForVendor(products, vendor, 0.10);",
+      "text": "This call points at step 3, which is still only a comment at the bottom of the class, so you must write that method before the file will compile."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "The null check on getSeason() comes before the call to toLowerCase(), which is what stops a missing season from crashing the pipeline."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "comparingDouble reads the price out of each product and orders the stream from cheapest to most expensive."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "Sorting happens while the elements are still products, so mapping to names afterwards keeps the price order in the finished list of strings."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "A stream can only be walked once, so collect gathers the results into a list you can print, return, and reuse."
+    },
+    {
+      "code": "                .map(MarketProduct::getVendor)",
+      "text": "This turns a stream of products into a stream of vendor names, which is all the rest of this pipeline needs."
+    },
+    {
+      "code": "                .filter(v -> v != null && !v.isBlank())",
+      "text": "Filtering out null and blank vendors keeps empty entries from showing up in the printed list and from breaking the sort."
+    },
+    {
+      "code": "                .distinct()",
+      "text": "Many products share a vendor, so distinct() keeps only the first occurrence of each name."
+    },
+    {
+      "code": "                .sorted()",
+      "text": "With no comparator, sorted() uses the natural order of the elements, which for strings is alphabetical — this is the first change the reader asked for."
+    },
+    {
+      "code": "                .filter(p -> p.getVendor() != null && vendor != null && p.getVendor().equalsIgnoreCase(vendor))",
+      "text": "equalsIgnoreCase matches the vendor whatever the capitalization, and the two null checks guard both sides of the comparison."
+    },
+    {
+      "code": "                // .sorted(Comparator.comparing(MarketProduct::getName))",
+      "text": "This line is commented out on purpose: with it enabled the menu would list items alphabetically, so it is worth switching on to see how it changes which three items survive the limit."
+    },
+    {
+      "code": "                .map(p -> p.getName() + \" - $\" + String.format(\"%.2f\", p.getPrice()))",
+      "text": "String.format with %.2f pins each price to two decimal places so the menu lines up like real money."
+    },
+    {
+      "code": "                .limit(3)",
+      "text": "limit stops the stream after three elements, which is the second requested change; because it comes after map, it counts finished menu lines."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    },
+    {
+      "path": "MarketDemo.java",
+      "content": "import java.util.List;\nimport java.util.stream.Collectors;\n\n// A small companion program you can run to watch the two new stream steps work.\npublic class MarketDemo {\n    public static void main(String[] args) {\n        List<String> vendorNames = List.of(\n                \"Sunny Acres\", \"Baker's Lane\", \"Hilltop Honey\", \"Baker's Lane\", \"Sunny Acres\");\n\n        List<String> sortedVendors = vendorNames.stream()\n                .distinct()\n                .sorted()\n                .collect(Collectors.toList());\n        System.out.println(\"Vendors (sorted): \" + sortedVendors);\n\n        List<String> bakersLaneMenu = List.of(\n                \"Sourdough Loaf - $6.50\",\n                \"Rye Boule - $7.25\",\n                \"Baguette - $4.00\",\n                \"Cinnamon Roll - $3.75\");\n\n        List<String> firstThree = bakersLaneMenu.stream()\n                .limit(3)\n                .collect(Collectors.toList());\n        System.out.println(\"\\nBaker's Lane menu (limited to 3):\");\n        firstThree.forEach(System.out::println);\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "MarketDemo.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

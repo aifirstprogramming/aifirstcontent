@@ -1,0 +1,40 @@
+{
+  "summary": "This program starts with a party shopping list, then changes one item, adds another, and removes a third before printing the updated list. It finishes by reaching into the list by position to show the first and last items.",
+  "lines": [
+    {
+      "code": "shopping_list = [\"cake\", \"balloons\", \"decorations\", \"drinks\", \"snacks\", \"plates\", \"napkins\"]",
+      "text": "A list holds several values in one variable, in the order you write them. Each item keeps a numbered position, starting at 0, which is what makes the rest of the program possible."
+    },
+    {
+      "code": "shopping_list[4] = \"chouriço\"  # Replace snacks with Portuguese sausage",
+      "text": "Assigning to a position replaces whatever was stored there. Position 4 is the fifth item, \"snacks\", so the list now carries chouriço instead."
+    },
+    {
+      "code": "shopping_list.append(\"pastéis de nata\")  # Portuguese custard tarts",
+      "text": "The append method adds a single new item to the end of the list, growing it from seven items to eight."
+    },
+    {
+      "code": "shopping_list.remove(\"balloons\")  # Remove balloons",
+      "text": "The remove method deletes an item by its value rather than its position. Everything after \"balloons\" shifts down one place, which is why you should not rely on old index numbers after removing something."
+    },
+    {
+      "code": "for item in shopping_list:",
+      "text": "A for loop walks through the list one item at a time, storing each value in the variable item so the body can use it."
+    },
+    {
+      "code": "    print(\"-\", item)",
+      "text": "Passing two values to print puts a space between them, producing a neat dash-prefixed bullet for each item."
+    },
+    {
+      "code": "print(f\"\\nFirst item: {shopping_list[0]}\")",
+      "text": "Index 0 is the first item, since Python counts positions from zero. The \\n prints a blank line first to separate this section from the list above."
+    },
+    {
+      "code": "print(f\"Last item: {shopping_list[-1]}\")",
+      "text": "A negative index counts backward from the end, so -1 always gives the final item without you needing to know how long the list is."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores a reminder message in a String variable and then prints it to the screen. It shows the basic pattern of naming a piece of text so you can refer to it later.",
+  "lines": [
+    {
+      "code": "public class DisplayReminder {",
+      "text": "Every Java program lives inside a class, and the class name must match the file name, so this code belongs in DisplayReminder.java."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the method Java looks for when it starts a program; execution begins with the first line inside it."
+    },
+    {
+      "code": "        String reminder = \"Don't forget to submit the report by 5 PM.\";",
+      "text": "This declares a variable named reminder of type String, which holds text, and assigns the message to it. Text values must be wrapped in double quotes."
+    },
+    {
+      "code": "        System.out.println(reminder);",
+      "text": "Passing the variable name rather than the quoted text prints whatever value the variable currently holds, so the message only has to be written once."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

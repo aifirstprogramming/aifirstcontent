@@ -1,0 +1,65 @@
+{
+  "summary": "This program defines a general RobotPet class and then three specialised versions of it — a cat, a bird, and a dog — each adding its own sound method. One of each is created and asked to speak.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "The base class holds everything the three pets have in common, so that shared code is written once."
+    },
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to self.battery does not store the value directly; it runs the setter below, so an out-of-range battery is corrected on the way in."
+    },
+    {
+      "code": "    @property",
+      "text": "The @property decorator turns the method beneath it into an attribute you read as pet.battery, with no parentheses."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in the underscore-prefixed _battery, and the property hands it out on request."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This marks the next method as the code to run whenever something assigns to battery."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "Negative charges are meaningless, so anything below zero is clamped up to zero."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "Likewise a battery cannot exceed full, so anything above 100 is clamped down."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "Putting RobotPet in parentheses means RobotCat inherits its __init__ and its battery property without repeating a line of them."
+    },
+    {
+      "code": "    def meow(self):",
+      "text": "This is the cat's own addition — a method that exists only on RobotCat, not on the base class or its siblings."
+    },
+    {
+      "code": "        return f\"{self.name} says: Meow!\"",
+      "text": "The subclass can read self.name even though the base class set it, because an inherited attribute belongs to the object itself."
+    },
+    {
+      "code": "class RobotBird(RobotPet):",
+      "text": "A second subclass built from the same base, showing that one parent can have many children."
+    },
+    {
+      "code": "class RobotDog(RobotPet):",
+      "text": "The third subclass follows the identical pattern, differing only in the sound it makes."
+    },
+    {
+      "code": "cat = RobotCat(\"Whiskers\", 85, \"happy\")",
+      "text": "No __init__ is written in RobotCat, so Python falls back to the one it inherited from RobotPet."
+    },
+    {
+      "code": "print(cat.meow())",
+      "text": "Each object is asked for its own specialised behaviour, which is the payoff of writing separate subclasses."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

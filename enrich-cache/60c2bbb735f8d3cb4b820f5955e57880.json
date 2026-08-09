@@ -1,0 +1,85 @@
+{
+  "summary": "This program asks the builder for a house's address, bedroom and bathroom counts, and then for a room-by-room layout, storing each room in a list inside a House object before printing a summary report. It shows how one object (House) can hold a collection of other objects (Room).",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the resizable list implementation used to collect the rooms as they are typed in, since the number of rooms is not known until the builder says so."
+    },
+    {
+      "code": "        Scanner input = new Scanner(System.in);",
+      "text": "A single Scanner tied to the keyboard is created once and reused for every prompt in the program."
+    },
+    {
+      "code": "        String address = input.nextLine();",
+      "text": "nextLine reads the whole line, which matters here because a street address contains spaces that would break nextWord-style reading."
+    },
+    {
+      "code": "        double bathrooms = input.nextDouble();",
+      "text": "Bathrooms are stored as a double so that half baths such as 2.5 can be recorded."
+    },
+    {
+      "code": "        int roomCount = input.nextInt();",
+      "text": "This count controls how many times the room-entry loop will run."
+    },
+    {
+      "code": "        input.nextLine();",
+      "text": "After reading a number, the newline the user pressed is still waiting in the buffer; this extra nextLine throws it away so the next nextLine reads real text instead of an empty string."
+    },
+    {
+      "code": "        List<Room> rooms = new ArrayList<>();",
+      "text": "The variable is declared as the List interface but built as an ArrayList, a common Java habit that keeps the code flexible about the exact list type."
+    },
+    {
+      "code": "        for (int roomNumber = 1; roomNumber <= roomCount; roomNumber++) {",
+      "text": "Counting from 1 up to roomCount means the prompts read naturally as \"room 1\", \"room 2\", and so on."
+    },
+    {
+      "code": "            String use = input.nextLine();",
+      "text": "The room's purpose may be two words, such as \"Living Room\", so the full line is read."
+    },
+    {
+      "code": "            rooms.add(new Room(use, length, width));",
+      "text": "The three values just gathered are bundled into one Room object and appended to the list, so related data travels together instead of as three loose variables."
+    },
+    {
+      "code": "        House house = new House(address, bedrooms, bathrooms);",
+      "text": "The house itself is created only after all its basic facts are known, passing them straight to the constructor."
+    },
+    {
+      "code": "        house.setRooms(rooms);",
+      "text": "The finished list of rooms is handed to the House, making the layout part of the object's state."
+    },
+    {
+      "code": "        printHouseInfo(house);",
+      "text": "Reporting is delegated to a separate method so main stays focused on gathering input."
+    },
+    {
+      "code": "    private static void printHouseInfo(House house) {",
+      "text": "The method is private because only this class needs it, and static because it is called from main without an instance of HouseBuilder."
+    },
+    {
+      "code": "        System.out.println(\"Rooms in layout: \" + house.getRooms().size());",
+      "text": "Asking the list for its size gives the room count without needing to store that number separately."
+    },
+    {
+      "code": "        for (Room room : house.getRooms()) {",
+      "text": "The enhanced for loop walks every Room in the list in the order it was entered."
+    },
+    {
+      "code": "            System.out.println(room.getName() + \" - \" + room.getLength() + \" x \" + room.getWidth());",
+      "text": "Each room prints its own stored details through its getters, which is the object-oriented alternative to juggling parallel arrays of names and sizes."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Room.java",
+      "content": "public class Room {\n    private String name;\n    private double length;\n    private double width;\n\n    public Room(String name, double length, double width) {\n        this.name = name;\n        this.length = length;\n        this.width = width;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public double getLength() {\n        return length;\n    }\n\n    public double getWidth() {\n        return width;\n    }\n}\n"
+    },
+    {
+      "path": "House.java",
+      "content": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class House {\n    private String address;\n    private int bedrooms;\n    private double bathrooms;\n    private List<Room> rooms = new ArrayList<>();\n\n    public House(String address, int bedrooms, double bathrooms) {\n        this.address = address;\n        this.bedrooms = bedrooms;\n        this.bathrooms = bathrooms;\n    }\n\n    public String getAddress() {\n        return address;\n    }\n\n    public int getBedrooms() {\n        return bedrooms;\n    }\n\n    public double getBathrooms() {\n        return bathrooms;\n    }\n\n    public List<Room> getRooms() {\n        return rooms;\n    }\n\n    public void setRooms(List<Room> rooms) {\n        this.rooms = rooms;\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "124 Maple Street\n3\n2.5\n2\nKitchen\n12\n10\nLiving Room\n18\n14\n"
+}

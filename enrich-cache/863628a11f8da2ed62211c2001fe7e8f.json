@@ -1,0 +1,59 @@
+{
+  "summary": "This program builds a list of Book objects and then loads a HashMap that pairs each book's title with its author, so any author can be found instantly from a title. It looks up \"The Hobbit\" and prints the matching author.",
+  "lines": [
+    {
+      "code": "import java.util.Map;",
+      "text": "Map is the interface for collections that store key-value pairs; you declare variables with it so the code is not tied to one particular implementation."
+    },
+    {
+      "code": "import java.util.HashMap;",
+      "text": "HashMap is the workhorse implementation of Map, and it finds a value by key very quickly no matter how many entries it holds."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The list holds Book objects rather than plain strings, so each entry keeps its title, author, and genre together."
+    },
+    {
+      "code": "        Book sherlock = new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\");",
+      "text": "Each Book is created with all three pieces of information at once and stored in a named variable so it can be added to the list below."
+    },
+    {
+      "code": "        books.add(sherlock);",
+      "text": "Adding the book to the list puts it in order at the end, which is what makes the loop later able to visit every book."
+    },
+    {
+      "code": "        Map<String, String> bookAuthors = new HashMap<>();",
+      "text": "The two type arguments say the keys are titles and the values are author names; a map is the right tool whenever you want to look something up by a unique label."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop walks through the list one book at a time without you managing an index."
+    },
+    {
+      "code": "            bookAuthors.put(book.getTitle(), book.getAuthor());",
+      "text": "put stores the pair, using the title as the key. If two books shared a title, the second put would overwrite the first, because map keys are unique."
+    },
+    {
+      "code": "        String titleToLookUp = \"The Hobbit\";",
+      "text": "Holding the search term in a variable means it can be reused in both the lookup and the printed message."
+    },
+    {
+      "code": "        String author = bookAuthors.get(titleToLookUp);",
+      "text": "get returns the value stored under that key, or null if the title was never added to the map."
+    },
+    {
+      "code": "        System.out.println(\"Author of '\" + titleToLookUp + \"': \" + author);",
+      "text": "Echoing the title alongside the result makes the output self-explanatory instead of a bare name."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

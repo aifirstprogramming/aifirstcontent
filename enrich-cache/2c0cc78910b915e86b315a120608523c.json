@@ -1,0 +1,45 @@
+{
+  "summary": "This House class models a single house as an object, storing its address, number of bedrooms, and number of bathrooms. The fields are kept private and reached through a constructor plus getter and setter methods, which is the standard shape of a Java domain class.",
+  "lines": [
+    {
+      "code": "public class House {",
+      "text": "The class acts as a blueprint: each House object created from it holds its own copy of the three fields below."
+    },
+    {
+      "code": "    private String address;",
+      "text": "The street address is text, so String is the natural type. Marking it private means code outside the class cannot touch it directly."
+    },
+    {
+      "code": "    private int bedrooms;",
+      "text": "Bedrooms are always counted in whole numbers, so int is the right choice."
+    },
+    {
+      "code": "    private double bathrooms;",
+      "text": "Bathrooms use double because real listings describe half baths, and 2.5 cannot be stored in an int."
+    },
+    {
+      "code": "    public House(String address, int bedrooms, double bathrooms) {",
+      "text": "The constructor runs when a house is created with new, and it demands all three values so an object never exists in an incomplete state."
+    },
+    {
+      "code": "        this.address = address;",
+      "text": "The parameter and the field share the name address, so this.address makes clear that the field is being assigned from the parameter."
+    },
+    {
+      "code": "    public String getAddress() {",
+      "text": "A getter hands out the stored value without exposing the field itself, which keeps the class in control of its own data."
+    },
+    {
+      "code": "    public void setAddress(String address) {",
+      "text": "A setter lets the address change after the object is built, for example when a typo is corrected."
+    },
+    {
+      "code": "    public double getBathrooms() {",
+      "text": "The return type must match the field's type, so this getter returns a double rather than an int."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

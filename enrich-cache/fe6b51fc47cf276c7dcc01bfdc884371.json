@@ -1,0 +1,63 @@
+{
+  "summary": "This version of the library builds a Map<String, Book> so a whole Book object can be found from its title, instead of just the author's name. Because the book list is left empty here, the lookup demonstrates the \"not found\" branch.",
+  "lines": [
+    {
+      "code": "import java.util.Map;",
+      "text": "Map is the interface for collections that pair each key with one value; you program against this type so the concrete implementation can change later."
+    },
+    {
+      "code": "import java.util.HashMap;",
+      "text": "HashMap is the standard Map implementation, storing entries in no particular order but finding them very quickly."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The list of Book objects is the primary collection; the map built below is a secondary index into it."
+    },
+    {
+      "code": "        Map<String, Book> bookAuthors = new HashMap<>();",
+      "text": "The key is the title and the value is the entire Book, so one lookup gives access to the author, the genre, and anything else the object holds."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "Walking the list once fills the map, keeping the two collections in agreement."
+    },
+    {
+      "code": "            bookAuthors.put(book.getTitle(), book);",
+      "text": "put stores the pairing; calling it again with the same title would replace the earlier entry, since map keys are unique."
+    },
+    {
+      "code": "        String titleToLookUp = \"The Hobbit\";",
+      "text": "Naming the search term in a variable means it appears once and can be reused in the messages below."
+    },
+    {
+      "code": "        Book foundBook = bookAuthors.get(titleToLookUp);",
+      "text": "get returns the matching Book, or null when the map holds no entry for that key — it does not throw an error."
+    },
+    {
+      "code": "        if (foundBook != null) {",
+      "text": "Always check a map lookup for null before using the result, otherwise a missing key becomes a NullPointerException."
+    },
+    {
+      "code": "            System.out.println(\"Details for '\" + titleToLookUp + \"': \" + foundBook);",
+      "text": "Concatenating the object into a string calls its toString method, which is why Book should override it."
+    },
+    {
+      "code": "            System.out.println(\"Genre: \" + foundBook.getGenre());",
+      "text": "Holding the whole object rather than a single field is what makes several details reachable from one lookup."
+    },
+    {
+      "code": "            System.out.println(\"No book found for title: \" + titleToLookUp);",
+      "text": "With the list still empty the map has no entries, so this is the branch that actually runs."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

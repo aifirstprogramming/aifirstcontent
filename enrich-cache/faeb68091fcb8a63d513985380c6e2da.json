@@ -1,0 +1,57 @@
+{
+  "summary": "This program builds a list of Book objects and then creates a Map that pairs each book's title with its author, so an author can be found instantly from a title. Looking up \"The Hobbit\" returns \"J.R.R. Tolkien\".",
+  "lines": [
+    {
+      "code": "import java.util.Map;",
+      "text": "Map is the interface that describes a collection of key-value pairs; importing the interface lets you declare variables by the general type rather than a specific implementation."
+    },
+    {
+      "code": "import java.util.HashMap;",
+      "text": "HashMap is the concrete class that actually stores the pairs, using hashing so lookups stay fast no matter how many entries there are."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The list holds the library's books in insertion order and is the source the map is built from."
+    },
+    {
+      "code": "        Book sherlock = new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\");",
+      "text": "Each Book is created with a title, an author, and a genre, and is kept in a named variable so it can be referred to again later."
+    },
+    {
+      "code": "        books.add(sherlock);",
+      "text": "Creating an object does not put it in a collection; add is what places it in the list."
+    },
+    {
+      "code": "        Map<String, String> bookAuthors = new HashMap<>();",
+      "text": "The two type parameters say the keys are titles and the values are authors, both Strings. Declaring the variable as Map while assigning a HashMap is the usual Java style, because the rest of the code only needs the interface."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop visits every book in the list once, so the map is filled without you having to track an index."
+    },
+    {
+      "code": "            bookAuthors.put(book.getTitle(), book.getAuthor());",
+      "text": "put stores one entry, with the title as the key and the author as the value. If the same title appeared twice, the second put would replace the first value rather than add a duplicate key."
+    },
+    {
+      "code": "        String titleToLookUp = \"The Hobbit\";",
+      "text": "Holding the search term in a variable means it is written once and reused in both the lookup and the printed message."
+    },
+    {
+      "code": "        String author = bookAuthors.get(titleToLookUp);",
+      "text": "get returns the value stored under that key. The key must match exactly; a title that is not in the map yields null instead of an error."
+    },
+    {
+      "code": "        System.out.println(\"Author of '\" + titleToLookUp + \"': \" + author);",
+      "text": "String concatenation with + builds one readable sentence out of the title and the author that was found."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

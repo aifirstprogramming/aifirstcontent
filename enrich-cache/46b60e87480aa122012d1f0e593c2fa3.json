@@ -1,0 +1,53 @@
+{
+  "summary": "This program stores a small library as a list of Book objects instead of plain strings, prints every book, counts them, fetches one by position, and shows that a List happily holds a duplicate copy of the same book.",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the everyday implementation of a growable list, and it lives in the java.util package, so it must be imported before it can be named."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The type in the angle brackets is now Book rather than String, so the compiler guarantees that only Book objects can go into this list and that anything taken out is already a Book."
+    },
+    {
+      "code": "        books.add(new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\"));",
+      "text": "Each entry is built by calling the Book constructor with three separate pieces of information, which keeps the title, author, and genre as distinct fields instead of one run-on string."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop walks the list from front to back, handing you one Book at a time; because the list is typed, the loop variable can be declared as Book with no cast."
+    },
+    {
+      "code": "            System.out.println(book);",
+      "text": "Printing an object calls its toString method behind the scenes, which is why Book needs a sensible toString for this line to produce readable output."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal number of books: \" + books.size());",
+      "text": "size() reports how many elements the list currently holds, and \\n starts the message on a fresh line."
+    },
+    {
+      "code": "        System.out.println(\"First book: \" + books.get(0));",
+      "text": "A List keeps its elements in order and indexes them from zero, so get(0) returns the book that was added first."
+    },
+    {
+      "code": "        books.add(new Book(\"The Hobbit\", \"J.R.R. Tolkien\", \"Fantasy\"));",
+      "text": "This creates a brand-new Book object with the same three values as an earlier one; a List never checks for duplicates, so it is stored alongside the original."
+    },
+    {
+      "code": "        System.out.println(\"Total number of books after adding duplicate: \" + books.size());",
+      "text": "The count rises to four, which is the point of the exercise: allowing repeats is a deliberate property of List, and the later chapters on Set will contrast with it."
+    },
+    {
+      "code": "            System.out.println(\"  - \" + book);",
+      "text": "Prefixing each line with two spaces and a dash turns the loop's output into an indented bullet list that is easier to scan."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

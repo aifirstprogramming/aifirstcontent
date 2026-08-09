@@ -1,0 +1,61 @@
+{
+  "summary": "This is a JUnit test that checks what a Thermostat prints to the screen. Because printStatusToDisplay() writes to System.out instead of returning a value, the test temporarily redirects System.out into a buffer, calls the method, and then compares the captured text against the expected message.",
+  "lines": [
+    {
+      "code": "import java.io.ByteArrayOutputStream;",
+      "text": "A ByteArrayOutputStream collects bytes in memory rather than sending them anywhere, which makes it a convenient place to catch printed output."
+    },
+    {
+      "code": "import java.io.PrintStream;",
+      "text": "System.out is a PrintStream, so the test needs this class to build a replacement one."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets the test call assertEquals directly instead of writing Assertions.assertEquals every time."
+    },
+    {
+      "code": "    //previous tests",
+      "text": "This placeholder stands for the tests written earlier in the chapter; only the new one is printed here to keep the listing short."
+    },
+    {
+      "code": "    @Test",
+      "text": "This annotation marks the method as a test case so JUnit finds and runs it automatically."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(72, false);",
+      "text": "The thermostat starts at 72 degrees with heating off, which is the exact state that should report \"Idle\"."
+    },
+    {
+      "code": "        PrintStream originalOut = System.out;",
+      "text": "Saving the real System.out first is essential, because the test must put it back afterwards or every later test would lose its output."
+    },
+    {
+      "code": "        System.setOut(new PrintStream(output));",
+      "text": "From this point on, anything printed goes into the in-memory buffer instead of the console."
+    },
+    {
+      "code": "            thermostat.printStatusToDisplay();",
+      "text": "This is the method under test, and its printed text lands in the buffer."
+    },
+    {
+      "code": "        } finally {",
+      "text": "A finally block runs even if the method throws an exception, guaranteeing the cleanup below always happens."
+    },
+    {
+      "code": "            System.setOut(originalOut);",
+      "text": "Restoring the original stream leaves the test environment exactly as it was found."
+    },
+    {
+      "code": "        assertEquals(\"Thermostat status: Idle\" + System.lineSeparator(), output.toString());",
+      "text": "The expected value includes System.lineSeparator() because println adds a newline, and using the platform separator keeps the test passing on Windows as well as Linux and macOS."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "public class Thermostat {\n    private int temperature;\n    private boolean heating;\n\n    public Thermostat(int temperature, boolean heating) {\n        this.temperature = temperature;\n        this.heating = heating;\n    }\n\n    public int getTemperature() {\n        return temperature;\n    }\n\n    public boolean isHeating() {\n        return heating;\n    }\n\n    public String getStatus() {\n        return heating ? \"Heating\" : \"Idle\";\n    }\n\n    public void printStatusToDisplay() {\n        System.out.println(\"Thermostat status: \" + getStatus());\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

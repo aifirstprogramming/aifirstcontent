@@ -1,0 +1,52 @@
+{
+  "summary": "This is a House class that stores an address, a bedroom count, and a bathroom count, with getters and setters for each. It also overrides toString so that printing a House produces a readable line of text describing it.",
+  "lines": [
+    {
+      "code": "    private String address;",
+      "text": "The address is declared private so that outside code cannot reach in and change it directly; access goes through the methods below instead."
+    },
+    {
+      "code": "    private double bathrooms;",
+      "text": "Bathrooms is a double rather than an int because half-baths are real: a house can have 2.5 bathrooms."
+    },
+    {
+      "code": "    public House(String address, int bedrooms, double bathrooms) {",
+      "text": "The constructor runs when a House is created with new, and it demands all three values up front so no House ever exists in a half-filled state."
+    },
+    {
+      "code": "        this.address = address;",
+      "text": "The parameter and the field share the name address, so this.address makes it clear that the field is on the left and the parameter is on the right."
+    },
+    {
+      "code": "    public String getAddress() {",
+      "text": "A getter hands out the stored value on request, which is how private data is read from outside the class."
+    },
+    {
+      "code": "    public void setAddress(String address) {",
+      "text": "A setter is the single doorway for changing the address, which is where validation would go if the class ever needed to reject bad input."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from Object; if the signature below does not match, you get an error instead of a silent bug."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Every object inherits toString from Object, and Java calls it automatically inside println or string concatenation. Overriding it replaces the useless default like House@1b6d3586 with something meaningful."
+    },
+    {
+      "code": "        return \"House{\" +",
+      "text": "The returned string is assembled by concatenating literal text with the field values, spread over several lines purely for readability."
+    },
+    {
+      "code": "                \"address='\" + address + '\\'' +",
+      "text": "The single quotes wrap the address so an empty or space-padded value is still visible in the output; '\\\\'' is the escape sequence for a literal single-quote character."
+    },
+    {
+      "code": "                '}';",
+      "text": "The closing brace finishes the format, producing output such as House{address='12 Oak St', bedrooms=3, bathrooms=2.5}."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

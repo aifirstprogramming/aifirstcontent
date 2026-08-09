@@ -1,0 +1,25 @@
+{
+  "summary": "This program asks for a temperature and gives clothing advice, choosing between three possible messages depending on how cold or hot it is.",
+  "lines": [
+    {
+      "code": "temp = float(input(\"Temperature (°C): \"))",
+      "text": "input always hands back text, so float converts what the reader typed into a decimal number that can be compared with 10 and 30."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "The first condition is checked first; if it is true, the rest of the chain is skipped entirely."
+    },
+    {
+      "code": "elif temp > 30:",
+      "text": "elif means \"otherwise, check this instead,\" so this test only runs when the temperature was not below 10 -- that is what makes the three outcomes mutually exclusive."
+    },
+    {
+      "code": "else:",
+      "text": "The else branch catches everything left over, here the comfortable range from 10 up to 30, so the program always prints exactly one message."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "35\n",
+  "expectsUncaughtException": false
+}

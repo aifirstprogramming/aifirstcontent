@@ -1,0 +1,40 @@
+{
+  "summary": "This program defines a method that brews a coffee given its type and a number of espresso shots, then calls that method twice with different arguments. Inside the method, a small calculation decides whether an extra \"flavor boost\" message appears.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "Calls the method with two arguments: the text \"Espresso\" and the number 2. The values are passed in the same order the method declares its parameters."
+    },
+    {
+      "code": "        makeCoffee(\"Latte\", 1);",
+      "text": "Reuses the same method with different arguments, which is the whole point of parameters: one recipe, many drinks."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "Declares the method and its two parameters. `String type` and `int shots` act as local variables that receive whatever the caller passed, and `void` means the method reports its results by printing rather than by returning a value."
+    },
+    {
+      "code": "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+      "text": "Joins text and the parameter values with `+` to build one message. Java automatically converts the `int` in `shots` to text when it is concatenated with a String."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "Derives a new value from a parameter, showing that a method can compute with its inputs instead of just echoing them."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "Stores the result of a comparison in a `boolean`, which can only ever hold `true` or `false`. Naming the condition makes the `if` below read like a sentence."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "Runs the indented block only when the boolean is `true`, so a single shot (42) stays quiet while two shots (84) trigger the bonus."
+    },
+    {
+      "code": "        System.out.println();",
+      "text": "Prints an empty line to separate one drink's output from the next."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

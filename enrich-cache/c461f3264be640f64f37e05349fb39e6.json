@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores eight fish names in a list, including a repeated entry, and rearranges them into alphabetical order before printing them.",
+  "lines": [
+    {
+      "code": "fish_types = [\"Salmon\", \"Tuna\", \"Bass\", \"Salmon\", \"Trout\", \"Catfish\", \"Cod\", \"Haddock\"]",
+      "text": "A list holds items in the order you write them, and it happily accepts duplicates, so \"Salmon\" appears twice here."
+    },
+    {
+      "code": "fish_types.sort()",
+      "text": "The sort method reorders the list in place, alphabetically for strings, rather than returning a new list. Notice that both copies of \"Salmon\" survive the sort and end up next to each other."
+    },
+    {
+      "code": "print(fish_types)",
+      "text": "Printing the list itself shows the square brackets and quotes, which confirms the new order at a glance."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

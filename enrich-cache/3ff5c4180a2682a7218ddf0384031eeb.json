@@ -1,0 +1,45 @@
+{
+  "summary": "This program defines a function that works out what a table owes ($2 per item), prints the bill, and hands the amount back to the caller. The three returned amounts are added into a running cash register total.",
+  "lines": [
+    {
+      "code": "def collect_payment(table_number, items_ordered):",
+      "text": "The function takes two pieces of information: which table is paying, and the list of things they ordered."
+    },
+    {
+      "code": "    \"\"\"Collects payment from a table based on items ordered ($2 each)\"\"\"",
+      "text": "A docstring is a short description placed as the first line inside a function, so anyone reading or using it knows its purpose."
+    },
+    {
+      "code": "    amount = len(items_ordered) * 2",
+      "text": "len() counts how many items are in the list, and multiplying by 2 gives the bill in dollars."
+    },
+    {
+      "code": "    print(f\"Table {table_number}: {len(items_ordered)} items × $2 = ${amount}\")",
+      "text": "Beepo announces the bill out loud, showing the working so the customer can check it."
+    },
+    {
+      "code": "    return amount",
+      "text": "return sends the value back to whoever called the function, so the amount can be used in a calculation rather than just printed."
+    },
+    {
+      "code": "cash_register = 0",
+      "text": "The register starts empty; this variable will accumulate every payment collected."
+    },
+    {
+      "code": "cash_register += collect_payment(1, [\"burger\", \"fries\", \"drink\"])",
+      "text": "The function runs, and the number it returns is added straight into the register with +=. This is why returning a value is more useful than only printing one."
+    },
+    {
+      "code": "cash_register += collect_payment(8, [\"steak\", \"pasta\", \"dessert\", \"wine\"])",
+      "text": "The same function handles a four-item order without any changes, which is the whole point of writing it once."
+    },
+    {
+      "code": "print(f\"\\nTotal in cash register: ${cash_register}\")",
+      "text": "The \\n inserts a blank line before the total, separating the summary from the individual bills above."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

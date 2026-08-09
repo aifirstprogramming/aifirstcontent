@@ -1,0 +1,61 @@
+{
+  "summary": "This program is the bakery's simple menu app: it creates three kinds of cookie objects, prints a description of each one, and then packages the gift cookie with a personal message.",
+  "lines": [
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "Creates a plain cookie by passing its flavor to the Cookie constructor, which stores that flavor inside the new object."
+    },
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday Cake\");",
+      "text": "Creates a decorated cookie; because DecoratedCookie extends Cookie, it inherits the flavor handling and adds its own description."
+    },
+    {
+      "code": "        GiftCookie gift = new GiftCookie(\"Sugar\");",
+      "text": "Creates a gift cookie, the subclass that also knows how to package itself for a customer."
+    },
+    {
+      "code": "        showCookieOption(regular);",
+      "text": "Passes the plain cookie to the helper method that prints one menu line."
+    },
+    {
+      "code": "        showCookieOption(decorated);",
+      "text": "The same helper accepts a DecoratedCookie because every DecoratedCookie is also a Cookie, which is what inheritance buys you here."
+    },
+    {
+      "code": "        showCookieOption(gift);",
+      "text": "One helper method therefore handles all three cookie types without any if statements about which type it received."
+    },
+    {
+      "code": "        System.out.println(gift.packageCookie(\"Enjoy your sweet surprise!\"));",
+      "text": "Calls a method that only GiftCookie defines, so it must be called through the gift variable rather than a plain Cookie variable."
+    },
+    {
+      "code": "    private static void showCookieOption(Cookie cookie) {",
+      "text": "Declaring the parameter as the parent type Cookie is what lets this one method serve all three subclasses."
+    },
+    {
+      "code": "        System.out.println(\"- \" + cookie.describe());",
+      "text": "Each object runs its own version of describe(), so the output differs per cookie type even though the calling code is identical; this is polymorphism in action."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "public class Cookie {\n    private String flavor;\n\n    public Cookie(String flavor) {\n        this.flavor = flavor;\n    }\n\n    public String getFlavor() {\n        return flavor;\n    }\n\n    public String describe() {\n        return \"A classic \" + flavor + \" cookie.\";\n    }\n}\n",
+      "fromExercise": ""
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "public class DecoratedCookie extends Cookie {\n\n    public DecoratedCookie(String flavor) {\n        super(flavor);\n    }\n\n    @Override\n    public String describe() {\n        return \"This \" + getFlavor() + \" cookie is decorated with sprinkles and icing!\";\n    }\n}\n",
+      "fromExercise": ""
+    },
+    {
+      "path": "GiftCookie.java",
+      "content": "public class GiftCookie extends Cookie {\n\n    public GiftCookie(String flavor) {\n        super(flavor);\n    }\n\n    @Override\n    public String describe() {\n        return \"A \" + getFlavor() + \" cookie ready to be wrapped as a gift.\";\n    }\n\n    public String packageCookie(String message) {\n        return \"Packaged \" + getFlavor() + \" cookie in a gift box with the note: \\\"\" + message + \"\\\"\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores three status messages in an array and uses a counted for loop to print each one in order. It shows the standard Java pattern for walking through an array from the first element to the last.",
+  "lines": [
+    {
+      "code": "        String[] statuses = {\"Starting\", \"Processing\", \"Finished\"};",
+      "text": "An array holds several values of the same type under one name, and the braces let you list the contents up front. The three strings live at positions 0, 1, and 2."
+    },
+    {
+      "code": "        for (int i = 0; i < statuses.length; i++) {",
+      "text": "A for loop packs three parts into one line: start the counter at 0, keep going while i is less than the array's length, and add 1 to i after each pass. Using statuses.length instead of the number 3 means the loop still works if you add another status later."
+    },
+    {
+      "code": "            System.out.println(statuses[i]);",
+      "text": "Square brackets read the element at position i, so each pass prints the next status. Because counting starts at 0, the last valid index is length - 1, which is exactly where the condition above stops."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,57 @@
+{
+  "summary": "This program builds a list of Book objects for a small library, then walks that list to collect each book's genre into a second list of strings and prints them. It shows how one collection can be used to build another.",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the everyday, resizable list implementation in Java; it must be imported before it can be used."
+    },
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that describes what any list can do, and it is imported so variables can be declared with that general type."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The variable is typed as List<Book> but holds an ArrayList, a common Java habit that keeps the code tied to the general behaviour rather than one implementation. The <Book> part promises the list will only ever hold Book objects."
+    },
+    {
+      "code": "        Book eragon = new Book(\"Eragon\", \"Christopher Paolini\", \"Fantasy\");",
+      "text": "Creating the object and adding it to the list are two separate steps; at this point Eragon exists but the library does not know about it yet."
+    },
+    {
+      "code": "        books.add(eragon);",
+      "text": "add() appends the book to the end of the list, so the list keeps insertion order and now has a fourth entry."
+    },
+    {
+      "code": "        List<String> genres = new ArrayList<>();",
+      "text": "A second list is declared, this time holding String values, because genres are plain text rather than whole books."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "This enhanced for loop hands you each Book in turn without any index bookkeeping, which is the usual way to read through a collection."
+    },
+    {
+      "code": "            genres.add(book.getGenre());",
+      "text": "Each book is asked for its genre and that text is appended to the genres list, transforming a list of books into a list of strings."
+    },
+    {
+      "code": "        System.out.println(\"\\nGenres in the library:\");",
+      "text": "The \\n escape sequence prints a blank line before the heading, separating this section of output from anything printed earlier."
+    },
+    {
+      "code": "        for (String genre : genres) {",
+      "text": "Looping over the new list proves it was filled correctly; note that \"Fantasy\" appears three times because a list allows duplicates."
+    },
+    {
+      "code": "            System.out.println(\"- \" + genre);",
+      "text": "Concatenating a dash in front of each value formats the output as a simple bulleted list."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

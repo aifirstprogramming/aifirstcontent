@@ -1,0 +1,53 @@
+{
+  "summary": "This program brews coffee through a helper method that first checks its arguments and refuses bad ones. The second call passes 0 shots, so the method throws an IllegalArgumentException and the program stops with an error.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "A valid call: both arguments pass the checks, so this order brews normally and prints its messages."
+    },
+    {
+      "code": "        makeCoffee(\"Latte\", 0);",
+      "text": "Zero shots is not a sensible order, so this call triggers the exception and ends the program before anything else runs."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "Declares the helper method that takes a coffee type and a shot count; void means it prints its results rather than returning a value."
+    },
+    {
+      "code": "        if (type == null || type.isBlank()) {",
+      "text": "Guards against a missing name: null means no String at all, while isBlank catches an empty string or one made only of spaces."
+    },
+    {
+      "code": "            throw new IllegalArgumentException(\"Coffee type must not be null or blank.\");",
+      "text": "Throwing IllegalArgumentException is Java's standard way to say the caller passed a value this method cannot work with, and the message explains what went wrong."
+    },
+    {
+      "code": "        if (shots < 1) {",
+      "text": "Every coffee needs at least one shot, so any count below 1 is rejected before brewing begins."
+    },
+    {
+      "code": "            throw new IllegalArgumentException(\"Shots must be at least 1.\");",
+      "text": "This is the error the second call in main sets off; a throw leaves the method immediately, so no brewing messages follow."
+    },
+    {
+      "code": "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+      "text": "Reaching this line means both guard checks passed, so the arguments are safe to use from here on."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "Turns the shot count into a made-up strength score that the next line can compare against a threshold."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "Stores the result of the comparison as a true-or-false value, which reads more clearly than repeating the comparison inside the if."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "A boolean variable can be tested directly, with no need to write == true."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": true
+}

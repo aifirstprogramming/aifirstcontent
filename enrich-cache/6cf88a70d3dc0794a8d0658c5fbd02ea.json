@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores the number 5 in a variable and checks whether it is below 10. Because it is, the message \"Novice Level\" appears on screen; if the number were 10 or more, the program would print nothing at all.",
+  "lines": [
+    {
+      "code": "        int number = 5;",
+      "text": "Declares a variable named number that holds whole numbers and gives it the starting value 5. Changing this value is how you test the other branch of the decision below."
+    },
+    {
+      "code": "        if (number < 10) {",
+      "text": "The condition inside the parentheses is either true or false; the block that follows runs only when it is true. Here 5 < 10 is true, so the block runs."
+    },
+    {
+      "code": "            System.out.println(\"Novice Level\");",
+      "text": "The indentation and the surrounding braces show that this statement belongs to the if, so it is skipped entirely whenever the condition is false."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

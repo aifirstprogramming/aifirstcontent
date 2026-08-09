@@ -1,0 +1,28 @@
+{
+  "summary": "This program defines a single growPlant method that takes sunlight and water as inputs, then reports whether the plant is growing based on those values. Instead of writing a separate method for every combination of conditions, one method handles them all through parameters.",
+  "lines": [
+    {
+      "code": "        growPlant(true, 3);",
+      "text": "The two values in the parentheses are arguments: they are handed to the method and become its parameters for this one call. Changing them here changes the outcome without touching the method itself."
+    },
+    {
+      "code": "    public static void growPlant(boolean sunlight, int water) {",
+      "text": "The parameter list declares two named inputs with their types, so the method can work with any sunlight and water values a caller supplies."
+    },
+    {
+      "code": "        System.out.println(\"Sunlight available: \" + sunlight);",
+      "text": "Joining text to a boolean with + converts the boolean to the word \"true\" or \"false\" automatically, which is what makes this readable output."
+    },
+    {
+      "code": "        String status = (sunlight && water >= 3) ? \"Growing\" : \"Needs care\";",
+      "text": "The conditional operator picks one of two strings: if sunlight is true and water is at least 3, status becomes \"Growing\", otherwise \"Needs care\". It is a compact stand-in for a four-line if/else."
+    },
+    {
+      "code": "        System.out.println(\"Growth status: \" + status);",
+      "text": "This reports the decision the method reached, so the caller can see the effect of the arguments it passed in."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

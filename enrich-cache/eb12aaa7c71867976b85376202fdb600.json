@@ -1,0 +1,41 @@
+{
+  "summary": "This program creates three Room objects using the class's no-argument constructor and prints each one, so you can see the default values a new object starts with.",
+  "lines": [
+    {
+      "code": "public class RoomDesign {",
+      "text": "A separate class holds the program's starting point, keeping the driver code apart from the Room domain class that describes a single room."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the method the Java launcher calls first, so everything the program does begins here."
+    },
+    {
+      "code": "        Room room1 = new Room();",
+      "text": "The `new` keyword asks Java for a fresh Room in memory, and the empty parentheses select the constructor that takes no arguments; the variable `room1` then refers to that object."
+    },
+    {
+      "code": "        Room room2 = new Room();",
+      "text": "Each `new` produces a completely separate object, so room2 has its own copy of the fields even though it was built from the same blueprint."
+    },
+    {
+      "code": "        Room room3 = new Room();",
+      "text": "A third object proves the point: one class can be used to create as many instances as the program needs."
+    },
+    {
+      "code": "        System.out.println(\"Created rooms:\");",
+      "text": "A short label makes the output easier to read once the three room descriptions follow."
+    },
+    {
+      "code": "        System.out.println(room1);",
+      "text": "Passing an object to println quietly calls its toString method, which is why you see a readable description of the room instead of a memory address."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Room.java",
+      "content": "public class Room {\n    private String name;\n    private double length;\n    private double width;\n\n    // No-argument constructor: sets sensible starting values\n    public Room() {\n        this.name = \"Unnamed\";\n        this.length = 0.0;\n        this.width = 0.0;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public double getLength() {\n        return length;\n    }\n\n    public void setLength(double length) {\n        this.length = length;\n    }\n\n    public double getWidth() {\n        return width;\n    }\n\n    public void setWidth(double width) {\n        this.width = width;\n    }\n\n    public double area() {\n        return length * width;\n    }\n\n    @Override\n    public String toString() {\n        return \"Room[name=\" + name + \", length=\" + length\n                + \", width=\" + width + \", area=\" + area() + \"]\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

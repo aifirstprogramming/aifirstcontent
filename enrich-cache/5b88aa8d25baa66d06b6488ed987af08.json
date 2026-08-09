@@ -1,0 +1,83 @@
+{
+  "summary": "This file is a unittest suite for the robot pet family: it checks that a RobotPet clamps its battery into the 0-100 range, and that each subclass (RobotCat, RobotBird, RobotDog) has its own show_talent message while still inheriting charge from the parent class.",
+  "lines": [
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "The classes under test live in a separate module named pet_talents.py, so the test file imports them; keeping tests apart from the code they exercise is the normal layout."
+    },
+    {
+      "code": "class TestRobotPet(unittest.TestCase):",
+      "text": "Each group of related tests gets its own TestCase subclass, which is how unittest discovers and organises tests."
+    },
+    {
+      "code": "    …",
+      "text": "The ellipsis stands for the earlier RobotPet tests from the previous section, which are not reprinted here; replace it with those test methods when you type the file out."
+    },
+    {
+      "code": "    def test_battery_clamped_below_zero_on_init(self):",
+      "text": "Test names start with test_ so unittest picks them up automatically, and the rest of the name says exactly which rule is being checked."
+    },
+    {
+      "code": "        pet = RobotPet(\"Volt\", -10, \"neutral\")",
+      "text": "Passing a negative battery deliberately probes the boundary of the allowed range rather than an ordinary value."
+    },
+    {
+      "code": "        self.assertEqual(pet.battery, 0)",
+      "text": "The constructor is expected to raise any value below zero up to zero instead of storing the bad number."
+    },
+    {
+      "code": "        self.assertEqual(pet.battery, 100)",
+      "text": "The other end of the clamp: anything over 100 must be capped at a full battery."
+    },
+    {
+      "code": "    def setUp(self):",
+      "text": "setUp runs before every test method in the class, giving each test a fresh object so one test cannot leave state behind that affects another."
+    },
+    {
+      "code": "        self.cat = RobotCat(\"Whiskers\", 80, \"happy\")",
+      "text": "Storing the pet on self makes it available to every test method in this class."
+    },
+    {
+      "code": "        self.assertIn(\"Whiskers\", self.cat.show_talent())",
+      "text": "assertIn checks that the returned text mentions the pet's name, without pinning the test to the exact wording of the whole sentence."
+    },
+    {
+      "code": "        self.assertIsInstance(self.cat.show_talent(), str)",
+      "text": "This guards against a method that prints instead of returning, or that returns None by accident."
+    },
+    {
+      "code": "        self.assertNotEqual(self.cat.show_talent(), \"Whiskers performs a generic trick!\")",
+      "text": "The point of overriding show_talent is that the cat says something cat-specific, so the test fails if the subclass falls back to the parent's generic message."
+    },
+    {
+      "code": "        self.cat.battery = 50",
+      "text": "Setting the battery directly puts the object into a known starting state for the charge calculation."
+    },
+    {
+      "code": "        self.cat.charge(20)",
+      "text": "charge is defined on RobotPet, so this checks that the subclass really inherits the parent's behaviour."
+    },
+    {
+      "code": "        self.assertEqual(self.cat.battery, 70)",
+      "text": "Fifty plus twenty stays under the cap, so the expected result is a plain addition."
+    },
+    {
+      "code": "if __name__ == \"__main__\":",
+      "text": "This guard means the tests run when the file is executed directly, but not when it is imported by something else."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "unittest.main finds every TestCase in the file, runs all their test methods, and prints a summary of passes and failures."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-08"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

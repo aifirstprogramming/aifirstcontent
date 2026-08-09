@@ -1,0 +1,37 @@
+{
+  "summary": "This class models a thermostat that remembers one temperature reading and reports what the heating system should be doing. Depending on how cold or warm it is, it answers \"Heating\", \"Cooling\", or \"Idle\".",
+  "lines": [
+    {
+      "code": "    private double currentTemp;",
+      "text": "The temperature is stored as a double because thermostats deal in fractions of a degree, and `private` means only code inside this class can read or change it."
+    },
+    {
+      "code": "    public Thermostat(double currentTemp) {",
+      "text": "A constructor runs when someone creates a Thermostat, so every thermostat object starts life with a known temperature rather than a meaningless zero."
+    },
+    {
+      "code": "        this.currentTemp = currentTemp;",
+      "text": "The parameter and the field share a name, so `this.currentTemp` makes clear that the field belongs to the object being built while the bare name refers to the value passed in."
+    },
+    {
+      "code": "    public String getStatus() {",
+      "text": "This method is the whole point of the class: it turns a raw number into a word a person or a test can check."
+    },
+    {
+      "code": "        if (currentTemp < 68.0) return \"Heating\";",
+      "text": "Below 68 degrees the room is too cold, and returning immediately means the rest of the method never runs."
+    },
+    {
+      "code": "        if (currentTemp > 75.0) return \"Cooling\";",
+      "text": "Because the first `return` already handled cold rooms, reaching this line means the temperature is at least 68, so only the upper limit needs checking."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "Anything from 68 through 75 falls through both checks, so this is the comfortable middle range where the system does nothing."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,55 @@
+{
+  "summary": "This program builds a playlist of Song objects, then stores the same songs in two kinds of maps keyed by title: a HashMap, whose iteration order is unpredictable, and a TreeMap, which keeps its keys sorted alphabetically. Printing both side by side shows the difference between the two implementations of the Map interface.",
+  "lines": [
+    {
+      "code": "import java.util.Map;",
+      "text": "Map is the interface that both HashMap and TreeMap implement, so declaring variables of this type lets you swap implementations without changing the rest of the code."
+    },
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "The playlist starts as an ordered list, which keeps songs in the order you added them."
+    },
+    {
+      "code": "        playlist.add(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "Each Song carries a title, artist, genre, and energy level; the titles here are deliberately not in alphabetical order so the TreeMap's sorting is visible later."
+    },
+    {
+      "code": "        for (Song song : playlist) {",
+      "text": "An enhanced for loop walks the list once, handing you each Song in turn."
+    },
+    {
+      "code": "        Map<String, Song> songMap = new HashMap<>();",
+      "text": "A map stores key-value pairs; here the key is a song title (a String) and the value is the whole Song object, so you can look a song up by name."
+    },
+    {
+      "code": "            songMap.put(song.getTitle(), song);",
+      "text": "put inserts a pair into the map, using the song's title as its key."
+    },
+    {
+      "code": "        for (String title : songMap.keySet()) {",
+      "text": "keySet returns every key in the map; a HashMap gives no guarantee about the order they come out in, which is the point of the comparison."
+    },
+    {
+      "code": "            System.out.println(title + \" -> \" + songMap.get(title));",
+      "text": "get looks up the value stored under a key, which is the fast retrieval that makes maps worth using."
+    },
+    {
+      "code": "        Map<String, Song> songTreeMap = new TreeMap<>(songMap);",
+      "text": "Passing an existing map to the TreeMap constructor copies all of its pairs in, and the TreeMap immediately reorders them by key."
+    },
+    {
+      "code": "        for (String title : songTreeMap.keySet()) {",
+      "text": "Iterating a TreeMap always visits keys in sorted order, so the titles print alphabetically without any explicit sorting step."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

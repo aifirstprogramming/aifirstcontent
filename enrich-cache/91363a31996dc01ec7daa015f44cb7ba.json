@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores three numbers in variables, adds them together, and prints the total. It shows the basic pattern of holding values in named variables and combining them with an operator.",
+  "lines": [
+    {
+      "code": "num1 = 5",
+      "text": "The name num1 is bound to the value 5, so the number can be referred to by name later instead of being repeated."
+    },
+    {
+      "code": "result = num1 + num2 + num3",
+      "text": "The three variables are added and the total is stored in result, keeping the calculation separate from the display of it."
+    },
+    {
+      "code": "print(\"The sum is:\", result)",
+      "text": "Passing two arguments to print puts a label before the number, and print automatically separates them with a space."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

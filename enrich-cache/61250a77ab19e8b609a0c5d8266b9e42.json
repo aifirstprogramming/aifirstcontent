@@ -1,0 +1,33 @@
+{
+  "summary": "This program counts a coffee order's progress from 0% to 100% in steps of 10, printing each status, then announces the order is ready. It uses a do-while loop, which runs its body once before ever checking the condition.",
+  "lines": [
+    {
+      "code": "        int status = 0;",
+      "text": "The starting progress of the order; the loop will raise this value until it passes 100."
+    },
+    {
+      "code": "        do {",
+      "text": "A do-while loop puts the body first, so the statements inside always run at least once even if the condition turns out to be false."
+    },
+    {
+      "code": "            System.out.println(\"Coffee order status: \" + status + \"%\");",
+      "text": "Reports the current progress; the + operator joins the number to the surrounding text to build one message."
+    },
+    {
+      "code": "            status += 10;",
+      "text": "Advances the progress by 10 on each pass. Without this the condition would never become false and the loop would run forever."
+    },
+    {
+      "code": "        } while (status <= 100);",
+      "text": "The condition is tested after each pass: as long as status has not gone past 100 the body repeats, so the loop prints 0% through 100%. Note the semicolon, which is required at the end of a do-while."
+    },
+    {
+      "code": "        System.out.println(\"Your coffee is ready!\");",
+      "text": "Runs once after the loop finishes, confirming that the counting has reached its end."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

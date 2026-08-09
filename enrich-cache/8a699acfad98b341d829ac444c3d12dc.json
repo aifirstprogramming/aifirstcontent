@@ -1,0 +1,72 @@
+{
+  "summary": "This is a unit test file for the new `speak` method that was added to the robot pet classes. Each test sets the pet's battery level or mood, calls `speak()`, and checks that the returned sentence contains the words expected for that situation.",
+  "lines": [
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "The tests live in their own file and import the four pet classes from the module that defines them, so the code under test stays separate from the code that checks it."
+    },
+    {
+      "code": "    …",
+      "text": "The ellipsis stands for the part of the class printed earlier in the chapter — the `setUp` method that creates the pet and the tests written before the `speak` feature existed. To run this file you need those lines back in place."
+    },
+    {
+      "code": "    def test_speak_low_battery(self):",
+      "text": "Each test method name says exactly which situation it covers, so a failure report tells you what broke without having to read the body."
+    },
+    {
+      "code": "        self.pet.battery = 10",
+      "text": "Setting the attribute directly puts the pet into the low-battery state without having to call other methods first, which keeps the test focused on `speak` alone."
+    },
+    {
+      "code": "        self.assertIn(\"recharge\", self.pet.speak())",
+      "text": "`assertIn` checks that the returned string contains this substring rather than matching it exactly, so the wording of the sentence can change without breaking the test."
+    },
+    {
+      "code": "    def test_speak_happy(self):",
+      "text": "Mood and battery are both set here because the happy message only appears when the battery is healthy; a test must arrange every condition the branch depends on."
+    },
+    {
+      "code": "        self.assertIn(\"Hello\", self.pet.speak())",
+      "text": "The neutral mood produces the plain greeting, which confirms the default branch of `speak` is reached when nothing special is going on."
+    },
+    {
+      "code": "        self.assertIn(\"Robo\", self.pet.speak())",
+      "text": "Whatever the mood, the pet should say its own name, so this test guards a rule that holds across all the branches."
+    },
+    {
+      "code": "class TestRobotCat(unittest.TestCase):",
+      "text": "Each subclass gets its own test case class, because each one overrides `speak` with different wording and needs its own expectations."
+    },
+    {
+      "code": "        self.assertIn(\"kitty\", self.cat.speak())",
+      "text": "The cat's happy message differs from the base pet's, which is what proves the subclass really overrode the method instead of inheriting it."
+    },
+    {
+      "code": "        self.assertIn(\"Best day\", self.dog.speak())",
+      "text": "Substrings are case sensitive, so the capital letters here must match the message the dog actually returns."
+    },
+    {
+      "code": "if __name__ == \"__main__\":",
+      "text": "This guard lets the file be run directly as a program while still being importable by a test runner."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "Discovers every method starting with `test_` in all four classes and runs them, printing a dot per pass and a report for each failure."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-10"
+    },
+    {
+      "path": "run_speak_tests.py",
+      "content": "import unittest\nfrom pet_talents import RobotPet, RobotCat, RobotBird, RobotDog\n\n\nclass TestRobotPet(unittest.TestCase):\n    def setUp(self):\n        self.pet = RobotPet(\"Robo\")\n\n    def test_speak_low_battery(self):\n        self.pet.battery = 10\n        self.assertIn(\"recharge\", self.pet.speak())\n\n    def test_speak_happy(self):\n        self.pet.mood = \"happy\"\n        self.pet.battery = 50\n        self.assertIn(\"happy\", self.pet.speak())\n\n    def test_speak_neutral(self):\n        self.pet.mood = \"neutral\"\n        self.pet.battery = 50\n        self.assertIn(\"Hello\", self.pet.speak())\n\n    def test_speak_contains_name(self):\n        self.assertIn(\"Robo\", self.pet.speak())\n\n\nclass TestRobotCat(unittest.TestCase):\n    def setUp(self):\n        self.cat = RobotCat(\"Whiskers\")\n\n    def test_speak_low_battery(self):\n        self.cat.battery = 10\n        self.assertIn(\"tired\", self.cat.speak())\n\n    def test_speak_happy(self):\n        self.cat.mood = \"happy\"\n        self.cat.battery = 50\n        self.assertIn(\"kitty\", self.cat.speak())\n\n    def test_speak_neutral(self):\n        self.cat.mood = \"neutral\"\n        self.cat.battery = 50\n        self.assertIn(\"Meow\", self.cat.speak())\n\n    def test_speak_contains_name(self):\n        self.assertIn(\"Whiskers\", self.cat.speak())\n\n\nclass TestRobotBird(unittest.TestCase):\n    def setUp(self):\n        self.bird = RobotBird(\"Tweety\")\n\n    def test_speak_low_battery(self):\n        self.bird.battery = 10\n        self.assertIn(\"low\", self.bird.speak())\n\n    def test_speak_happy(self):\n        self.bird.mood = \"happy\"\n        self.bird.battery = 50\n        self.assertIn(\"lovely\", self.bird.speak())\n\n    def test_speak_neutral(self):\n        self.bird.mood = \"neutral\"\n        self.bird.battery = 50\n        self.assertIn(\"Chirp\", self.bird.speak())\n\n    def test_speak_contains_name(self):\n        self.assertIn(\"Tweety\", self.bird.speak())\n\n\nclass TestRobotDog(unittest.TestCase):\n    def setUp(self):\n        self.dog = RobotDog(\"Rex\")\n\n    def test_speak_low_battery(self):\n        self.dog.battery = 10\n        self.assertIn(\"charge\", self.dog.speak())\n\n    def test_speak_happy(self):\n        self.dog.mood = \"happy\"\n        self.dog.battery = 50\n        self.assertIn(\"Best day\", self.dog.speak())\n\n    def test_speak_neutral(self):\n        self.dog.mood = \"neutral\"\n        self.dog.battery = 50\n        self.assertIn(\"Woof\", self.dog.speak())\n\n    def test_speak_contains_name(self):\n        self.assertIn(\"Rex\", self.dog.speak())\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "run_speak_tests.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

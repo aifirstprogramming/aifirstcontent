@@ -1,0 +1,40 @@
+{
+  "summary": "This class models a thermostat: it stores one temperature reading and reports whether the system should be heating, cooling, or sitting idle. It is a small example of putting a decision rule inside a method so that the rule can be tested.",
+  "lines": [
+    {
+      "code": "public class Thermostat {",
+      "text": "The class is the blueprint for a thermostat object; each object made from it carries its own temperature reading."
+    },
+    {
+      "code": "    private double currentTemp;",
+      "text": "The temperature is stored as a double so fractional degrees are allowed, and marking it private keeps outside code from changing it directly."
+    },
+    {
+      "code": "    public Thermostat(double currentTemp) {",
+      "text": "This constructor runs when a new Thermostat is created and demands a temperature, so no thermostat can exist without a reading."
+    },
+    {
+      "code": "        this.currentTemp = currentTemp;",
+      "text": "The parameter and the field share a name, so `this.` is needed to say \"the field belongs to this object\" rather than reassigning the parameter."
+    },
+    {
+      "code": "    public String getStatus() {",
+      "text": "All of the decision logic lives in one method that returns a String, which is exactly what makes it easy for a test to call it and check the answer."
+    },
+    {
+      "code": "        if (currentTemp < 68.0) return \"Heating\";",
+      "text": "Anything below 68 degrees is too cold, and returning immediately means the rest of the method is skipped."
+    },
+    {
+      "code": "        if (currentTemp > 75.0) return \"Cooling\";",
+      "text": "This check is only reached when the temperature is 68 or above, so it correctly identifies the too-warm case."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "Reaching this line means the temperature sits between the two limits, so the system does nothing; note that exactly 68.0 and exactly 75.0 land here, and those boundary values are the ones worth writing tests for."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

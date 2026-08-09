@@ -1,0 +1,53 @@
+{
+  "summary": "These four test methods check a robot pet's charge method, which adds to (or subtracts from) its battery level while keeping the result between 0 and 100. Each test sets the battery to a known starting value, calls charge, and then asserts the value the battery should hold afterwards.",
+  "lines": [
+    {
+      "code": "    def test_charge_increases_battery(self):",
+      "text": "Each test method's name states the behaviour being checked, so a failure report tells you exactly which rule was broken. The name must begin with test_ for unittest to find and run it."
+    },
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "The battery is set to a known starting value first. Because setUp builds a fresh pet before every test, changing its state here cannot leak into the other tests."
+    },
+    {
+      "code": "        self.pet.charge(20)",
+      "text": "This is the action under test. Unlike a method that returns a value, charge changes the object's state, so there is nothing to capture here."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 70)",
+      "text": "Since charge returns nothing, the test inspects the attribute it modified. Checking the changed state is how you test a method that works by side effect."
+    },
+    {
+      "code": "    def test_charge_caps_at_hundred(self):",
+      "text": "Starting at 90 and adding 50 would overshoot, which tests the upper boundary rather than the ordinary case."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 100)",
+      "text": "The expected value is 100, not 140, because a battery cannot exceed full. This test would catch a charge method that forgot to clamp the maximum."
+    },
+    {
+      "code": "    def test_charge_negative_decreases_battery(self):",
+      "text": "A negative amount is used to confirm that charge also handles draining the battery, an easy case to overlook."
+    },
+    {
+      "code": "        self.pet.charge(-50)",
+      "text": "Draining 50 from a battery at 10 pushes the result below zero, exercising the lower boundary."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 0)",
+      "text": "The battery floors at 0 instead of going negative. Together with the cap test, this pins down both ends of the valid range."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "robot_pet.py",
+      "content": "class RobotPet:\n    \"\"\"A small robot pet whose battery level is always between 0 and 100.\"\"\"\n\n    def __init__(self, name):\n        self.name = name\n        self.battery = 100\n\n    def charge(self, amount):\n        new_level = self.battery + amount\n        if new_level > 100:\n            new_level = 100\n        if new_level < 0:\n            new_level = 0\n        self.battery = new_level\n"
+    },
+    {
+      "path": "run_tests.py",
+      "content": "\"\"\"Runs the test methods printed in the book.\n\nThe book shows only the test methods, so this runner supplies the class\nheader and the setUp method that creates self.pet, then hands the finished\ntest case to unittest.\n\"\"\"\n\nimport glob\nimport os\nimport unittest\n\nHEADER = '''import unittest\nfrom robot_pet import RobotPet\n\n\nclass TestRobotPetCharge(unittest.TestCase):\n    def setUp(self):\n        self.pet = RobotPet(\"Nova\")\n\n'''\n\nMARKER = \"def test_charge_increases_battery\"\nSKIP = {\"run_tests.py\", \"robot_pet.py\"}\n\n\ndef find_snippet():\n    for path in sorted(glob.glob(\"*.py\")):\n        if os.path.basename(path) in SKIP:\n            continue\n        with open(path) as handle:\n            text = handle.read()\n        if MARKER in text:\n            return text\n    raise SystemExit(\"Could not find the test methods from the book.\")\n\n\nsource = HEADER + find_snippet()\nnamespace = {}\nexec(compile(source, \"book_tests.py\", \"exec\"), namespace)\n\nsuite = unittest.TestLoader().loadTestsFromTestCase(namespace[\"TestRobotPetCharge\"])\nunittest.TextTestRunner(verbosity=2).run(suite)\n"
+    }
+  ],
+  "entrypoint": "run_tests.py",
+  "stdin": ""
+}

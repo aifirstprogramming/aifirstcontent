@@ -1,0 +1,71 @@
+{
+  "summary": "This program builds a list of farmers' market products and then uses three stream pipelines to reshape that data: one collects the unique vendor names, one formats a single vendor's items as a printable menu, and one recomputes that vendor's prices with a 10% discount. It shows how `map` turns a stream of objects into a stream of something else entirely.",
+  "lines": [
+    {
+      "code": "import java.util.stream.Collectors;",
+      "text": "`Collectors` supplies the recipes that gather a finished stream back into a collection, such as `toSet()` and `toList()`."
+    },
+    {
+      "code": "        products.add(new MarketProduct(\"Country Baguette\", \"Baker's Lane\", 4.25, \"Bakery\", \"All\", false));",
+      "text": "Extra Baker's Lane items are added so the vendor-specific pipelines later have more than one row to work on."
+    },
+    {
+      "code": "        Set<String> vendors = getVendorSet(products);",
+      "text": "A `Set` is used because each vendor should appear only once, even though Sunny Fields Farm and Baker's Lane each sell several products."
+    },
+    {
+      "code": "        String vendor = \"Baker's Lane\";",
+      "text": "Storing the vendor name in a variable means the same value drives the menu, the discount calculation, and the printed headings."
+    },
+    {
+      "code": "        menu.forEach(System.out::println);",
+      "text": "`forEach` walks the returned list and the method reference `System.out::println` prints each formatted menu line."
+    },
+    {
+      "code": "        List<Double> discountedPrices = getDiscountedPricesForVendor(products, vendor, 0.10);",
+      "text": "The discount is passed as a fraction, 0.10 meaning 10% off, so the same method could apply any discount."
+    },
+    {
+      "code": "    public static Set<String> getVendorSet(List<MarketProduct> products) {",
+      "text": "Each task lives in its own small static method, which keeps `main` readable and lets you test the pipelines one at a time."
+    },
+    {
+      "code": "                .map(MarketProduct::getVendor)",
+      "text": "`map` replaces every product in the stream with just its vendor name, turning a stream of objects into a stream of strings."
+    },
+    {
+      "code": "                .filter(v -> v != null && !v.isBlank())",
+      "text": "Filtering after the map drops any missing or empty vendor names so they never reach the final set."
+    },
+    {
+      "code": "                .collect(Collectors.toSet())",
+      "text": "Collecting into a set discards duplicate vendor names automatically."
+    },
+    {
+      "code": "                .filter(p -> p.getVendor() != null && vendor != null && p.getVendor().equalsIgnoreCase(vendor))",
+      "text": "Only products from the requested vendor survive; `equalsIgnoreCase` means a difference in capitalization will not cause a miss."
+    },
+    {
+      "code": "                .map(p -> p.getName() + \" - $\" + String.format(\"%.2f\", p.getPrice()))",
+      "text": "This map builds a display string per product, with `%.2f` forcing exactly two decimal places so prices line up like currency."
+    },
+    {
+      "code": "        double factor = 1.0 - discountFraction;",
+      "text": "Converting the discount into a multiplier once, outside the stream, avoids recomputing it for every element."
+    },
+    {
+      "code": "                .map(p -> Math.max(0.0, p.getPrice() * factor))",
+      "text": "The price is scaled by the discount factor, and `Math.max` guards against a negative result if someone passes a discount above 100%."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

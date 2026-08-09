@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores the seven musical note names in a single string and prints each letter on its own line. It shows that a for loop can walk through the characters of a string, not just numbers.",
+  "lines": [
+    {
+      "code": "letters = \"ABCDEFG\"",
+      "text": "The seven note names are held in one string. A string is a sequence of characters, so Python can step through it one character at a time."
+    },
+    {
+      "code": "for letter in letters:",
+      "text": "Each pass through the loop assigns the next character of the string to the variable letter, in the order they appear."
+    },
+    {
+      "code": "    print(letter)",
+      "text": "Indented inside the loop, this runs once per character, giving one note per line."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,29 @@
+{
+  "summary": "This program stores whole numbers in two different integer types, short and int, then shows what happens when you combine them in arithmetic. It demonstrates that Java automatically promotes a short to an int in a calculation, and that going the other direction requires an explicit cast.",
+  "lines": [
+    {
+      "code": "        short shortValue = 12_345;          // 16-bit",
+      "text": "A short holds whole numbers in 16 bits, so its range is -32,768 to 32,767. The underscore in 12_345 is a readability aid for long digit strings and is ignored by the compiler."
+    },
+    {
+      "code": "        int intValue = 1_000_000;           // 32-bit",
+      "text": "An int uses 32 bits and is the usual choice for whole numbers in Java, comfortably holding values into the billions."
+    },
+    {
+      "code": "        int sum = shortValue + intValue;    // short promoted to int",
+      "text": "When a short and an int are added, Java widens the short to an int first, so the result is an int and fits in the sum variable without any extra work."
+    },
+    {
+      "code": "        short doubled = (short) (shortValue * 2); // cast back to short",
+      "text": "The multiplication produces an int, so (short) is required to narrow it back down. Here 24,690 still fits in a short, but a larger value would silently wrap around."
+    },
+    {
+      "code": "        System.out.println(\"sum: \" + sum);",
+      "text": "Using + with a String on the left converts the number to text and joins it, which is how these labelled values are built."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

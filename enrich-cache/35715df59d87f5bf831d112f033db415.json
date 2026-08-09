@@ -1,0 +1,41 @@
+{
+  "summary": "This program shows Java's boolean type, which holds only true or false. It creates booleans directly, produces them from number comparisons, and combines them with the logical operators AND (&&) and NOT (!) — all without any if statement.",
+  "lines": [
+    {
+      "code": "        boolean isJavaFun = true;",
+      "text": "A boolean variable can hold exactly one of two values, and here it is set literally to true."
+    },
+    {
+      "code": "        boolean hasErrors = false;",
+      "text": "The other of the two possible boolean values; names starting with \"is\" or \"has\" read naturally as yes/no questions."
+    },
+    {
+      "code": "        System.out.println(\"isJavaFun: \" + isJavaFun);",
+      "text": "When a boolean is joined to a string with +, Java writes it out as the word true or false."
+    },
+    {
+      "code": "        int passedTests = 3;",
+      "text": "Two plain integers are set up so the comparisons below have real numbers to work with."
+    },
+    {
+      "code": "        boolean allPassed = passedTests == totalTests;",
+      "text": "The == operator tests whether two values are equal and yields a boolean, so the result of 3 == 5 can be stored in a variable. Note that == compares, while a single = assigns."
+    },
+    {
+      "code": "        boolean anyPassed = passedTests > 0;",
+      "text": "Comparison operators such as > also produce booleans, so this holds true because 3 is greater than 0."
+    },
+    {
+      "code": "        boolean needsAttention = !allPassed && anyPassed;",
+      "text": "The ! operator flips a boolean to its opposite, and && is true only when both sides are true; together they say some tests passed but not all of them."
+    },
+    {
+      "code": "        boolean readyToSubmit = isJavaFun && !hasErrors && allPassed;",
+      "text": "Several conditions chained with && demand that every one be true, and because allPassed is false the whole expression is false."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

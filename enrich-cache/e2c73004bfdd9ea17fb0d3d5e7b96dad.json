@@ -1,0 +1,65 @@
+{
+  "summary": "This program builds a list of Book objects and sorts it three different ways using Comparator, then uses HashSet operations to find the intersection, union, and difference between two collections of book titles.",
+  "lines": [
+    {
+      "code": "import java.util.*;",
+      "text": "The wildcard import brings in every class from the java.util package, so List, ArrayList, Comparator, Set, HashSet, and Arrays are all available without separate import lines."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The variable is declared as the List interface but created as an ArrayList, which is the habit to build: code against the interface so the underlying implementation can change later."
+    },
+    {
+      "code": "        books.add(new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\"));",
+      "text": "Each call creates a Book object and appends it to the end of the list, so the list keeps items in insertion order."
+    },
+    {
+      "code": "        for (Book b : books) {",
+      "text": "The enhanced for loop walks through every element of the list in order without needing an index variable."
+    },
+    {
+      "code": "            System.out.println(b);",
+      "text": "Passing an object to println calls its toString method, which is why Book must define toString to print something readable."
+    },
+    {
+      "code": "        books.sort(Comparator.comparing(Book::getTitle));",
+      "text": "Comparator.comparing builds a comparator from a key, and Book::getTitle is a method reference naming the getter that supplies that key. The sort rearranges the list in place."
+    },
+    {
+      "code": "        books.sort(Comparator.comparing(Book::getGenre)",
+      "text": "Sorting by more than one field starts with the primary key, here the genre."
+    },
+    {
+      "code": "                             .thenComparing(Book::getTitle));",
+      "text": "thenComparing supplies the tie-breaker: books that share a genre are then ordered by title."
+    },
+    {
+      "code": "        Set<String> myTitles = new HashSet<>(Arrays.asList(",
+      "text": "Arrays.asList wraps the listed strings as a List, and the HashSet constructor copies them into a set, which stores no duplicates and keeps no particular order."
+    },
+    {
+      "code": "        Set<String> intersection = new HashSet<>(myTitles);",
+      "text": "A copy of myTitles is made first because the set operations that follow modify the set they are called on, and the originals must stay intact for later use."
+    },
+    {
+      "code": "        intersection.retainAll(friendTitles);",
+      "text": "retainAll keeps only the elements that also appear in the other set, giving the titles both readers own."
+    },
+    {
+      "code": "        union.addAll(friendTitles);",
+      "text": "addAll merges in every element of the other set, and because a set rejects duplicates the shared title appears only once."
+    },
+    {
+      "code": "        difference.removeAll(friendTitles);",
+      "text": "removeAll strips out every element found in the other set, leaving the titles that are unique to your own collection."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

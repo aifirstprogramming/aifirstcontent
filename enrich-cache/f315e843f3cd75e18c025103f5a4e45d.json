@@ -1,0 +1,41 @@
+{
+  "summary": "This program defines a function that takes two pieces of information — a list of food items and a table number — and prints a delivery report for Beepo the robot waiter. The function is then called twice with different orders, showing how one definition can serve many situations.",
+  "lines": [
+    {
+      "code": "def deliver_food(food_list, table_number):",
+      "text": "Defines a function with two parameters, separated by a comma. When the function is called, the first value given becomes `food_list` and the second becomes `table_number`."
+    },
+    {
+      "code": "    \"\"\"Helps Beepo the robot waiter deliver food to a table.\"\"\"",
+      "text": "A docstring: a short description placed as the first line inside a function so that anyone reading the code knows its purpose."
+    },
+    {
+      "code": "    print(f\"Beepo is delivering to Table {table_number}:\")",
+      "text": "An f-string drops the value of `table_number` straight into the sentence, so the heading names the correct table each time."
+    },
+    {
+      "code": "    for food in food_list:",
+      "text": "Because `food_list` is a list, a loop can walk through it one item at a time, no matter how many items the order contains."
+    },
+    {
+      "code": "        print(f\"  - {food}\")",
+      "text": "The two leading spaces and the dash format each item as an indented bullet under the heading."
+    },
+    {
+      "code": "    print(f\"Food delivered to Table {table_number}!\\n\")",
+      "text": "The `\\n` adds an extra blank line at the end, which keeps the two deliveries visually separate in the output."
+    },
+    {
+      "code": "deliver_food([\"Pizza\", \"Salad\", \"Water\"], 5)",
+      "text": "Calls the function with a list of three foods and table 5. The arguments are matched to the parameters by position, so order matters."
+    },
+    {
+      "code": "deliver_food([\"Burger\", \"Fries\", \"Soda\"], 12)",
+      "text": "A second call with entirely different values proves the point of functions: the logic is written once and reused."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

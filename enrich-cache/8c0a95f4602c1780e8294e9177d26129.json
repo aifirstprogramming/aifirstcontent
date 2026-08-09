@@ -1,0 +1,44 @@
+{
+  "summary": "This program stores four song titles in a PriorityQueue and then removes them one at a time with poll(), which always hands back the smallest remaining title in alphabetical order. It shows the difference between how a priority queue looks when you iterate over it and the order in which it actually serves its elements.",
+  "lines": [
+    {
+      "code": "import java.util.PriorityQueue;",
+      "text": "PriorityQueue is the collection that keeps its elements ordered by priority rather than by insertion order, so it must be imported before it can be used."
+    },
+    {
+      "code": "public class PlaylistApp {",
+      "text": "The class name has to match the file name, so this code belongs in PlaylistApp.java."
+    },
+    {
+      "code": "        // Example: Playlist as a PriorityQueue (String titles only)",
+      "text": "The comments above this one are placeholders for the earlier exercises in the chapter; this section is the new work."
+    },
+    {
+      "code": "        PriorityQueue<String> titleQueue = new PriorityQueue<>(); // natural A–Z order",
+      "text": "With no Comparator passed to the constructor, the queue uses the natural ordering of String, which for text means alphabetical order."
+    },
+    {
+      "code": "        titleQueue.offer(\"Respect\");",
+      "text": "offer() adds an element to the queue and lets it settle into position; the elements are deliberately added out of alphabetical order to prove the queue does the sorting."
+    },
+    {
+      "code": "        System.out.println(\"Initial queue contents (iteration order not guaranteed):\");",
+      "text": "This warning matters: a PriorityQueue only promises that the head is the smallest element, not that a walk through the whole queue comes out sorted."
+    },
+    {
+      "code": "        titleQueue.forEach(System.out::println);",
+      "text": "forEach with a method reference prints every element, and the jumbled result demonstrates the internal heap layout rather than a sorted list."
+    },
+    {
+      "code": "        while (!titleQueue.isEmpty()) {",
+      "text": "The loop keeps draining the queue until nothing is left, since poll() removes each element it returns."
+    },
+    {
+      "code": "            String nextTitle = titleQueue.poll(); // removes smallest (A–Z) first",
+      "text": "poll() takes the highest-priority element off the front, which here means the title that comes first alphabetically; repeating it yields the titles in full sorted order."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

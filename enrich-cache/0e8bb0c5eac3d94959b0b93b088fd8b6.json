@@ -1,0 +1,37 @@
+{
+  "summary": "This program walks through a fixed list of student names, asks whether each one is present, and collects the names of everyone who was not marked present into a second list that it prints at the end.",
+  "lines": [
+    {
+      "code": "students = [\"Alice\", \"Bob\", \"Charlie\", \"Diana\", \"Eve\"]",
+      "text": "A list holds several values in order under one name, so the whole roll can be stored in a single variable."
+    },
+    {
+      "code": "absentees = []",
+      "text": "An empty list is created before the loop begins so there is somewhere to accumulate names as they are discovered."
+    },
+    {
+      "code": "for student in students:",
+      "text": "The for loop hands the body one name at a time, which saves writing the same question five times over."
+    },
+    {
+      "code": "    present = input(f\"Is {student} present? (yes/no): \").lower()",
+      "text": "The f-string drops the current name straight into the question, and .lower() folds the reply to lowercase so \"Yes\" and \"YES\" are treated the same as \"yes\"."
+    },
+    {
+      "code": "    if present != \"yes\":",
+      "text": "Anything other than \"yes\" counts as absent, which means a blank line or a typo is treated as a no rather than silently passing."
+    },
+    {
+      "code": "        absentees.append(student)",
+      "text": "append adds the name to the end of the absentees list, growing it as the loop runs."
+    },
+    {
+      "code": "print(\"Absentees:\", absentees)",
+      "text": "Printing after the loop finishes gives one summary of the whole roll call instead of a message per student."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "yes\nno\nyes\nyes\nno\n",
+  "expectsUncaughtException": false
+}

@@ -71,5 +71,13 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      # Java test exercises execute through the JUnit console launcher rather than a
+      # build tool, so the books need no pom.xml and CI needs no Maven.
+      - name: Fetch the JUnit console launcher
+        run: |
+          mkdir -p ~/.aifirst-toolcache
+          curl -sSLo ~/.aifirst-toolcache/junit-console.jar \
+            https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/junit-platform-console-standalone-1.10.2.jar
+
       - name: Run every exercise
         run: bun scripts/run-exercises.ts

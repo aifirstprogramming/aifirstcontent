@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks for the current temperature and then advises whether you need a hat. It uses an if/else pair so that exactly one of the two messages is printed, no matter what number you type.",
+  "lines": [
+    {
+      "code": "temp = float(input(\"Temperature (°C): \"))",
+      "text": "input always hands back text, so float() converts what was typed into a decimal number that can be compared with 10. The result is stored in temp for the test on the next line."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "This is the condition that decides everything: if the temperature is below 10 degrees, the indented block underneath runs."
+    },
+    {
+      "code": "    print(\"Wear a hat!\")",
+      "text": "The indentation is what ties this line to the if above it, making it the cold-weather advice."
+    },
+    {
+      "code": "else:",
+      "text": "The else branch covers every case the condition missed — here, 10 degrees or warmer — so the program always gives an answer."
+    },
+    {
+      "code": "    print(\"No hat needed.\")",
+      "text": "This is the addition the exercise asks for, telling the reader when a hat is unnecessary rather than staying silent."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "18\n",
+  "expectsUncaughtException": false
+}

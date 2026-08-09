@@ -1,0 +1,41 @@
+{
+  "summary": "This defines a RobotPet class: a blueprint that stores a pet's name, battery level, and mood, and can report the trick it performs. It is the code under test in this chapter's first unit test.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "Declares the class, the template from which individual robot pets are created. A class on its own runs nothing; it waits until something creates an object from it."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The initializer runs automatically whenever a new RobotPet is created, and it receives the three starting values for that pet."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Stores the name on the object itself so that each pet remembers its own name after the initializer finishes."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Keeps the battery level as part of the object's state, which is exactly the kind of value a unit test can check with assertEqual."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "Records the pet's mood, completing the three attributes that describe one robot pet."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "Defines a behaviour that every robot pet shares. Because it returns a value instead of printing one, a test can capture the result and compare it."
+    },
+    {
+      "code": "        return f\"performs a generic trick!\"",
+      "text": "Returns the default talent for a plain RobotPet, the baseline that subclasses will later override. The f prefix does nothing useful here since there are no placeholders in the braces."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "test_robot_pet.py",
+      "content": "import glob\nimport unittest\n\n# Load the RobotPet class from the exercise file printed in the book.\nfor path in sorted(glob.glob(\"*.py\")):\n    source = open(path).read()\n    if \"class RobotPet\" in source and \"unittest\" not in source:\n        exec(compile(source, path, \"exec\"))\n        break\n\n\nclass TestRobotPet(unittest.TestCase):\n    def test_name_is_stored(self):\n        pet = RobotPet(\"Bolt\", 100, \"happy\")\n        self.assertEqual(pet.name, \"Bolt\")\n\n    def test_battery_is_stored(self):\n        pet = RobotPet(\"Bolt\", 100, \"happy\")\n        self.assertEqual(pet.battery, 100)\n\n    def test_mood_is_stored(self):\n        pet = RobotPet(\"Bolt\", 100, \"happy\")\n        self.assertEqual(pet.mood, \"happy\")\n\n    def test_show_talent(self):\n        pet = RobotPet(\"Bolt\", 100, \"happy\")\n        self.assertEqual(pet.show_talent(), \"performs a generic trick!\")\n\n\nif __name__ == \"__main__\":\n    unittest.main(verbosity=2)\n"
+    }
+  ],
+  "entrypoint": "test_robot_pet.py",
+  "stdin": ""
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores a price with cents in a double, then converts it to an int so only the whole dollars remain. It shows narrowing casting: turning a larger type into a smaller one, which discards the fractional part.",
+  "lines": [
+    {
+      "code": "        double price = 100.30;",
+      "text": "A double holds numbers with a decimal point, so it can store the full price of 100.30 including the cents."
+    },
+    {
+      "code": "        int adPrice = (int) price; // narrow casting from double to int",
+      "text": "The (int) in front of price is a cast that forces the double into an int. Java will not do this automatically because information is lost: the .30 is chopped off, not rounded, leaving 100."
+    },
+    {
+      "code": "        System.out.println(\"Advertisement price: $\" + adPrice);",
+      "text": "Joining text to a number with + turns the number into text, so the output reads as a single sentence with the rounded-down dollar amount."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

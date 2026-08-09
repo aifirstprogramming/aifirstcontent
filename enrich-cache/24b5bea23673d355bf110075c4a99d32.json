@@ -1,0 +1,29 @@
+{
+  "summary": "This is the Thermostat class with its display method rewritten to hand back a String instead of printing it. Returning the text lets a caller decide what to do with it \test compcompare it against an expected value in a test.",
+  "lines": [
+    {
+      "code": "public class Thermostat {",
+      "text": "The class is the blueprint for a thermostat object; everything that follows lives inside it."
+    },
+    {
+      "code": "    //variables, constructor, and getStatus method",
+      "text": "A placeholder standing in for the parts of the class the book has already written, so the page can focus on the one method being changed. Because those pieces are missing, this listing is a fragment for reading rather than a file that compiles on its own."
+    },
+    {
+      "code": "    public String printStatusToDisplay() {",
+      "text": "The return type is now String rather than void, which is the whole point of the change: the method produces a value that the caller receives."
+    },
+    {
+      "code": "        return \"Thermostat status: \" + getStatus();",
+      "text": "The + operator joins the label to whatever getStatus() reports, and return sends that finished sentence back to the caller. A test can now capture this string and assert on it, which is impossible when a method only prints."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "ThermostatDemo.java",
+      "content": "// A complete, runnable thermostat so you can see the returned String in action.\n// The exercise's Thermostat.java is a fragment: it shows only the changed method.\npublic class ThermostatDemo {\n\n    private double currentTemperature;\n    private double targetTemperature;\n\n    public ThermostatDemo(double currentTemperature, double targetTemperature) {\n        this.currentTemperature = currentTemperature;\n        this.targetTemperature = targetTemperature;\n    }\n\n    public String getStatus() {\n        if (currentTemperature < targetTemperature) {\n            return \"HEATING\";\n        } else if (currentTemperature > targetTemperature) {\n            return \"COOLING\";\n        } else {\n            return \"IDLE\";\n        }\n    }\n\n    // The method from the exercise, returning a String instead of printing.\n    public String printStatusToDisplay() {\n        return \"Thermostat status: \" + getStatus();\n    }\n\n    public static void main(String[] args) {\n        ThermostatDemo cold = new ThermostatDemo(18.0, 21.0);\n        ThermostatDemo warm = new ThermostatDemo(23.5, 21.0);\n        ThermostatDemo settled = new ThermostatDemo(21.0, 21.0);\n\n        // The caller decides what to do with the returned text.\n        System.out.println(cold.printStatusToDisplay());\n        System.out.println(warm.printStatusToDisplay());\n        System.out.println(settled.printStatusToDisplay());\n\n        // Because a String comes back, it can be checked instead of just watched.\n        String expected = \"Thermostat status: HEATING\";\n        System.out.println(\"Matches expected? \" + expected.equals(cold.printStatusToDisplay()));\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "ThermostatDemo.java",
+  "stdin": ""
+}

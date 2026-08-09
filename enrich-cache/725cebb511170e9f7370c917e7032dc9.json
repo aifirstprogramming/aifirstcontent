@@ -1,0 +1,57 @@
+{
+  "summary": "This listing gives each robot pet its own version of speak(), so the words it returns depend on both its battery level and its mood. The base RobotPet has a general set of replies, and RobotCat, RobotBird, and RobotDog each override speak() with replies in their own voice.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "The shared parent class. The \"…\" underneath stands for the parts written in earlier exercises (the __init__ that stores name, mood, and battery), which the book leaves out so the new feature stands alone."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "The feature being expanded: instead of one fixed greeting, speak() now checks several conditions and returns whichever message fits the pet's current state."
+    },
+    {
+      "code": "        if self.battery < 30:",
+      "text": "Battery is tested first, so a nearly flat robot always complains about charge no matter how happy it is. In a chain of checks like this, order decides which rule wins."
+    },
+    {
+      "code": "        if self.battery == 100:",
+      "text": "A second battery rule for the opposite extreme. It only runs when the first check failed, which is why a full battery message and a low battery message can never clash."
+    },
+    {
+      "code": "        if self.mood == \"happy\":",
+      "text": "Once the battery is in normal range, mood takes over as the thing that shapes the reply."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "The fallback. Because every earlier branch returned, reaching this line means no rule matched, so an unknown mood still produces a sensible sentence instead of None."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "RobotCat inherits everything from RobotPet and then replaces the parts that should sound like a cat."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "A method that exists only on the subclass, adding behaviour the parent never had."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'Mrrow... so... tired...'\"",
+      "text": "The cat's version of the low-battery reply. The subclass keeps the same rules in the same order and changes only the wording, which is what makes the tests for each animal look so similar."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'ARF ARF ARF! LET\\'S PLAY!'\"",
+      "text": "The backslash escapes the apostrophe in \"LET'S\" so Python does not read it as the end of the string. Writing tests for lines like this is a good habit, because a stray quote here breaks the whole file."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Woof.'\"",
+      "text": "Each subclass supplies its own default too, so the dog never falls back to the parent's plain \"Hello!\"."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "run_pets.py",
+      "content": "\"\"\"Runs and tests the speak() code from exercise py-7-12.\n\nThe printed listing uses the placeholder \"...\" for the parts of RobotPet that\nwere written in earlier exercises, so the file cannot be imported as it is.\nThis helper reads the listing, puts a real body in place of the placeholder,\nand gives RobotPet the __init__ that the earlier exercises defined.\n\"\"\"\n\nimport unittest\nfrom pathlib import Path\n\nLISTING = Path(__file__).with_name(\"implementing_a_new_feature_and_testing_it.py\")\n\nsource = LISTING.read_text(encoding=\"utf-8\").replace(\"\\u2026\", \"pass\")\nclasses = {}\nexec(compile(source, LISTING.name, \"exec\"), classes)\n\nRobotPet = classes[\"RobotPet\"]\nRobotCat = classes[\"RobotCat\"]\nRobotBird = classes[\"RobotBird\"]\nRobotDog = classes[\"RobotDog\"]\n\n\ndef pet_init(self, name, mood=\"neutral\", battery=100):\n    self.name = name\n    self.mood = mood\n    self.battery = battery\n\n\nRobotPet.__init__ = pet_init\n\n\nclass TestSpeak(unittest.TestCase):\n    def test_low_battery_beats_mood(self):\n        pet = RobotDog(\"Rex\", mood=\"excited\", battery=12)\n        self.assertEqual(pet.speak(), \"Rex says: 'Woof... need... charge...'\")\n\n    def test_full_battery_message(self):\n        pet = RobotCat(\"Mia\")\n        self.assertEqual(pet.speak(), \"Mia says: 'Purrr... fully charged!'\")\n\n    def test_sad_mood_message(self):\n        pet = RobotBird(\"Kiwi\", mood=\"sad\", battery=80)\n        self.assertEqual(pet.speak(), \"Kiwi says: 'Tweet... *quiet chirp*'\")\n\n    def test_unknown_mood_uses_fallback(self):\n        pet = RobotDog(\"Rex\", mood=\"curious\", battery=55)\n        self.assertEqual(pet.speak(), \"Rex says: 'Woof.'\")\n\n\nif __name__ == \"__main__\":\n    pets = [\n        RobotCat(\"Mia\", \"excited\", 70),\n        RobotBird(\"Kiwi\", \"sad\", 80),\n        RobotDog(\"Rex\", \"happy\", 25),\n    ]\n    for pet in pets:\n        print(pet.speak())\n        print(pet.show_talent())\n    print()\n    unittest.main(verbosity=2)\n"
+    }
+  ],
+  "entrypoint": "run_pets.py",
+  "stdin": ""
+}

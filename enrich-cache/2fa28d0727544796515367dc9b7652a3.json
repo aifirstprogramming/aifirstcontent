@@ -1,0 +1,41 @@
+{
+  "summary": "This program builds a party shopping list, then edits it three ways \\at the end, and finally reads items back out by position.",
+  "lines": [
+    {
+      "code": "shopping_list = [\"cake\", \"balloons\", \"decorations\", \"drinks\", \"snacks\", \"plates\", \"napkins\"]",
+      "text": "A list holds several values in one variable, in the order you write them. Square brackets create the list, and commas separate the items."
+    },
+    {
+      "code": "shopping_list[4] = \"chouriço\"  # Replace snacks with Portuguese sausage",
+      "text": "Lists are mutable, so you can overwrite a single slot by assigning to its index. Counting starts at 0, so index 4 is the fifth item, \"snacks\"."
+    },
+    {
+      "code": "shopping_list.append(\"pastéis de nata\")  # Portuguese custard tarts",
+      "text": "The append method adds one new item to the end of the list, making the list longer by one."
+    },
+    {
+      "code": "shopping_list.remove(\"balloons\")  # Remove balloons",
+      "text": "The remove method deletes an item by its value rather than its position, so you do not have to know where \"balloons\" sits."
+    },
+    {
+      "code": "for item in shopping_list:",
+      "text": "A for loop visits each item in the list in turn, storing the current one in the variable item."
+    },
+    {
+      "code": "    print(\"-\", item)",
+      "text": "Passing two arguments to print puts a space between them, which gives each line a dash and then the item."
+    },
+    {
+      "code": "print(f\"\\nFirst item: {shopping_list[0]}\")",
+      "text": "Index 0 is always the first item. The \\n inside the f-string prints a blank line first, which separates the summary from the list above."
+    },
+    {
+      "code": "print(f\"Last item: {shopping_list[-1]}\")",
+      "text": "A negative index counts backwards from the end, so -1 is the last item no matter how long the list has become."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

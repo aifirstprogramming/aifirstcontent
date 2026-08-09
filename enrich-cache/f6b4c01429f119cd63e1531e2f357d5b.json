@@ -1,0 +1,73 @@
+{
+  "summary": "This is the farmers' market app rewritten so that each stream pipeline does exactly one job well: one method collects every vendor name into a unique, alphabetically sorted list, and another builds a short menu for a single vendor that stops after three items.",
+  "lines": [
+    {
+      "code": "import java.util.stream.Collectors;",
+      "text": "Collectors supplies the recipes that turn a finished stream back into a collection, and Collectors.toList() is the one used at the end of every method here."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "All the stream methods below read from this one list, so the products you add here are the raw data for every report the program prints."
+    },
+    {
+      "code": "        List<String> vendors = getVendorSet(products);",
+      "text": "Even though the method name still says \"Set,\" it now hands back a List, because a list is what can promise a stable alphabetical order."
+    },
+    {
+      "code": "        String vendor = \"Baker's Lane\";",
+      "text": "Storing the vendor name in a variable means the same spelling is reused for the menu and for the discount calculation, so the two reports cannot drift apart."
+    },
+    {
+      "code": "        menu.forEach(System.out::println);",
+      "text": "forEach with a method reference prints each menu line on its own row, which reads better than dumping the whole list inside square brackets."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "The null check on getSeason() comes before the call to toLowerCase(), which is what stops a product with no season recorded from crashing the pipeline."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "Sorting happens while the elements are still MarketProduct objects, because once map has reduced them to names the price is no longer available to sort by."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "map converts each product into just its name, changing the stream's element type from MarketProduct to String."
+    },
+    {
+      "code": "                .filter(v -> v != null && !v.isBlank())",
+      "text": "This drops missing and whitespace-only vendor names so that blank entries never reach the sorted output."
+    },
+    {
+      "code": "                .distinct()",
+      "text": "distinct removes duplicate vendor names, giving the uniqueness that a Set used to provide."
+    },
+    {
+      "code": "                .sorted()",
+      "text": "Called with no argument, sorted() uses the natural ordering of the elements, which for String means alphabetical."
+    },
+    {
+      "code": "                .filter(p -> p.getVendor() != null && vendor != null && p.getVendor().equalsIgnoreCase(vendor))",
+      "text": "equalsIgnoreCase matches the vendor even if the capitalization in the data differs from the name passed in, and both null checks guard the comparison."
+    },
+    {
+      "code": "                // .sorted(Comparator.comparing(MarketProduct::getName))",
+      "text": "This line is commented out on purpose: with a limit of three, sorting first would change which three products survive, so leave it off until you decide you want the alphabetically first three."
+    },
+    {
+      "code": "                .map(p -> p.getName() + \" - $\" + String.format(\"%.2f\", p.getPrice()))",
+      "text": "String.format with %.2f pins each price to two decimal places, so 3.5 prints as 3.50 like real money."
+    },
+    {
+      "code": "                .limit(3),",
+      "text": "limit stops the stream once three elements have passed through, which is what keeps the printed menu short."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "public class MarketProduct {\n    private String name;\n    private double price;\n    private boolean organic;\n    private String season;\n    private String vendor;\n\n    public MarketProduct(String name, double price, boolean organic, String season, String vendor) {\n        this.name = name;\n        this.price = price;\n        this.organic = organic;\n        this.season = season;\n        this.vendor = vendor;\n    }\n\n    public String getName() { return name; }\n    public double getPrice() { return price; }\n    public boolean isOrganic() { return organic; }\n    public String getSeason() { return season; }\n    public String getVendor() { return vendor; }\n\n    @Override\n    public String toString() {\n        return name + \" ($\" + String.format(\"%.2f\", price) + \", \" + vendor + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

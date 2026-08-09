@@ -1,0 +1,72 @@
+{
+  "summary": "This program defines a RobotPet class whose battery level is guarded by a property, so any value assigned to it is automatically clamped into the range 0 to 100. Three pets are created and their details printed.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "Starts the blueprint for a robot pet; every pet created from it will share these attributes and methods."
+    },
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to self.battery inside __init__ does not create a plain attribute here; because a property named battery exists, Python routes this through the setter so even the starting value gets validated."
+    },
+    {
+      "code": "    @property",
+      "text": "Marks the method below as the getter for an attribute called battery, letting readers write pet.battery without parentheses."
+    },
+    {
+      "code": "    def battery(self):",
+      "text": "The getter simply hands back the hidden value stored in _battery."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "Registers the next method as the code that runs whenever anything assigns to .battery, which is where the protection happens."
+    },
+    {
+      "code": "    def battery(self, value):",
+      "text": "Receives the value someone tried to store so it can be checked before being saved."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "Catches negative charge levels, which are physically meaningless for a battery."
+    },
+    {
+      "code": "            self._battery = 0",
+      "text": "Clamps anything below zero to the lowest legal reading rather than raising an error."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "Catches attempts to overcharge past a full battery."
+    },
+    {
+      "code": "            self._battery = 100",
+      "text": "Stores 100 as the maximum, so the pet can never claim more than a full charge."
+    },
+    {
+      "code": "            self._battery = value",
+      "text": "A value inside the valid range is stored as-is; the leading underscore signals that _battery is internal and should be reached through the property."
+    },
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "A behaviour that uses the battery level to answer a practical question about the pet."
+    },
+    {
+      "code": "        energy_required = duration * 2  # 2% battery per minute",
+      "text": "Converts a walk length in minutes into the battery percentage it would consume."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "Returns True or False by comparing the available charge with what the walk needs; note it reads self.battery, going through the getter."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Creates the first pet, passing name, battery, and mood into __init__."
+    },
+    {
+      "code": "print(f\"{pet1.name} - Battery: {pet1.battery}, Mood: {pet1.mood}\")",
+      "text": "An f-string builds a readable summary line; pet1.battery quietly calls the getter method."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

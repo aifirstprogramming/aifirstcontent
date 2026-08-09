@@ -1,0 +1,32 @@
+{
+  "summary": "This program asks how many cupcakes and how many llamas there are, then divides to find each llama's share. The try/except blocks catch the two things that can go wrong: text that isn't a number, and dividing by zero.",
+  "lines": [
+    {
+      "code": "try:",
+      "text": "Everything indented under `try:` is code Python will attempt to run, ready to hand control to a matching `except` block if something fails."
+    },
+    {
+      "code": "    cupcakes = int(input(\"How many cupcakes do you have? \"))",
+      "text": "`input()` always returns text, so `int()` converts it to a whole number; if the reader types \"twelve\", this conversion is what raises the error."
+    },
+    {
+      "code": "    cupcakes_per_llama = cupcakes / llamas",
+      "text": "A single slash gives true division, so the result keeps its fractional part — and this is the line that fails when `llamas` is zero."
+    },
+    {
+      "code": "    print(f\"Each llama gets {cupcakes_per_llama:.2f} cupcake(s)!\")",
+      "text": "Inside an f-string, `:.2f` formats the number to exactly two decimal places, which keeps a long result like 4.333333 readable."
+    },
+    {
+      "code": "except ValueError:",
+      "text": "This block runs only when a conversion to `int` fails, which is the error Python raises for input that isn't a valid whole number."
+    },
+    {
+      "code": "except ZeroDivisionError:",
+      "text": "A second `except` handles a different failure, letting each kind of mistake get its own clear message instead of one vague warning."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "12\n0\n"
+}

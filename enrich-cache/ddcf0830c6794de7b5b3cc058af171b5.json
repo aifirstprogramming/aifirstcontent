@@ -1,0 +1,37 @@
+{
+  "summary": "The Restaurant class holds one method that turns a numeric spice rating into a human-readable label, using a switch expression to map each valid number 1 through 5 to its own description and catching anything else with a default answer.",
+  "lines": [
+    {
+      "code": "public class Restaurant {",
+      "text": "Declares the class that groups the restaurant's behaviour; the file must be named Restaurant.java to match."
+    },
+    {
+      "code": "    public String getSpiceLevel(int level) {",
+      "text": "The method takes the numeric rating as an int and hands back a String, so the caller supplies a number and receives wording it can display."
+    },
+    {
+      "code": "        return switch (level) {",
+      "text": "This is a switch expression rather than a switch statement: the whole switch produces a single value, and that value is what gets returned."
+    },
+    {
+      "code": "            case 1 -> \"Mild\";",
+      "text": "The arrow form pairs one input with one result and does not fall through to the next case, so no break keyword is needed."
+    },
+    {
+      "code": "            case 5 -> \"Spicy\";",
+      "text": "Rounds out the five documented levels, giving the hottest rating its label."
+    },
+    {
+      "code": "            default -> \"Invalid spice level\";",
+      "text": "Every switch expression must produce a value for any possible input, so this branch covers 0, 6, negatives, and anything else outside the 1-5 range."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "RestaurantDemo.java",
+      "content": "public class RestaurantDemo {\n    public static void main(String[] args) {\n        Restaurant restaurant = new Restaurant();\n\n        // Walk through every valid level.\n        for (int level = 1; level <= 5; level++) {\n            System.out.println(level + \" -> \" + restaurant.getSpiceLevel(level));\n        }\n\n        // Values outside 1-5 fall to the default branch.\n        System.out.println(\"0 -> \" + restaurant.getSpiceLevel(0));\n        System.out.println(\"6 -> \" + restaurant.getSpiceLevel(6));\n        System.out.println(\"-3 -> \" + restaurant.getSpiceLevel(-3));\n\n        // Simple hand-written checks, the same ones a unit test would make.\n        check(\"Mild\", restaurant.getSpiceLevel(1));\n        check(\"Medium-Mild\", restaurant.getSpiceLevel(2));\n        check(\"Medium\", restaurant.getSpiceLevel(3));\n        check(\"Medium-Spicy\", restaurant.getSpiceLevel(4));\n        check(\"Spicy\", restaurant.getSpiceLevel(5));\n        check(\"Invalid spice level\", restaurant.getSpiceLevel(0));\n        check(\"Invalid spice level\", restaurant.getSpiceLevel(6));\n        check(\"Invalid spice level\", restaurant.getSpiceLevel(-3));\n\n        System.out.println(\"All checks passed.\");\n    }\n\n    private static void check(String expected, String actual) {\n        if (!expected.equals(actual)) {\n            throw new AssertionError(\"Expected \\\"\" + expected + \"\\\" but got \\\"\" + actual + \"\\\"\");\n        }\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "RestaurantDemo.java",
+  "stdin": ""
+}

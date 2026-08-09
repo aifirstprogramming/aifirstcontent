@@ -1,0 +1,63 @@
+{
+  "summary": "This program builds a small list of farmers' market products, prints the whole inventory, then uses a stream pipeline to pick out the organic items sold in summer, order them from cheapest to most expensive, and collect just their names into a list of strings.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "Comparator supplies the ready-made sorting rules that the stream's sorted step needs."
+    },
+    {
+      "code": "import java.util.stream.Collectors;",
+      "text": "Collectors provides the recipes for gathering a stream's results back into a normal collection such as a List."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "The inventory is declared as the List interface but created as an ArrayList, which is the usual Java habit of programming to the interface."
+    },
+    {
+      "code": "        products.add(new MarketProduct(\"Heirloom Tomatoes\", \"Sunny Fields Farm\", 4.50, \"Produce\", \"Summer\", true));",
+      "text": "Each product is created with its name, vendor, price, category, season, and organic flag in that order, so the argument order must match the constructor exactly."
+    },
+    {
+      "code": "        products.add(new MarketProduct(\"Wildflower Honey\", \"Bee Kind Apiary\", 12.00, \"Honey\", \"Late Summer\", true));",
+      "text": "The season \"Late Summer\" is deliberately worded differently so you can see that the filter matches any season containing the word \"summer\"."
+    },
+    {
+      "code": "        for (MarketProduct p : products) {",
+      "text": "An enhanced for loop walks the list to print the starting inventory, which gives you a plain-loop version to compare against the stream that follows."
+    },
+    {
+      "code": "        List<String> organicSummerNames = getOrganicSummerItemNamesSortedByPrice(products);",
+      "text": "The main method delegates the real work to a named helper, which keeps the pipeline out of main and makes it easy to test or reuse."
+    },
+    {
+      "code": "        return products.stream()",
+      "text": "Calling stream() turns the list into a pipeline of values that the following steps process one at a time."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"),",
+      "text": "The lambda keeps only organic products whose season mentions summer; the null check guards against a missing season, and toLowerCase makes the match ignore capitalization."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "comparingDouble builds a comparator from the price getter, so the surviving products come out in ascending price order."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "map replaces each MarketProduct with its name, changing the stream's element type from MarketProduct to String."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "collect is the terminal operation that actually runs the pipeline and packages the names into a List<String>."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

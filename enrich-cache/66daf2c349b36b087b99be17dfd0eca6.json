@@ -1,0 +1,29 @@
+{
+  "summary": "This program checks a player's score against a threshold and prints one of two skill levels. It shows how an if/else pair picks exactly one of two paths depending on whether a condition is true or false.",
+  "lines": [
+    {
+      "code": "        int number = 12;",
+      "text": "Stores the value the decision will be based on. Because 12 is not below 10, this value is chosen to make the else branch run."
+    },
+    {
+      "code": "        if (number < 10) {",
+      "text": "Tests whether the value is less than 10. The block that follows runs only when this comparison is true."
+    },
+    {
+      "code": "            System.out.println(\"Novice Level\");",
+      "text": "The result for a low number, which is skipped here since 12 is not less than 10."
+    },
+    {
+      "code": "        } else {",
+      "text": "Provides the fallback path taken whenever the if condition is false, so one of the two messages always prints."
+    },
+    {
+      "code": "            System.out.println(\"Expert Level\");",
+      "text": "The message that actually appears when the program runs, because the condition failed."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

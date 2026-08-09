@@ -1,0 +1,41 @@
+{
+  "summary": "This program is the driver for a small bakery model: it builds one plain cookie and one decorated cookie, then asks each object to describe itself. It shows how a program that holds `main` can stay short by letting the objects do the work.",
+  "lines": [
+    {
+      "code": "public class CookieBakery {",
+      "text": "This class exists only to run the program, so it holds no cookie data of its own. Keeping the driver separate from `Cookie` and `DecoratedCookie` is a common way to organise Java code."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "Java starts every program at `main`, which is why this method must be `public static void` with a `String[]` parameter."
+    },
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "`new Cookie(...)` builds one object in memory and hands the flavour to the constructor; `regular` is the variable that lets you reach that object later."
+    },
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday\");",
+      "text": "A `DecoratedCookie` is a specialised kind of cookie, so it is created the same way but carries extra information about its decoration."
+    },
+    {
+      "code": "        System.out.println(regular.describe());",
+      "text": "Calling `describe()` asks the object itself to produce its own description, rather than having `main` assemble the text from separate fields."
+    },
+    {
+      "code": "        System.out.println(decorated.describe());",
+      "text": "The same method name works on the decorated cookie, but the subclass's own version runs and mentions the decoration — this is polymorphism in action."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "public class Cookie {\n    private String flavor;\n\n    public Cookie(String flavor) {\n        this.flavor = flavor;\n    }\n\n    public String getFlavor() {\n        return flavor;\n    }\n\n    public String describe() {\n        return \"A \" + flavor + \" cookie.\";\n    }\n}\n"
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "public class DecoratedCookie extends Cookie {\n    private String occasion;\n\n    public DecoratedCookie(String occasion) {\n        super(\"Sugar\");\n        this.occasion = occasion;\n    }\n\n    public String getOccasion() {\n        return occasion;\n    }\n\n    @Override\n    public String describe() {\n        return \"A \" + getFlavor() + \" cookie decorated for a \" + occasion + \".\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

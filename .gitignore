@@ -10,3 +10,7 @@ Thumbs.db
 
 # Agent scratch
 .claude/settings.local.json
+
+# Never commit credentials.
+key.env
+*.env

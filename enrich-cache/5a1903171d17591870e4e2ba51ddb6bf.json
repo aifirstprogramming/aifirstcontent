@@ -1,0 +1,76 @@
+{
+  "summary": "Three kinds of robot pet share one battery-checking rule that lives in the base class, and each subclass calls that rule with super() before describing its own talent. The battery value itself is guarded by a property setter that clamps it to the range 0-100.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "The base class holds everything the three pets have in common: a name, a validated battery level, a mood, and the shared rule about performing on low power."
+    },
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to self.battery here does not create a plain attribute; because battery is a property, this call runs the setter and the value is checked before it is stored."
+    },
+    {
+      "code": "    @property",
+      "text": "The @property decorator turns the method below it into a read-only-looking attribute, so callers write pet.battery rather than pet.battery()."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in _battery, and the leading underscore signals that outside code should go through the property instead."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This registers the following method as the code that runs whenever anything assigns to battery, which is where validation belongs."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "A negative battery makes no sense, so the setter quietly corrects it rather than trusting the caller."
+    },
+    {
+      "code": "            self._battery = 100",
+      "text": "Anything above full charge is clamped down to 100, keeping the stored value inside a meaningful range."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "The base version does not describe a trick at all; it only handles the two battery problems that every pet shares."
+    },
+    {
+      "code": "        if self.battery == 0:",
+      "text": "With a dead battery there is no performance of any kind, so this case is caught first."
+    },
+    {
+      "code": "        return None",
+      "text": "Returning None is the signal that the battery is fine and the subclass should go ahead with its own talent."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "RobotCat inherits the initializer and the battery property, so it only needs to add what makes a cat different."
+    },
+    {
+      "code": "        result = super().show_talent()",
+      "text": "super() reaches the base class version, letting the cat reuse the shared battery check instead of copying that logic into every subclass."
+    },
+    {
+      "code": "        if result:",
+      "text": "A non-empty string means the base class already had something to say, so the cat returns that message and skips its trick."
+    },
+    {
+      "code": "        return f\"{self.name} gracefully balances on two legs! (Battery: {self.battery}%)\"",
+      "text": "This is the part unique to a cat, reached only once the shared check has passed."
+    },
+    {
+      "code": "cat = RobotCat(\"Whiskers\", 85, \"happy\")",
+      "text": "Creating a subclass instance runs the base class __init__, since RobotCat never defines its own."
+    },
+    {
+      "code": "pets = [cat, bird, dog]",
+      "text": "Putting different types in one list works because they all answer to show_talent()."
+    },
+    {
+      "code": "    print(pet.show_talent())",
+      "text": "The same call produces a different talent for each pet: Python looks up show_talent on the object's actual class, which is polymorphism at work."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

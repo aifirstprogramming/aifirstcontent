@@ -1,0 +1,25 @@
+{
+  "summary": "This program defines a single growPlant method that takes sunlight and water as parameters, then prints a growth status based on those values. It shows how parameters let one function handle many different situations instead of hard-coding the values inside.",
+  "lines": [
+    {
+      "code": "        growPlant(true, 3);",
+      "text": "The two values in the parentheses are the arguments: they are copied into the method's parameters in order, so sunlight becomes true and water becomes 3."
+    },
+    {
+      "code": "    public static void growPlant(boolean sunlight, int water) {",
+      "text": "The parameter list declares a type and a name for each incoming value, and inside the method body those names behave like ordinary local variables."
+    },
+    {
+      "code": "        System.out.println(\"Sunlight available: \" + sunlight);",
+      "text": "Joining text to a boolean with + converts the boolean into the words \"true\" or \"false\" automatically."
+    },
+    {
+      "code": "        String status = (sunlight && water >= 3) ? \"Growing\" : \"Needs care\";",
+      "text": "The conditional operator picks the first string when the test is true and the second when it is false, so both parameters must cooperate for the plant to be growing."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

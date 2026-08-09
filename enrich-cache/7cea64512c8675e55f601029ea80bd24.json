@@ -1,0 +1,49 @@
+{
+  "summary": "This program takes the playlist of Song objects built earlier in the chapter and feeds it into a PriorityQueue that keeps the highest-energy song at the front. Draining the queue with poll() then plays the songs from most energetic to least.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "Comparator is the interface used to describe a custom ordering rule. The PriorityQueue needs one because Song does not itself define which song comes first."
+    },
+    {
+      "code": "import java.util.PriorityQueue;",
+      "text": "PriorityQueue is a queue that hands back the smallest element according to its ordering, rather than the one that was added first."
+    },
+    {
+      "code": "public class PlaylistApp {",
+      "text": "All of the chapter's playlist experiments live in this one class, each new example added to main under its own comment."
+    },
+    {
+      "code": "        PriorityQueue<Song> energyQueue = new PriorityQueue<>(",
+      "text": "The type argument is now Song rather than String, so the queue holds whole domain objects and can order them by any of their fields."
+    },
+    {
+      "code": "                Comparator.comparingInt(Song::getEnergyLevel).reversed());",
+      "text": "comparingInt builds a comparator that reads each song's integer energy level, and reversed() flips it so the largest value counts as highest priority. This comparator is passed to the constructor because the queue must know the ordering before anything is inserted."
+    },
+    {
+      "code": "        energyQueue.addAll(playlist);",
+      "text": "The songs come from the List<Song> named playlist that was created at the top of main earlier in the chapter, so no data has to be typed in twice. As each song is added, the queue quietly moves it into position according to the comparator."
+    },
+    {
+      "code": "        while (!energyQueue.isEmpty()) {",
+      "text": "The loop keeps going until the queue has been drained, which is the usual way to process every item in a priority queue."
+    },
+    {
+      "code": "            Song nextSong = energyQueue.poll(); // highest energy first",
+      "text": "poll() removes and returns the front element, which under this comparator is always the remaining song with the highest energy level. Because it removes the song, the queue shrinks on every pass and the loop is guaranteed to end."
+    },
+    {
+      "code": "            System.out.println(\"Playing: \" + nextSong);",
+      "text": "Concatenating the Song with a string calls its toString method, so the class's own formatting decides how each song appears."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "public class Song {\n    private String title;\n    private String artist;\n    private int energyLevel;\n\n    public Song(String title, String artist, int energyLevel) {\n        this.title = title;\n        this.artist = artist;\n        this.energyLevel = energyLevel;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getArtist() {\n        return artist;\n    }\n\n    public int getEnergyLevel() {\n        return energyLevel;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + artist + \" (energy \" + energyLevel + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

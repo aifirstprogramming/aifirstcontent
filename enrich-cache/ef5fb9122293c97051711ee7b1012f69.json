@@ -1,0 +1,17 @@
+{
+  "summary": "This program stores a yes-or-no fact about the weather in a Boolean variable and prints it alongside a question. Booleans are Python's type for values that can only be True or False.",
+  "lines": [
+    {
+      "code": "is_sunny = True",
+      "text": "True is a Boolean literal, not the text \"True\", so it must be capitalised exactly this way. Naming the variable is_sunny signals to a reader that it holds a yes-or-no answer."
+    },
+    {
+      "code": "print(\"Is it sunny today?\", is_sunny)",
+      "text": "Passing two values to print displays them both, separated by a space, so the question and its answer appear on one line."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

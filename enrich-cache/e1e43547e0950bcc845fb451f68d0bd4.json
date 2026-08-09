@@ -1,0 +1,41 @@
+{
+  "summary": "This program asks whether you want to enter the temperature in Celsius, converts from Fahrenheit when you say no, and then advises what to wear based on the result.",
+  "lines": [
+    {
+      "code": "use_celsius = input(\"Use Celsius? (yes/no): \").strip().lower() == \"yes\"",
+      "text": "The answer is cleaned up with .strip() to drop stray spaces and .lower() to ignore capitalisation, then compared to \"yes\"; the comparison produces True or False, so use_celsius holds a boolean rather than text."
+    },
+    {
+      "code": "if use_celsius:",
+      "text": "A boolean variable can be tested directly, with no comparison needed — this reads almost like an English sentence."
+    },
+    {
+      "code": "    temp = float(input(\"Temperature (°C): \"))",
+      "text": "input always hands back text, so float converts it into a number that can be compared and used in arithmetic."
+    },
+    {
+      "code": "    temp_f = float(input(\"Temperature (°F): \"))",
+      "text": "The Fahrenheit reading is stored under its own name to keep it distinct from the Celsius value used later."
+    },
+    {
+      "code": "    temp = (temp_f - 32) * 5 / 9",
+      "text": "This is the standard Fahrenheit-to-Celsius formula, so that both branches leave temp in the same units."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "Only after the two branches have agreed on a Celsius value does the advice logic begin."
+    },
+    {
+      "code": "elif temp > 30:",
+      "text": "elif is only reached when the first test failed, so this check quietly means \"between 10 and 30 was ruled out\"."
+    },
+    {
+      "code": "    print(\"No hat needed.\")",
+      "text": "The else branch catches every temperature that neither earlier test claimed, guaranteeing exactly one message is printed."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "no\n95\n",
+  "expectsUncaughtException": false
+}

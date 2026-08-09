@@ -1,0 +1,41 @@
+{
+  "summary": "This defines a RobotPet class that stores a name, a battery level, and a mood, plus a can_walk method that decides whether the pet has enough battery for a walk of a given length. Two pets are then created so the method has something to be tested against.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The initializer runs whenever a new RobotPet is created and receives the three values that describe the pet."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Storing the battery level on the object is what later lets can_walk compare it against the energy a walk needs."
+    },
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "This is the behaviour worth testing: it takes a walk length and answers a yes-or-no question about it."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "A docstring records the rule the method implements, including the unit of duration, so a reader never has to guess whether it means minutes or hours."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "The cost rule is that each minute of walking drains two units of battery."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The comparison produces True or False directly, which is exactly the kind of clear-cut result an assertion can check."
+    },
+    {
+      "code": "rover = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Rover has a healthy battery, so it will serve as the example that should be allowed to walk."
+    },
+    {
+      "code": "beep = RobotPet(\"Beep\", 45, \"tired\")",
+      "text": "Beep starts with much less charge, giving you a second case that fails for longer walks."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

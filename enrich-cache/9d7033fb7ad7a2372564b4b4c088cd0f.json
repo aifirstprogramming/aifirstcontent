@@ -1,0 +1,25 @@
+{
+  "summary": "This program prints a 10 by 10 multiplication table using one loop inside another. The outer loop picks a row, the inner loop prints every product in that row, and each number is padded so the columns line up.",
+  "lines": [
+    {
+      "code": "for i in range(1, 11):",
+      "text": "The outer loop walks through the rows, giving i the values 1 through 10; range stops just before its second argument, so 11 is needed to include 10."
+    },
+    {
+      "code": "    for j in range(1, 11):",
+      "text": "For every single value of i, this inner loop runs all the way from 1 to 10, which is what produces 100 products in total."
+    },
+    {
+      "code": "        print(f\"{i * j:3}\", end=' ')",
+      "text": "The f-string format :3 pads each product to three characters wide so the columns stay aligned, and end=' ' replaces the usual newline with a space so the row keeps building on one line."
+    },
+    {
+      "code": "    print()",
+      "text": "This empty print belongs to the outer loop, so after each finished row it emits the newline that end=' ' suppressed, moving on to the next row."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

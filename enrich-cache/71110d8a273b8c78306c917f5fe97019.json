@@ -1,0 +1,45 @@
+{
+  "summary": "This defines a Song class, a blueprint for one track in a playlist app. Each Song remembers its title, artist, genre, and an energy level from 1 to 10, and can describe itself as a readable line of text.",
+  "lines": [
+    {
+      "code": "    private String title;",
+      "text": "Fields are marked private so that outside code cannot change a song's title directly; this is called encapsulation, and it keeps each object in charge of its own data."
+    },
+    {
+      "code": "    private int energyLevel;",
+      "text": "Energy level is an int rather than a String because it is a number you will later sort and compare songs by."
+    },
+    {
+      "code": "    public Song(String title, String artist, String genre, int energyLevel) {",
+      "text": "The constructor runs when you write new Song(...), and it requires all four values so a Song can never exist in a half-filled state."
+    },
+    {
+      "code": "        this.title = title;",
+      "text": "The parameter and the field share the name title, so this.title tells Java you mean the field belonging to this object."
+    },
+    {
+      "code": "    public String getTitle() { return title; }",
+      "text": "A getter hands out a copy of the field's value for reading, giving other classes access without letting them overwrite it."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation states that the method below replaces one inherited from Object; if you misspell the method name, the compiler catches the mistake instead of silently adding a new method."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Every object inherits toString, and printing a Song calls it automatically, so overriding it turns unreadable output like Song@1b6d into a real description."
+    },
+    {
+      "code": "        return title + \" by \" + artist +",
+      "text": "The + operator joins strings together, and the statement continues on the next line because Java ignores line breaks until it reaches the semicolon."
+    },
+    {
+      "code": "               \" [\" + genre + \"] (Energy: \" + energyLevel + \")\";",
+      "text": "The int energyLevel is converted to text automatically when combined with strings using +."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

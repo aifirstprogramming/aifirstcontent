@@ -1,0 +1,41 @@
+{
+  "summary": "This is a JUnit test that creates a Thermostat set to a low temperature and checks that its status reads \"Heating\". It is the smallest useful unit test: one object, one expected value, one assertion.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "Brings in the @Test annotation from JUnit 5, which is how you mark a method as a test the framework should run."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), which keeps the test body short and readable."
+    },
+    {
+      "code": "public class ThermostatTest {",
+      "text": "Tests live in their own class, named after the class under test plus the suffix Test. This convention is what tools use to find your tests."
+    },
+    {
+      "code": "    @Test",
+      "text": "Marks the method below as a test case. Without this annotation JUnit ignores the method entirely."
+    },
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "The method name is a sentence describing the expected behaviour, so a failure report tells you what broke without you having to read the code. Test methods need no parameters and return nothing."
+    },
+    {
+      "code": "        Thermostat t = new Thermostat(60.0);",
+      "text": "Sets up the situation being tested by constructing a thermostat at 60 degrees, a value deliberately below the target so the heating branch is the one exercised."
+    },
+    {
+      "code": "        assertEquals(\"Heating\", t.getStatus());",
+      "text": "Compares the expected value against what the method actually returned; the expected value always comes first. If the two differ, JUnit fails the test and prints both."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "public class Thermostat {\n    private static final double TARGET = 68.0;\n\n    private double temperature;\n\n    public Thermostat(double temperature) {\n        this.temperature = temperature;\n    }\n\n    public double getTemperature() {\n        return temperature;\n    }\n\n    public String getStatus() {\n        if (temperature < TARGET) {\n            return \"Heating\";\n        }\n        return \"Idle\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

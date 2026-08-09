@@ -1,0 +1,53 @@
+{
+  "summary": "This is a small data-holding class that represents one player on a sports team, storing a name, a playing position, and the number of goals they have scored. Once you have a list of these objects, stream pipelines can group them by position and pick out the top scorers.",
+  "lines": [
+    {
+      "code": "    private final String name;",
+      "text": "The field is `private` so nothing outside the class can reach in and change it, and `final` so it can only be set once, in the constructor."
+    },
+    {
+      "code": "    private final int goals;",
+      "text": "Goal counts are whole numbers, so `int` is the right type; using a number rather than text lets the stream code compare and total these values later."
+    },
+    {
+      "code": "    public Player(String name, String position, int goals) {",
+      "text": "The constructor is the only way to build a `Player`, which guarantees every object has all three pieces of data from the moment it exists."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "`this.name` refers to the field while plain `name` refers to the constructor parameter, so this copies the incoming value into the object."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "A getter gives read-only access to a private field. Stream code calls methods like this through method references such as `Player::getName`."
+    },
+    {
+      "code": "    public String getPosition() {",
+      "text": "This getter is what a grouping pipeline uses as the classifier, turning the position text into the key of each group."
+    },
+    {
+      "code": "    public int getGoals() {",
+      "text": "Comparators for finding the top scorer are built from this getter, for example `Comparator.comparingInt(Player::getGoals)`."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you mean to replace a method inherited from `Object`, so a typo in the method name becomes an error instead of a silent bug."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Overriding `toString` means printing a `Player`, or a whole list of them, shows readable details instead of a memory address."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'' +",
+      "text": "`'\\''` is the escape sequence for a single-quote character, so the name appears wrapped in quotes in the output."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "TeamStatsApp.java",
+      "content": "import java.util.Comparator;\nimport java.util.List;\nimport java.util.Map;\nimport java.util.Optional;\nimport java.util.stream.Collectors;\n\npublic class TeamStatsApp {\n    public static void main(String[] args) {\n        List<Player> squad = List.of(\n                new Player(\"Amara\", \"Forward\", 18),\n                new Player(\"Bruno\", \"Forward\", 12),\n                new Player(\"Chen\", \"Forward\", 21),\n                new Player(\"Diego\", \"Midfielder\", 9),\n                new Player(\"Elif\", \"Midfielder\", 14),\n                new Player(\"Farid\", \"Midfielder\", 5),\n                new Player(\"Greta\", \"Defender\", 3),\n                new Player(\"Hugo\", \"Defender\", 6),\n                new Player(\"Ines\", \"Defender\", 1),\n                new Player(\"Jonas\", \"Goalkeeper\", 0));\n\n        Map<String, List<Player>> byPosition = squad.stream()\n                .collect(Collectors.groupingBy(Player::getPosition));\n        System.out.println(\"Players grouped by position:\");\n        byPosition.forEach((position, players) -> System.out.println(\"  \" + position + \" -> \" + players));\n\n        Optional<Player> topScorer = squad.stream()\n                .max(Comparator.comparingInt(Player::getGoals));\n        System.out.println(\"\\nTop scorer overall: \" + topScorer.orElse(null));\n\n        Map<String, Optional<Player>> topByPosition = squad.stream()\n                .collect(Collectors.groupingBy(Player::getPosition,\n                        Collectors.maxBy(Comparator.comparingInt(Player::getGoals))));\n        System.out.println(\"\\nTop scorer in each position:\");\n        topByPosition.forEach((position, player) ->\n                System.out.println(\"  \" + position + \" -> \" + player.map(Player::getName).orElse(\"none\")));\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "TeamStatsApp.java",
+  "stdin": ""
+}

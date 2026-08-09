@@ -1,0 +1,49 @@
+{
+  "summary": "This class models a traffic light that cycles through Red, Green, and Yellow. It remembers its current color, can advance to the next color, and can report whether a driver must stop.",
+  "lines": [
+    {
+      "code": "    private String color = \"Red\";",
+      "text": "The light's current color is stored as private state, starting at Red so every new TrafficLight begins in a known, safe condition."
+    },
+    {
+      "code": "    public String getColor() {",
+      "text": "A getter lets other code read the color without being able to change it directly, which keeps the class in control of its own state."
+    },
+    {
+      "code": "    public void advance() {",
+      "text": "This method moves the light on to its next color; it returns nothing because its whole job is to change the object's state."
+    },
+    {
+      "code": "        if (\"Red\".equals(color)) {",
+      "text": "Writing the literal first means equals is called on a value that can never be null, a common Java habit that avoids NullPointerException."
+    },
+    {
+      "code": "            color = \"Green\";",
+      "text": "Red gives way to Green, which is the first step of the cycle."
+    },
+    {
+      "code": "        } else if (\"Green\".equals(color)) {",
+      "text": "The second branch handles the middle of the cycle, so each color is checked in the order the light actually follows."
+    },
+    {
+      "code": "            color = \"Yellow\";",
+      "text": "Green gives way to Yellow rather than straight to Red, matching how a real light warns drivers."
+    },
+    {
+      "code": "        } else {",
+      "text": "The final else catches Yellow (and any unexpected value), guaranteeing that advance always leaves the light in a valid color."
+    },
+    {
+      "code": "    public boolean isStopRequired() {",
+      "text": "A method that returns a boolean answers a yes-or-no question about the object, which makes it easy to assert on in a test."
+    },
+    {
+      "code": "        return !\"Green\".equals(color);",
+      "text": "Stopping is required for every color except Green, so the logic is expressed as one negated comparison instead of listing Red and Yellow separately."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

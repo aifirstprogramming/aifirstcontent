@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores the typical weight of an apple and an orange as decimal numbers, then works out the average of the two and prints the result.",
+  "lines": [
+    {
+      "code": "apple_weight = 0.33",
+      "text": "A value with a decimal point is a float, the number type Python uses for measurements that are not whole. The name on the left is a variable, a label for the value so you can use it again later."
+    },
+    {
+      "code": "orange_weight = 0.31",
+      "text": "The second weight gets its own variable, which keeps the two measurements separate and makes the arithmetic below easy to read."
+    },
+    {
+      "code": "average_weight = (apple_weight + orange_weight) / 2",
+      "text": "The parentheses force the addition to happen first, so the total is then divided by 2. Without them Python would divide only the orange weight by 2, following its usual rule that division comes before addition."
+    },
+    {
+      "code": "print(\"The average weight of an apple and an orange is\", average_weight, \"pounds.\")",
+      "text": "Passing several values to print separated by commas lets you mix text and a number in one message; print inserts a space between each piece."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

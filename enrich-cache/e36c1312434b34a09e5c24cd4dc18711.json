@@ -1,0 +1,52 @@
+{
+  "summary": "This is a domain class: a plain Java object whose job is to hold the data describing one room of a house — its name, length, and width. It keeps those three values private and exposes them through constructors, getter and setter methods, and a readable text form.",
+  "lines": [
+    {
+      "code": "public class Room {",
+      "text": "The class is named after the real-world thing it models, which is the whole idea behind a domain class."
+    },
+    {
+      "code": "    private String name;",
+      "text": "Fields are declared `private` so that no outside code can reach in and change them directly; access goes through the methods below instead."
+    },
+    {
+      "code": "    private double length;",
+      "text": "Room dimensions can be fractional, such as 12.5 feet, so `double` is the right choice rather than `int`."
+    },
+    {
+      "code": "    public Room() {",
+      "text": "A no-argument constructor creates an empty Room whose fields you fill in later with the setters. Many Java tools and frameworks expect a class to offer one."
+    },
+    {
+      "code": "    public Room(String name, double length, double width) {",
+      "text": "This second constructor lets you build a fully populated Room in a single step, which is the more common way to use the class."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name `name`, so `this.name` says explicitly \"the field belonging to this object\" while the bare `name` means the parameter."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "A getter hands out the value of a private field. Reading goes through a method so the class stays in control of its own data."
+    },
+    {
+      "code": "    public void setName(String name) {",
+      "text": "A setter is the only way outside code can change the field, which gives you one place to add validation later if you need it."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from `Object`; if you misspell the method name, compilation fails instead of silently doing nothing."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Every object inherits a `toString` that prints a meaningless hash code, so overriding it makes `System.out.println(room)` show the actual field values."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'' +",
+      "text": "The escaped `\\'` puts a literal single quote around the name, making it obvious in the output where the text value starts and ends."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

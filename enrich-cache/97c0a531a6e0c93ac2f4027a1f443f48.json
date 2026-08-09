@@ -1,0 +1,41 @@
+{
+  "summary": "This program defines a RobotPet class that stores a name, battery level, and mood, then builds three separate pets from that one blueprint and prints each one's details.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "This begins the blueprint for a robot pet. A class does not hold data itself; it describes what every pet made from it will look like."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The __init__ method runs automatically each time a new pet is created, and it receives the starting values for that pet. The first parameter, self, refers to the particular pet being built."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Storing the name on self attaches it to this individual pet, so it survives after __init__ finishes."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Each pet gets its own battery level, independent of the other pets."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "The mood is the third attribute, completing the set of data every pet carries."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Calling the class like a function creates one pet object; the three arguments land in the name, battery, and mood parameters of __init__."
+    },
+    {
+      "code": "pet2 = RobotPet(\"Sparky\", 60, \"playful\")",
+      "text": "A second pet from the same class shows that one blueprint can produce many objects, each with its own values."
+    },
+    {
+      "code": "print(f\"{pet1.name} - Battery: {pet1.battery}, Mood: {pet1.mood}\")",
+      "text": "Dot notation reads an attribute back out of an object, and the f-string drops those values straight into the message."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

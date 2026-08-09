@@ -1,0 +1,49 @@
+{
+  "summary": "This program builds a list of Song objects and then sorts the same list three times — by title, by energy level from high to low, and by artist — using the List.sort method with different Comparator objects.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "Comparator lives in java.util and supplies the factory methods used below to describe sort orders."
+    },
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "The variable is declared as the List interface but holds an ArrayList, so the code depends only on the general list behaviour."
+    },
+    {
+      "code": "        playlist.add(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "Each add call appends one Song to the end of the list, so the starting order is the order the songs were added."
+    },
+    {
+      "code": "        for (Song song : playlist) {",
+      "text": "An enhanced for loop walks the list once to show the unsorted order before any sorting happens."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getTitle));",
+      "text": "Comparator.comparing builds a comparator that compares songs by whatever getTitle returns, and sort rearranges the list in place using it."
+    },
+    {
+      "code": "        playlist.forEach(System.out::println);",
+      "text": "The forEach method is a compact alternative to writing a loop, and System.out::println is a method reference telling it to print each element."
+    },
+    {
+      "code": "Comparator.comparingInt(Song::getEnergyLevel)",
+      "text": "comparingInt is the version for int values, which avoids wrapping each energy level in an Integer object."
+    },
+    {
+      "code": "     .reversed());",
+      "text": "Calling reversed on a comparator flips its order, turning the low-to-high energy sort into high-to-low."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getArtist));",
+      "text": "Because sort reorders the list itself rather than returning a copy, this third sort starts from whatever order the previous sort left behind."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "public class Song {\n    private String title;\n    private String artist;\n    private String genre;\n    private int energyLevel;\n\n    public Song(String title, String artist, String genre, int energyLevel) {\n        this.title = title;\n        this.artist = artist;\n        this.genre = genre;\n        this.energyLevel = energyLevel;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getArtist() {\n        return artist;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    public int getEnergyLevel() {\n        return energyLevel;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + artist + \" (\" + genre + \", energy \" + energyLevel + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

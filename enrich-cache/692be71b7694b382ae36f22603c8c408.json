@@ -1,0 +1,31 @@
+{
+  "summary": "This program asks for three counts \\u2014 balls the dog brought back, balls the cat brought back, and balls that were never retrieved \\u2014 and adds them together to report how many balls were thrown in total. What the book shows is a sample run: the numbers after each colon are what the reader typed in.",
+  "lines": [
+    {
+      "code": "Enter number of balls dog retrieved: 8",
+      "text": "The text up to the colon is the prompt the program displays; the 8 is typed by the person running it and is read in as a string, so it must be converted with int() before it can be added."
+    },
+    {
+      "code": "Enter number of balls cat retrieved: 2",
+      "text": "A second input call collects the cat's tally, stored in its own variable so the three counts stay separate."
+    },
+    {
+      "code": "Enter number of balls never retrieved: 3",
+      "text": "Balls that were thrown but never came back still count toward the total, which is why this third number is collected."
+    },
+    {
+      "code": "Total balls thrown: 13",
+      "text": "The three numbers are summed with + and printed; because they were converted to integers, 8 + 2 + 3 gives 13 rather than the joined text \"823\"."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "main.py",
+      "content": "dog = int(input(\"Enter number of balls dog retrieved: \"))\ncat = int(input(\"Enter number of balls cat retrieved: \"))\nlost = int(input(\"Enter number of balls never retrieved: \"))\ntotal = dog + cat + lost\nprint(\"Total balls thrown:\", total)\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": "8\n2\n3\n",
+  "expectsUncaughtException": false
+}

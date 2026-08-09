@@ -1,0 +1,52 @@
+{
+  "summary": "This program defines a RobotPet class whose objects store a name, battery level, and mood, and adds a method that decides whether a pet has enough battery for a walk of a given length. Three pets are created and each is asked whether it can manage a 30-minute walk.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "This begins the blueprint for a robot pet. Everything indented beneath it belongs to the class rather than to any single pet."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The `__init__` method runs automatically whenever a new pet is created, and it receives the starting values for that pet."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Storing the argument on `self` attaches it to this particular pet, so each object remembers its own name."
+    },
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "A method is a function that belongs to the class. Because `duration` is a parameter, the same method can answer the question for a walk of any length."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "A docstring documents what the method does in the code itself, which is where a reader will look for it first."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "This is the rule the method is built on: every minute of walking costs two units of battery."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The comparison produces True or False, and `return` hands that answer back to whoever called the method."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Calling the class like a function creates one object from the blueprint, passing the three values through to `__init__`."
+    },
+    {
+      "code": "print(f\"{pet1.name} - Battery: {pet1.battery}, Mood: {pet1.mood}\")",
+      "text": "Dot notation reads the attributes back out of the object, and the f-string drops them straight into the text."
+    },
+    {
+      "code": "print(\"\\n30-minute walk check:\")",
+      "text": "The `\\n` escape prints a blank line first, separating the two sections of output."
+    },
+    {
+      "code": "print(f\"{pet1.name} can walk 30 minutes: {pet1.can_walk(30)}\")",
+      "text": "Here the method is called on a specific pet, so it compares 30 minutes against Rover's own battery. Sparky's 60 is exactly enough, while Beep's 45 is not."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

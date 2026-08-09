@@ -1,0 +1,44 @@
+{
+  "summary": "This program is the bakery's starting point: it creates one plain cookie and one decorated cookie, then prints the description each object gives of itself.",
+  "lines": [
+    {
+      "code": "public class CookieBakery {",
+      "text": "A separate class holds the application logic, keeping the program that uses cookies apart from the classes that define what a cookie is."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "Java starts every program at main, so this is where the sample objects get built."
+    },
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "The new keyword builds a Cookie object in memory and passes its flavor to the constructor; the variable regular is how we reach that object later."
+    },
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday\");",
+      "text": "A DecoratedCookie is created the same way, because a subclass is used exactly like the class it extends."
+    },
+    {
+      "code": "        System.out.println(regular.describe());",
+      "text": "Calling describe() on the object asks it to build its own description string, which is the object-oriented alternative to printing its fields from outside."
+    },
+    {
+      "code": "        System.out.println(decorated.describe());",
+      "text": "The identical call on the decorated cookie produces different output, since the subclass supplies its own version of describe()."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "",
+      "fromExercise": "java-5-07"
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "",
+      "fromExercise": "java-5-08"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

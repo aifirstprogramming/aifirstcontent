@@ -1,0 +1,21 @@
+{
+  "summary": "This program counts down from lap 3 to lap 1 using a for loop, then prints a closing message. It shows that a for loop can run backwards by decrementing its counter.",
+  "lines": [
+    {
+      "code": "        for (int lap = 3; lap >= 1; lap--) {",
+      "text": "The three parts of a for loop are the start value, the condition to keep going, and the step. Starting at 3, continuing while lap is at least 1, and using lap-- to subtract one each pass makes the loop count downward."
+    },
+    {
+      "code": "            System.out.println(\"Lap \" + lap);",
+      "text": "The + joins the text \"Lap \" with the current number, so each pass prints a different line: Lap 3, Lap 2, Lap 1."
+    },
+    {
+      "code": "        System.out.println(\"All laps complete.\");    }",
+      "text": "This line sits outside the loop body, so it runs only once, after the counter drops below 1 and the loop ends."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

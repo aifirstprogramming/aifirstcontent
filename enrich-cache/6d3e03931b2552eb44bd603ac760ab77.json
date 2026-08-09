@@ -1,0 +1,29 @@
+{
+  "summary": "This program tracks a coffee order's progress from 0% to 100%, printing the status at each step and announcing when the drink is ready. It uses a while loop, which keeps repeating as long as its condition stays true.",
+  "lines": [
+    {
+      "code": "        int status = 0;",
+      "text": "The counter starts at zero because the order has made no progress yet. A while loop needs this variable to exist before the loop begins, since the loop's condition tests it."
+    },
+    {
+      "code": "        while (status <= 100) {",
+      "text": "Java checks this condition before each pass through the loop body. Using <= rather than < means 100 itself gets printed, so the reader sees the full range from 0% to 100%."
+    },
+    {
+      "code": "            System.out.println(\"Coffee order status: \" + status + \"%\");",
+      "text": "Joining text and a number with + turns the number into text, producing a line like \"Coffee order status: 30%\"."
+    },
+    {
+      "code": "            status += 10;",
+      "text": "This is the step that eventually ends the loop. Forgetting to change the variable a while condition depends on is the classic cause of an infinite loop."
+    },
+    {
+      "code": "        System.out.println(\"Your coffee is ready!\");",
+      "text": "Sitting outside the loop's braces, this runs once after the condition finally fails and the loop is done."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

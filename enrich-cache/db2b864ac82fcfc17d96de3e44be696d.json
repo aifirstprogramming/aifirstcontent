@@ -1,0 +1,41 @@
+{
+  "summary": "This program asks two yes/no questions and combines the answers to pick a dessert. It uses one if/else nested inside another, so the four possible answer pairs each lead to their own result.",
+  "lines": [
+    {
+      "code": "hot = input(\"Hot outside? (y/n): \").strip().lower()",
+      "text": "Reads the first answer and cleans it up immediately: `.strip()` removes stray spaces around what was typed, and `.lower()` turns `Y` into `y` so the comparisons below only need to check one form."
+    },
+    {
+      "code": "choc = input(\"Like chocolate? (y/n): \").strip().lower()",
+      "text": "Collects and tidies the second answer the same way, storing it in its own variable so both answers are available at once."
+    },
+    {
+      "code": "if hot == \"y\":",
+      "text": "The outer decision splits the program into a hot-weather path and a cool-weather path."
+    },
+    {
+      "code": "    if choc == \"y\":",
+      "text": "The inner decision runs only when it is hot, so it chooses between the two hot-weather desserts. Notice the extra indentation: that is what makes this if belong inside the one above."
+    },
+    {
+      "code": "        dessert = \"chocolate ice cream\"",
+      "text": "Each branch does nothing but store a name in the same variable, which keeps the printing in one place at the end."
+    },
+    {
+      "code": "else:",
+      "text": "This `else` pairs with the outer `if`, so it handles every case where the weather is not hot."
+    },
+    {
+      "code": "    if choc == \"y\":",
+      "text": "A second inner decision, indented under the outer `else`, covers the two cool-weather desserts."
+    },
+    {
+      "code": "print(\"You should have:\", dessert)",
+      "text": "Back at the leftmost indentation, so it runs no matter which branch was taken; whichever value `dessert` received is the one reported."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "y\ny\n",
+  "expectsUncaughtException": false
+}

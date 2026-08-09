@@ -1,0 +1,41 @@
+{
+  "summary": "This program collects party RSVP names in a TreeSet, which automatically discards duplicate names and keeps the remaining ones sorted. It then prints how many unique guests replied, followed by the guest list in alphabetical order.",
+  "lines": [
+    {
+      "code": "import java.util.TreeSet;",
+      "text": "TreeSet is the sorted implementation of Set, so it must be imported before it can be used."
+    },
+    {
+      "code": "import java.util.Set;",
+      "text": "The Set interface is imported separately because the variable below is declared with the interface type rather than the concrete class."
+    },
+    {
+      "code": "        Set<String> guests = new TreeSet<>();",
+      "text": "Declaring the variable as a Set while creating a TreeSet means the code only relies on general set behaviour, so the implementation could be swapped later without rewriting the rest of the method."
+    },
+    {
+      "code": "        guests.add(\"Alex\");",
+      "text": "Each add call offers one name to the set; a TreeSet stores it in sorted position instead of at the end."
+    },
+    {
+      "code": "        guests.add(\"Jordan\"); // duplicate",
+      "text": "Adding a name that is already present changes nothing, because a set holds at most one copy of each value."
+    },
+    {
+      "code": "        System.out.println(\"Guest count: \" + guests.size());",
+      "text": "The size is 6 rather than 8, which shows that the two duplicate entries were silently rejected."
+    },
+    {
+      "code": "        for (String guest : guests) {",
+      "text": "Looping over a TreeSet visits the elements in their natural order, so String values come out alphabetically without any sorting code."
+    },
+    {
+      "code": "            System.out.println(\"- \" + guest);",
+      "text": "Prefixing each name with a dash formats the output as a readable bulleted guest list."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,37 @@
+{
+  "summary": "This defines a RobotPet class that stores a pet's name, battery level, and mood, and gives it a show_talent method that returns a short description of a trick. It is the class the unit tests in this chapter will check.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "Starts the blueprint for a robot pet; every pet created from it gets the same attributes and methods."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The constructor runs automatically whenever a new RobotPet is created, and it demands the three starting values."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Stores the name on the object itself so it survives after the constructor finishes."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Keeps the battery level as part of the pet's state; later tests will change and check this value."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "Records the pet's mood, the third piece of state that makes each robot pet distinct."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "Defines the behaviour under test. It is deliberately generic here so that subclasses can override it later."
+    },
+    {
+      "code": "        return f\"{self.name} performs a generic trick!\"",
+      "text": "Returning the sentence instead of printing it is what makes the method testable: a test can compare the returned string against an expected one."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

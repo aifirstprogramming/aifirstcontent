@@ -1,0 +1,76 @@
+{
+  "summary": "This program asks for a Celsius temperature, keeps re-prompting until the reader types a valid number within range, then converts it to Fahrenheit. A finally block prints a closing message whether the conversion succeeds or an unexpected error interrupts it.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius (-273.15 to 100): \");",
+      "text": "Using print instead of println leaves the cursor on the same line, so the reader's typing appears right after the prompt."
+    },
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "This is a try-with-resources statement: the Scanner declared in the parentheses is closed automatically when the block ends, no matter how it ends."
+    },
+    {
+      "code": "            Double celsius = null;",
+      "text": "The capital-D Double wrapper type is used here because it can hold null, which marks \"no valid temperature collected yet\"; a plain double cannot."
+    },
+    {
+      "code": "            while (true) {",
+      "text": "A deliberately infinite loop that keeps asking for input; the only way out is the break once a good value arrives."
+    },
+    {
+      "code": "                String input = scanner.nextLine().trim();",
+      "text": "Reading the whole line and trimming it removes stray spaces so that \" 25 \" still parses as a number."
+    },
+    {
+      "code": "                try {",
+      "text": "An inner try handles just the parsing failure, leaving the outer try free to catch anything else that goes wrong."
+    },
+    {
+      "code": "                    double value = Double.parseDouble(input);",
+      "text": "This converts the text into a number, and throws NumberFormatException when the text is not numeric."
+    },
+    {
+      "code": "                    if (value < -273.15 || value > 100) {",
+      "text": "The value parsed correctly but falls outside the accepted range, which is a validation problem rather than an exception."
+    },
+    {
+      "code": "                        continue;",
+      "text": "continue jumps back to the top of the while loop to ask again, skipping the code that would accept the value."
+    },
+    {
+      "code": "                    celsius = value;",
+      "text": "The value has passed both checks, so it is stored in the variable that lives outside the loop."
+    },
+    {
+      "code": "                    break;",
+      "text": "break is the single exit from the infinite loop, taken only once a valid temperature has been captured."
+    },
+    {
+      "code": "                } catch (NumberFormatException e) {",
+      "text": "Catching only NumberFormatException keeps the recovery narrow: bad text is expected and handled, while real bugs are not swallowed here."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "The Double object is unwrapped to a plain double automatically here, a conversion Java calls unboxing."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "A broad safety net for anything unforeseen, such as the input stream ending before a valid number is entered."
+    },
+    {
+      "code": "        } finally {",
+      "text": "The finally block runs after the try or the catch, on success and on failure alike, which makes it the right place for cleanup or a closing message."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "Pulling the formula into its own method keeps the conversion separate from all the input-handling code."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Because celsius is a double, celsius * 9 is a double and the division by 5 keeps its fractional part."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "abc\n150\n25\n"
+}

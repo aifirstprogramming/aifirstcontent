@@ -28,6 +28,10 @@ export interface RawPromptStep {
    * could never be completed through an assistant at all.
    */
   stdin?: string;
+  explanation?: Explanation;
+  scaffold?: Scaffold;
+  /** See Step.expectsException. */
+  expectsException?: boolean;
 }
 
 /**
@@ -53,6 +57,42 @@ export type Kind = "program" | "class" | "test" | "snippet" | "project";
  */
 export type Status = "draft" | "retired";
 
+/**
+ * A pre-computed walkthrough of an exercise's code.
+ *
+ * Stored in the pack rather than generated when a reader asks, for two reasons: an
+ * explanation that changes wording every time undermines the promise that the tool
+ * agrees with the printed book, and the VS Code extension has no model available to
+ * generate one at all.
+ */
+export interface Explanation {
+  summary: string;
+  /** Only the lines worth commenting on, in source order. */
+  lines: { code: string; text: string }[];
+  /** Human-readable note on how to run it. */
+  run?: string;
+}
+
+/**
+ * Extra files that make a non-runnable example runnable.
+ *
+ * The response is never modified -- it stays byte-exact to the printed page -- so a
+ * class with no entry point, or a fragment that needs surrounding code, gets what it
+ * needs from here instead.
+ */
+export interface Scaffold {
+  files: ScaffoldFile[];
+  /** Which file to execute, when it is not the exercise's own file. */
+  entrypoint?: string;
+}
+
+export interface ScaffoldFile {
+  path: string;
+  content?: string;
+  /** Reuse another exercise's response, so the two cannot drift apart. */
+  fromExercise?: string;
+}
+
 export interface RawExample {
   id: string;
   title: string;
@@ -64,6 +104,10 @@ export interface RawExample {
   prompts?: RawPromptStep[];
   /** Sample input; see RawPromptStep.stdin. */
   stdin?: string;
+  explanation?: Explanation;
+  scaffold?: Scaffold;
+  /** See Step.expectsException. */
+  expectsException?: boolean;
 }
 
 export interface RawChapter {
@@ -127,6 +171,16 @@ export interface Step {
   interactive: boolean;
   /** Authored sample input, present whenever `interactive` is true. */
   stdin?: string;
+  /** Pre-computed walkthrough; see Explanation. */
+  explanation?: Explanation;
+  /** Extra files needed to run this step; see Scaffold. */
+  scaffold?: Scaffold;
+  /**
+   * The code throws on purpose, to demonstrate an error, so a non-zero exit is the
+   * expected outcome. A runner must not treat that as failure -- Chapter 4's coffee
+   * examples end with a call the book itself comments as "will throw".
+   */
+  expectsException?: boolean;
 }
 
 /** A titled example from the book. This is the unit learner progress is tracked against. */
@@ -144,6 +198,7 @@ export interface Example {
   kind: Kind;
   /** Absent when published; see Status. */
   status?: Status;
+  scaffold?: Scaffold;
   bookId: string;
   /** Short book id prefix, e.g. "py". Used to scope commands to one book. */
   bookTag: string;

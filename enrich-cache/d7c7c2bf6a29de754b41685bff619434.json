@@ -1,0 +1,44 @@
+{
+  "summary": "This defines a RobotPet class whose battery level is guarded by a property setter, so any value assigned to it is clamped into the range 0 to 100. Because the setter runs even during __init__, a pet can never be created or charged into an impossible battery level.",
+  "lines": [
+    {
+      "code": "        self.battery = battery",
+      "text": "This looks like a plain assignment, but because `battery` is a property it calls the setter below, so the clamping rules apply from the moment the pet is created."
+    },
+    {
+      "code": "    @property",
+      "text": "The `@property` decorator turns the following method into a read-only attribute, so callers write `pet.battery` rather than `pet.battery()`."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in `_battery`, and the leading underscore signals that outside code should go through the property instead of touching it directly."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This registers the next method as the code that runs whenever something assigns to `battery`, which is where the protection is enforced."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "Anything below empty is treated as empty rather than rejected, so a large drain simply flattens the battery."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "The upper guard means overcharging is harmless: the level stops at a full 100."
+    },
+    {
+      "code": "            self._battery = value",
+      "text": "Only a value already inside the valid range is stored unchanged."
+    },
+    {
+      "code": "    def charge(self, amount):",
+      "text": "Charging is written as a simple `+=` because the setter does all the range checking, so this method never needs its own limits."
+    },
+    {
+      "code": "        return f\"{self.name} performs a generic trick!\"",
+      "text": "Returning the string instead of printing it makes the behaviour easy to assert on in a unit test."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

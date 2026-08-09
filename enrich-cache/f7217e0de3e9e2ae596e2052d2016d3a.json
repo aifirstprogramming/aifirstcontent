@@ -1,0 +1,56 @@
+{
+  "summary": "This program models simple houseplant care with four small methods, each showing a different return type: one that returns nothing, one that returns a true/false value, one that returns a whole number, and one that returns text. The main method calls each one in turn and prints the results.",
+  "lines": [
+    {
+      "code": "public class GrowPlant {",
+      "text": "Declares the class that holds the whole program; because the file is run directly, the class name must match the file name GrowPlant.java."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "The main method is where Java begins execution, so every instruction the program performs starts from here."
+    },
+    {
+      "code": "        plantInSoil();",
+      "text": "Calls a method that only performs an action and hands nothing back, so the call stands alone as a complete statement."
+    },
+    {
+      "code": "        System.out.println(\"Sunlight available: \" + hasSunlight());",
+      "text": "The call to hasSunlight() is replaced by the value it returns, and joining that value to a string with + converts the boolean into the text \"true\"."
+    },
+    {
+      "code": "        System.out.println(\"Water level: \" + waterLevel());",
+      "text": "Here the returned number 3 is glued onto the label, which shows that any return type can be printed the same way."
+    },
+    {
+      "code": "        System.out.println(\"Growth status: \" + growthStatus());",
+      "text": "The returned String is combined with the label to produce one line of output."
+    },
+    {
+      "code": "    public static void plantInSoil() {",
+      "text": "The keyword void means this method returns no value at all; it exists purely for the side effect of printing a message."
+    },
+    {
+      "code": "    public static boolean hasSunlight() {",
+      "text": "Declaring the return type as boolean promises that this method will hand back either true or false."
+    },
+    {
+      "code": "        return true;",
+      "text": "The return statement sends the value back to whoever called the method and immediately ends the method."
+    },
+    {
+      "code": "    public static int waterLevel() {",
+      "text": "An int return type means the caller receives a whole number, which is useful for counts and measurements."
+    },
+    {
+      "code": "        return 3;",
+      "text": "A fixed value is returned here to keep the focus on return types; a real program would measure the soil instead."
+    },
+    {
+      "code": "    public static String growthStatus() {",
+      "text": "A String return type lets a method hand back a piece of text that the caller can print or examine."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

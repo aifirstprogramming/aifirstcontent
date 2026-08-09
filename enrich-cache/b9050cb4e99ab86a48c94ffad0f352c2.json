@@ -1,0 +1,56 @@
+{
+  "summary": "This code defines a RobotPet class whose battery level is kept between 0 and 100 by a property setter, then creates three subclasses \nthat each replace the generic talent with their own. It is the classic pattern of one shared base class plus specialised children.",
+  "lines": [
+    {
+      "code": "        self.battery = battery",
+      "text": "Assigning to self.battery here goes through the property setter below, so a value passed to the constructor is validated just like any later change."
+    },
+    {
+      "code": "    @property",
+      "text": "The property decorator turns the battery method into an attribute you read as pet.battery, with no parentheses needed."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in _battery; the leading underscore signals that outside code should use the public battery attribute instead."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This registers the next method as the code that runs whenever something assigns to battery, which is where the clamping happens."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "A negative charge makes no sense for a battery, so anything below zero is stored as zero."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "Likewise a battery cannot exceed full, so oversized values are capped at 100."
+    },
+    {
+      "code": "    def charge(self, amount):",
+      "text": "Charging simply adds to battery, and because the setter guards the attribute, charging past full is safely capped."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "The base class supplies a default talent so every robot pet answers this call, even one with no specialism of its own."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "Naming RobotPet in the parentheses makes RobotCat inherit the name, battery, mood, and charge behaviour for free."
+    },
+    {
+      "code": "        return f\"{self.name} gracefully balances on two legs!\"",
+      "text": "Defining show_talent again in the subclass overrides the parent version, so a cat reports its own trick."
+    },
+    {
+      "code": "class RobotBird(RobotPet):",
+      "text": "Each new pet type needs only the one method that differs, which is the point of putting the shared code in the base class."
+    },
+    {
+      "code": "class RobotDog(RobotPet):",
+      "text": "Because all three subclasses respond to show_talent, you can loop over a mixed list of pets and call it on each without checking the type first."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

@@ -1,0 +1,17 @@
+{
+  "summary": "This short program asks the reader to type their name, then greets them by name. It shows how to collect input from a person and place it inside a message.",
+  "lines": [
+    {
+      "code": "name = input(\"What is your name? \")",
+      "text": "The input function displays the prompt text, waits for the user to type something and press Enter, and hands back whatever was typed as a string, which is stored in the variable name."
+    },
+    {
+      "code": "print(f\"Hello, {name}!\")",
+      "text": "The f before the quotes makes this an f-string, so Python replaces {name} with the value the user entered instead of printing the word \"name\" literally."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "Ada\n",
+  "expectsUncaughtException": false
+}

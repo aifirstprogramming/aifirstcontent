@@ -1,0 +1,41 @@
+{
+  "summary": "This program creates three House objects, each with an address, a number of bedrooms, and a number of bathrooms, and then prints each one. Because the House class does not tell Java how to describe itself as text, each printout shows the class name and a memory-based code rather than the address you stored.",
+  "lines": [
+    {
+      "code": "public class HouseBuilder {",
+      "text": "The class holding the main method is separate from the House class itself: House describes what a house is, while HouseBuilder is the program that builds and uses houses."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "Execution starts here, so this is where the objects get created."
+    },
+    {
+      "code": "        //Harry Potter",
+      "text": "Comments like this one are ignored by Java and exist only to tell a human reader where each address comes from."
+    },
+    {
+      "code": "        House privetDrive = new House(\"4 Privet Drive\", 3, 2.5);",
+      "text": "The keyword new asks Java for a fresh House object, and the three values in parentheses are passed to the constructor to fill in the address, bedroom count, and bathroom count. Note that 2.5 is possible because bathrooms are stored as a decimal number."
+    },
+    {
+      "code": "        System.out.println(privetDrive);",
+      "text": "Passing an object to println asks Java to turn the object into text. Since House does not define its own toString method, you get output like House@1b6d3586 instead of the address, which is the lesson this exercise is setting up."
+    },
+    {
+      "code": "        House holmesHouse = new House(\"221B Baker Street\", 1, 1.0);",
+      "text": "A second, independent House object with its own values, showing that one class can produce as many objects as you need."
+    },
+    {
+      "code": "        House friendsHouse = new House(\"90 Bedford Street\", 2, 1.0);",
+      "text": "The third object uses 1.0 rather than 1 to match the decimal type the constructor expects for bathrooms."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "House.java",
+      "content": "public class House {\n    String address;\n    int bedrooms;\n    double bathrooms;\n\n    public House(String address, int bedrooms, double bathrooms) {\n        this.address = address;\n        this.bedrooms = bedrooms;\n        this.bathrooms = bathrooms;\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

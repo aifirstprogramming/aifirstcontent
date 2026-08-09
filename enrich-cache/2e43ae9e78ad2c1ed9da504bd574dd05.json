@@ -1,0 +1,33 @@
+{
+  "summary": "This program packs nine facts about a car into a single tuple and then reads a few of them back out by position. A tuple is an ordered, fixed collection of values that cannot be changed after it is created.",
+  "lines": [
+    {
+      "code": "car = (",
+      "text": "The parentheses open a tuple that will hold every attribute of one car; spreading it over several lines keeps it readable and lets each value carry a comment."
+    },
+    {
+      "code": "    \"Toyota\",           # make",
+      "text": "The first value is the make, and because tuples keep their order, \"Toyota\" will stay at position 0 for the life of this tuple."
+    },
+    {
+      "code": "    2022,               # year",
+      "text": "A tuple can mix types freely, so a whole number sits happily alongside the text values."
+    },
+    {
+      "code": "    28.5                # mpg",
+      "text": "The last item takes no trailing comma, and the closing parenthesis on the next line finishes the tuple."
+    },
+    {
+      "code": "print(f\"{car[0]} {car[1]} ({car[2]})\")",
+      "text": "Indexing starts at 0, so these three lookups pull the make, model, and year out to build a headline for the car."
+    },
+    {
+      "code": "print(f\"Color: {car[5]}, Type: {car[3]}, Fuel: {car[7]}\")",
+      "text": "Here is the weakness of describing something with a bare tuple: you must remember that 5 means colour and 7 means fuel type, which is why dictionaries later in this chapter are often a better fit."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

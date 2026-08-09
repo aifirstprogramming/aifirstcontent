@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores an item name and its price in variables, then builds a single sentence from them using an f-string. An f-string lets you drop variable values directly into text without stitching pieces together by hand.",
+  "lines": [
+    {
+      "code": "item = \"book\"",
+      "text": "The name of the product is stored as a string, in quotation marks, so it can be reused in the message below."
+    },
+    {
+      "code": "price = 19.99",
+      "text": "The price is a float, Python's type for numbers with a decimal point, which is what money amounts need."
+    },
+    {
+      "code": "print(f\"The price of the {item} is ${price}\")",
+      "text": "The f before the opening quote marks this as an f-string, so Python replaces {item} and {price} with the values of those variables. The dollar sign before {price} is ordinary text and is printed as-is, because only names inside braces get substituted."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

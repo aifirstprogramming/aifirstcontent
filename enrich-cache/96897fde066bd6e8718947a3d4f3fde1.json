@@ -1,0 +1,37 @@
+{
+  "summary": "This program works out how many pizzas a party needs. It stores the number of guests, slices per pizza, and slices per person in variables, then computes the total slices and rounds the pizza count up so nobody goes hungry.",
+  "lines": [
+    {
+      "code": "        int peopleInParty = 10;",
+      "text": "The guest count is stored in a variable rather than typed into the calculation, so a different party size only needs one edit here."
+    },
+    {
+      "code": "        int slicesPerPizza = 8;",
+      "text": "How many slices one pizza is cut into; this is the divisor used later to turn slices into whole pizzas."
+    },
+    {
+      "code": "        int slicesPerPerson = 2;",
+      "text": "The appetite assumption behind the estimate, kept separate so it can be raised or lowered on its own."
+    },
+    {
+      "code": "        int totalSlicesNeeded = peopleInParty * slicesPerPerson;",
+      "text": "Multiplying guests by slices each gives the total demand in slices, which is easier to reason about than pizzas."
+    },
+    {
+      "code": "        int pizzasNeeded = (totalSlicesNeeded + slicesPerPizza - 1) / slicesPerPizza;",
+      "text": "Integer division in Java throws away any remainder, so adding slicesPerPizza - 1 first forces a partly used pizza to count as a whole one. This is the standard trick for rounding up with whole numbers."
+    },
+    {
+      "code": "        System.out.println(\"People: \" + peopleInParty);",
+      "text": "The plus sign joins text to a number here, and Java automatically converts the number into characters for printing."
+    },
+    {
+      "code": "        System.out.println(\"Pizzas needed: \" + pizzasNeeded);",
+      "text": "With 10 people eating 2 slices each, 20 slices are needed, and the rounding up turns 2.5 pizzas into 3."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,44 @@
+{
+  "summary": "This program defines a function that works out what a table owes at $2 per item, prints a receipt line, and hands the amount back to the caller. The three calls add their results into a running cash register total.",
+  "lines": [
+    {
+      "code": "def collect_payment(table_number, items_ordered):",
+      "text": "The function takes two pieces of information from the caller: which table is paying, and the list of items they ordered."
+    },
+    {
+      "code": "    \"\"\"Collects payment from a table based on items ordered ($2 each)\"\"\"",
+      "text": "A docstring records the job of the function in one sentence so a reader never has to guess the pricing rule."
+    },
+    {
+      "code": "    amount = len(items_ordered) * 2",
+      "text": "len() counts how many items are in the list, and multiplying by 2 turns that count into a dollar amount."
+    },
+    {
+      "code": "    print(f\"Table {table_number}: {len(items_ordered)} items × $2 = ${amount}\")",
+      "text": "Showing the arithmetic on screen gives Beepo a receipt line, so the customer can see how the bill was reached."
+    },
+    {
+      "code": "    return amount",
+      "text": "This is the point of the exercise: instead of only printing, the function sends the number back so the caller can keep using it."
+    },
+    {
+      "code": "cash_register = 0",
+      "text": "The register starts empty, ready to accumulate each payment as it comes in."
+    },
+    {
+      "code": "cash_register += collect_payment(1, [\"burger\", \"fries\", \"drink\"])",
+      "text": "The call runs the function, and += adds the returned value to whatever the register already holds."
+    },
+    {
+      "code": "cash_register += collect_payment(8, [\"steak\", \"pasta\", \"dessert\", \"wine\"])",
+      "text": "Four items produce $8, which shows the same function handling a different table and order size without any change."
+    },
+    {
+      "code": "print(f\"\\nTotal in cash register: ${cash_register}\")",
+      "text": "The \\n inserts a blank line so the grand total stands apart from the three receipt lines above it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

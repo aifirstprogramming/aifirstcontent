@@ -1,0 +1,13 @@
+{
+  "summary": "This one-line program displays the text \"Hello, World!\" on the screen. It is the traditional first program in any language, used to confirm that Python is installed and working.",
+  "lines": [
+    {
+      "code": "print(\"Hello, World!\")",
+      "text": "print is a built-in function that sends text to the screen. The words inside the quotation marks form a string, and the parentheses pass that string to print as the value to display."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

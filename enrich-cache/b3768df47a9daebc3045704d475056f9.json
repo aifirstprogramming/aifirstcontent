@@ -1,0 +1,28 @@
+{
+  "summary": "This program builds a dictionary where each key is a student's name and each value is a list of the classes that student takes at a magic academy. It then loops through the dictionary and prints one tidy line per student.",
+  "lines": [
+    {
+      "code": "student_classes = {",
+      "text": "The opening brace starts a dictionary literal. Because the entries are long, they are spread over several lines, which Python allows until the matching closing brace appears."
+    },
+    {
+      "code": "    \"Sally\": [\"Spell Theory\", \"Potion Brewing\", \"Wand Mastery\", \"Magical Creatures\"],",
+      "text": "This is one key-value pair: the key is the string \"Sally\" and the value is a list of four course names. Storing a list as a value is what lets a single key hold many pieces of related data."
+    },
+    {
+      "code": "    \"Luna\": [\"Astronomy\", \"Wandlore\", \"Magical History\", \"Creature Communication\"]",
+      "text": "The final entry has no trailing comma before the closing brace, though Python would accept one there too."
+    },
+    {
+      "code": "for student, classes in student_classes.items():",
+      "text": "The `items()` method hands back each pair as a key and a value together, so `student` holds the name and `classes` holds that student's list on every pass through the loop."
+    },
+    {
+      "code": "    print(f\"{student}'s classes: {', '.join(classes)}\")",
+      "text": "`', '.join(classes)` glues the list items into one string separated by commas, which reads far better than printing the raw list with its brackets and quotes."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

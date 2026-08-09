@@ -1,0 +1,43 @@
+{
+  "summary": "This is a JUnit test that creates a Thermostat set to 60 degrees and checks that its status comes back as \"Heating\". It is the automated version of the by-hand check from the previous exercise: instead of you reading the output, JUnit compares it for you.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "This brings in the @Test annotation from JUnit 5, which is how you mark a method as a test that the test runner should execute."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), which keeps the test body short and readable."
+    },
+    {
+      "code": "public class ThermostatTest {",
+      "text": "Test classes conventionally take the name of the class under test with \"Test\" appended, so ThermostatTest holds the tests for Thermostat."
+    },
+    {
+      "code": "    @Test",
+      "text": "This annotation tells JUnit that the method below is a test case to run and report on."
+    },
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "A test method name should read like a sentence describing the expected behavior, so a failure report tells you exactly what broke."
+    },
+    {
+      "code": "        Thermostat t = new Thermostat(60.0);",
+      "text": "This sets up the scenario under test by building a thermostat at 60 degrees, which is below the heating threshold."
+    },
+    {
+      "code": "        assertEquals(\"Heating\", t.getStatus());",
+      "text": "The assertion states what should be true: the expected value comes first, the actual result second. If they differ, JUnit fails the test and shows both values."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

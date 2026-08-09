@@ -1,0 +1,71 @@
+{
+  "summary": "This is a JUnit test class for the TrafficLight class, checking that a new light starts on red, cycles red \\u2192 green \\u2192 yellow \\u2192 red as advance() is called, and reports correctly whether drivers must stop. Each test covers exactly one behaviour, so a failure tells you precisely what broke.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "Brings in the @Test annotation from JUnit 5, which is how you mark a method as a test the framework should run."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), keeping the tests short and readable."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertFalse;",
+      "text": "assertFalse and assertTrue are the assertions for boolean results, used here to check isStopRequired()."
+    },
+    {
+      "code": "class TrafficLightTest {",
+      "text": "The convention is to name the test class after the class under test with Test appended, so readers know immediately what it covers."
+    },
+    {
+      "code": "    void startsOnRed() {",
+      "text": "Test method names describe the behaviour being verified, so a failure report reads like a sentence about what went wrong."
+    },
+    {
+      "code": "        TrafficLight light = new TrafficLight();",
+      "text": "Every test builds its own fresh TrafficLight, so no test can be affected by changes another test made."
+    },
+    {
+      "code": "        assertEquals(\"Red\", light.getColor());",
+      "text": "The expected value comes first and the actual value second; getting that order backwards makes failure messages confusing."
+    },
+    {
+      "code": "        assertTrue(light.isStopRequired());",
+      "text": "Confirms the light reports that traffic must stop while it is red, testing the decision logic separately from the colour itself."
+    },
+    {
+      "code": "        light.advance();",
+      "text": "This is the action under test, deliberately separated by a blank line from the setup above it so the arrange\\u2013act\\u2013assert structure is visible."
+    },
+    {
+      "code": "        assertEquals(\"Green\", light.getColor());",
+      "text": "Verifies the first step of the cycle: one advance from the initial red state should produce green."
+    },
+    {
+      "code": "        assertFalse(light.isStopRequired());",
+      "text": "The opposite of the red case, proving that green does not require stopping."
+    },
+    {
+      "code": "    void advancesFromGreenToYellow() {",
+      "text": "To reach the green state this test must call advance() once as setup, then call it again as the action being measured."
+    },
+    {
+      "code": "    void advancesFromYellowToRed() {",
+      "text": "Testing that the cycle wraps around to red is what proves the light loops forever rather than getting stuck on yellow."
+    },
+    {
+      "code": "    void requiresStopWhenYellow() {",
+      "text": "Yellow shares the stop-required behaviour with red, and giving it its own test documents that rule instead of leaving it to chance."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "TrafficLight.java",
+      "content": "",
+      "fromExercise": "java-6-11"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

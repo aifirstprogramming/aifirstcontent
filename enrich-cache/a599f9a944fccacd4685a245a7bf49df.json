@@ -1,0 +1,51 @@
+{
+  "summary": "This program stores songs in a Queue, which hands items back in the same order they were added (first in, first out). It adds four songs, looks at the one at the front, then plays and removes each song until the queue is empty.",
+  "lines": [
+    {
+      "code": "import java.util.Queue;",
+      "text": "Queue is the interface that describes first-in, first-out behaviour; the variable is declared with this type so the code only uses queue operations."
+    },
+    {
+      "code": "import java.util.LinkedList;",
+      "text": "LinkedList is the concrete class that actually holds the songs, and it is Java's usual choice for a plain FIFO queue."
+    },
+    {
+      "code": "        Queue<Song> songQueue = new LinkedList<>();",
+      "text": "Declaring the variable as a Queue while creating a LinkedList keeps the rest of the code honest: only peek, poll, offer, and similar queue methods are available."
+    },
+    {
+      "code": "        songQueue.offer(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "offer adds a song to the tail of the queue and returns true if it succeeded, which is the safer sibling of add for capacity-limited queues."
+    },
+    {
+      "code": "        for (Song s : songQueue) {",
+      "text": "Iterating over a LinkedList-backed queue visits the songs from head to tail, so this prints them in the order they will be played."
+    },
+    {
+      "code": "        System.out.println(songQueue.peek());",
+      "text": "peek returns the song at the head without removing it, so the queue is unchanged afterwards."
+    },
+    {
+      "code": "        while (!songQueue.isEmpty()) {",
+      "text": "The loop keeps going until nothing is left, which is the standard way to drain a queue."
+    },
+    {
+      "code": "            Song playing = songQueue.poll();",
+      "text": "poll removes and returns the head song; unlike remove, it returns null instead of throwing when the queue is already empty."
+    },
+    {
+      "code": "        System.out.println(\"Queue after processing all songs: \" + songQueue);",
+      "text": "Printing the queue at the end shows empty brackets, confirming that polling consumed every element."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

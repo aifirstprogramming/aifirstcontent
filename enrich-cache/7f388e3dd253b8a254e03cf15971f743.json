@@ -1,0 +1,37 @@
+{
+  "summary": "This Restaurant class holds a single method that turns a numeric spice rating from 1 to 5 into a readable description such as \"Mild\" or \"Spicy\", and reports anything outside that range as invalid.",
+  "lines": [
+    {
+      "code": "public class Restaurant {",
+      "text": "The class acts as a container for restaurant-related behaviour; it has no main method, so it is meant to be compiled and called from other code such as a test."
+    },
+    {
+      "code": "    public String getSpiceLevel(int level) {",
+      "text": "The method takes an int and hands back a String, which is the whole point of the exercise: converting a number the kitchen uses into words a diner understands."
+    },
+    {
+      "code": "        return switch (level) {",
+      "text": "This is a switch expression rather than a switch statement, so the whole switch evaluates to one value that is returned immediately. Because every branch produces a String, no temporary variable is needed."
+    },
+    {
+      "code": "            case 1 -> \"Mild\";",
+      "text": "The arrow form pairs a label with the value it produces, and unlike old-style case labels it does not fall through to the next branch, so no break is required."
+    },
+    {
+      "code": "            case 3 -> \"Medium\";",
+      "text": "The middle of the scale sits exactly halfway between mild and spicy, which keeps the five labels evenly balanced."
+    },
+    {
+      "code": "            default -> \"Invalid spice level\";",
+      "text": "A switch expression must produce a value for every possible input, so default is mandatory here; it also guards against 0, negatives, and numbers above 5."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "RestaurantTest.java",
+      "content": "import static org.junit.jupiter.api.Assertions.assertEquals;\n\nimport org.junit.jupiter.api.Test;\n\npublic class RestaurantTest {\n\n    private final Restaurant restaurant = new Restaurant();\n\n    @Test\n    void returnsMildForLevelOne() {\n        assertEquals(\"Mild\", restaurant.getSpiceLevel(1));\n    }\n\n    @Test\n    void returnsSpicyForLevelFive() {\n        assertEquals(\"Spicy\", restaurant.getSpiceLevel(5));\n    }\n\n    @Test\n    void returnsEveryLabelInTheMiddleOfTheRange() {\n        assertEquals(\"Medium-Mild\", restaurant.getSpiceLevel(2));\n        assertEquals(\"Medium\", restaurant.getSpiceLevel(3));\n        assertEquals(\"Medium-Spicy\", restaurant.getSpiceLevel(4));\n    }\n\n    @Test\n    void rejectsLevelsOutsideOneThroughFive() {\n        assertEquals(\"Invalid spice level\", restaurant.getSpiceLevel(0));\n        assertEquals(\"Invalid spice level\", restaurant.getSpiceLevel(6));\n        assertEquals(\"Invalid spice level\", restaurant.getSpiceLevel(-3));\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "RestaurantTest.java",
+  "stdin": ""
+}

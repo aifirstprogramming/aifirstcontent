@@ -1,0 +1,44 @@
+{
+  "summary": "This program keeps a travel packing list in an ArrayList of strings, prints it as a numbered list, then adds one item and removes another by name before printing the list again. It shows that a List allows duplicate values and that removing by name only takes out the first match.",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the everyday List implementation in Java, and it lives in the java.util package, so it has to be imported before you can use it."
+    },
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that describes what any list can do; importing it lets you declare variables by that general type."
+    },
+    {
+      "code": "        List<String> items = new ArrayList<>();",
+      "text": "The variable is declared as a List but built as an ArrayList, which is the habit to form: code against the interface so the underlying implementation can change later. The <String> says this list holds only strings."
+    },
+    {
+      "code": "        items.add(\"Socks\"); // Add a duplicate item",
+      "text": "A List, unlike a Set, happily stores the same value twice, which is exactly what you want when you are packing two pairs of socks."
+    },
+    {
+      "code": "        for (int i = 0; i < items.size(); i++) {",
+      "text": "Counting from 0 up to items.size() - 1 walks every position in the list; size() reports how many items are currently stored."
+    },
+    {
+      "code": "            System.out.println((i + 1) + \". \" + items.get(i));",
+      "text": "get(i) pulls out the item at that position, and i + 1 turns the zero-based index into human-friendly numbering that starts at 1."
+    },
+    {
+      "code": "        System.out.println(\"\\nAdding 'Shampoo' to the list...\");",
+      "text": "The \\n escape sequence prints a newline first, leaving a blank line so the output sections stay visually separated."
+    },
+    {
+      "code": "        items.add(\"Shampoo\");",
+      "text": "Adding to an ArrayList appends the new item at the end, so Shampoo lands after Socks."
+    },
+    {
+      "code": "        items.remove(\"Socks\");",
+      "text": "Passing a string to remove deletes the first element equal to it and leaves the second Socks in place; passing an int instead would remove by position."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

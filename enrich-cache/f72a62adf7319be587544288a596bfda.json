@@ -1,0 +1,41 @@
+{
+  "summary": "This class defines a decorated cookie that builds on an existing Cookie class. It reuses everything Cookie already knows how to do, and replaces the description with one that mentions sprinkles and icing.",
+  "lines": [
+    {
+      "code": "public class DecoratedCookie extends Cookie {",
+      "text": "The `extends` keyword makes DecoratedCookie a specialized kind of Cookie, so it inherits the fields and methods Cookie already defines instead of repeating them."
+    },
+    {
+      "code": "    public DecoratedCookie(String flavor) {",
+      "text": "A subclass does not inherit constructors, so DecoratedCookie needs its own that accepts the same flavor a plain Cookie would."
+    },
+    {
+      "code": "        super(flavor);",
+      "text": "This calls the Cookie constructor to store the flavor, which is how the inherited part of the object gets set up before any subclass work happens."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you mean to replace a method inherited from Cookie; if the name or signature does not match, you get an error instead of a silently unused method."
+    },
+    {
+      "code": "    public String describe() {",
+      "text": "Redefining describe() here means any DecoratedCookie uses this version, even when the code holding it only knows it as a Cookie."
+    },
+    {
+      "code": "        return \"This \" + getFlavor() + \" cookie is decorated with sprinkles and icing!\";",
+      "text": "The flavor is read through the inherited getter rather than the field directly, which is what keeps Cookie's data private and still usable."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "public class Cookie {\n\n    private String flavor;\n\n    public Cookie(String flavor) {\n        this.flavor = flavor;\n    }\n\n    public String getFlavor() {\n        return flavor;\n    }\n\n    public String describe() {\n        return \"This is a plain \" + flavor + \" cookie.\";\n    }\n}\n"
+    },
+    {
+      "path": "Main.java",
+      "content": "public class Main {\n\n    public static void main(String[] args) {\n        Cookie plain = new Cookie(\"oatmeal\");\n        Cookie fancy = new DecoratedCookie(\"sugar\");\n\n        System.out.println(plain.describe());\n        System.out.println(fancy.describe());\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "Main.java",
+  "stdin": ""
+}

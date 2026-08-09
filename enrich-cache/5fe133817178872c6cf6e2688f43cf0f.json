@@ -1,0 +1,31 @@
+{
+  "summary": "This loop keeps asking for seeds until the parrot has been fed its full capacity. A `while` loop repeats as long as its condition stays true, so the number of rounds depends on what the user types rather than being fixed in advance.",
+  "lines": [
+    {
+      "code": "while fed < capacity:",
+      "text": "The loop condition is checked before every round: as long as the seeds eaten so far are fewer than the capacity, the body runs again. Once `fed` reaches `capacity` the loop ends on its own."
+    },
+    {
+      "code": "    feed = int(input(f\"Give seeds (remaining {capacity-fed}): \"))",
+      "text": "The prompt recalculates `capacity-fed` each time so the reader is told how many seeds are still needed, and `int(...)` turns the typed text into a number that can be added."
+    },
+    {
+      "code": "    fed += max(0, feed)",
+      "text": "`max(0, feed)` guards against negative input: a negative number is treated as zero, so nobody can un-feed the parrot and trap the loop forever."
+    },
+    {
+      "code": "    print(f\"Fed {feed} seed(s). Total fed: {fed}.\")",
+      "text": "Reporting the running total after each round makes the loop's progress visible, which is how you check that the condition really is moving toward false."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "sitecustomize.py",
+      "content": "import builtins\n\n# The exercise assumes the parrot's appetite is already set up.\nbuiltins.capacity = 10\nbuiltins.fed = 0\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "4\n-2\n8\n",
+  "expectsUncaughtException": false
+}

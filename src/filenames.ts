@@ -38,7 +38,11 @@ export function pascalCase(title: string): string {
  */
 export function suggestFilename(example: Example, step: Step = example.steps[example.steps.length - 1]): string {
   if (example.language === "java") {
-    const m = step.response.match(/(?:public\s+)?(?:final\s+|abstract\s+)?class\s+([A-Za-z_$][\w$]*)/);
+    // interface/enum/record too, not just class: javac rejects any public type
+    // whose filename does not match, and the books declare all four.
+    const m = step.response.match(
+      /(?:public\s+)?(?:final\s+|abstract\s+)?(?:class|interface|enum|record)\s+([A-Za-z_$][\w$]*)/,
+    );
     return `${m ? m[1] : pascalCase(example.title) || "Main"}.java`;
   }
   return `${snakeCase(example.title) || "main"}.py`;

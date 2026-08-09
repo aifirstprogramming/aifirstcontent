@@ -1,0 +1,29 @@
+{
+  "summary": "This loop keeps asking for seeds until the parrot has been fed its full capacity, adding each amount to a running total and reporting progress after every feeding.",
+  "lines": [
+    {
+      "code": "while fed < capacity:",
+      "text": "A while loop repeats for as long as its condition stays true, so the questions continue until the running total reaches the parrot's capacity. Unlike a for loop, you do not know in advance how many times this will run \", "
+    },
+    {
+      "code": "    feed = int(input(f\"Give seeds (remaining {capacity-fed}): \"))",
+      "text": "The prompt is an f-string, so `capacity-fed` is calculated fresh each pass and the reader always sees how many seeds are still needed; `int()` turns the typed text into a number that can be added."
+    },
+    {
+      "code": "    fed += max(0, feed)",
+      "text": "`max(0, feed)` treats any negative entry as zero, which protects the total from going backwards, and `+=` adds the result to what has already been fed."
+    },
+    {
+      "code": "    print(f\"Fed {feed} seed(s). Total fed: {fed}.\")",
+      "text": "This reports the amount just entered alongside the cumulative total, which is how you watch a while loop creep towards its stopping condition."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "main.py",
+      "content": "import pathlib\n\nhere = pathlib.Path(__file__).resolve().parent\nme = pathlib.Path(__file__).resolve().name\n\nsource = None\nfor candidate in sorted(here.glob(\"*.py\")):\n    if candidate.name != me:\n        source = candidate\n        break\n\nif source is None:\n    raise SystemExit(\"No exercise file found next to main.py\")\n\n# The parrot starts empty and is full at 10 seeds.\ncapacity = 10\nfed = 0\n\nexec(compile(source.read_text(), source.name, \"exec\"))\n\nprint(\"The parrot is full!\")\n"
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": "4\n-2\n3\n3\n"
+}

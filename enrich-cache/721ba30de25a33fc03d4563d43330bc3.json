@@ -1,0 +1,21 @@
+{
+  "summary": "This program uses a for loop to count laps from 1 to 3, printing each lap number, then prints a final message once the loop finishes.",
+  "lines": [
+    {
+      "code": "        for (int lap = 1; lap <= 3; lap++) {",
+      "text": "A for loop gathers all three parts of counting into one line: it creates lap starting at 1, keeps going while lap is 3 or less, and adds 1 to lap after each pass."
+    },
+    {
+      "code": "            System.out.println(\"Lap \" + lap);",
+      "text": "Joining text to a number with + produces a single string, so each pass reports the current value of lap."
+    },
+    {
+      "code": "        System.out.println(\"All laps complete.\");",
+      "text": "This line sits outside the loop body, so it runs once after the counting has finished."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

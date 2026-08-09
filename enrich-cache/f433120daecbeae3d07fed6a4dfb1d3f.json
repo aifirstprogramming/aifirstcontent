@@ -1,0 +1,48 @@
+{
+  "summary": "This snippet grows the `speak` method of a robot pet family so that each pet answers differently depending on its battery level and its mood, with every subclass giving the same checks its own animal voice. It is written to be tested: each branch produces one exact string a unit test can assert on.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "The shared base class, shown here with its setup code elided; only the method being changed is printed so you can see what is new."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "The feature under construction. It returns a string instead of printing one, which is what makes it testable: a test can compare the returned value against an expected sentence."
+    },
+    {
+      "code": "        if self.battery < 30:",
+      "text": "Battery is checked before mood, so a nearly empty robot always asks for a recharge no matter how it feels. Order of the checks is part of the behaviour your tests pin down."
+    },
+    {
+      "code": "        if self.battery == 100:",
+      "text": "A separate branch for a completely full battery. Because this uses `==`, a pet at 99 falls through to the mood checks, which is a good edge case to write a test for."
+    },
+    {
+      "code": "        if self.mood == \"happy\":",
+      "text": "The first of three mood branches, each returning a distinct phrase."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "The fallback for any mood not listed above, so `speak` always returns a string and never `None`."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "A subclass that inherits everything from `RobotPet` and then replaces parts of it."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "A behaviour unique to cats, added rather than overridden."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "Overriding `speak` means a `RobotCat` uses this version instead of the base one. The structure of the checks is identical; only the words change, so tests for cats mirror tests for the base pet."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'ARF ARF ARF! LET\\'S PLAY!'\"",
+      "text": "The apostrophe in LET'S is escaped with a backslash so Python does not read it as the end of the single-quoted string. A test comparing this line must expect the plain apostrophe, not the backslash."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

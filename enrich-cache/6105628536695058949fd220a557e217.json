@@ -1,0 +1,56 @@
+{
+  "summary": "This class models a traffic light that remembers its current color and cycles Red \\u2192 Green \\u2192 Yellow \\u2192 Red each time it is advanced. It also reports whether a driver must stop, which makes it a compact target for writing unit tests \\u2014 including the deliberately bad ones the chapter asks you to critique.",
+  "lines": [
+    {
+      "code": "public class TrafficLight {",
+      "text": "The class is the unit under test: everything a test needs to check lives behind its public methods."
+    },
+    {
+      "code": "    private String color = \"Red\";",
+      "text": "The light's state starts at Red and is private, so tests can only observe it through getColor(). Every new TrafficLight begins in the same known state, which is what makes repeatable tests possible."
+    },
+    {
+      "code": "    public String getColor() {",
+      "text": "A getter gives tests a window into the object's state without letting them change it directly."
+    },
+    {
+      "code": "    public void advance() {",
+      "text": "This is the behavior worth testing hardest, because it changes state rather than just reporting it."
+    },
+    {
+      "code": "        if (\"Red\".equals(color)) {",
+      "text": "Calling equals on the literal \"Red\" rather than on color avoids a NullPointerException if color were ever null \\u2014 a habit worth copying."
+    },
+    {
+      "code": "            color = \"Green\";",
+      "text": "Red advances to Green, the first step of the cycle."
+    },
+    {
+      "code": "        } else if (\"Green\".equals(color)) {",
+      "text": "The second branch handles the middle of the cycle; a test that only calls advance() once never reaches this code, which is exactly the kind of gap a bad test suite hides."
+    },
+    {
+      "code": "            color = \"Yellow\";",
+      "text": "Green advances to Yellow."
+    },
+    {
+      "code": "        } else {",
+      "text": "The catch-all branch treats anything that is not Red or Green as Yellow, so the cycle wraps around."
+    },
+    {
+      "code": "            color = \"Red\";",
+      "text": "Yellow returns to Red, closing the three-state loop."
+    },
+    {
+      "code": "    public boolean isStopRequired() {",
+      "text": "A derived value computed from state rather than stored separately, so it can never disagree with the current color."
+    },
+    {
+      "code": "        return !\"Green\".equals(color);",
+      "text": "Stopping is required unless the light is Green, which means Yellow counts as stop. A test asserting that Yellow allows driving would fail here \\u2014 and arguing about whether the test or the code is wrong is the point of the exercise."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

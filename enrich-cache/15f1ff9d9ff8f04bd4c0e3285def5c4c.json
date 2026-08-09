@@ -1,0 +1,49 @@
+{
+  "summary": "This program stores book titles in an ArrayList, prints them all, then reports how many there are, retrieves one by position, and shows that a list happily accepts the same title twice.",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the concrete, resizable list implementation that will actually hold the titles."
+    },
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that describes what a list can do, which lets the variable be declared in general terms."
+    },
+    {
+      "code": "        List<String> bookTitles = new ArrayList<>();",
+      "text": "The variable is typed as List but built as an ArrayList, so the rest of the code depends only on list behaviour; the <String> says every element must be a String."
+    },
+    {
+      "code": "        bookTitles.add(\"The Adventures of Sherlock Holmes\");",
+      "text": "add appends an element to the end of the list, and the list grows on its own to make room."
+    },
+    {
+      "code": "        for (String title : bookTitles) {",
+      "text": "This enhanced for loop visits each element in order and copies it into title, which is simpler than tracking an index yourself."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal number of books: \" + bookTitles.size());",
+      "text": "size() reports how many elements the list currently holds, and the \\n prints a blank line first to separate the sections of output."
+    },
+    {
+      "code": "        System.out.println(\"First book: \" + bookTitles.get(0));",
+      "text": "get(0) retrieves the element at a position; list positions start at 0, so index 0 is the first book."
+    },
+    {
+      "code": "        bookTitles.add(\"The Hobbit\");",
+      "text": "Adding a title that is already present succeeds, because a List allows duplicates and keeps items in insertion order."
+    },
+    {
+      "code": "        System.out.println(\"Total number of books after adding duplicate: \" + bookTitles.size());",
+      "text": "Checking the size again proves the duplicate was stored as a separate fourth element rather than being ignored."
+    },
+    {
+      "code": "            System.out.println(\"  - \" + title);",
+      "text": "The two leading spaces and dash format each title as a bulleted item, making the final listing easy to read."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

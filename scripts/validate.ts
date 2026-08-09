@@ -106,7 +106,19 @@ try {
   exampleCount = content.examples.length;
   stepCount = content.steps.length;
 
-  // 5. Every exercise that reads input must carry a sample.
+  // 5. Every published step must carry its pre-computed explanation.
+  //
+  // The VS Code extension has no model, so an explanation missing here is an
+  // explanation no reader ever sees. Drafts are exempt: that is what draft means.
+  for (const step of content.steps) {
+    if (!step.explanation) {
+      fail(`${step.id} is published but has no explanation. Run "bun run enrich".`);
+      continue;
+    }
+    if (step.explanation.summary.trim() === "") fail(`${step.id} has an empty explanation summary`);
+  }
+
+  // 6. Every exercise that reads input must carry a sample.
   //
   // An assistant cannot type into a running program — Claude Code's `!` prefix
   // does not attach an interactive stdin — so an interactive exercise with no

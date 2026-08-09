@@ -1,0 +1,69 @@
+{
+  "summary": "This program looks for the cheapest and most expensive product in the \"Craft\" category using stream `min` and `max`, then shows three different ways to deal with the `Optional` result those methods return.",
+  "lines": [
+    {
+      "code": "import java.util.Optional;",
+      "text": "`Optional` is Java's container for \"a value that might not be there,\" and it is what `min` and `max` hand back, since an empty stream has no minimum."
+    },
+    {
+      "code": "import java.util.Comparator;",
+      "text": "`Comparator` supplies the rule for deciding which product counts as smaller, which `min` and `max` both require."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "The list starts empty here; the comments below stand in for the product-loading code from earlier in the chapter, so this run exercises the \"nothing found\" path through each Optional approach."
+    },
+    {
+      "code": "        Optional<MarketProduct> minCraft = getMinByCategoryPrice(products, \"Craft\");",
+      "text": "The result is stored as an `Optional`, not a `MarketProduct`, which forces you to decide what to do when no Craft item exists instead of risking a null."
+    },
+    {
+      "code": "        minCraft.ifPresent(p -> System.out.println(\"Cheapest Craft (ifPresent): \" + p));",
+      "text": "Approach 1 runs the lambda only if a value is inside, and silently does nothing otherwise — the shortest option when an empty result needs no message."
+    },
+    {
+      "code": "        if (maxCraft.isPresent()) {",
+      "text": "Approach 2 asks the question explicitly so you can write both branches, which is what you need when the empty case deserves its own output."
+    },
+    {
+      "code": "            System.out.println(\"Priciest Craft (isPresent): \" + maxCraft.get());",
+      "text": "`get()` unwraps the product, and calling it is only safe because `isPresent()` has already confirmed a value is there."
+    },
+    {
+      "code": "        MarketProduct fallback = new MarketProduct(\"No Craft Item\", \"N/A\", 0.0, \"Craft\", \"N/A\", false);",
+      "text": "A stand-in product is built ahead of time so the third approach always has something concrete to print."
+    },
+    {
+      "code": "        System.out.println(\"Priciest Craft (orElse): \" + maxCraft.orElse(fallback));",
+      "text": "Approach 3 collapses both cases into one expression: the real product if present, otherwise the fallback, with no `if` statement at all."
+    },
+    {
+      "code": "    public static Optional<MarketProduct> getMinByCategoryPrice(List<MarketProduct> products, String category) {",
+      "text": "Returning `Optional` from your own method passes the \"might be missing\" fact on to the caller, which is exactly what the three approaches above respond to."
+    },
+    {
+      "code": "                .filter(p -> p.getCategory() != null ",
+      "text": "The filter checks for null before comparing, so a product with a missing category is skipped rather than causing a crash."
+    },
+    {
+      "code": "&& p.getCategory().equalsIgnoreCase(category))",
+      "text": "Comparing without regard to case means \"craft\", \"Craft\", and \"CRAFT\" all match the requested category."
+    },
+    {
+      "code": "               .min(Comparator.comparingDouble(MarketProduct::getPrice));",
+      "text": "`comparingDouble` builds a comparator from the price alone, and `min` walks the filtered stream to find the smallest, wrapping the answer in an `Optional`."
+    },
+    {
+      "code": "                .max(Comparator.comparingDouble(MarketProduct::getPrice));",
+      "text": "`max` uses the identical comparator; only the direction of the search changes, which is why the two helper methods differ by a single word."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "public class MarketProduct {\n    private String name;\n    private String vendor;\n    private double price;\n    private String category;\n    private String season;\n    private boolean organic;\n\n    public MarketProduct(String name, String vendor, double price,\n                         String category, String season, boolean organic) {\n        this.name = name;\n        this.vendor = vendor;\n        this.price = price;\n        this.category = category;\n        this.season = season;\n        this.organic = organic;\n    }\n\n    public String getName() { return name; }\n    public String getVendor() { return vendor; }\n    public double getPrice() { return price; }\n    public String getCategory() { return category; }\n    public String getSeason() { return season; }\n    public boolean isOrganic() { return organic; }\n\n    @Override\n    public String toString() {\n        return name + \" (\" + category + \") from \" + vendor\n                + \" - $\" + String.format(\"%.2f\", price);\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

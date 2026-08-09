@@ -1,0 +1,79 @@
+{
+  "summary": "This version of the farmers' market app refines two of its stream pipelines: the vendor list is now deduplicated and sorted alphabetically, and a vendor's menu is capped at three entries. It shows how `distinct`, `sorted`, and `limit` chain onto a stream to shape the results before they are collected.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "`Comparator` supplies the ready-made comparison objects used for sorting streams by a chosen field, such as price or name."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "Creates the list the whole program works from; the comment below is where the book expects you to add sample products."
+    },
+    {
+      "code": "        List<String> vendors = getVendorSet(products);",
+      "text": "Calls the reworked method, which now hands back a `List` in alphabetical order instead of an unordered set."
+    },
+    {
+      "code": "        String vendor = \"Baker's Lane\";",
+      "text": "Storing the vendor name in a variable means the same value is reused for both the menu lookup and the discount calculation, so the two cannot drift apart."
+    },
+    {
+      "code": "        menu.forEach(System.out::println);",
+      "text": "`forEach` with a method reference prints each menu line on its own row, which reads better than printing the list in brackets."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "Keeps only organic summer produce, and the `!= null` check guards against a product whose season was never filled in."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "Orders the surviving products cheapest first; sorting happens before `map` so the comparator still has full `MarketProduct` objects to inspect."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "Transforms each product into just its name, turning a stream of products into a stream of strings."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "Gathers the streamed values back into an ordinary `List` that the caller can print or loop over."
+    },
+    {
+      "code": "                .filter(v -> v != null && !v.isBlank())",
+      "text": "Drops missing or empty vendor names so blanks do not appear in the finished list."
+    },
+    {
+      "code": "                .distinct()",
+      "text": "Removes duplicate vendor names, which is what gives this list the uniqueness a `Set` used to provide."
+    },
+    {
+      "code": "                .sorted()",
+      "text": "Sorts the remaining names alphabetically using each string's natural order, satisfying the request for a sorted vendor list."
+    },
+    {
+      "code": "                .filter(p -> p.getVendor() != null && vendor != null && p.getVendor().equalsIgnoreCase(vendor))",
+      "text": "Selects only this vendor's products, and `equalsIgnoreCase` means a difference in capitalization will not hide a match."
+    },
+    {
+      "code": "                // .sorted(Comparator.comparing(MarketProduct::getName))",
+      "text": "A commented-out sort left in place as a reminder: uncomment it to take the first three items alphabetically rather than in list order."
+    },
+    {
+      "code": "                .map(p -> p.getName() + \" - $\" + String.format(\"%.2f\", p.getPrice()))",
+      "text": "Builds a display string for each product, with `%.2f` forcing prices to show exactly two decimal places like real money."
+    },
+    {
+      "code": "                .limit(3)",
+      "text": "Stops the pipeline after three results, so the printed menu stays short no matter how many products the vendor has."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

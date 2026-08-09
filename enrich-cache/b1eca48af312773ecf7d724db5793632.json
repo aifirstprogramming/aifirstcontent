@@ -1,0 +1,40 @@
+{
+  "summary": "This program asks whether you want to enter the temperature in Celsius, converts from Fahrenheit if you say no, and then advises what to wear based on how warm it is.",
+  "lines": [
+    {
+      "code": "use_celsius = input(\"Use Celsius? (yes/no): \").strip().lower() == \"yes\"",
+      "text": "The answer is cleaned up with .strip() to remove stray spaces and .lower() to ignore capitalisation, then compared to \"yes\". The comparison produces a Boolean, so use_celsius holds True or False rather than the raw text."
+    },
+    {
+      "code": "if use_celsius:",
+      "text": "Because use_celsius is already True or False, it can be tested directly with no comparison needed."
+    },
+    {
+      "code": "    temp = float(input(\"Temperature (°C): \"))",
+      "text": "Input always arrives as text, so float() turns it into a number that can be compared and used in arithmetic."
+    },
+    {
+      "code": "    temp_f = float(input(\"Temperature (°F): \"))",
+      "text": "When the reader declined Celsius, the value is collected in Fahrenheit and stored under a different name to keep the two units clearly apart."
+    },
+    {
+      "code": "    temp = (temp_f - 32) * 5 / 9",
+      "text": "This is the Fahrenheit-to-Celsius formula, and its result is stored in temp so that everything below works in Celsius no matter which unit was typed."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "A fresh if statement begins the advice, which works from the single Celsius value both branches above agreed to produce."
+    },
+    {
+      "code": "elif temp > 30:",
+      "text": "elif is only reached when the first test failed, so the temperature is already known to be 10 or above here."
+    },
+    {
+      "code": "else:",
+      "text": "The else catches everything the two tests left over, which is the comfortable range from 10 to 30 degrees."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "no\n95\n"
+}

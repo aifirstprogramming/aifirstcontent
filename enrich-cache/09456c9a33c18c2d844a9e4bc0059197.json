@@ -1,0 +1,21 @@
+{
+  "summary": "This is the classic first Java program: it prints the greeting \"Hello, World!\" to the screen and then ends. It shows the minimum structure every Java program needs.",
+  "lines": [
+    {
+      "code": "public class HelloWorld {",
+      "text": "All Java code lives inside a class, and this one is named HelloWorld. The file must be saved as HelloWorld.java so the name matches exactly."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the method Java looks for when it starts a program, so execution always begins here. The words public, static, void, and String[] args are required in this exact form for Java to recognise it as the starting point."
+    },
+    {
+      "code": "        System.out.println(\"Hello, World!\");",
+      "text": "System.out is the standard output stream, the text console, and println writes the given text followed by a line break. The text in double quotes is a string literal, meaning the characters are printed exactly as written."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

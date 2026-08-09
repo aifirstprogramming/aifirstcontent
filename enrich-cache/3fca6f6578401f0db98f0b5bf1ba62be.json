@@ -1,0 +1,57 @@
+{
+  "summary": "Three kinds of robot pet share one battery check that lives in the base class, and each subclass calls `super().show_talent()` first to see whether the battery is too low before describing its own trick.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to `self.battery` in the constructor runs the property setter below, so a value out of range is clamped before it is ever stored."
+    },
+    {
+      "code": "    @property",
+      "text": "The `@property` decorator turns the `battery` method into an attribute read, so `pet.battery` returns the stored value without any parentheses."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "The matching setter runs every time something assigns to `battery`, which is where the validation rule is enforced."
+    },
+    {
+      "code": "            self._battery = 0",
+      "text": "A negative charge makes no sense, so it is clamped to empty rather than being rejected."
+    },
+    {
+      "code": "            self._battery = 100",
+      "text": "Anything over a full charge is capped at 100 percent."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "The base class owns only the shared part of the behaviour: deciding whether the battery permits a performance at all."
+    },
+    {
+      "code": "        return None",
+      "text": "Returning `None` is the base class's way of saying \"the battery is fine, carry on\", which is the signal each subclass tests for."
+    },
+    {
+      "code": "        result = super().show_talent()",
+      "text": "`super()` reaches the version of `show_talent` defined in `RobotPet`, so the battery rules are written once and reused by every subclass."
+    },
+    {
+      "code": "        if result:",
+      "text": "If the parent returned a message, the battery is too low and that message is passed straight back instead of the trick."
+    },
+    {
+      "code": "        return f\"{self.name} gracefully balances on two legs! (Battery: {self.battery}%)\"",
+      "text": "Only when the parent gave the all-clear does the subclass add its own unique behaviour."
+    },
+    {
+      "code": "pets = [cat, bird, dog]",
+      "text": "Putting different subclasses in one list works because they all understand `show_talent`, which is the heart of polymorphism."
+    },
+    {
+      "code": "    print(pet.show_talent())",
+      "text": "The same call produces a different result for each pet, and Python picks the right version at runtime."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

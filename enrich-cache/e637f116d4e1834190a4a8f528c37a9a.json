@@ -1,0 +1,71 @@
+{
+  "summary": "This is a unittest file that checks the new `speak` method on the robot pet classes. Each pet type gets four tests: one for a drained battery, one for a happy mood, one for a neutral mood, and one confirming the pet says its own name.",
+  "lines": [
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "The four classes under test are pulled in from the pet_talents module, so the test file stays separate from the code it exercises."
+    },
+    {
+      "code": "class TestRobotPet(unittest.TestCase):",
+      "text": "Each pet class gets its own TestCase, which keeps a failure message pointing straight at the class that broke."
+    },
+    {
+      "code": "    …",
+      "text": "The book elides the setUp method here; it is where self.pet is created fresh before every test so that one test's changes cannot leak into the next."
+    },
+    {
+      "code": "        self.pet.battery = 10",
+      "text": "The battery is forced low so the test reaches the branch of speak that warns about needing power, rather than waiting for the battery to drain naturally."
+    },
+    {
+      "code": "        self.assertIn(\"recharge\", self.pet.speak())",
+      "text": "assertIn checks that the returned sentence contains the keyword, which is looser than comparing the whole string and so survives small wording changes."
+    },
+    {
+      "code": "        self.pet.mood = \"happy\"",
+      "text": "Setting the mood directly is how the test steers speak down a specific path without calling other methods first."
+    },
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "The battery is set comfortably high so the low-battery message does not fire and hide the mood-based message being tested."
+    },
+    {
+      "code": "    def test_speak_contains_name(self):",
+      "text": "This test holds the rule that a pet always identifies itself, regardless of mood or battery level."
+    },
+    {
+      "code": "        self.assertIn(\"Robo\", self.pet.speak())",
+      "text": "The pet's name must appear in whatever it says, so this passes for every branch of speak."
+    },
+    {
+      "code": "        self.assertIn(\"tired\", self.cat.speak())",
+      "text": "The cat's low-battery wording differs from the base pet's, which is exactly the subclass behaviour worth testing separately."
+    },
+    {
+      "code": "        self.assertIn(\"Meow\", self.cat.speak())",
+      "text": "Each subclass has its own neutral greeting, and checking it confirms the override actually took effect."
+    },
+    {
+      "code": "        self.assertIn(\"Best day\", self.dog.speak())",
+      "text": "A multi-word fragment is fine for assertIn, since it simply looks for that exact substring."
+    },
+    {
+      "code": "if __name__ == \"__main__\":",
+      "text": "This guard lets the file be run directly as a script while still being importable by other test tooling."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "unittest.main discovers every method starting with test_ in the file, runs them, and reports the results."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-10"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

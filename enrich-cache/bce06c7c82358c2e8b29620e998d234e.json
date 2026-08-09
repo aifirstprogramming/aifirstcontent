@@ -1,0 +1,33 @@
+{
+  "summary": "This program defines a small named block of code called a method (Java's word for a function) and runs it twice from main. It shows how naming a piece of work lets you reuse it without repeating the instructions.",
+  "lines": [
+    {
+      "code": "public class IntroFunction {",
+      "text": "Every Java program lives inside a class, and the class name must match the file name, so this code belongs in IntroFunction.java."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the entry point: when you run the class, Java looks for exactly this method signature and starts here."
+    },
+    {
+      "code": "        showWelcomeMessage();",
+      "text": "Calling the method by name runs the code in its body; the empty parentheses mean it needs no information passed in."
+    },
+    {
+      "code": "        showWelcomeMessage();",
+      "text": "The same call a second time proves the real value of a method: one definition, as many uses as you like."
+    },
+    {
+      "code": "    public static void showWelcomeMessage() {",
+      "text": "This defines the method. The word void says it hands nothing back to the caller, and static means it belongs to the class itself, so main can call it directly."
+    },
+    {
+      "code": "        System.out.println(\"Welcome to Java functions!\");",
+      "text": "This is the single piece of work the method exists to do, which is why you see the message printed twice when the program runs."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

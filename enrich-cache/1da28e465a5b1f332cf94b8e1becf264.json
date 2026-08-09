@@ -1,0 +1,53 @@
+{
+  "summary": "This is a domain class: a single blueprint that describes one product sold at a farmers' market, bundling its name, vendor, price, category, season, and whether it is organic. Later exercises in the chapter build streams over lists of these objects, so getting the shape of the data right first makes the stream code readable.",
+  "lines": [
+    {
+      "code": "    private final String name;",
+      "text": "Fields are `private` so no outside code can reach in and change them, and `final` so each value is fixed once the object is built. A class built this way is called immutable, and immutable objects are safe to use in streams."
+    },
+    {
+      "code": "    private final double price;",
+      "text": "`double` holds a decimal number, which is what a price needs. (For real money handling, production code prefers `BigDecimal`, but `double` keeps the stream examples uncluttered.)"
+    },
+    {
+      "code": "    private final boolean organic;",
+      "text": "A `boolean` field stores a simple yes-or-no fact, making it a natural target for stream filters later on."
+    },
+    {
+      "code": "    public MarketProduct(String name, String vendor, double price, String category, String season, boolean organic) {",
+      "text": "The constructor is the only way to create a `MarketProduct`, so every object exists fully populated from the moment it is born."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name `name`, so `this.name` says \"the field belonging to this object\" while the bare `name` means the parameter."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "A getter hands out a copy of the stored value without exposing the field itself. Streams call these methods through method references such as `MarketProduct::getName`."
+    },
+    {
+      "code": "    public boolean isOrganic() {",
+      "text": "By Java convention, getters for `boolean` values start with `is` rather than `get`, which makes conditions read like English."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from `Object`. If you misspell the method name, compilation fails instead of silently doing nothing."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Overriding `toString` decides what a `MarketProduct` looks like when printed. Without it, `System.out.println` would show a meaningless class name and hash code."
+    },
+    {
+      "code": "        return \"MarketProduct{\" +",
+      "text": "The pieces are joined with `+` across several lines to build one readable line of output; the `'\\''` entries are escaped single quotes that wrap the text values."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "FarmersMarketApp.java",
+      "content": "import java.util.List;\n\npublic class FarmersMarketApp {\n    public static void main(String[] args) {\n        List<MarketProduct> products = List.of(\n                new MarketProduct(\"Heirloom Tomatoes\", \"Green Acres\", 4.50, \"Vegetable\", \"Summer\", true),\n                new MarketProduct(\"Sweet Corn\", \"Miller Farm\", 3.25, \"Vegetable\", \"Summer\", false),\n                new MarketProduct(\"Honeycrisp Apples\", \"Hilltop Orchard\", 5.75, \"Fruit\", \"Fall\", true),\n                new MarketProduct(\"Goat Cheese\", \"Willow Creek Dairy\", 8.00, \"Dairy\", \"All\", false),\n                new MarketProduct(\"Wildflower Honey\", \"Bee Happy\", 11.50, \"Pantry\", \"All\", true)\n        );\n\n        for (MarketProduct product : products) {\n            System.out.println(product);\n        }\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "FarmersMarketApp.java",
+  "stdin": ""
+}

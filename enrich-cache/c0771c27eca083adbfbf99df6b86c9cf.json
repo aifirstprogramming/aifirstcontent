@@ -1,0 +1,40 @@
+{
+  "summary": "This program defines a RobotPet class that stores a name, battery level, and mood, then builds three separate robot pets and prints each one's details. It is a first look at how a class acts as a blueprint for many objects of the same shape.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "This begins the blueprint. A class does not hold any single pet's data; it describes the kind of thing a robot pet is."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The __init__ method runs automatically each time a new pet is created, and it receives the values you pass in the parentheses. The first parameter, self, refers to the particular object being built."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Assigning to self.name stores the value on the object itself, so it survives after __init__ finishes and can be read later as pet1.name."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Each object gets its own battery attribute, which is why Rover's battery of 85 does not affect Sparky's."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "The third attribute completes the pet's state: a name, a charge level, and a mood."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Calling the class like a function creates an object and runs __init__ with these three arguments. The result is stored in pet1."
+    },
+    {
+      "code": "pet3 = RobotPet(\"Beep\", 45, \"tired\")",
+      "text": "A third independent object from the same class, proving one blueprint can produce as many pets as you need."
+    },
+    {
+      "code": "print(f\"{pet1.name} - Battery: {pet1.battery}, Mood: {pet1.mood}\")",
+      "text": "The dot notation reaches inside the object to read its attributes, and the f-string drops those values straight into the text."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

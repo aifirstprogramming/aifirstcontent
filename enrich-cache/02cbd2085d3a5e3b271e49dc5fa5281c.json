@@ -1,0 +1,56 @@
+{
+  "summary": "This Thermostat class decides whether the system should be heating, cooling, or idle based on the current temperature and whether eco mode is on. A new printStatusToDisplay method sends that status to the console.",
+  "lines": [
+    {
+      "code": "private final int currentTemp;",
+      "text": "The temperature reading is stored as final, so once a Thermostat is built its state cannot change; this makes the object predictable to test."
+    },
+    {
+      "code": "        private final boolean ecoMode;",
+      "text": "Eco mode is a simple on/off flag that widens the comfortable range, which is why the class has two behaviours to test rather than one."
+    },
+    {
+      "code": "    public Thermostat(int currentTemp, boolean ecoMode) {",
+      "text": "The constructor takes both values up front, so every test can create a thermostat in exactly the situation it wants to check."
+    },
+    {
+      "code": "        this.currentTemp = currentTemp;",
+      "text": "The this. prefix distinguishes the field from the constructor parameter of the same name."
+    },
+    {
+      "code": "    public String getStatus() {",
+      "text": "Returning a String instead of printing is what makes this method easy to test: a test can compare the returned value against what it expects."
+    },
+    {
+      "code": "        int heatingThreshold = ecoMode ? 65 : 68;",
+      "text": "The conditional operator picks 65 when ecoMode is true and 68 otherwise, giving eco mode a lower point at which heating kicks in."
+    },
+    {
+      "code": "        int coolingThreshold = ecoMode ? 78 : 75;",
+      "text": "Eco mode also tolerates more heat before cooling starts, so the two thresholds together create a wider idle band."
+    },
+    {
+      "code": "        if (currentTemp < heatingThreshold) {",
+      "text": "Cold temperatures are handled first, and the early return means the later checks only run when this one does not apply."
+    },
+    {
+      "code": "        if (currentTemp > coolingThreshold) {",
+      "text": "The strict greater-than means a temperature sitting exactly on the cooling threshold counts as comfortable, not too hot."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "Anything that falls through both checks is between the thresholds, so no action is needed."
+    },
+    {
+      "code": "    public void printStatusToDisplay() {",
+      "text": "This method is void because its whole job is a side effect: showing text on the display rather than handing a value back."
+    },
+    {
+      "code": "        System.out.println(\"Thermostat status: \" + getStatus());",
+      "text": "Reusing getStatus keeps the decision logic in one place, so the printed message can never disagree with the tested method."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

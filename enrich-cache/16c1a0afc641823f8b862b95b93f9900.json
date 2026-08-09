@@ -1,0 +1,37 @@
+{
+  "summary": "This program demonstrates the four kinds of return type a Java method can have: void (returns nothing), boolean, int, and String. Each method takes no parameters, so main simply calls them and prints whatever comes back.",
+  "lines": [
+    {
+      "code": "        plantInSoil();",
+      "text": "A void method is called as a statement on its own, because there is no value coming back to print or store."
+    },
+    {
+      "code": "        System.out.println(\"Sunlight available: \" + hasSunlight());",
+      "text": "The call to hasSunlight() is replaced by its returned value before printing, and the + joins that value onto the label text."
+    },
+    {
+      "code": "    public static void plantInSoil() {",
+      "text": "The keyword void declares that this method hands nothing back to the caller; it just does its work and finishes."
+    },
+    {
+      "code": "    public static boolean hasSunlight() {",
+      "text": "Declaring boolean promises the caller a true or false answer, which suits a yes-or-no question about sunlight."
+    },
+    {
+      "code": "        return true;",
+      "text": "The return statement sends the value back to whoever called the method and ends the method immediately."
+    },
+    {
+      "code": "    public static int waterLevel() {",
+      "text": "An int return type is used for a whole-number measurement such as a water level reading."
+    },
+    {
+      "code": "    public static String growthStatus() {",
+      "text": "A String return type lets the method hand back a piece of text describing the plant's state."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

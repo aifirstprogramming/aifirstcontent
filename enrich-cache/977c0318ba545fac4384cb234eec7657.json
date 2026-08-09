@@ -1,0 +1,57 @@
+{
+  "summary": "This program builds a playlist of songs in a list, then copies the same songs into a HashMap keyed by title and into a TreeMap, printing both so you can see that a HashMap gives no reliable ordering while a TreeMap keeps its keys sorted alphabetically.",
+  "lines": [
+    {
+      "code": "import java.util.Map;",
+      "text": "Map is the interface both HashMap and TreeMap implement, so the same variable type can hold either one."
+    },
+    {
+      "code": "import java.util.TreeMap;",
+      "text": "TreeMap is the sorted map implementation; importing it alongside HashMap is what lets the program compare the two behaviours side by side."
+    },
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "The list is declared as the List interface but created as an ArrayList, a habit that keeps the rest of the code independent of the chosen implementation."
+    },
+    {
+      "code": "        playlist.add(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "Each Song object bundles title, artist, genre, and an energy level from 1 to 10 into one value the list can store."
+    },
+    {
+      "code": "        for (Song song : playlist) {",
+      "text": "The enhanced for loop walks the list in insertion order, which is exactly the order the songs were added."
+    },
+    {
+      "code": "        Map<String, Song> songMap = new HashMap<>();",
+      "text": "A map stores key-value pairs; here each song's title is the key used to look up the whole Song object."
+    },
+    {
+      "code": "            songMap.put(song.getTitle(), song);",
+      "text": "put stores one pair, so this loop transfers every song from the list into the map under its own title."
+    },
+    {
+      "code": "        for (String title : songMap.keySet()) {",
+      "text": "keySet returns all the keys in the map, and a HashMap hands them back in an order determined by hash codes rather than by anything meaningful to a reader."
+    },
+    {
+      "code": "            System.out.println(title + \" -> \" + songMap.get(title));",
+      "text": "get looks up the value for a key, and the Song is printed through its toString method as part of the concatenated string."
+    },
+    {
+      "code": "        Map<String, Song> songTreeMap = new TreeMap<>(songMap);",
+      "text": "Passing an existing map to the TreeMap constructor copies all its pairs in, and the TreeMap immediately arranges them by the natural ordering of the String keys."
+    },
+    {
+      "code": "        for (String title : songTreeMap.keySet()) {",
+      "text": "The same loop over the same data now prints titles in alphabetical order, which is the whole point of the comparison."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "public class Song {\n    private String title;\n    private String artist;\n    private String genre;\n    private int energy;\n\n    public Song(String title, String artist, String genre, int energy) {\n        this.title = title;\n        this.artist = artist;\n        this.genre = genre;\n        this.energy = energy;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getArtist() {\n        return artist;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    public int getEnergy() {\n        return energy;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + artist + \" (\" + genre + \", energy \" + energy + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

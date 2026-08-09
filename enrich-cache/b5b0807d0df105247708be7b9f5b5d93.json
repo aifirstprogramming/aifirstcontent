@@ -1,0 +1,41 @@
+{
+  "summary": "This program builds a shopping list, then edits it in three ways: replacing an item by its position, adding a new item at the end, and removing an item by name. It finishes by printing every item and then reaching for the first and last one directly.",
+  "lines": [
+    {
+      "code": "shopping_list = [\"cake\", \"balloons\", \"decorations\", \"drinks\", \"snacks\", \"plates\", \"napkins\"]",
+      "text": "A list holds several values in one variable, in the order you wrote them. Square brackets create the list and commas separate the items."
+    },
+    {
+      "code": "shopping_list[4] = \"chouriço\"  # Replace snacks with Portuguese sausage",
+      "text": "Positions in a list start counting at 0, so index 4 is the fifth item, \"snacks\". Assigning to that position overwrites the old value in place."
+    },
+    {
+      "code": "shopping_list.append(\"pastéis de nata\")  # Portuguese custard tarts",
+      "text": "The append method adds one new item to the end of the list, growing it from seven items to eight."
+    },
+    {
+      "code": "shopping_list.remove(\"balloons\")  # Remove balloons",
+      "text": "Unlike indexing, remove searches for a matching value and deletes the first one it finds, so you do not need to know where it sits."
+    },
+    {
+      "code": "for item in shopping_list:",
+      "text": "A for loop visits each item in turn, storing it in the variable item so the indented line below can use it."
+    },
+    {
+      "code": "    print(\"-\", item)",
+      "text": "Passing two values to print puts a space between them, which produces a neat dash before each item."
+    },
+    {
+      "code": "print(f\"\\nFirst item: {shopping_list[0]}\")",
+      "text": "An f-string lets you drop an expression inside braces straight into the text, and \\n adds a blank line before it for spacing."
+    },
+    {
+      "code": "print(f\"\\nLast item: {shopping_list[-1]}\")",
+      "text": "Negative indexes count backwards from the end, so -1 is always the final item no matter how long the list has become."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

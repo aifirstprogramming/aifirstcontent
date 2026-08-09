@@ -1,0 +1,69 @@
+{
+  "summary": "This program asks for a Celsius temperature, keeps re-prompting until the reader types a valid number within the physical range, converts it to Fahrenheit, and then prints a closing message from a finally block that runs whether the conversion succeeded or an error interrupted it.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius (-273.15 to 100): \");",
+      "text": "Using print rather than println leaves the cursor on the same line, so the reader types the answer right after the prompt."
+    },
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "This is a try-with-resources statement: the Scanner declared in the parentheses is closed automatically when the block ends, no matter how it ends."
+    },
+    {
+      "code": "            Double celsius = null;",
+      "text": "The capital-D Double wrapper type is used here because it can hold null, which marks \"no valid value collected yet\" in a way the primitive double cannot."
+    },
+    {
+      "code": "            while (true) {",
+      "text": "An intentionally endless loop keeps asking for input; the only way out is the break below, which fires once a valid number arrives."
+    },
+    {
+      "code": "                String input = scanner.nextLine().trim();",
+      "text": "Reading the whole line and trimming it removes stray spaces that would otherwise make a perfectly good number fail to parse."
+    },
+    {
+      "code": "                    double value = Double.parseDouble(input);",
+      "text": "This converts the typed text into a number, and throws NumberFormatException when the text is not numeric."
+    },
+    {
+      "code": "                    if (value < -273.15 || value > 100) {",
+      "text": "Absolute zero is -273.15°C, so anything below that is physically impossible and is rejected along with values above the chosen upper limit."
+    },
+    {
+      "code": "                        continue;",
+      "text": "continue jumps straight back to the top of the loop, skipping the assignment and break so the out-of-range value is never accepted."
+    },
+    {
+      "code": "                    celsius = value;",
+      "text": "Only a number that passed both checks is stored, which guarantees the conversion later works on clean data."
+    },
+    {
+      "code": "                    break;",
+      "text": "With a good value in hand, break leaves the endless loop and lets the program move on to converting it."
+    },
+    {
+      "code": "                } catch (NumberFormatException e) {",
+      "text": "Catching the parse failure inside the loop means bad text produces a fresh prompt instead of ending the program."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "The Double is unboxed to a plain double automatically as it is passed to the method."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "This outer catch is a safety net for anything unexpected, such as the input stream ending before a valid number is typed."
+    },
+    {
+      "code": "        } finally {",
+      "text": "A finally block always runs, whether the try finished normally or a catch handled an exception, which makes it the right place for closing messages and cleanup."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Because celsius is a double, the multiplication happens in floating point first, so 9/5 does not suffer the integer division that would otherwise flatten the result."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "abc\n500\n25\n",
+  "expectsUncaughtException": false
+}

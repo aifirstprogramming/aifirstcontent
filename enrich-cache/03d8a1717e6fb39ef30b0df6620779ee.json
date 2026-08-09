@@ -1,0 +1,21 @@
+{
+  "summary": "This program takes a string with mixed capitalization and prints it with every letter in uppercase, using Python's built-in string method upper().",
+  "lines": [
+    {
+      "code": "text = \"i lOvE pUpPiEs\"",
+      "text": "Stores the original string in a variable named text. The deliberately jumbled capitalization shows that upper() does not care what case the letters started in."
+    },
+    {
+      "code": "uppercase_text = text.upper()",
+      "text": "Calls the upper() method on the string, which returns a new all-capitals string. The original text is unchanged, because strings in Python cannot be modified in place; the result must be saved in a variable."
+    },
+    {
+      "code": "print(uppercase_text)",
+      "text": "Displays the converted string so you can see the effect of the method call."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

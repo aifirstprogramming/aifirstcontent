@@ -1,0 +1,37 @@
+{
+  "summary": "This is a small Java class that models a single cookie. Each Cookie object stores one flavor, set when the object is created, and can describe itself as a sentence.",
+  "lines": [
+    {
+      "code": "public class Cookie {",
+      "text": "Declares the class, which acts as the blueprint every cookie object is built from. The name is capitalised by Java convention and must match the file name Cookie.java."
+    },
+    {
+      "code": "    private final String flavor;",
+      "text": "The one piece of data each cookie carries. `private` keeps it hidden from outside code so nothing can tamper with it, and `final` means once a cookie has a flavor it can never be changed."
+    },
+    {
+      "code": "    public Cookie(String flavor) {",
+      "text": "The constructor: special code that runs when someone writes `new Cookie(...)`. It demands a flavor, so it is impossible to create a cookie without one."
+    },
+    {
+      "code": "        this.flavor = flavor;",
+      "text": "Copies the value passed in to the object's own field. `this.flavor` is the field belonging to this object, while plain `flavor` is the parameter, which is how Java tells the two apart when they share a name."
+    },
+    {
+      "code": "    public String describe() {",
+      "text": "A method that reports on the object rather than changing it. It returns a String instead of printing, so the caller decides what to do with the text."
+    },
+    {
+      "code": "        return \"This is a \" + flavor + \" cookie.\";",
+      "text": "Builds the sentence by joining text with the stored flavor using the `+` operator. The method can read `flavor` directly because it lives inside the same class."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "CookieDemo.java",
+      "content": "public class CookieDemo {\n    public static void main(String[] args) {\n        Cookie chocolateChip = new Cookie(\"chocolate chip\");\n        Cookie oatmeal = new Cookie(\"oatmeal raisin\");\n\n        System.out.println(chocolateChip.describe());\n        System.out.println(oatmeal.describe());\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "CookieDemo.java",
+  "stdin": ""
+}

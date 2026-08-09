@@ -1,0 +1,29 @@
+{
+  "summary": "This program stores four song titles in a PriorityQueue and then removes them one at a time, showing that a priority queue hands back its smallest element first — here, the title that comes first alphabetically.",
+  "lines": [
+    {
+      "code": "        PriorityQueue<String> titleQueue = new PriorityQueue<>(); // natural A–Z order",
+      "text": "A PriorityQueue keeps its elements ordered by priority rather than by arrival. With no comparator supplied, Strings use their natural order, so the alphabetically first title has the highest priority."
+    },
+    {
+      "code": "        titleQueue.offer(\"Respect\");",
+      "text": "The offer method adds an element to the queue; the queue itself decides where it belongs internally, so the insertion order does not matter."
+    },
+    {
+      "code": "        titleQueue.forEach(System.out::println);",
+      "text": "Iterating a PriorityQueue does not walk the elements in sorted order — only the head is guaranteed to be the smallest, which is why the printout looks partly shuffled."
+    },
+    {
+      "code": "        while (!titleQueue.isEmpty()) {",
+      "text": "Looping until the queue is empty drains it completely, one element per pass."
+    },
+    {
+      "code": "            String nextTitle = titleQueue.poll(); // removes smallest (A–Z) first",
+      "text": "The poll method removes and returns the head of the queue, so repeated calls deliver the titles in full alphabetical order: Circle of Life, Clair de Lune, One More Time, Respect."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

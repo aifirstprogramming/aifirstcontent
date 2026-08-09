@@ -1,0 +1,71 @@
+{
+  "summary": "This is a JUnit test class for the TrafficLight class, checking each colour in the cycle and whether the light requires drivers to stop. Each test creates a fresh light, advances it as far as needed, and then asserts one thing about the result.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "Brings in the @Test annotation from JUnit 5, which is what marks a method as a test the framework should run."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), keeping the tests short and readable."
+    },
+    {
+      "code": "class TrafficLightTest {",
+      "text": "The convention is to name the test class after the class under test with Test appended, so this file clearly belongs to TrafficLight."
+    },
+    {
+      "code": "    void startsOnRed() {",
+      "text": "Test names read as sentences describing the expected behaviour, so a failure report tells you what the code got wrong."
+    },
+    {
+      "code": "        TrafficLight light = new TrafficLight();",
+      "text": "Each test builds its own light, so no test can be affected by changes another test made."
+    },
+    {
+      "code": "        assertEquals(\"Red\", light.getColor());",
+      "text": "Checks the starting state: the expected value comes first and the actual value second."
+    },
+    {
+      "code": "        assertTrue(light.isStopRequired());",
+      "text": "assertTrue passes only when the method returns true, which is what a red light should demand."
+    },
+    {
+      "code": "        light.advance();",
+      "text": "Calling advance once moves the light one step through its cycle, which is the action this test is examining."
+    },
+    {
+      "code": "        assertEquals(\"Green\", light.getColor());",
+      "text": "Confirms the first transition in the cycle takes red to green."
+    },
+    {
+      "code": "        assertFalse(light.isStopRequired());",
+      "text": "assertFalse is the mirror of assertTrue and documents that a green light lets traffic through."
+    },
+    {
+      "code": "    void advancesFromGreenToYellow() {",
+      "text": "Two advance calls are needed to reach yellow; the setup calls come before the blank line and the action being tested after it."
+    },
+    {
+      "code": "        assertEquals(\"Yellow\", light.getColor());",
+      "text": "Verifies the second transition, from green to yellow."
+    },
+    {
+      "code": "    void advancesFromYellowToRed() {",
+      "text": "Three advances bring the light back to its starting colour, proving the sequence loops rather than getting stuck."
+    },
+    {
+      "code": "    void requiresStopWhenYellow() {",
+      "text": "Yellow also requires stopping, so this test pins down a rule that is easy to break when someone edits isStopRequired."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "TrafficLight.java",
+      "content": "",
+      "fromExercise": "java-6-11"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

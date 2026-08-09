@@ -1,0 +1,52 @@
+{
+  "summary": "This program adds two more stream calculations to the farmers market inventory: one totals every product price, and one averages the price of just the organic products. Both rely on mapToDouble, which turns a stream of objects into a stream of plain double numbers that knows how to do arithmetic.",
+  "lines": [
+    {
+      "code": "import java.util.stream.Collectors;",
+      "text": "Collectors is imported because the fuller version of this app in the chapter also groups and collects results; these two new methods return a single number and do not need it."
+    },
+    {
+      "code": "        // products variable and add items",
+      "text": "A placeholder for the inventory list built earlier in the chapter. To run this file yourself, declare a List<MarketProduct> named products here and add a few items, some organic and some not."
+    },
+    {
+      "code": "        double totalSum = getTotalPriceSum(products);",
+      "text": "The stream work is kept in its own method so main stays readable: ask for the number, then print it."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal inventory value: $\" + String.format(\"%.2f\", totalSum));",
+      "text": "String.format with %.2f rounds the raw double to two decimal places, which is what money should look like on screen."
+    },
+    {
+      "code": "    public static double getTotalPriceSum(List<MarketProduct> products) {",
+      "text": "Taking the list as a parameter and returning a double keeps this method reusable and easy to test with any inventory."
+    },
+    {
+      "code": "        return products.stream()",
+      "text": "stream() starts the pipeline: a one-time flow of the list's elements that you can transform without changing the list itself."
+    },
+    {
+      "code": "                .mapToDouble(MarketProduct::getPrice)",
+      "text": "This converts each product into its price as a primitive double, producing a DoubleStream that offers numeric operations a normal object stream does not have."
+    },
+    {
+      "code": "                .sum()",
+      "text": "sum() is a terminal operation: it consumes the DoubleStream and hands back the single total."
+    },
+    {
+      "code": "        return products.stream()\n                .filter(MarketProduct::isOrganic)",
+      "text": "filter keeps only the elements whose isOrganic() returns true, so everything downstream sees organic products only."
+    },
+    {
+      "code": "                .average()",
+      "text": "average() returns an OptionalDouble rather than a double, because an empty stream has no meaningful average."
+    },
+    {
+      "code": "                .orElse(0.0);",
+      "text": "orElse supplies a fallback of 0.0 when there are no organic items, so the caller always gets a usable number instead of an error."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

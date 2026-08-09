@@ -1,0 +1,68 @@
+{
+  "summary": "This program stores a playlist in a Deque (a double-ended queue) so songs can be added and removed at either end. It adds four songs, peeks at both ends, then plays songs alternately from the front and the back until the deque is empty.",
+  "lines": [
+    {
+      "code": "import java.util.Deque;",
+      "text": "Deque (pronounced \"deck\") is the interface for a double-ended queue, where insertion and removal are both allowed at the front and at the back."
+    },
+    {
+      "code": "        Deque<Song> songQueue = new ArrayDeque<>();",
+      "text": "The variable is typed as the Deque interface but backed by an ArrayDeque, the usual general-purpose implementation. Note that the listing's import block does not include java.util.ArrayDeque, so add that import in your own copy."
+    },
+    {
+      "code": "        songQueue.addLast(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "addLast appends to the tail, which is the normal \"join the back of the line\" behaviour you get from a plain queue."
+    },
+    {
+      "code": "        songQueue.addFirst(new Song(\"One More Time\", \"Daft Punk\", \"Electronic\", 10)); // Add to front",
+      "text": "addFirst pushes a song to the head so it jumps the queue, and this is the ability a Deque adds over a one-directional Queue."
+    },
+    {
+      "code": "        for (Song s : songQueue) {",
+      "text": "Iterating a Deque walks it from head to tail, so the printed order shows where each addFirst and addLast landed."
+    },
+    {
+      "code": "        System.out.println(songQueue.peekFirst());",
+      "text": "peekFirst reads the head without removing it, and it returns null rather than throwing if the deque is empty."
+    },
+    {
+      "code": "        System.out.println(songQueue.peekLast());",
+      "text": "peekLast does the same for the tail, letting you inspect both ends before deciding which one to play."
+    },
+    {
+      "code": "        while (!songQueue.isEmpty()) {",
+      "text": "The loop keeps playing until nothing is left, and because each pass removes one song it is guaranteed to end."
+    },
+    {
+      "code": "            if (songQueue.size() % 2 == 0) {",
+      "text": "The current size decides which end to take from, so the program alternates between the front and the back as the deque shrinks."
+    },
+    {
+      "code": "                Song playing = songQueue.pollFirst();",
+      "text": "pollFirst removes and returns the head song; poll methods return null on an empty deque instead of throwing an exception."
+    },
+    {
+      "code": "                Song playing = songQueue.pollLast();",
+      "text": "pollLast removes and returns the tail song, which is how you drain a playlist from the back."
+    },
+    {
+      "code": "        System.out.println(\"\\nDeque after processing all songs: \" + songQueue);",
+      "text": "Printing the deque at the end confirms every song was consumed, so the output is an empty pair of brackets."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    },
+    {
+      "path": "ArrayDeque.java",
+      "content": "import java.util.Collection;\n\n// The printed listing uses ArrayDeque without importing java.util.ArrayDeque.\n// This tiny stand-in lets the page compile exactly as written; in your own\n// programs simply add \"import java.util.ArrayDeque;\" and delete this file.\npublic class ArrayDeque<E> extends java.util.ArrayDeque<E> {\n    public ArrayDeque() {\n        super();\n    }\n\n    public ArrayDeque(int numElements) {\n        super(numElements);\n    }\n\n    public ArrayDeque(Collection<? extends E> c) {\n        super(c);\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

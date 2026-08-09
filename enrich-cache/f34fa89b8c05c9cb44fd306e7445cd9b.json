@@ -1,0 +1,32 @@
+{
+  "summary": "This program stores a herd of goats as a list of dictionaries, then uses filter with a lambda to pick out only the goats whose calm level is 7 or higher, and prints them.",
+  "lines": [
+    {
+      "code": "goats = [",
+      "text": "Opens a list literal that spans several lines, which is allowed in Python because the brackets keep the expression open."
+    },
+    {
+      "code": "    {\"name\": \"Billy\", \"calm_level\": 8},",
+      "text": "Each goat is a dictionary with a name and a numeric calm level, so related facts about one animal stay bundled together."
+    },
+    {
+      "code": "calm_goats = list(filter(lambda goat: goat[\"calm_level\"] >= 7, goats))",
+      "text": "filter walks the list and keeps only the items for which the lambda returns True; wrapping it in list() turns the lazy filter object into a real list you can loop over more than once."
+    },
+    {
+      "code": "print(\"\\nCalmest goats (calm level >= 7):\")",
+      "text": "The \\n at the start prints a blank line first, which separates the heading from anything above it in the terminal."
+    },
+    {
+      "code": "for goat in calm_goats:",
+      "text": "Loops over the filtered results rather than the original herd, so only the calm goats are reported."
+    },
+    {
+      "code": "    print(f\"  {goat['name']} (calm level: {goat['calm_level']})\")",
+      "text": "Inside an f-string that uses double quotes, the dictionary keys are written with single quotes so the quoting does not collide."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

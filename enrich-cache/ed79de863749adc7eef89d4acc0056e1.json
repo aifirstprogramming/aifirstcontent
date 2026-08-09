@@ -1,0 +1,32 @@
+{
+  "summary": "This program stores a car's attributes in a single tuple and then reads values back out by their position. It shows that a tuple groups related values in a fixed order that cannot be changed after it is created.",
+  "lines": [
+    {
+      "code": "car = (",
+      "text": "The parentheses open a tuple, an ordered collection whose contents are locked once created. Spreading it over several lines keeps each attribute readable."
+    },
+    {
+      "code": "    \"Toyota\",           # make",
+      "text": "The first value sits at index 0, so position alone tells you what this item means. The comment is the only label a tuple gives you, which is its main weakness compared with a dictionary."
+    },
+    {
+      "code": "    2022,               # year",
+      "text": "A tuple can mix types freely: strings, integers, and floats all live side by side here."
+    },
+    {
+      "code": "    28.5                # mpg",
+      "text": "The last item needs no trailing comma, and the closing parenthesis on the next line ends the tuple."
+    },
+    {
+      "code": "print(f\"{car[0]} {car[1]} ({car[2]})\")",
+      "text": "Square brackets pull out items by index, counting from zero, so car[0] is the make and car[2] is the year."
+    },
+    {
+      "code": "print(f\"Color: {car[5]}, Type: {car[3]}, Fuel: {car[7]}\")",
+      "text": "Indexes can be used in any order, but you have to remember which number holds which attribute — the reason a real program would prefer named fields."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

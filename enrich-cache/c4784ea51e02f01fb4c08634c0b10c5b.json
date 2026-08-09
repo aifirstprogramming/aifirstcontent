@@ -1,0 +1,51 @@
+{
+  "summary": "This program adds two numeric stream calculations to the farmers' market app: one that adds up the price of every product, and one that averages the price of only the organic products. Both work by turning the stream of products into a stream of plain double numbers with mapToDouble, which unlocks math operations like sum() and average().",
+  "lines": [
+    {
+      "code": "        // products variable and add items",
+      "text": "This stands in for the list of MarketProduct objects built in the earlier exercises; the book omits it here so the new stream code stays in focus."
+    },
+    {
+      "code": "        double totalSum = getTotalPriceSum(products);",
+      "text": "Calls the helper below and stores the single number it returns, keeping the calculation separate from the printing."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal inventory value: $\" + String.format(\"%.2f\", totalSum));",
+      "text": "String.format with \"%.2f\" rounds the double to two decimal places, so a money value prints as 24.50 rather than 24.499999999999996."
+    },
+    {
+      "code": "    public static double getTotalPriceSum(List<MarketProduct> products) {",
+      "text": "The method returns a double because the answer is a single total, not a list; each stream question gets its own small, testable method."
+    },
+    {
+      "code": "                .mapToDouble(MarketProduct::getPrice)",
+      "text": "Converts the stream of products into a DoubleStream of prices, which is the stream type that offers arithmetic methods."
+    },
+    {
+      "code": "                .sum();",
+      "text": "Adds every price in the DoubleStream and returns the total; an empty list simply yields 0.0."
+    },
+    {
+      "code": "                .filter(MarketProduct::isOrganic)",
+      "text": "Keeps only the products whose isOrganic method returns true, so the average that follows is computed on organic items alone."
+    },
+    {
+      "code": "                .average()",
+      "text": "Returns an OptionalDouble rather than a double, because a stream with no elements has no average to report."
+    },
+    {
+      "code": "                .orElse(0.0);",
+      "text": "Unwraps the OptionalDouble, supplying 0.0 when no organic products were found so the caller never has to handle an empty result."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

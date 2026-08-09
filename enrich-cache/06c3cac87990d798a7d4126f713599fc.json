@@ -1,0 +1,48 @@
+{
+  "summary": "This is a domain class that models a single house, storing its address, the number of bedrooms, and the number of bathrooms. It keeps that data private and exposes it through getter and setter methods, which is the standard way Java objects protect their own state.",
+  "lines": [
+    {
+      "code": "public class House {",
+      "text": "The class name matches the real-world thing being modelled, so this file must be saved as House.java for the compiler to accept it."
+    },
+    {
+      "code": "    private String address;",
+      "text": "The address is text, so String is the right type; `private` means no code outside this class can touch the field directly."
+    },
+    {
+      "code": "    private int bedrooms;",
+      "text": "Bedrooms are always counted in whole numbers, so `int` is the natural choice."
+    },
+    {
+      "code": "    private double bathrooms;",
+      "text": "Bathrooms use `double` because half baths are real: a house can have 2.5 bathrooms, which an int could not express."
+    },
+    {
+      "code": "    public House(String address, int bedrooms, double bathrooms) {",
+      "text": "The constructor runs when someone writes `new House(...)`, and by demanding all three values it guarantees no House is ever created only half-filled-in."
+    },
+    {
+      "code": "        this.address = address;",
+      "text": "The parameter and the field share the name `address`, so `this.` is needed to say \"the field belonging to this object\" rather than the parameter."
+    },
+    {
+      "code": "    public String getAddress() {",
+      "text": "A getter hands out the stored value without giving away control of the field itself, which is the whole point of keeping the field private."
+    },
+    {
+      "code": "    public void setAddress(String address) {",
+      "text": "A setter is the single doorway through which the address can be changed, so later you can add validation here and every caller gets it for free."
+    },
+    {
+      "code": "    public int getBedrooms() {",
+      "text": "The getter's return type must match the field it reports on, so this one returns an int."
+    },
+    {
+      "code": "    public double getBathrooms() {",
+      "text": "This returns a double so that fractional bathroom counts survive the trip out of the object."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

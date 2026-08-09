@@ -1,0 +1,41 @@
+{
+  "summary": "This program asks for a temperature in Celsius, converts it to Fahrenheit, and prints the result. It wraps the work in a try-catch so that typing something that is not a number produces a friendly message instead of a crash.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius: \");",
+      "text": "Using print instead of println leaves the cursor on the same line, so the reader types their answer right after the prompt."
+    },
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "This is a try-with-resources statement: the Scanner is created here and Java closes it automatically when the block ends, whether it finishes normally or fails."
+    },
+    {
+      "code": "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
+      "text": "The typed line is read as text, trim removes stray spaces, and Double.parseDouble turns it into a number. This is the line that throws NumberFormatException when the text is not numeric."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "The conversion itself lives in its own function, so main stays focused on talking to the user."
+    },
+    {
+      "code": "        } catch (NumberFormatException e) {",
+      "text": "This catch handles the one problem we can predict exactly, so the reader gets advice about entering a number rather than a generic apology."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "A broader safety net for anything else that might go wrong. Order matters: the specific NumberFormatException must be listed before the general Exception, or it would never be reached."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "A static helper function, so main can call it without creating an object of this class."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Multiplying by 9 before dividing by 5 keeps the arithmetic in double precision, giving the correct answer for fractional temperatures."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "warm\n",
+  "expectsUncaughtException": false
+}

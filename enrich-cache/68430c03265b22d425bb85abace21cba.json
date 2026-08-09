@@ -1,0 +1,45 @@
+{
+  "summary": "This program demonstrates Java's four access levels for methods — public, protected, package-private, and private — by comparing each one to a way of sharing a message with people. All four are called from main inside the same class, which is the one place where every level is visible.",
+  "lines": [
+    {
+      "code": "        ShareMessageModifiers demo = new ShareMessageModifiers();",
+      "text": "The four sharing methods belong to an instance rather than the class itself, so main creates one object to call them on."
+    },
+    {
+      "code": "        demo.shareWithEveryone();",
+      "text": "A public method can be called from any class in any package, so this call would work from anywhere."
+    },
+    {
+      "code": "        demo.shareWithFamily();",
+      "text": "A protected method is reachable here because main sits inside the same class; from outside, only the same package or a subclass could call it."
+    },
+    {
+      "code": "        demo.shareWithNeighbors();",
+      "text": "With no modifier at all, the method is package-private, so a class in a different package could not reach it."
+    },
+    {
+      "code": "        demo.keepToSelf();",
+      "text": "A private method can only be called from within its own class, which is exactly where this call lives."
+    },
+    {
+      "code": "    public void shareWithEveryone() {",
+      "text": "public is the widest access level, placing no restriction on who may call the method."
+    },
+    {
+      "code": "    protected void shareWithFamily() {",
+      "text": "protected widens package-private access by also letting subclasses in other packages call the method."
+    },
+    {
+      "code": "    void shareWithNeighbors() {",
+      "text": "Leaving the modifier off is a deliberate choice called package-private: the method is visible only to classes in the same package."
+    },
+    {
+      "code": "    private void keepToSelf() {",
+      "text": "private is the narrowest level and is the default choice for helper methods you do not want other classes depending on."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

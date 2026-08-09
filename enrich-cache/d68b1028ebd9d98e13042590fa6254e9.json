@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores the number of feet each of three animals has, adds them together, and prints each count along with the total.",
+  "lines": [
+    {
+      "code": "penguin_feet = 2",
+      "text": "A variable name that says what the number means keeps the arithmetic below readable; a bare 2 would tell you nothing."
+    },
+    {
+      "code": "total_feet = penguin_feet + panda_feet + hippo_feet",
+      "text": "Adding the variables rather than the literal numbers means the total stays correct if you change any animal's count above."
+    },
+    {
+      "code": "print(f\"Penguin feet: {penguin_feet}\")",
+      "text": "The f before the quotes marks this as an f-string, so Python replaces {penguin_feet} with the variable's value instead of printing the name."
+    },
+    {
+      "code": "print(f\"Total feet: {total_feet}\")",
+      "text": "Printing the sum last gives the reader the individual counts first, so they can check the arithmetic themselves."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

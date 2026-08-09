@@ -1,0 +1,40 @@
+{
+  "summary": "This program asks the user to type a name and then greets them with it. The Scanner class is brought in with an import statement at the top of the file, so the class can be referred to by its short name inside the code.",
+  "lines": [
+    {
+      "code": "import java.util.Scanner;",
+      "text": "This tells the compiler where to find Scanner, which lives in the java.util package. With the import in place you can write Scanner everywhere below instead of the full name java.util.Scanner."
+    },
+    {
+      "code": "public class WelcomeNameInput {",
+      "text": "Every Java program lives inside a class, and the file must be named WelcomeNameInput.java to match this name."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the method Java runs first when the program starts."
+    },
+    {
+      "code": "        Scanner scanner = new Scanner(System.in);",
+      "text": "This creates a Scanner attached to System.in, the keyboard, so the program can read what the user types."
+    },
+    {
+      "code": "        System.out.print(\"Enter your name: \");",
+      "text": "print is used rather than println so the cursor stays on the same line and the user types directly after the prompt."
+    },
+    {
+      "code": "        String name = scanner.nextLine();",
+      "text": "nextLine reads everything the user typed up to the Enter key and stores it in the variable name, so a full name with a space is kept intact."
+    },
+    {
+      "code": "        System.out.println(\"Welcome \" + name);",
+      "text": "The + operator joins the fixed greeting to the text the user entered, producing a single line of output."
+    },
+    {
+      "code": "        scanner.close();",
+      "text": "Closing the Scanner releases the input resource, a good habit once you are finished reading."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "Ada Lovelace\n"
+}

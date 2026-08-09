@@ -1,0 +1,44 @@
+{
+  "summary": "This program brews coffee by calling a method with a coffee type and a number of shots, and it validates those arguments before doing any work. The second call deliberately passes 0 shots so the method throws an IllegalArgumentException, which ends the program with an error message and stack trace.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "A valid call that passes both checks, so the full brewing output appears before anything goes wrong."
+    },
+    {
+      "code": "        makeCoffee(\"Latte\", 0);",
+      "text": "This call is the point of the exercise: 0 shots is invalid, so the method throws instead of returning, and the program stops here."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "The method takes the two pieces of information it needs as parameters, so the caller decides what to brew."
+    },
+    {
+      "code": "        if (type == null || type.isBlank()) {",
+      "text": "Guards against a missing name: null means no String object at all, while isBlank catches empty or whitespace-only text."
+    },
+    {
+      "code": "            throw new IllegalArgumentException(\"Coffee type must not be null or blank.\");",
+      "text": "Throwing immediately abandons the rest of the method; IllegalArgumentException is Java's standard way to signal that a caller passed an unusable value."
+    },
+    {
+      "code": "        if (shots < 1) {",
+      "text": "The second validation check, which rejects zero and negative shot counts before any brewing happens."
+    },
+    {
+      "code": "            throw new IllegalArgumentException(\"Shots must be at least 1.\");",
+      "text": "This is the error the Latte call triggers, and the message explains what a correct value would look like."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "Because validation is complete, the rest of the method can trust that shots is at least 1 and compute freely."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "Storing the comparison in a named boolean makes the following if statement read like a sentence."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

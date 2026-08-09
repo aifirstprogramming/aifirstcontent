@@ -1,0 +1,55 @@
+{
+  "summary": "GiftCookie is a subclass of Cookie that adds gift-wrapping behavior: it reuses everything a Cookie already knows (like its flavor) and layers on small private steps for boxing, tying a ribbon, and attaching a note.",
+  "lines": [
+    {
+      "code": "public class GiftCookie extends Cookie {",
+      "text": "The extends keyword makes GiftCookie a kind of Cookie, so it inherits Cookie's fields and methods and only has to describe what is different about a gift cookie."
+    },
+    {
+      "code": "    public GiftCookie(String flavor) {",
+      "text": "A subclass does not inherit constructors, so GiftCookie declares its own that accepts the flavor a caller wants."
+    },
+    {
+      "code": "        super(flavor);",
+      "text": "This hands the flavor up to the Cookie constructor so the inherited part of the object is initialized before anything else happens."
+    },
+    {
+      "code": "    public String packageCookie(String giftNote) {",
+      "text": "This is the one public entry point for wrapping a cookie; callers use it and never need to know how many steps are involved."
+    },
+    {
+      "code": "        packageInBox();",
+      "text": "Calling a helper method by name keeps this method readable as a list of steps rather than a wall of printing code."
+    },
+    {
+      "code": "        addGiftNote(giftNote);",
+      "text": "The note the caller supplied is passed along to the helper that actually attaches it."
+    },
+    {
+      "code": "        return \"Gift cookie packaged!\";",
+      "text": "Returning a confirmation string lets the calling program report success, instead of the class deciding how to announce it."
+    },
+    {
+      "code": "    private void packageInBox() {",
+      "text": "Marking the helper private hides it from the rest of the program, so packaging steps can only run in the correct order through packageCookie."
+    },
+    {
+      "code": "        System.out.println(\"Packaged \" + getFlavor() + \" cookie in a box.\");",
+      "text": "getFlavor() is inherited from Cookie, which shows how a subclass reads the parent's data through the parent's own method."
+    },
+    {
+      "code": "        System.out.println(\"Added gift note: \\\"\" + note + \"\\\".\");",
+      "text": "The backslash before each quotation mark is an escape sequence that puts a literal double quote in the output, wrapping the note in quotes."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "",
+      "fromExercise": "java-5-07"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -91,6 +91,14 @@ const CODEY = /[{};=<>[\]]|^\s*(#|\/\/|import |from |public |def |class |print\(
 const OUTPUT_CAPTION =
   /\b(output|printed|prints|printout|result(?:s|ing)? (?:of|from)|console|terminal|displayed)\b/i;
 
+/**
+ * Config listings are book content but not exercises.
+ *
+ * Chapter 6 shows a pom.xml `<dependencies>` block. Mining it as Java produced a
+ * file that cannot compile, and no scaffold can fix that -- it is XML.
+ */
+const CONFIG_BODY = /^\s*<[a-zA-Z?!]/;
+
 /** Styles a listing body can use. The Python manuscripts are inconsistent here. */
 const BODY_STYLES = new Set(["Code", "BodyTextFirst", "BodyTextCont"]);
 /**
@@ -276,6 +284,22 @@ export function mineJava(paras: Paragraph[], cfg: BookConfig, fileChapter: numbe
     while (k < paras.length && paras[k].style === "Code") body.push(paras[k++].text);
     const caption = k < paras.length && paras[k].style === "CodeCaption" ? paras[k].text : null;
     const response = body.join("\n").replace(/\s+$/, "");
+    // A listing captioned as output is the program's transcript, not its code. The
+    // Python side already skipped these; Java anchors on the prompt label and so had
+    // no caption check at all, which is how java-7-01 stored its own output.
+    if (caption && OUTPUT_CAPTION.test(caption)) {
+      i = k;
+      continue;
+    }
+    // A pom.xml fragment is instructional but not an exercise; mined as Java it
+    // could never compile, and no scaffold can make XML into a program.
+    //
+    // This loop advances `i` by hand, so skipping must step past the listing too. A
+    // bare `continue` here spins on the same paragraph forever -- it hung the scraper.
+    if (CONFIG_BODY.test(response)) {
+      i = k;
+      continue;
+    }
     const parsed = caption ? parseCaption(caption) : null;
 
     found.push({
@@ -311,8 +335,14 @@ export function minePython(paras: Paragraph[], cfg: BookConfig, fileChapter: num
     if (k >= paras.length || !BODY_STYLES.has(paras[k].style)) continue;
     const bodyStyle = paras[k].style;
     const body: string[] = [];
-    while (k < paras.length && paras[k].style === bodyStyle) body.push(paras[k++].text);
+    // Stop at prose. A prompt is Code-styled and so is the commentary that follows a
+    // listing, so "the next run of one style" swallowed a whole paragraph of text into
+    // py-4-01's code and made it unrunnable.
+    while (k < paras.length && paras[k].style === bodyStyle && !isProse(paras[k].text)) {
+      body.push(paras[k++].text);
+    }
     const listing = body.join("\n").replace(/\s+$/, "");
+    if (CONFIG_BODY.test(listing)) continue;
     if (!listing.trim()) continue;
 
     // Walk back for the prompt, not crossing into the previous listing.

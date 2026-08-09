@@ -1,0 +1,56 @@
+{
+  "summary": "This program defines a RobotPet class that can decide whether a pet has enough battery for a walk of a given length, then checks that decision with two assert statements. If both checks hold, the program prints a success message; if either fails, Python stops and shows the message you supplied.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "This begins the blueprint for a robot pet, so every pet created from it shares the same attributes and behaviour."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The __init__ method runs automatically whenever a new pet is created, and it receives the values that make each pet different."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Storing the battery level on the object is what later lets can_walk compare available energy against the energy a walk demands."
+    },
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "This method answers a single yes-or-no question about the pet, which is exactly the kind of small, predictable behaviour that is easy to test."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "A docstring records what the method promises, including the unit of the duration, so a reader never has to guess whether it means minutes or hours."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "The rule of the program is that every minute of walking costs two units of battery; naming the result makes the next line read clearly."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The comparison itself evaluates to True or False, so the method hands that value straight back to the caller."
+    },
+    {
+      "code": "rover = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Rover starts with 85 battery, which is deliberately more than the 60 a thirty-minute walk costs."
+    },
+    {
+      "code": "beep = RobotPet(\"Beep\", 45, \"tired\")",
+      "text": "Beep starts with only 45 battery, giving us a pet that should fail the same walk and so exercises the other branch of the comparison."
+    },
+    {
+      "code": "assert rover.can_walk(30) == True, \"Rover should be able to walk for 30 minutes\"",
+      "text": "An assert says \"this must be true\"; if the expression is false, Python raises an AssertionError and shows the text after the comma."
+    },
+    {
+      "code": "assert beep.can_walk(30) == False, \"Beep should not be able to walk for 30 minutes\"",
+      "text": "Testing the negative case matters just as much, because a method that always returned True would pass the first test alone."
+    },
+    {
+      "code": "print(\"All tests passed!\")",
+      "text": "This line is only reached when every assert above has held, so seeing it printed is your confirmation that the tests succeeded."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

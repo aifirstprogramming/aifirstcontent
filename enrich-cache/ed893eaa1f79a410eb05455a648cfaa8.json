@@ -1,0 +1,53 @@
+{
+  "summary": "This defines a Room class: a simple blueprint for one room in a house, holding its name, length, and width. It follows the standard Java pattern of private fields with public getters and setters, plus a toString method so a room can be printed.",
+  "lines": [
+    {
+      "code": "public class Room {",
+      "text": "The class is the blueprint; each Room object created from it represents one real room, such as a kitchen or a bedroom."
+    },
+    {
+      "code": "    private String name;",
+      "text": "The room's name is stored as text, and marking it private means only code inside Room can touch it directly."
+    },
+    {
+      "code": "    private double length;",
+      "text": "Length is a double because room measurements are rarely whole numbers, so decimals like 12.5 must be allowed."
+    },
+    {
+      "code": "    public Room() {",
+      "text": "This no-argument constructor lets you create an empty Room first and fill in the values later with the setters."
+    },
+    {
+      "code": "    public Room(String name, double length, double width) {",
+      "text": "The second constructor takes all three values at once, so a fully described room can be built in a single statement."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name \"name\", so this.name makes it clear that the field of this object is being assigned."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "A getter gives outside code read access to a private field, which keeps the class in control of its own data."
+    },
+    {
+      "code": "    public void setName(String name) {",
+      "text": "A setter is the only way outside code can change the field, which is where validation rules could be added later."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from Object, so a typo in the method name becomes an error instead of a silent bug."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Every object inherits a toString from Object that prints something unreadable, so replacing it means printing a Room shows its actual field values."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'',",
+      "text": "The escaped \\' places single quotes around the name in the output, making it obvious that the name is text."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

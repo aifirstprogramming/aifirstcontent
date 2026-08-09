@@ -1,0 +1,21 @@
+{
+  "summary": "This program asks two questions at the keyboard and then combines both answers into one friendly sentence. It shows how several pieces of input can be gathered before anything is displayed.",
+  "lines": [
+    {
+      "code": "pet_type = input(\"What type of pet do you have? \")",
+      "text": "The text inside input() is the prompt shown to the reader, and whatever they type is stored in the variable pet_type. Note the space at the end of the prompt so the typed answer does not run into the question mark."
+    },
+    {
+      "code": "pet_name = input(\"What is your pet's name? \")",
+      "text": "A second input() call collects the pet's name. Because the prompt is wrapped in double quotes, the apostrophe in \"pet's\" is treated as an ordinary character rather than closing the string."
+    },
+    {
+      "code": "print(f\"You have a {pet_type} named {pet_name}.\")",
+      "text": "The f before the quotes makes this an f-string, so each name in braces is replaced by the value stored in that variable when the line runs."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "dog\nRex\n",
+  "expectsUncaughtException": false
+}

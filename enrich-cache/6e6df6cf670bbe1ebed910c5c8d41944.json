@@ -1,0 +1,32 @@
+{
+  "summary": "This program defines a function that makes Beepo the robot waiter announce its arrival at a given table, then calls that function three times with different table numbers.",
+  "lines": [
+    {
+      "code": "def beepo_greet(table_number):",
+      "text": "The `def` keyword defines a new function named `beepo_greet`. The name inside the parentheses is a parameter: a placeholder that stands for whatever table number is supplied when the function is called."
+    },
+    {
+      "code": "    \"\"\"Beepo the robot waiter greets at the specified table.\"\"\"",
+      "text": "A string on the first line of a function body is a docstring, the standard way to record in one sentence what the function does for anyone reading or using it later."
+    },
+    {
+      "code": "    print(f\"Beep boop! Rolling up to table {table_number}...\")",
+      "text": "The `f` before the quotes makes this an f-string, so `{table_number}` is replaced by the value the parameter holds rather than printed literally."
+    },
+    {
+      "code": "    print(f\"Welcome to table {table_number}! How can I assist you today?\")",
+      "text": "Both print statements are indented, which is how Python knows they belong to the function and should run only when it is called."
+    },
+    {
+      "code": "beepo_greet(1)",
+      "text": "Calling the function with the value 1 runs its body with `table_number` set to 1. This is the payoff of a function: one definition, reused as often as you like."
+    },
+    {
+      "code": "beepo_greet(12)",
+      "text": "A third call with a different argument produces different output from exactly the same code, which is why functions save you from copying and pasting print statements."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

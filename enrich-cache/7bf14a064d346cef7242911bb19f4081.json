@@ -1,0 +1,44 @@
+{
+  "summary": "This program starts with a birthday party shopping list and then changes, adds, and removes items before printing the final list. It shows the four everyday list operations: replacing by index, appending, removing by value, and reading items back out.",
+  "lines": [
+    {
+      "code": "shopping_list = [\"cake\", \"balloons\", \"decorations\", \"drinks\", \"snacks\", \"plates\", \"napkins\"]",
+      "text": "A list holds several values in one variable, in the order you wrote them. Square brackets create the list and commas separate the items."
+    },
+    {
+      "code": "shopping_list[4] = \"chouriço\"  # Replace snacks with Portuguese sausage",
+      "text": "Lists are mutable, so you can overwrite a single position. Counting starts at 0, which makes index 4 the fifth item, \"snacks\"."
+    },
+    {
+      "code": "shopping_list.append(\"pastéis de nata\")  # Portuguese custard tarts",
+      "text": "The append method adds one new item to the end of the list, growing it from seven items to eight."
+    },
+    {
+      "code": "shopping_list.remove(\"balloons\")  # Remove balloons",
+      "text": "Unlike indexing, remove searches for a matching value and deletes the first one it finds, so you do not need to know the position."
+    },
+    {
+      "code": "print(\"Alex's Birthday Party Shopping List:\")",
+      "text": "A heading printed before the loop makes the output readable rather than a bare column of words."
+    },
+    {
+      "code": "for item in shopping_list:",
+      "text": "A for loop visits each element in turn, storing it in the variable item so the body can work with one value at a time."
+    },
+    {
+      "code": "    print(\"-\", item)",
+      "text": "The indentation marks this line as the loop body, and passing two arguments to print puts a dash and a space in front of each item."
+    },
+    {
+      "code": "print(f\"\\nFirst item: {shopping_list[0]}\")",
+      "text": "Index 0 is always the first element. The \\n prints a blank line first, and the f prefix lets you drop an expression straight into the text inside braces."
+    },
+    {
+      "code": "print(f\"\\nLast item: {shopping_list[-1]}\")",
+      "text": "Negative indexes count backwards from the end, so -1 reliably gives the last item even after the list has changed size."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

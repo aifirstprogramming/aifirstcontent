@@ -1,0 +1,51 @@
+{
+  "summary": "This JUnit test class checks two behaviours of the Thermostat class: that a cold room in normal mode reports \"Heating\", and that in eco mode a slightly cool room of 66 degrees is left alone as \"Idle\" because eco mode tolerates cooler temperatures before it turns the heat on.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "Brings in the @Test annotation from JUnit 5, which is how you mark a method as a test the test runner should execute."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), keeping the tests short and readable."
+    },
+    {
+      "code": "public class ThermostatTest {",
+      "text": "Test code lives in its own class, separate from Thermostat itself, so the production class stays free of test scaffolding."
+    },
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "Test method names describe the expected behaviour in words, so a failure report tells you what broke without you having to read the body."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(60, false);",
+      "text": "Sets up the scenario: a temperature of 60 with eco mode switched off."
+    },
+    {
+      "code": "        assertEquals(\"Heating\", thermostat.getStatus());",
+      "text": "Asserts that the status matches the expected value; the expected result comes first and the actual result second."
+    },
+    {
+      "code": "    void ecoModeAllowsCoolerTemperaturesBeforeHeating() {",
+      "text": "The new test added by the AI, covering the eco mode branch that the first test never touches."
+    },
+    {
+      "code": "        Thermostat thermostatEco = new Thermostat(66, true);",
+      "text": "Uses 66 degrees with eco mode on — a temperature that would trigger heating in normal mode but sits above the lower eco threshold."
+    },
+    {
+      "code": "        assertEquals(\"Idle\", thermostatEco.getStatus());",
+      "text": "Confirms eco mode holds off on heating at 66 degrees, which is exactly the difference the feature was meant to introduce."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-05"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

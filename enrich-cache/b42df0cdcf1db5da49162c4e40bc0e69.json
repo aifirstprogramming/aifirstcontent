@@ -1,0 +1,65 @@
+{
+  "summary": "This program builds a small list of farmers' market products, prints the whole inventory, and then uses a stream pipeline to pull out the names of organic summer items ordered from cheapest to most expensive.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "Comparator supplies the ready-made comparison objects that a stream's sorted step needs in order to know what \"in order\" means."
+    },
+    {
+      "code": "import java.util.stream.Collectors;",
+      "text": "Collectors holds the factory methods that turn a finished stream back into an ordinary collection, such as a List."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "The variable is declared with the List interface but created as an ArrayList, so the rest of the code depends only on general list behaviour."
+    },
+    {
+      "code": "        products.add(new MarketProduct(\"Heirloom Tomatoes\", \"Sunny Fields Farm\", 4.50, \"Produce\", \"Summer\", true));",
+      "text": "Each product is constructed with its name, vendor, price, category, season, and an organic flag, giving the stream several fields to filter and sort on."
+    },
+    {
+      "code": "        products.add(new MarketProduct(\"Wildflower Honey\", \"Bee Kind Apiary\", 12.00, \"Honey\", \"Late Summer\", true));",
+      "text": "The season here is \"Late Summer\" rather than \"Summer\", which is exactly why the filter later searches for the word inside the text instead of testing for equality."
+    },
+    {
+      "code": "        for (MarketProduct p : products) {",
+      "text": "An enhanced for loop walks the whole inventory so the reader can see the raw data before any stream filtering happens."
+    },
+    {
+      "code": "            System.out.println(\" - \" + p);",
+      "text": "Concatenating an object onto a string calls its toString method, so each product prints in whatever readable form MarketProduct defines."
+    },
+    {
+      "code": "        List<String> organicSummerNames = getOrganicSummerItemNamesSortedByPrice(products);",
+      "text": "The query is kept in its own method, so main stays about setting up data and reporting results."
+    },
+    {
+      "code": "        return products.stream()",
+      "text": "Calling stream turns the list into a pipeline of elements that the following steps can filter, sort, and transform without changing the original list."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "The lambda keeps only products that pass every test: organic, with a season that exists, and whose season text mentions summer in any capitalisation. The null check comes before the method call so a missing season cannot cause an exception."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "comparingDouble builds a comparator from the price getter, arranging the surviving products from lowest price to highest."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "The method reference replaces each MarketProduct in the pipeline with its name, so the stream changes from a stream of products to a stream of strings."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "The terminal operation gathers the results into a new List<String>, preserving the sorted order the pipeline produced."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "public class MarketProduct {\n    private String name;\n    private String vendor;\n    private double price;\n    private String category;\n    private String season;\n    private boolean organic;\n\n    public MarketProduct(String name, String vendor, double price,\n                         String category, String season, boolean organic) {\n        this.name = name;\n        this.vendor = vendor;\n        this.price = price;\n        this.category = category;\n        this.season = season;\n        this.organic = organic;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getVendor() {\n        return vendor;\n    }\n\n    public double getPrice() {\n        return price;\n    }\n\n    public String getCategory() {\n        return category;\n    }\n\n    public String getSeason() {\n        return season;\n    }\n\n    public boolean isOrganic() {\n        return organic;\n    }\n\n    @Override\n    public String toString() {\n        return name + \" (\" + vendor + \") $\" + String.format(\"%.2f\", price)\n                + \" [\" + category + \", \" + season\n                + (organic ? \", organic\" : \"\") + \"]\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

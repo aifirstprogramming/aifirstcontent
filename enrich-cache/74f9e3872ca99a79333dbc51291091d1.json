@@ -1,0 +1,24 @@
+{
+  "summary": "This program stores three pieces of winter clothing in a tuple, then uses tuple unpacking to give each item its own named variable before printing them.",
+  "lines": [
+    {
+      "code": "winter_gear = (\"Beanie\", \"Parka\", \"Boots\")",
+      "text": "A tuple groups related values together in a fixed order. The parentheses and commas create one value that holds all three items, and the order matters because it decides which name each item receives later."
+    },
+    {
+      "code": "hat, outerwear, shoes = winter_gear",
+      "text": "This is tuple unpacking: Python matches the three names on the left against the three items in the tuple, position by position, so hat becomes \"Beanie\", outerwear becomes \"Parka\", and shoes becomes \"Boots\". If the number of names did not match the number of items, Python would raise a ValueError."
+    },
+    {
+      "code": "print(f\"Sam's Winter Gear:\")",
+      "text": "A heading that labels the output. The f prefix is harmless here since there are no braces to fill in, but note that the double quotes let the apostrophe in Sam's sit inside the string without escaping it."
+    },
+    {
+      "code": "print(f\"Hat: {hat}\")",
+      "text": "In an f-string, anything inside braces is evaluated and its value dropped into the text, so {hat} becomes Beanie."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

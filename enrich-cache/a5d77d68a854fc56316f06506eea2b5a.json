@@ -1,0 +1,28 @@
+{
+  "summary": "This declares an interface named TemperatureSensor: a contract saying that any temperature sensor must be able to report a current temperature as a whole number. Tests can supply a fake sensor that satisfies this contract, so the thermostat code can be checked without real hardware.",
+  "lines": [
+    {
+      "code": "public interface TemperatureSensor {",
+      "text": "An interface lists what a type must be able to do without saying how it does it. Code that depends on TemperatureSensor works equally well with a real hardware sensor or a stand-in used during testing."
+    },
+    {
+      "code": "    int getCurrentTemperature();",
+      "text": "This is the single method every sensor must provide, declared with a semicolon instead of a body because the implementing class supplies the actual reading."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "TemperatureSensor.java",
+      "content": "",
+      "fromExercise": "java-6-13"
+    },
+    {
+      "path": "TemperatureSensorDemo.java",
+      "content": "public class TemperatureSensorDemo {\n\n    // A stand-in sensor. Real hardware would report a live reading here.\n    static class FakeSensor implements TemperatureSensor {\n        private final int[] readings = {68, 62, 55};\n        private int index = 0;\n\n        @Override\n        public int getCurrentTemperature() {\n            int reading = readings[index];\n            index = (index + 1) % readings.length;\n            return reading;\n        }\n    }\n\n    public static void main(String[] args) {\n        TemperatureSensor sensor = new FakeSensor();\n        for (int i = 0; i < 3; i++) {\n            System.out.println(\"Sensor reports: \" + sensor.getCurrentTemperature() + \"F\");\n        }\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "TemperatureSensorDemo.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,48 @@
+{
+  "summary": "This program uses an ArrayDeque as a double-ended queue to model a browser's history: pages are pushed onto the front as they are visited, going back removes from the front, and trimming old entries removes from the back.",
+  "lines": [
+    {
+      "code": "Import java.util.Deque;",
+      "text": "Java keywords are case-sensitive, so this must be a lowercase `import` before the file will compile; correct the capital `I` and the program runs as printed. The `Deque` interface is what declares the double-ended queue operations used below."
+    },
+    {
+      "code": "import java.util.ArrayDeque;",
+      "text": "`ArrayDeque` is the resizable-array implementation of `Deque`, and it is the recommended choice when you need fast additions and removals at both ends."
+    },
+    {
+      "code": "        Deque<String> history = new ArrayDeque<>();",
+      "text": "Declaring the variable as the `Deque` interface while creating an `ArrayDeque` keeps the code tied to the behaviour rather than the implementation, so the concrete class can be swapped later."
+    },
+    {
+      "code": "        history.addFirst(\"https://example.com/home\");",
+      "text": "`addFirst` pushes a URL onto the front of the deque, which mirrors a browser where the newest page sits at the top of the stack of visited pages."
+    },
+    {
+      "code": "        history.addFirst(\"https://example.com/blog\");",
+      "text": "Because each page was added to the front, this last URL is now the current page and \"home\" has been pushed all the way to the back."
+    },
+    {
+      "code": "        history.forEach(System.out::println);",
+      "text": "`forEach` walks the deque from front to back, and the method reference `System.out::println` is shorthand for a lambda that prints each element."
+    },
+    {
+      "code": "        String lastVisited = history.pollFirst();",
+      "text": "`pollFirst` removes and returns the front element, which is exactly what pressing Back does to the current page. Unlike `removeFirst`, it returns `null` on an empty deque instead of throwing an exception."
+    },
+    {
+      "code": "        System.out.println(\"\\nGo back: remove current page (front): \" + lastVisited);",
+      "text": "The `\\n` escape sequence inserts a blank line before the text, separating the sections of output visually."
+    },
+    {
+      "code": "        String oldest1 = history.pollLast();",
+      "text": "`pollLast` removes from the opposite end, discarding the oldest visited page the way a browser caps how much history it keeps."
+    },
+    {
+      "code": "        String oldest2 = history.pollLast();",
+      "text": "Calling `pollLast` a second time trims the next-oldest entry, leaving only the two most recent pages in the deque."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

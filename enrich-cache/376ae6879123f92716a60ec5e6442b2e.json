@@ -1,0 +1,28 @@
+{
+  "summary": "This program builds a dictionary that stores the prices of three items in a fantasy shop. A dictionary pairs each key (the item name) with a value (its price), so you can look up a price by name instead of remembering a position in a list.",
+  "lines": [
+    {
+      "code": "shop = {",
+      "text": "The curly brace opens a dictionary literal, and the name `shop` will refer to the finished collection. Spreading the entries over several lines is legal Python and keeps a price list readable."
+    },
+    {
+      "code": "    \"sword\": 150,",
+      "text": "This is one key-value pair: the string \"sword\" is the key you look up, and 150 is the price stored under it. The colon separates the two, and the comma marks the end of the entry."
+    },
+    {
+      "code": "    \"spell\": 75,",
+      "text": "A second pair, added in the same shape. Keys inside one dictionary must be unique, so each item name can appear only once."
+    },
+    {
+      "code": "    \"potion\": 25",
+      "text": "The final entry needs no trailing comma, though Python allows one if you like to add items later."
+    },
+    {
+      "code": "}",
+      "text": "The closing brace completes the dictionary. From here on, `shop[\"potion\"]` gives back 25, and `shop[\"sword\"] = 200` would change the sword's price."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

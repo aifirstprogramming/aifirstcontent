@@ -1,0 +1,39 @@
+{
+  "summary": "This short program creates three Room objects using the Room class's no-argument constructor and prints each one. It shows that every `new` gives you a separate object, and that printing an object calls its toString() method.",
+  "lines": [
+    {
+      "code": "public class RoomDesign {",
+      "text": "A separate application class whose only job is to exercise the Room domain class; keeping the data class and the program that uses it apart is normal Java practice."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "The entry point the Java launcher calls when you run RoomDesign."
+    },
+    {
+      "code": "        Room room1 = new Room();",
+      "text": "Calls Room's no-argument constructor, which builds a room with its default field values, and stores a reference to that new object in room1."
+    },
+    {
+      "code": "        Room room2 = new Room();",
+      "text": "A second, completely independent Room object; changing one room later would not affect the other."
+    },
+    {
+      "code": "        System.out.println(\"Created rooms:\");",
+      "text": "A simple heading so the output that follows is easy to read."
+    },
+    {
+      "code": "        System.out.println(room1);",
+      "text": "Passing an object to println invokes its toString() method, so what you see here is whatever description the Room class defines."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Room.java",
+      "content": "",
+      "fromExercise": "java-5-04"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

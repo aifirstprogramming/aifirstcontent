@@ -1,0 +1,29 @@
+{
+  "summary": "This program asks the user to type their name, reads what they type, and greets them by name. It is the first program in the chapter that reacts to input instead of using a value fixed in the code.",
+  "lines": [
+    {
+      "code": "        java.util.Scanner scanner = new java.util.Scanner(System.in);",
+      "text": "A Scanner is the tool Java uses to read what someone types. Here it is created with the fully qualified name java.util.Scanner because no import statement has been added yet, and System.in tells it to read from the keyboard."
+    },
+    {
+      "code": "        System.out.print(\"Enter your name: \");",
+      "text": "Using print instead of println leaves the cursor on the same line, so the person types their answer right after the prompt."
+    },
+    {
+      "code": "        String name = scanner.nextLine();",
+      "text": "nextLine reads everything the user types up to the Enter key and stores it in the String variable name, so full names with spaces are kept intact."
+    },
+    {
+      "code": "        System.out.println(\"Welcome \" + name);",
+      "text": "The plus sign joins the fixed text to the value held in name, producing a greeting that changes with every run."
+    },
+    {
+      "code": "        scanner.close();",
+      "text": "Closing the Scanner releases the resource it was holding; it is good habit to close what you open once you are done reading."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "Ada Lovelace\n",
+  "expectsUncaughtException": false
+}

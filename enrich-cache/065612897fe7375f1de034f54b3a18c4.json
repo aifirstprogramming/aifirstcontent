@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores an item name and its price in variables, then builds one sentence out of them and prints it. It shows that a number must be converted to text before it can be joined to a string.",
+  "lines": [
+    {
+      "code": "item = \"book\"",
+      "text": "The name of the item is stored as a string, in quotes, so it can be dropped into the sentence later."
+    },
+    {
+      "code": "price = 19.99",
+      "text": "The price is a float, a number with a decimal point, which Python treats as a number rather than text."
+    },
+    {
+      "code": "print(\"The price of the \" + item + \" is $\" + str(price))",
+      "text": "The + operator joins strings end to end, a process called concatenation. Because price is a number, str(price) converts it to text first; without that conversion Python would refuse to add a number to a string. Note the spaces inside the quotes, which keep the words from running together."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

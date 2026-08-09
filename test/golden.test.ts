@@ -63,8 +63,8 @@ describe("content inventory", () => {
       content.books.map((b) => [b.id, b.sections.flatMap((s) => s.chapters).flatMap((c) => c.examples).length]),
     );
     expect(byBook).toEqual({
-      "ai-first-java-programming": 16,
-      "ai-first-python-programming": 14,
+      "ai-first-java-programming": 86,
+      "ai-first-python-programming": 51,
     });
   });
 });

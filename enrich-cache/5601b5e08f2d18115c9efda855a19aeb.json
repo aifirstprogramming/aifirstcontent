@@ -1,0 +1,49 @@
+{
+  "summary": "This program prints a numbered menu of three pizzas, reads the number the user types, and confirms the matching order (or reports an invalid choice). It combines an array, a for loop, and an if/else check on one small task.",
+  "lines": [
+    {
+      "code": "        String[] pizzas = {\"Margherita\", \"Pepperoni\", \"Veggie\"};",
+      "text": "An array holds the three menu items in one named place, so the menu can be printed and looked up without repeating the names."
+    },
+    {
+      "code": "        for (int i = 0; i < pizzas.length; i++) {",
+      "text": "The loop counts from 0 up to one less than the array's length, which is exactly the range of valid array positions."
+    },
+    {
+      "code": "            System.out.println((i + 1) + \". \" + pizzas[i]);",
+      "text": "Arrays start at position 0, but people count from 1, so the displayed number is the index plus one."
+    },
+    {
+      "code": "        System.out.print(\"Enter 1-\" + pizzas.length + \": \");",
+      "text": "Using print instead of println leaves the cursor on the same line, so the user types their answer next to the prompt."
+    },
+    {
+      "code": "        java.util.Scanner scanner = new java.util.Scanner(System.in);",
+      "text": "A Scanner wrapped around System.in reads what the user types at the keyboard. Writing the full java.util.Scanner name avoids needing an import line."
+    },
+    {
+      "code": "        int choice = scanner.hasNextInt() ? scanner.nextInt() : -1;",
+      "text": "hasNextInt checks that the next thing typed really is a whole number before reading it; if not, choice becomes -1, which will fail the range test below instead of crashing."
+    },
+    {
+      "code": "        if (choice >= 1 && choice <= pizzas.length) {",
+      "text": "Both halves of the && must be true for the choice to be a real menu number, which guards against reading outside the array."
+    },
+    {
+      "code": "            String selected = pizzas[choice - 1];",
+      "text": "Subtracting one converts the user's 1-based menu number back into the matching array index."
+    },
+    {
+      "code": "            System.out.println(\"Invalid selection. No order placed.\");",
+      "text": "Every input that is not a valid menu number lands here, so the program always tells the user what happened."
+    },
+    {
+      "code": "        scanner.close();",
+      "text": "Closing the Scanner releases the input resource it was holding, a habit worth forming early."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "2\n",
+  "expectsUncaughtException": false
+}

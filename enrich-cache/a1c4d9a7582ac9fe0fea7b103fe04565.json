@@ -1,0 +1,57 @@
+{
+  "summary": "MarketProduct is a small, immutable data class that describes one item for sale at a farmers' market: its name, vendor, price, category, season, and whether it is organic. Later exercises in this chapter feed lists of these objects into streams for filtering, mapping, and grouping.",
+  "lines": [
+    {
+      "code": "public class MarketProduct {",
+      "text": "This class exists only to hold data about one product, so it has no main method; it is compiled and then used by other classes."
+    },
+    {
+      "code": "    private final String name;",
+      "text": "The field is private so outside code cannot touch it directly, and final so it can never change after the object is built."
+    },
+    {
+      "code": "    private final double price;",
+      "text": "A price needs a decimal number, and double provides one. Production money code usually prefers BigDecimal, but double keeps the stream examples uncluttered."
+    },
+    {
+      "code": "    private final boolean organic;",
+      "text": "A boolean is the right type for a yes-or-no fact, and it makes later filters such as \"organic only\" read naturally."
+    },
+    {
+      "code": "    public MarketProduct(String name, String vendor, double price, String category, String season, boolean organic) {",
+      "text": "The constructor takes every field as a parameter, so a MarketProduct is fully described the moment it is created."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share a name, so this.name makes clear that the field is the target of the assignment."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "A getter is the only way to read a private field from outside the class. Because the fields are final, there are no setters, which makes the object immutable."
+    },
+    {
+      "code": "    public boolean isOrganic() {",
+      "text": "By Java convention, a getter for a boolean is named with the prefix is rather than get, which is why this method is isOrganic instead of getOrganic."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler that the method below is meant to replace one inherited from Object, so a typo in the signature becomes a compile error instead of a silent bug."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Without this method, printing a product would show a meaningless class name and hash code. Overriding it gives readable output whenever the object is printed or logged."
+    },
+    {
+      "code": "        return \"MarketProduct{\" +",
+      "text": "The value is assembled by joining string pieces with +, and the single quotes around the text fields make it obvious where each value starts and ends."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "FarmersMarketApp.java",
+      "content": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class FarmersMarketApp {\n    public static void main(String[] args) {\n        List<MarketProduct> products = new ArrayList<>();\n        products.add(new MarketProduct(\"Heirloom Tomatoes\", \"Sunny Acres\", 4.50, \"Vegetables\", \"Summer\", true));\n        products.add(new MarketProduct(\"Sweet Corn\", \"Riverbend Farm\", 3.25, \"Vegetables\", \"Summer\", false));\n        products.add(new MarketProduct(\"Honeycrisp Apples\", \"Hilltop Orchard\", 5.00, \"Fruit\", \"Fall\", true));\n        products.add(new MarketProduct(\"Goat Cheese\", \"Clover Dairy\", 8.75, \"Dairy\", \"Year-round\", false));\n        products.add(new MarketProduct(\"Wildflower Honey\", \"Beeline Apiary\", 12.00, \"Pantry\", \"Year-round\", true));\n\n        System.out.println(\"All products at the market:\");\n        for (MarketProduct product : products) {\n            System.out.println(\"  \" + product);\n        }\n\n        System.out.println(\"\\nOrganic products only:\");\n        for (MarketProduct product : products) {\n            if (product.isOrganic()) {\n                System.out.println(\"  \" + product.getName() + \" from \" + product.getVendor());\n            }\n        }\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "FarmersMarketApp.java",
+  "stdin": ""
+}

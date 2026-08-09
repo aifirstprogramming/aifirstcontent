@@ -1,0 +1,40 @@
+{
+  "summary": "This program asks you to type a Celsius temperature, converts it to Fahrenheit, and prints the result. If what you type is not a number, a try-catch block catches the problem and prints a friendly message instead of crashing.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius: \");",
+      "text": "Using print rather than println leaves the cursor on the same line, so the reader types the value right after the prompt."
+    },
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "This is a try-with-resources block: the Scanner reads from the keyboard and is closed automatically when the block ends, however it ends."
+    },
+    {
+      "code": "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
+      "text": "The typed line arrives as text, so trim() removes stray spaces and Double.parseDouble turns it into a number. If the text is not a number, this line throws an exception."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "The conversion itself lives in its own method, keeping main focused on talking to the user."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "Anything that goes wrong inside the try block lands here. Catching Exception is the broadest, simplest form of error handling and is fine as a first step."
+    },
+    {
+      "code": "            System.out.println(\"Invalid input. Please enter a numeric temperature value.\");",
+      "text": "Instead of a stack trace, the user gets a plain explanation of what to do differently. This is the whole point of the catch block."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "A static method can be called straight from main without creating an object, and returning a double keeps the fractional part of the answer."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Because celsius is a double, celsius * 9 is also a double, so dividing by 5 gives real division rather than the integer division that would silently lose the decimals."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "abc\n"
+}

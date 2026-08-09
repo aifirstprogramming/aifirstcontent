@@ -39,9 +39,22 @@ export interface NewExample {
 }
 
 /** Key order kept stable so diffs stay readable and re-runs are byte-identical. */
-const EXAMPLE_KEYS = ["id", "title", "description", "kind", "status", "prompt", "prompts", "response", "stdin"];
+export const EXAMPLE_KEYS = [
+  "id",
+  "title",
+  "description",
+  "kind",
+  "status",
+  "prompt",
+  "prompts",
+  "response",
+  "stdin",
+  "expectsException",
+  "explanation",
+  "scaffold",
+];
 
-function reorder(obj: Record<string, unknown>): Record<string, unknown> {
+export function reorder(obj: Record<string, unknown>): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const k of EXAMPLE_KEYS) if (k in obj) out[k] = obj[k];
   for (const k of Object.keys(obj)) if (!(k in out)) out[k] = obj[k];

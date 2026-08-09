@@ -1,0 +1,48 @@
+{
+  "summary": "This program models a printer's waiting list using a Queue, adding four documents and then handing them off one at a time in the order they arrived. Before each job prints, it reports how many are still waiting and which one is next.",
+  "lines": [
+    {
+      "code": "import java.util.Queue;",
+      "text": "Queue is the interface that describes first-in, first-out behaviour, which is exactly how a real print queue works."
+    },
+    {
+      "code": "import java.util.LinkedList;",
+      "text": "Queue is only an interface, so you need a concrete class that implements it; LinkedList is the usual choice for a simple queue."
+    },
+    {
+      "code": "        Queue<String> printQueue = new LinkedList<>();",
+      "text": "The variable is declared as a Queue even though the object is a LinkedList, which limits you to queue-style operations and keeps the intent of the code clear."
+    },
+    {
+      "code": "        printQueue.offer(\"Report.pdf\");",
+      "text": "offer adds an element to the back of the queue; it is the queue's polite version of add and returns false instead of throwing an exception if the queue refuses the item."
+    },
+    {
+      "code": "        for (String job : printQueue) {",
+      "text": "A queue can still be looped over to inspect its contents, and this walks the jobs from front to back without removing any of them."
+    },
+    {
+      "code": "        int jobs = printQueue.size();",
+      "text": "The total is captured before any processing starts, because size() shrinks with every job removed and would no longer be the original count."
+    },
+    {
+      "code": "        System.out.println(\"\\nProcessing print jobs:\");",
+      "text": "The \\n escape sequence inserts a blank line before the heading, separating the two sections of output."
+    },
+    {
+      "code": "        while (!printQueue.isEmpty()) {",
+      "text": "The loop keeps going as long as jobs remain, and since each pass removes exactly one job, it is guaranteed to end."
+    },
+    {
+      "code": "            System.out.println(\"Ready to print: \" + printQueue.peek());",
+      "text": "peek looks at the element at the front of the queue without removing it, which is how you check what is next before committing to it."
+    },
+    {
+      "code": "            String processedJob = printQueue.poll();",
+      "text": "poll removes and returns the front element, so the job is taken off the queue and saved so it can be reported as printed."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

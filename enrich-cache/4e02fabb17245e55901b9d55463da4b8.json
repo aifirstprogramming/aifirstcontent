@@ -1,0 +1,37 @@
+{
+  "summary": "This version of the Thermostat class adds an \"eco mode\" flag. When eco mode is on, the thermostat waits longer before heating and longer before cooling, so it runs less often and uses less energy.",
+  "lines": [
+    {
+      "code": "    private final boolean ecoMode;",
+      "text": "A second field records whether eco mode is switched on. Marking it final means each Thermostat keeps the setting it was built with."
+    },
+    {
+      "code": "    public Thermostat(int currentTemp, boolean ecoMode) {",
+      "text": "The constructor now takes two values, so every thermostat must be told both its temperature and whether it is in eco mode."
+    },
+    {
+      "code": "        this.ecoMode = ecoMode;",
+      "text": "The keyword this distinguishes the field from the parameter of the same name, storing the argument into the object."
+    },
+    {
+      "code": "        int heatingThreshold = ecoMode ? 65 : 68;",
+      "text": "The conditional operator picks 65 when eco mode is on and 68 otherwise, letting the room get cooler before the heat kicks in."
+    },
+    {
+      "code": "        int coolingThreshold = ecoMode ? 78 : 75;",
+      "text": "Likewise the cooling point rises to 78 in eco mode, so the air conditioning starts later. Together the two lines widen the comfortable band."
+    },
+    {
+      "code": "        if (currentTemp < heatingThreshold) {",
+      "text": "The decisions now compare against the variables rather than hard-coded numbers, which is why one method can serve both modes."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "If neither branch fired, the temperature sits inside the acceptable band and the thermostat does nothing."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

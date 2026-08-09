@@ -1,0 +1,33 @@
+{
+  "summary": "This program counts upward, pausing after each number to wait for the user, and keeps going until the user types \"stop\". It shows how an infinite loop can be ended on purpose with `break`.",
+  "lines": [
+    {
+      "code": "count = 1",
+      "text": "The counter starts at 1 so the first number shown is 1 rather than 0."
+    },
+    {
+      "code": "while True:",
+      "text": "The condition is always true, so the loop never ends on its own; something inside the body must stop it."
+    },
+    {
+      "code": "    s = input(\"Press Enter to continue or type stop: \")",
+      "text": "Reading input inside the loop is what makes the user, rather than a fixed number, decide when to finish."
+    },
+    {
+      "code": "    if s.strip().lower() == \"stop\":",
+      "text": "`strip()` removes stray spaces and `lower()` folds capital letters, so \"STOP\" and \" Stop \" are all accepted."
+    },
+    {
+      "code": "        break",
+      "text": "`break` leaves the loop immediately, which is the only exit from a `while True` like this one."
+    },
+    {
+      "code": "    count += 1",
+      "text": "This runs only when the user did not say stop, so the count advances by one for the next pass."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "\n\n\nstop\n",
+  "expectsUncaughtException": false
+}

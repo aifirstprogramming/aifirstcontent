@@ -1,0 +1,73 @@
+{
+  "summary": "This program builds a list of farmers-market products and then uses three stream pipelines to answer questions about them: which vendors exist, what one vendor sells and for how much, and what those prices would be after a 10% discount.",
+  "lines": [
+    {
+      "code": "import java.util.stream.Collectors;",
+      "text": "Collectors supplies the ready-made recipes, such as toSet() and toList(), that gather the results of a stream back into a collection."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "The list is declared as List but created as an ArrayList, so the rest of the code depends only on the general list behaviour."
+    },
+    {
+      "code": "        products.add(new MarketProduct(\"Country Baguette\", \"Baker's Lane\", 4.25, \"Bakery\", \"All\", false));",
+      "text": "Several products share the vendor \"Baker's Lane\" so that the filtering pipelines later have more than one match to work with."
+    },
+    {
+      "code": "        Set<String> vendors = getVendorSet(products);",
+      "text": "A Set is the right container for vendor names because it automatically drops the duplicates that come from vendors with several products."
+    },
+    {
+      "code": "        String vendor = \"Baker's Lane\";",
+      "text": "Storing the vendor name in a variable means the same value drives both the menu and the discount pipeline, with no risk of a typo in one of them."
+    },
+    {
+      "code": "        menu.forEach(System.out::println);",
+      "text": "forEach walks the finished list and hands each string to println; the :: syntax is a method reference, a compact way of saying \"call this method on each item.\""
+    },
+    {
+      "code": "        List<Double> discountedPrices = getDiscountedPricesForVendor(products, vendor, 0.10);",
+      "text": "The discount is passed in as a fraction rather than hard-coded, so the same method can apply any percentage off."
+    },
+    {
+      "code": "        return products.stream()",
+      "text": "stream() turns the list into a flow of elements that the following operations can transform one step at a time, leaving the original list untouched."
+    },
+    {
+      "code": "                .map(MarketProduct::getVendor)",
+      "text": "map replaces each product in the stream with the result of calling getVendor on it, so a stream of products becomes a stream of vendor names."
+    },
+    {
+      "code": "                .filter(v -> v != null && !v.isBlank())",
+      "text": "This guard discards missing or empty vendor names before they reach the set, so bad data never shows up in the report."
+    },
+    {
+      "code": "                .collect(Collectors.toSet());",
+      "text": "collect ends the pipeline by pouring the surviving names into a Set, which keeps only one copy of each vendor."
+    },
+    {
+      "code": "                .filter(p -> p.getVendor() != null && vendor != null && p.getVendor().equalsIgnoreCase(vendor))",
+      "text": "filter keeps only the products whose vendor matches, and equalsIgnoreCase means differences in capitalisation do not cause a miss."
+    },
+    {
+      "code": "                .map(p -> p.getName() + \" - $\" + String.format(\"%.2f\", p.getPrice()))",
+      "text": "Each matching product is mapped to a display string, with %.2f forcing the price to show exactly two decimal places like real money."
+    },
+    {
+      "code": "        double factor = 1.0 - discountFraction;",
+      "text": "Converting the discount into a multiplier once, before the stream starts, avoids repeating the same subtraction for every product."
+    },
+    {
+      "code": "                .map(p -> Math.max(0.0, p.getPrice() * factor))",
+      "text": "The price is multiplied by the factor to apply the discount, and Math.max keeps the result from ever dipping below zero."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "public class MarketProduct {\n    private String name;\n    private String vendor;\n    private double price;\n    private String category;\n    private String season;\n    private boolean organic;\n\n    public MarketProduct(String name, String vendor, double price,\n                         String category, String season, boolean organic) {\n        this.name = name;\n        this.vendor = vendor;\n        this.price = price;\n        this.category = category;\n        this.season = season;\n        this.organic = organic;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getVendor() {\n        return vendor;\n    }\n\n    public double getPrice() {\n        return price;\n    }\n\n    public String getCategory() {\n        return category;\n    }\n\n    public String getSeason() {\n        return season;\n    }\n\n    public boolean isOrganic() {\n        return organic;\n    }\n\n    @Override\n    public String toString() {\n        return name + \" (\" + vendor + \") $\" + String.format(\"%.2f\", price);\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

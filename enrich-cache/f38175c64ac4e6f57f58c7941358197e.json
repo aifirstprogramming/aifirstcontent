@@ -1,0 +1,49 @@
+{
+  "summary": "This program stores songs in a Queue, which hands items back in the same order they arrived (first in, first out). It adds four songs, peeks at the one at the front, then plays each song in turn until the queue is empty.",
+  "lines": [
+    {
+      "code": "import java.util.Queue;",
+      "text": "Queue is an interface: it names the behaviour (add at the back, remove from the front) without saying how it is stored."
+    },
+    {
+      "code": "import java.util.LinkedList;",
+      "text": "LinkedList is one of the classes that actually implements Queue, so it supplies the storage behind the interface."
+    },
+    {
+      "code": "        Queue<Song> songQueue = new LinkedList<>();",
+      "text": "The variable is typed as the interface but built as a LinkedList, a habit that lets you swap in a different queue later without touching the rest of the code."
+    },
+    {
+      "code": "        songQueue.offer(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "offer adds a song to the back of the queue and returns false instead of throwing an exception if a bounded queue is full."
+    },
+    {
+      "code": "        for (Song s : songQueue) {",
+      "text": "Looping over the queue reads the songs without removing them, and shows they are held in the order they were offered."
+    },
+    {
+      "code": "        System.out.println(songQueue.peek());",
+      "text": "peek returns the song at the head of the queue but leaves it in place, so nothing is consumed just by looking."
+    },
+    {
+      "code": "        while (!songQueue.isEmpty()) {",
+      "text": "The loop keeps going as long as songs remain; because each pass removes one, the queue is guaranteed to empty out."
+    },
+    {
+      "code": "            Song playing = songQueue.poll();",
+      "text": "poll removes and returns the head of the queue, which is exactly what \"play the next song\" means here."
+    },
+    {
+      "code": "        System.out.println(\"Queue after processing all songs: \" + songQueue);",
+      "text": "Printing the queue at the end confirms it is empty, since polling took every song out."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "public class Song {\n    private String title;\n    private String artist;\n    private String genre;\n    private int energy;\n\n    public Song(String title, String artist, String genre, int energy) {\n        this.title = title;\n        this.artist = artist;\n        this.genre = genre;\n        this.energy = energy;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getArtist() {\n        return artist;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    public int getEnergy() {\n        return energy;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + artist + \" (\" + genre + \", energy \" + energy + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

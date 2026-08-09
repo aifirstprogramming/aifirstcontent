@@ -1,0 +1,25 @@
+{
+  "summary": "This is the thermostat's display method rewritten to hand back a status line as a String instead of printing it, which makes the value easy to check in a test.",
+  "lines": [
+    {
+      "code": "public class Thermostat {",
+      "text": "The listing shows only the part of Thermostat that changed; the class itself is the same one built earlier in the chapter."
+    },
+    {
+      "code": "    //variables, constructor, and getStatus method",
+      "text": "This comment stands in for the fields, constructor, and getStatus method already written, so the page can focus on the one method being modified."
+    },
+    {
+      "code": "    public String printStatusToDisplay() {",
+      "text": "Declaring the return type as String instead of void means the method now produces a value the caller can capture, compare, or assert on."
+    },
+    {
+      "code": "        return \"Thermostat status: \" + getStatus();",
+      "text": "The label and the current status are joined into a single string and returned, leaving the decision about where to display it to whoever calls the method."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

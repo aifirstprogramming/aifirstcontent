@@ -1,0 +1,29 @@
+{
+  "summary": "This program picks a game level based on a player's score using a chain of conditions. Because the value 12 is not below 10 but is below 20, it prints \"Intermediate Level\".",
+  "lines": [
+    {
+      "code": "        int number = 12;",
+      "text": "Stores the score to be tested. Changing this one value is how you exercise each of the three branches below."
+    },
+    {
+      "code": "        if (number < 10) {",
+      "text": "The first condition is checked before any other. Since 12 is not less than 10, Java moves on to the next test."
+    },
+    {
+      "code": "        } else if (number < 20) {",
+      "text": "An else if adds a second test that Java only reaches when the first condition was false, which is why this branch means \"10 or more, but under 20\"."
+    },
+    {
+      "code": "            System.out.println(\"Intermediate Level\");",
+      "text": "This is the line that runs for this program, because 12 falls in the middle range."
+    },
+    {
+      "code": "        } else {",
+      "text": "The else is the catch-all: it runs only when every condition above it failed, covering scores of 20 and up."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

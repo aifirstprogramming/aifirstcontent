@@ -1,0 +1,51 @@
+{
+  "summary": "This listing adds two number-crunching helper methods to the farmers' market app: one that converts each product's price into a stream of doubles and totals them, and one that keeps only the organic products before averaging their prices.",
+  "lines": [
+    {
+      "code": "        // products variable and add items",
+      "text": "This placeholder stands in for the product list built in the earlier farmers' market exercises; the printed listing focuses only on the new calculations, so the list is assumed to already exist here."
+    },
+    {
+      "code": "        double totalSum = getTotalPriceSum(products);",
+      "text": "The heavy lifting lives in a named helper method, which keeps main readable and lets the same calculation be reused elsewhere."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal inventory value: $\" + String.format(\"%.2f\", totalSum));",
+      "text": "String.format with \"%.2f\" rounds the double to two decimal places so the money value reads like a price instead of something like 25.449999999999996."
+    },
+    {
+      "code": "    public static double getTotalPriceSum(List<MarketProduct> products) {",
+      "text": "The method returns a plain double, so callers get a finished number and never have to know a stream was involved."
+    },
+    {
+      "code": "                .mapToDouble(MarketProduct::getPrice)",
+      "text": "mapToDouble turns the stream of products into a DoubleStream of prices, which unlocks numeric operations that a general object stream does not offer."
+    },
+    {
+      "code": "                .sum();",
+      "text": "sum is a terminal operation available only on primitive streams like DoubleStream, and it returns 0.0 for an empty list rather than failing."
+    },
+    {
+      "code": "                .filter(MarketProduct::isOrganic)",
+      "text": "Filtering before mapping keeps only the organic products, so the average is computed from that subset alone."
+    },
+    {
+      "code": "                .average()",
+      "text": "average returns an OptionalDouble rather than a double, because there is no meaningful average when no product passes the filter."
+    },
+    {
+      "code": "                .orElse(0.0);",
+      "text": "orElse supplies a fallback value when the Optional is empty, which avoids an exception if the market has no organic items."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketDemo.java",
+      "content": "import java.util.List;\n\n// Driver for the exercise. The printed listing leaves the product list as a\n// comment, so this file supplies a small list of items and runs the same two\n// stream pipelines against it.\npublic class MarketDemo {\n\n    static class Item {\n        private final String name;\n        private final double price;\n        private final boolean organic;\n\n        Item(String name, double price, boolean organic) {\n            this.name = name;\n            this.price = price;\n            this.organic = organic;\n        }\n\n        public String getName() { return name; }\n        public double getPrice() { return price; }\n        public boolean isOrganic() { return organic; }\n    }\n\n    public static void main(String[] args) {\n        List<Item> products = List.of(\n                new Item(\"Heirloom Tomatoes\", 4.50, true),\n                new Item(\"Sweet Corn\", 3.25, false),\n                new Item(\"Goat Cheese\", 8.00, true),\n                new Item(\"Apple Cider\", 6.75, false),\n                new Item(\"Kale\", 2.95, true));\n\n        double totalSum = getTotalPriceSum(products);\n        System.out.println(\"\\nTotal inventory value: $\" + String.format(\"%.2f\", totalSum));\n\n        double avgOrganic = getAverageOrganicPrice(products);\n        System.out.println(\"Average price (organic items): $\" + String.format(\"%.2f\", avgOrganic));\n    }\n\n    // 4) Sum all prices using mapToDouble\n    public static double getTotalPriceSum(List<Item> products) {\n        return products.stream()\n                .mapToDouble(Item::getPrice)\n                .sum();\n    }\n\n    // 5) Average price of organic items\n    public static double getAverageOrganicPrice(List<Item> products) {\n        return products.stream()\n                .filter(Item::isOrganic)\n                .mapToDouble(Item::getPrice)\n                .average()\n                .orElse(0.0);\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "MarketDemo.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

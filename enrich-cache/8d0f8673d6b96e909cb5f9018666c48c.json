@@ -1,0 +1,21 @@
+{
+  "summary": "This builds a dictionary that maps the name of each shop item to its price in gold. A dictionary stores pairs of keys and values, so you can look up a price by the item's name instead of by a numeric position.",
+  "lines": [
+    {
+      "code": "shop = {",
+      "text": "Curly braces begin a dictionary literal, and the name `shop` will refer to the finished collection."
+    },
+    {
+      "code": "    \"sword\": 150,",
+      "text": "The text before the colon is the key and the number after it is the value, so `shop[\"sword\"]` will give back 150."
+    },
+    {
+      "code": "    \"potion\": 25",
+      "text": "The final pair needs no trailing comma, and the closing brace on the next line ends the dictionary."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

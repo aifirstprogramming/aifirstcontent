@@ -1,0 +1,48 @@
+{
+  "summary": "This program stores three Java collection terms and their definitions in a Map, looks one definition up by its term, and then lists every term in alphabetical order.",
+  "lines": [
+    {
+      "code": "import java.util.Map;",
+      "text": "Map is the interface that describes a collection of key-value pairs; the variable below is declared with this type so the code depends on the general idea of a map rather than one specific implementation."
+    },
+    {
+      "code": "import java.util.HashMap;",
+      "text": "HashMap is the concrete class that actually stores the pairs, using hashing for fast lookup."
+    },
+    {
+      "code": "import java.util.TreeSet;",
+      "text": "TreeSet keeps its elements permanently sorted, which is how the alphabetical listing at the end is produced without writing any sorting code."
+    },
+    {
+      "code": "        Map<String, String> glossary = new HashMap<>();",
+      "text": "The two type parameters say that both keys and values are text: the key is the term, the value is its definition. The empty angle brackets on the right let Java infer the same types again."
+    },
+    {
+      "code": "        glossary.put(\"List\", \"An ordered collection (also known as a sequence) that may contain duplicate elements. Allows positional access and insertion of elements.\");",
+      "text": "put stores a definition under a term. Calling put again with the same key would replace the old definition instead of adding a second entry, because map keys are unique."
+    },
+    {
+      "code": "        String termToFind = \"Map\";",
+      "text": "Holding the search term in a variable means the lookup and the printed label can never disagree."
+    },
+    {
+      "code": "        System.out.println(termToFind + \": \" + glossary.get(termToFind));",
+      "text": "get returns the value stored under a key, or null if the key was never added, so a lookup is a single fast operation rather than a scan through the whole collection."
+    },
+    {
+      "code": "        System.out.println(\"\\nTerms in the glossary (alphabetical order):\");",
+      "text": "The \\n escape sequence starts a new line before the heading, leaving a blank line that separates the two sections of output."
+    },
+    {
+      "code": "        TreeSet<String> sortedTerms = new TreeSet<>(glossary.keySet());",
+      "text": "keySet gives a view of just the terms, and passing it to the TreeSet constructor copies them into a set that orders strings alphabetically. A HashMap gives no guarantee about the order of its keys, so this step is what makes the output predictable."
+    },
+    {
+      "code": "        for (String term : sortedTerms) {",
+      "text": "The enhanced for loop visits each element in turn, and because the source is a TreeSet those elements arrive already in order."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

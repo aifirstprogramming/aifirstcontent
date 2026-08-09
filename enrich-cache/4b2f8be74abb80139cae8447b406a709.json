@@ -1,0 +1,36 @@
+{
+  "summary": "This program stores a Celsius temperature, hands it to a small function that converts it to Fahrenheit, and prints both values in one sentence. It shows how a named function can hold a formula that the rest of the program simply calls.",
+  "lines": [
+    {
+      "code": "public class TemperatureConverter {",
+      "text": "The class name describes the job the file does, and it must match the file name TemperatureConverter.java."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the entry point Java looks for when the program starts; everything the program does begins here."
+    },
+    {
+      "code": "        double celsius = 25;",
+      "text": "The starting temperature is stored as a double so fractional degrees would work just as well as whole ones."
+    },
+    {
+      "code": "        double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "The call passes the Celsius value into the function and stores the value it hands back, keeping the conversion formula out of main."
+    },
+    {
+      "code": "        System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
+      "text": "Joining numbers to text with + turns each number into its printed form, producing one readable sentence for the traveler."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "The function declares that it accepts one double and returns a double; static means it can be called directly from main without creating an object."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "This is the standard conversion formula, and it is safe here because celsius is a double: the multiplication happens first, so the division by 5 keeps its decimal part instead of truncating."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

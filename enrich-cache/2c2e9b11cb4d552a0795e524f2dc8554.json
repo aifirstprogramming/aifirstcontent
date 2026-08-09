@@ -1,0 +1,92 @@
+{
+  "summary": "This is a unit test file for a family of robot pet classes. It checks that a RobotPet's battery is clamped into the 0-100 range when the object is created, and then gives each subclass (cat, bird, dog) the same set of tests: the talent message mentions the pet's name, it is a string, it differs from the generic message, and charging inherited from the parent class still works.",
+  "lines": [
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "Tests live in their own file and import the code under test, so the classes stay in pet_talents.py and this file only describes expected behaviour."
+    },
+    {
+      "code": "class TestRobotPet(unittest.TestCase):",
+      "text": "Each group of related tests is a class that inherits from unittest.TestCase, which is what gives you the assertEqual, assertIn and similar checking methods."
+    },
+    {
+      "code": "    …",
+      "text": "The ellipsis stands in for the RobotPet tests written earlier in the chapter; in a real file you would keep those tests here rather than typing a literal ellipsis."
+    },
+    {
+      "code": "    def test_battery_clamped_below_zero_on_init(self):",
+      "text": "Test method names must begin with test_ for unittest to find and run them, and a descriptive name doubles as the failure message you will read later."
+    },
+    {
+      "code": "        pet = RobotPet(\"Volt\", -10, \"neutral\")",
+      "text": "Passing a deliberately invalid battery level is how you probe the boundary: the constructor should refuse to store a negative charge."
+    },
+    {
+      "code": "        self.assertEqual(pet.battery, 0)",
+      "text": "Confirms the clamping rule by comparing the stored value against the lowest legal battery level rather than the number that was passed in."
+    },
+    {
+      "code": "        pet = RobotPet(\"Volt\", 150, \"neutral\")",
+      "text": "The mirror image of the previous test, checking the upper end of the range so both edges of the clamp are covered."
+    },
+    {
+      "code": "    def setUp(self):",
+      "text": "setUp runs before every single test method in the class, so each test starts with a freshly built pet and cannot be affected by changes another test made."
+    },
+    {
+      "code": "        self.cat = RobotCat(\"Whiskers\", 80, \"happy\")",
+      "text": "Storing the object on self makes it available to every test method in this class."
+    },
+    {
+      "code": "        self.assertIn(\"Whiskers\", self.cat.show_talent())",
+      "text": "assertIn checks that the name appears somewhere in the returned text, which is more robust than demanding an exact sentence that you might later reword."
+    },
+    {
+      "code": "        self.assertIsInstance(self.cat.show_talent(), str)",
+      "text": "Guards against a method that prints instead of returning, since a print would make this return None and fail the type check."
+    },
+    {
+      "code": "        self.assertNotEqual(self.cat.show_talent(), \"Whiskers performs a generic trick!\")",
+      "text": "Proves the subclass actually overrides the parent's talent rather than silently inheriting the generic version."
+    },
+    {
+      "code": "        self.cat.battery = 50",
+      "text": "Setting the battery directly puts the object into a known starting state so the arithmetic in the next assertion is easy to predict."
+    },
+    {
+      "code": "        self.cat.charge(20)",
+      "text": "Exercises a method the subclass never defines, verifying that inheritance from RobotPet is wired up correctly."
+    },
+    {
+      "code": "        self.assertEqual(self.cat.battery, 70)",
+      "text": "50 plus 20 is the expected result, confirming charge changed the object's state as intended."
+    },
+    {
+      "code": "class TestRobotBird(unittest.TestCase):",
+      "text": "The bird tests repeat the same four checks; deliberate repetition across subclasses is normal in tests because each class is a separate promise to keep."
+    },
+    {
+      "code": "if __name__ == \"__main__\":",
+      "text": "This guard lets the file be run directly as a test script while still being importable by other test tooling."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "Discovers every TestCase class in the file, runs all their test methods, and reports how many passed and failed."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-08"
+    },
+    {
+      "path": "run_tests.py",
+      "content": "\"\"\"Runs the book's test file.\n\nThe printed listing uses a typographic ellipsis to stand for the RobotPet\ntests written earlier in the chapter. That placeholder is not valid Python,\nso this helper drops it before executing the rest of the file.\n\"\"\"\nimport pathlib\nimport unittest\n\nPATH = \"implementing_a_new_feature_and_testing_it.py\"\n\nsource = pathlib.Path(PATH).read_text(encoding=\"utf-8\")\nsource = \"\\n\".join(\n    line for line in source.splitlines() if line.strip() != \"\\u2026\"\n)\n\nnamespace = {\"__name__\": \"book_tests\"}\nexec(compile(source, PATH, \"exec\"), namespace)\n\nloader = unittest.TestLoader()\nsuite = unittest.TestSuite()\nfor value in list(namespace.values()):\n    if isinstance(value, type) and issubclass(value, unittest.TestCase):\n        suite.addTests(loader.loadTestsFromTestCase(value))\n\nunittest.TextTestRunner(verbosity=2).run(suite)\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "run_tests.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

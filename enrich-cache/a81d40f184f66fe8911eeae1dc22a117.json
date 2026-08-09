@@ -1,0 +1,57 @@
+{
+  "summary": "This version of the Restaurant class adds a placeOrder method that refuses orders before 11:00 AM. Instead of asking the system for the time directly, it reads the time through a Clock object that is handed in when the restaurant is created, which is what lets a test pretend it is any hour of the day.",
+  "lines": [
+    {
+      "code": "import java.time.Clock;",
+      "text": "Clock is Java's replaceable source of the current time; importing it is the first step toward making time testable rather than fixed."
+    },
+    {
+      "code": "    private static final LocalTime ORDER_OPEN_TIME = LocalTime.of(11, 0);",
+      "text": "The opening time is a named constant, so the rule \"orders open at 11:00\" lives in one place instead of being buried in the comparison below."
+    },
+    {
+      "code": "    private final Clock clock;",
+      "text": "Each Restaurant keeps its own clock, and marking it final guarantees nothing can swap the clock out after construction."
+    },
+    {
+      "code": "    public Restaurant() {",
+      "text": "The no-argument constructor keeps ordinary use simple: callers who do not care about time can still write new Restaurant()."
+    },
+    {
+      "code": "        this(Clock.systemDefaultZone());",
+      "text": "This delegates to the other constructor, supplying the real system clock as the default so production code behaves normally."
+    },
+    {
+      "code": "    public Restaurant(Clock clock) {",
+      "text": "This second constructor is the seam a test uses, because it accepts any clock, including a fixed one frozen at a chosen hour."
+    },
+    {
+      "code": "    //spice level method",
+      "text": "A placeholder marking where the spice level method from the earlier exercise still belongs; the listing omits it to keep the focus on ordering."
+    },
+    {
+      "code": "    public String placeOrder(String item) {",
+      "text": "Returning a String rather than printing means a test can compare the result directly, with no need to capture console output."
+    },
+    {
+      "code": "        LocalTime currentTime = LocalTime.now(clock);",
+      "text": "Asking LocalTime.now for the time held by this clock is the key move: with a fixed clock the method sees whatever time the test chose."
+    },
+    {
+      "code": "        if (currentTime.isBefore(ORDER_OPEN_TIME)) {",
+      "text": "isBefore compares the two times, so anything earlier than 11:00 falls into the rejection branch."
+    },
+    {
+      "code": "            return \"Orders open at 11:00 AM\";",
+      "text": "Returning early stops the order from being placed and tells the caller why."
+    },
+    {
+      "code": "        return \"Order placed for \" + item;",
+      "text": "Reaching this line means the time is 11:00 or later, so the order is accepted and echoed back with the item name."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

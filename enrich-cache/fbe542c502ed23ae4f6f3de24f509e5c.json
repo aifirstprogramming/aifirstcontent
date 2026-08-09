@@ -1,0 +1,33 @@
+{
+  "summary": "This program asks how many cupcakes and how many llamas there are, then divides to see how many cupcakes each llama gets. The try/except blocks catch two things that can go wrong: text that isn't a number, and dividing by zero llamas.",
+  "lines": [
+    {
+      "code": "try:",
+      "text": "Everything indented under `try:` is code that might fail. If any line in the block raises an error, Python stops running the block and looks for a matching `except` below."
+    },
+    {
+      "code": "    cupcakes = int(input(\"How many cupcakes do you have? \"))",
+      "text": "`input` always hands back text, so `int` converts it to a whole number. If the reader types something like \"twelve\", `int` raises a ValueError here."
+    },
+    {
+      "code": "    cupcakes_per_llama = cupcakes / llamas",
+      "text": "The `/` operator divides and gives a decimal result. If `llamas` is 0, this raises a ZeroDivisionError instead of producing a number."
+    },
+    {
+      "code": "    print(f\"Each llama gets {cupcakes_per_llama:.2f} cupcake(s)!\")",
+      "text": "The `:.2f` inside the f-string rounds the result to two decimal places, so you see 4.00 rather than a long string of digits."
+    },
+    {
+      "code": "except ValueError:",
+      "text": "This block runs only when a conversion to `int` failed, and it lets the program finish with a friendly message rather than crashing."
+    },
+    {
+      "code": "except ZeroDivisionError:",
+      "text": "A second `except` handles a different kind of error, so each problem gets its own explanation of what went wrong."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "12\n0\n",
+  "expectsUncaughtException": false
+}

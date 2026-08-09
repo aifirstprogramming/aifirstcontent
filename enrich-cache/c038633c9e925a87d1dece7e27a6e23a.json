@@ -1,0 +1,25 @@
+{
+  "summary": "This program asks how many treats a dog ate and how many calories each treat has, then multiplies the two to report the total calories consumed.",
+  "lines": [
+    {
+      "code": "num_treats = int(input(\"How many treats did the dog eat? \"))",
+      "text": "Input always arrives as text, so int() converts the reply into a whole number that can be used in arithmetic. A count of treats is naturally a whole number, so int is the right choice here."
+    },
+    {
+      "code": "calories_per_treat = float(input(\"How many calories are in each treat? \"))",
+      "text": "Here float() is used instead of int() because calorie values often include a decimal part, such as 25.5."
+    },
+    {
+      "code": "total_calories = num_treats * calories_per_treat",
+      "text": "Multiplying the count by the calories in one treat gives the total, and storing it in a name keeps the calculation separate from the printing."
+    },
+    {
+      "code": "print(f\"The dog consumed {total_calories} calories.\")",
+      "text": "The f before the quotes marks an f-string, which lets you drop a variable straight into the text inside curly braces."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "3\n25.5\n",
+  "expectsUncaughtException": false
+}

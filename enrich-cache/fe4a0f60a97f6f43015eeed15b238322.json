@@ -1,0 +1,25 @@
+{
+  "summary": "This program divides the 11-inch length of a sheet of US Letter paper into two pieces and prints the length of each. Because both values are whole numbers, they are converted to double first so the division keeps its fractional part.",
+  "lines": [
+    {
+      "code": "        int paperLengthInches = 11; // length of printer paper (US Letter long side)",
+      "text": "The long side of a US Letter sheet is a whole number of inches, so int is a natural fit for storing it."
+    },
+    {
+      "code": "        int pieces = 2;",
+      "text": "The number of pieces to cut is also a count, which is why it is an int as well."
+    },
+    {
+      "code": "        double eachPieceLength = (double) paperLengthInches / (double) pieces;",
+      "text": "The (double) casts widen each integer into a decimal number before the division happens. Without them, Java would perform integer division and throw away any remainder."
+    },
+    {
+      "code": "        System.out.println(\"Each piece length: \" + eachPieceLength + \" inches\");",
+      "text": "Joining text and the double with + builds one message; Java converts the number to text automatically as it is concatenated."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

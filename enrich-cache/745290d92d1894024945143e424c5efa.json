@@ -1,0 +1,55 @@
+{
+  "summary": "This program builds a list of Song objects and then sorts it three times — by title, by energy level from highest to lowest, and by artist — printing the playlist after each sort. It shows how Comparator lets you order the same list by different fields without writing your own sorting code.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "Comparator is the interface that describes how to compare two objects; its static helper methods build the orderings used further down."
+    },
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "The variable is declared as List but created as an ArrayList, so the code depends only on the general list behaviour while getting the array-backed implementation."
+    },
+    {
+      "code": "        playlist.add(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "Each add call appends one Song to the end of the list, so the starting order is the order the songs were added."
+    },
+    {
+      "code": "        for (Song song : playlist) {",
+      "text": "The enhanced for loop walks through every song in the list without you having to manage an index."
+    },
+    {
+      "code": "            System.out.println(song);",
+      "text": "Passing an object to println calls its toString method, which is why the Song class needs a readable one."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getTitle));",
+      "text": "Comparator.comparing takes a method that pulls out a value to compare — here the title — and sort rearranges the list in place using it."
+    },
+    {
+      "code": "        playlist.forEach(System.out::println);",
+      "text": "forEach with a method reference is a compact alternative to the for loop above; each song is handed to println in turn."
+    },
+    {
+      "code": "Comparator.comparingInt(Song::getEnergyLevel)",
+      "text": "comparingInt is the version of comparing for int values, which avoids wrapping each number in an Integer object."
+    },
+    {
+      "code": "     .reversed());",
+      "text": "reversed flips the comparator, turning the natural low-to-high number order into high-to-low."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getArtist));",
+      "text": "Sorting again discards the previous ordering: the list keeps only whatever arrangement the most recent sort produced."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

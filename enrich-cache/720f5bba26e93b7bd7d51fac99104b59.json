@@ -1,0 +1,51 @@
+{
+  "summary": "This program stores a library as a list of Book objects instead of plain title strings, then prints the books, counts them, fetches the first one, and shows that a List happily accepts a duplicate entry.",
+  "lines": [
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that describes an ordered, growable sequence; declaring variables with the interface keeps the code free to switch implementations later."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The type parameter is now Book rather than String, so every element carries a title, an author, and a genre together instead of just one piece of text."
+    },
+    {
+      "code": "        books.add(new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\"));",
+      "text": "Each add call builds a fresh Book from three constructor arguments and appends it to the end of the list."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop walks the list from front to back, handing each element to the loop variable in turn."
+    },
+    {
+      "code": "            System.out.println(book);",
+      "text": "Printing an object calls its toString method automatically, which is why Book needs a sensible toString to produce readable output."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal number of books: \" + books.size());",
+      "text": "size() reports how many elements the list currently holds, and \\n inserts a blank line before the label."
+    },
+    {
+      "code": "        System.out.println(\"First book: \" + books.get(0));",
+      "text": "A List keeps its elements in insertion order and indexes them from zero, so get(0) returns the first book added."
+    },
+    {
+      "code": "        books.add(new Book(\"The Hobbit\", \"J.R.R. Tolkien\", \"Fantasy\"));",
+      "text": "This is a second, separate Book object with identical field values; a List never checks for duplicates, so it is stored alongside the original."
+    },
+    {
+      "code": "        System.out.println(\"Total number of books after adding duplicate: \" + books.size());",
+      "text": "The count rises to four, demonstrating that duplicates are allowed in a List and motivating the Set collection later in the chapter."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

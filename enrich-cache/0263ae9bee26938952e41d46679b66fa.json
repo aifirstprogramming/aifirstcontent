@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores three shopping cart items in separate variables, then joins them into one readable string using the + operator, which combines text values end to end.",
+  "lines": [
+    {
+      "code": "item1 = \"Apples\"",
+      "text": "Each item is stored in its own variable so it can be named and reused later, rather than being typed directly into the print statement."
+    },
+    {
+      "code": "cart_list = item1 + \", \" + item3",
+      "text": "The + operator joins strings together, and the \", \" pieces supply the commas and spaces that separate the items; without them the names would run together."
+    },
+    {
+      "code": "print(\"Shopping cart contains: \" + cart_list)",
+      "text": "The same concatenation trick adds a label in front of the finished list, so the output reads as a complete sentence."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

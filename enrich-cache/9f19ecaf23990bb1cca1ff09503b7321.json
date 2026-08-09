@@ -1,0 +1,63 @@
+{
+  "summary": "This program builds a RobotPetShelter that keeps a private list of robot pets and offers methods to add pets, list them all, and look one up by name. It then creates a cat, a bird, and a dog, puts them in the shelter, prints the roster, and finds Rex to show his talent.",
+  "lines": [
+    {
+      "code": "        self.__pets = []",
+      "text": "The double underscore makes the list private to the shelter, so outside code has to go through the shelter's methods instead of editing the pets directly. Every new shelter starts empty."
+    },
+    {
+      "code": "    def add_pet(self, pet):",
+      "text": "This is the only doorway into the private list; it accepts any pet object, which is what composition means here — a shelter is built out of pets it holds rather than being a kind of pet."
+    },
+    {
+      "code": "        if not self.__pets:",
+      "text": "An empty list is falsy, so this guard catches the case where there is nothing to report and avoids returning a confusing blank string."
+    },
+    {
+      "code": "        return \"\\n\".join(",
+      "text": "join glues the generated description strings together with a newline between each, producing one multi-line block for a single print call."
+    },
+    {
+      "code": "            f\"{pet.name} ({type(pet).__name__}) - Battery: {pet.battery}%, Mood: {pet.mood}\"",
+      "text": "type(pet).__name__ pulls out the class name of each pet, so the same line of code labels a RobotCat, a RobotBird, and a RobotDog correctly."
+    },
+    {
+      "code": "            for pet in self.__pets",
+      "text": "This generator expression feeds one formatted line per pet into join without building an intermediate list."
+    },
+    {
+      "code": "                if pet.name.lower() == name.lower():",
+      "text": "Lowercasing both sides makes the search case-insensitive, so \"rex\", \"Rex\", and \"REX\" all match."
+    },
+    {
+      "code": "        return None",
+      "text": "Returning None when nothing matched is the standard Python way to signal \"not found\" and is what makes the later `if found:` check work."
+    },
+    {
+      "code": "cat = RobotCat(\"Whiskers\", 85, \"happy\")",
+      "text": "The three pet classes come from the inheritance exercise earlier in this chapter; the shelter does not care which subclass it gets."
+    },
+    {
+      "code": "shelter = RobotPetShelter()",
+      "text": "Creating the shelter gives you a fresh, empty private list to fill."
+    },
+    {
+      "code": "found = shelter.find_pet_by_name(\"Rex\")",
+      "text": "The search returns the actual dog object, not a copy, so you can call its methods afterwards."
+    },
+    {
+      "code": "if found:",
+      "text": "Always check the result before using it, because find_pet_by_name hands back None when no pet matches and None has no methods to call."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "robot_pets.py",
+      "content": "",
+      "fromExercise": "py-6-06"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

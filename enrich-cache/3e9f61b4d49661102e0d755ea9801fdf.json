@@ -1,0 +1,31 @@
+{
+  "summary": "This small program creates a Thermostat set to 72 degrees and prints the status it reports. It is a hand-check: you run it, read the output, and see for yourself whether the class behaves as expected before writing automated tests.",
+  "lines": [
+    {
+      "code": "public class ThermostatApp {",
+      "text": "A separate class holds the program's starting point, keeping the runnable app apart from the Thermostat class it exercises."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "Java begins execution here, so anything you want to try out by hand goes inside this method."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(72.0);",
+      "text": "Creating the object with new calls the Thermostat constructor and passes 72.0 as the current temperature, giving you a concrete instance to question."
+    },
+    {
+      "code": "        System.out.println(\"Thermostat status: \" + thermostat.getStatus());",
+      "text": "Asking the object for its status and printing the result is manual testing: you compare what appears on screen against what you believe should happen at 72 degrees."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

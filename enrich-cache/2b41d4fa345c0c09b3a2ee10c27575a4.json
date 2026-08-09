@@ -1,0 +1,81 @@
+{
+  "summary": "This program builds a shelter that holds robot pet objects in a private list — an example of composition, where one object is made up of others. The shelter can add pets, print a report on all of them, and look one up by name.",
+  "lines": [
+    {
+      "code": "class RobotPetShelter:",
+      "text": "The shelter is not a kind of robot pet, so it does not inherit from anything; it simply contains pets. That relationship is called composition."
+    },
+    {
+      "code": "        self.__pets = []",
+      "text": "The two leading underscores make the list private, so outside code cannot reach in and modify the shelter's pets directly. Everything must go through the methods below."
+    },
+    {
+      "code": "    def add_pet(self, pet):",
+      "text": "This is the only doorway into the private list, which lets the class control how pets get added."
+    },
+    {
+      "code": "        if not self.__pets:",
+      "text": "An empty list is falsy in Python, so this reads as \"if there are no pets yet\" and avoids printing a blank report."
+    },
+    {
+      "code": "        return \"\\n\".join(",
+      "text": "Joining with a newline character turns the collection of pet descriptions into one multi-line string that the caller can print in a single step."
+    },
+    {
+      "code": "            f\"{pet.name} ({type(pet).__name__}) - Battery: {pet.battery}%, Mood: {pet.mood}\"",
+      "text": "`type(pet).__name__` asks each object what class it came from, so the report shows RobotCat, RobotBird, or RobotDog without the shelter having to keep track."
+    },
+    {
+      "code": "            for pet in self.__pets",
+      "text": "This generator expression produces one formatted line per pet, feeding them into the join above."
+    },
+    {
+      "code": "    def find_pet_by_name(self, name):",
+      "text": "A search method lets callers retrieve a pet object by name instead of needing access to the private list."
+    },
+    {
+      "code": "            if pet.name.lower() == name.lower():",
+      "text": "Lowercasing both sides makes the search case-insensitive, so \"rex\" and \"Rex\" both find the same dog."
+    },
+    {
+      "code": "        return None",
+      "text": "When the loop finishes without a match, returning None gives the caller a clear \"not found\" answer to test for."
+    },
+    {
+      "code": "cat = RobotCat(\"Whiskers\", 85, \"happy\")",
+      "text": "Each pet is created independently of the shelter; the shelter will hold references to these existing objects."
+    },
+    {
+      "code": "shelter = RobotPetShelter()",
+      "text": "A fresh shelter starts with an empty private list of pets."
+    },
+    {
+      "code": "shelter.add_pet(cat)",
+      "text": "Handing the cat to the shelter stores it inside the private list, and the shelter can now include it in reports and searches."
+    },
+    {
+      "code": "print(shelter.show_all_pets())",
+      "text": "One call produces the whole report, because the shelter loops over its pets for you."
+    },
+    {
+      "code": "found = shelter.find_pet_by_name(\"Rex\")",
+      "text": "The search returns the actual RobotDog object, not just its name, so its methods can be called next."
+    },
+    {
+      "code": "if found:",
+      "text": "Guarding on the result avoids an error if the search returned None because no pet matched."
+    },
+    {
+      "code": "    print(found.show_talent())",
+      "text": "Because the returned object is a real RobotDog, calling show_talent() runs the dog's own version of that method."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "main.py",
+      "content": "# Supporting robot pet classes from the earlier exercises in this chapter.\n\n\nclass RobotPet:\n    def __init__(self, name, battery, mood):\n        self.name = name\n        self.battery = battery\n        self.mood = mood\n\n    def show_talent(self):\n        return f\"{self.name} stands very still.\"\n\n\nclass RobotCat(RobotPet):\n    def show_talent(self):\n        return f\"{self.name} purrs and chases a laser dot.\"\n\n\nclass RobotBird(RobotPet):\n    def show_talent(self):\n        if self.battery == 0:\n            return f\"{self.name} is out of battery and cannot sing.\"\n        return f\"{self.name} sings a bright little tune.\"\n\n\nclass RobotDog(RobotPet):\n    def show_talent(self):\n        return f\"{self.name} fetches the ball and rolls over.\"\n\n\nif __name__ == \"__main__\":\n    import glob\n    import os\n\n    here = os.path.dirname(os.path.abspath(__file__))\n    for path in sorted(glob.glob(os.path.join(here, \"*.py\"))):\n        if os.path.abspath(path) == os.path.abspath(__file__):\n            continue\n        with open(path) as source:\n            exec(compile(source.read(), path, \"exec\"), globals())\n"
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": ""
+}

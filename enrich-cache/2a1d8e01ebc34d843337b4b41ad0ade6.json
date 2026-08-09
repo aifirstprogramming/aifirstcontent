@@ -1,0 +1,16 @@
+{
+  "summary": "This declares a Java interface named TemperatureSensor, a contract that says any temperature sensor must be able to report a current temperature as a whole number. Code that needs a reading can depend on this interface instead of a specific piece of hardware, which makes it easy to swap in a fake sensor during testing.",
+  "lines": [
+    {
+      "code": "public interface TemperatureSensor {",
+      "text": "An interface describes what a type can do without saying how it does it. Marking it `public` lets classes anywhere in the program implement it, whether they talk to real hardware or return a fixed value in a test."
+    },
+    {
+      "code": "    int getCurrentTemperature();",
+      "text": "This is an abstract method: it has a name, a return type, and a semicolon instead of a body. Every class that implements TemperatureSensor is obliged to supply the actual code, so the rest of the program can call getCurrentTemperature() and get back an int without caring where the number came from."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

@@ -1,0 +1,44 @@
+{
+  "summary": "This program is the bakery's entry point: it creates one plain Cookie and one DecoratedCookie, then prints the description each object gives of itself. It shows how a subclass can answer the same describe() message differently from its parent.",
+  "lines": [
+    {
+      "code": "public class CookieBakery {",
+      "text": "The application class that ties the domain classes together; it holds behavior rather than data, so it has no fields of its own."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "Execution starts here when you run the program, which is why the sample objects are created inside this method."
+    },
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "Calls the Cookie constructor with a flavor, producing one concrete cookie object whose flavor is stored inside it."
+    },
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday\");",
+      "text": "Creates an object of the subclass; because DecoratedCookie extends Cookie, it inherits the flavor handling and adds decoration behavior."
+    },
+    {
+      "code": "        System.out.println(regular.describe());",
+      "text": "Asks the plain cookie to describe itself, so the printing happens here while the wording lives in the Cookie class."
+    },
+    {
+      "code": "        System.out.println(decorated.describe());",
+      "text": "The same method name on the decorated cookie runs the subclass's overridden version, which is polymorphism in action."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "public class Cookie {\n    private String flavor;\n\n    public Cookie(String flavor) {\n        this.flavor = flavor;\n    }\n\n    public String getFlavor() {\n        return flavor;\n    }\n\n    public String describe() {\n        return \"This is a \" + flavor + \" cookie.\";\n    }\n}\n",
+      "fromExercise": ""
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "",
+      "fromExercise": "java-5-08"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

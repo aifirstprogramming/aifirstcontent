@@ -159,6 +159,7 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
             interactive: false,
             kind: rawExample.kind ?? "program",
             ...(rawExample.status ? { status: rawExample.status } : {}),
+            ...(rawExample.scaffold ? { scaffold: rawExample.scaffold } : {}),
             bookId,
             bookTag: tag,
             bookTitle: raw.title,
@@ -214,6 +215,9 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         total,
         exampleId,
         interactive: readsStdin(response),
+        ...(step.explanation ? { explanation: step.explanation } : {}),
+        ...(step.scaffold ? { scaffold: step.scaffold } : {}),
+        ...(step.expectsException ? { expectsException: true } : {}),
         ...(step.stdin === undefined ? {} : { stdin: step.stdin }),
       };
     });
@@ -234,6 +238,12 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         exampleId,
         interactive: readsStdin(response),
         ...(rawExample.stdin === undefined ? {} : { stdin: rawExample.stdin }),
+        // A single-prompt example carries these at the example level; the
+        // synthesized step exposes them so consumers never branch on which
+        // authored form was used.
+        ...(rawExample.explanation ? { explanation: rawExample.explanation } : {}),
+        ...(rawExample.scaffold ? { scaffold: rawExample.scaffold } : {}),
+        ...(rawExample.expectsException ? { expectsException: true } : {}),
       },
     ];
   }

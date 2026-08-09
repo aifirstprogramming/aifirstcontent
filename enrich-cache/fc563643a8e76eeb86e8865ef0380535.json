@@ -1,0 +1,57 @@
+{
+  "summary": "This version of the Restaurant class accepts an order for a menu item, but only once the kitchen opens at 11:00 AM. Instead of asking the system for the time directly, it reads the time from a Clock object handed to it, which lets a test pretend it is any hour of the day.",
+  "lines": [
+    {
+      "code": "import java.time.Clock;",
+      "text": "Clock is Java's replaceable source of the current time; taking one as a dependency is what makes time-based logic testable."
+    },
+    {
+      "code": "    private static final LocalTime ORDER_OPEN_TIME = LocalTime.of(11, 0);",
+      "text": "The opening time is a named constant, so the rule lives in one place rather than as a bare 11 buried inside the method."
+    },
+    {
+      "code": "    private final Clock clock;",
+      "text": "Each Restaurant holds on to its own clock for the lifetime of the object, and final guarantees nothing can swap it out later."
+    },
+    {
+      "code": "    public Restaurant() {",
+      "text": "The no-argument constructor keeps ordinary code simple: callers who do not care about time control can still write new Restaurant()."
+    },
+    {
+      "code": "        this(Clock.systemDefaultZone());",
+      "text": "This delegates to the other constructor, supplying the real system clock as the default."
+    },
+    {
+      "code": "    public Restaurant(Clock clock) {",
+      "text": "This second constructor is the seam a test uses to inject a fake clock fixed at any moment it likes."
+    },
+    {
+      "code": "    //spice level method",
+      "text": "A placeholder marking where the spice level method from the earlier exercise still belongs; the new order logic is being added alongside it."
+    },
+    {
+      "code": "        LocalTime currentTime = LocalTime.now(clock);",
+      "text": "Asking LocalTime.now(clock) rather than LocalTime.now() is the whole trick: the time comes from the injected clock, so it is whatever the test decides."
+    },
+    {
+      "code": "        if (currentTime.isBefore(ORDER_OPEN_TIME)) {",
+      "text": "isBefore compares two times directly, which is clearer and safer than comparing hour and minute numbers by hand."
+    },
+    {
+      "code": "            return \"Orders open at 11:00 AM\";",
+      "text": "Returning early keeps the rejection case separate from the success case, so neither branch needs an else."
+    },
+    {
+      "code": "        return \"Order placed for \" + item;",
+      "text": "Once the time check passes, the order is confirmed and the item name is echoed back to the caller."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "RestaurantDemo.java",
+      "content": "import java.time.Clock;\nimport java.time.Instant;\nimport java.time.ZoneOffset;\n\npublic class RestaurantDemo {\n    public static void main(String[] args) {\n        // A clock frozen at 09:30 - before the kitchen opens.\n        Clock morning = Clock.fixed(Instant.parse(\"2024-05-01T09:30:00Z\"), ZoneOffset.UTC);\n        Restaurant tooEarly = new Restaurant(morning);\n        System.out.println(\"At 09:30 -> \" + tooEarly.placeOrder(\"Butter Chicken\"));\n\n        // A clock frozen at 12:15 - orders are open.\n        Clock lunch = Clock.fixed(Instant.parse(\"2024-05-01T12:15:00Z\"), ZoneOffset.UTC);\n        Restaurant open = new Restaurant(lunch);\n        System.out.println(\"At 12:15 -> \" + open.placeOrder(\"Butter Chicken\"));\n\n        // Exactly 11:00 counts as open, because isBefore is not inclusive.\n        Clock opening = Clock.fixed(Instant.parse(\"2024-05-01T11:00:00Z\"), ZoneOffset.UTC);\n        System.out.println(\"At 11:00 -> \" + new Restaurant(opening).placeOrder(\"Samosa\"));\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "RestaurantDemo.java",
+  "stdin": ""
+}

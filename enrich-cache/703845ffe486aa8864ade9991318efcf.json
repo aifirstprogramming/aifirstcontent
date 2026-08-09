@@ -1,0 +1,24 @@
+{
+  "summary": "This program stores the number of feet each of three animals has, adds them together, and prints each count along with the total.",
+  "lines": [
+    {
+      "code": "penguin_feet = 2",
+      "text": "A variable gives the number a name, so the rest of the program can talk about \"penguin feet\" instead of a bare 2."
+    },
+    {
+      "code": "total_feet = penguin_feet + panda_feet + hippo_feet",
+      "text": "The addition happens once and the answer is stored, so the total can be reused without recalculating it."
+    },
+    {
+      "code": "print(f\"Penguin feet: {penguin_feet}\")",
+      "text": "The f before the quotes marks an f-string, where anything inside curly braces is replaced by the value of that variable."
+    },
+    {
+      "code": "print(f\"Total feet: {total_feet}\")",
+      "text": "Showing the individual counts first and the total last makes the arithmetic easy for a reader to check."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

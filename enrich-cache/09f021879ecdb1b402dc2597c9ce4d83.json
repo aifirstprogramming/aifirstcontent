@@ -1,0 +1,31 @@
+{
+  "summary": "This loop keeps asking for seeds until the parrot has been fed at least as many as its capacity, adding each amount to a running total. It shows the shape of a while loop: a condition that is checked before every pass, and a body that changes the values in that condition so the loop can eventually end.",
+  "lines": [
+    {
+      "code": "while fed < capacity:",
+      "text": "The condition is tested before each pass, so the loop keeps going only while the total fed so far is still below what the parrot needs. Because `fed` grows inside the body, the loop is guaranteed to finish."
+    },
+    {
+      "code": "    feed = int(input(f\"Give seeds (remaining {capacity-fed}): \"))",
+      "text": "The prompt is rebuilt each pass so it can show `capacity-fed`, the seeds still needed, and `int(...)` turns the typed text into a whole number you can do arithmetic with."
+    },
+    {
+      "code": "    fed += max(0, feed)",
+      "text": "`max(0, feed)` treats any negative entry as zero, so a mischievous reader cannot undo progress and trap the loop forever."
+    },
+    {
+      "code": "    print(f\"Fed {feed} seed(s). Total fed: {fed}.\")",
+      "text": "Reporting both the single helping and the running total lets you watch the loop variable climb toward the capacity on every pass."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "main.py",
+      "content": "# The parrot starts empty and needs 10 seeds to be full.\nfed = 0\ncapacity = 10\n\n# Run the feeding loop printed in the book.\nexec(open(\"while_loops.py\").read())\n\nprint(\"The parrot is full!\")\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": "4\n4\n4\n",
+  "expectsUncaughtException": false
+}

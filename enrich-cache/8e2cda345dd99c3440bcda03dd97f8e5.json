@@ -1,0 +1,32 @@
+{
+  "summary": "This program stores seven facts about a giraffe in variables, using the three most common Python data types — text (str), decimal numbers (float), and whole numbers (int), plus a True/False value (bool) — and then prints them all as a formatted list.",
+  "lines": [
+    {
+      "code": "name = \"Gerald\"",
+      "text": "Text wrapped in quotation marks is a string, Python's data type for words and names."
+    },
+    {
+      "code": "height_m = 5.5",
+      "text": "A number written with a decimal point is a float, which is the right choice for a measurement that is not a whole number. Including the unit in the variable name keeps the meaning clear."
+    },
+    {
+      "code": "weight_kg = 1200",
+      "text": "A number with no decimal point is an integer, suitable here because the weight is being recorded as a round figure."
+    },
+    {
+      "code": "spots = 2500",
+      "text": "Counted things are always integers, since you cannot have half a spot."
+    },
+    {
+      "code": "is_endangered = False",
+      "text": "A boolean holds only True or False. Naming such a variable as a yes/no question, with an is_ prefix, makes it read naturally wherever it is used."
+    },
+    {
+      "code": "print(f\"Name: {name}\\nHeight: {height_m}m\\nWeight: {weight_kg}kg\\nSpots: {spots}\\nEndangered: {is_endangered}\\nTop Speed: {top_speed_kmh}km/h\\nLifespan: {lifespan_years} years\")",
+      "text": "The f before the quotation mark makes this an f-string, so each name inside curly braces is replaced by that variable's value. Python converts the float, integers, and boolean to text automatically, and each \\n starts a new line, so one print call produces seven lines of output."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

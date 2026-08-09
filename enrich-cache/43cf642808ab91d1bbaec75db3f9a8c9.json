@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores the whole number 42 in a variable and prints it to the screen. It shows that println can display numbers, not just text in quotes.",
+  "lines": [
+    {
+      "code": "public class PrintNumber {",
+      "text": "Every Java program lives inside a class, and the class name must match the file name, so this code belongs in PrintNumber.java."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the method Java runs first when the program starts; all the work happens inside its braces."
+    },
+    {
+      "code": "        int number = 42;",
+      "text": "The keyword int declares a variable that holds whole numbers, and the value 42 is stored in it under the name number."
+    },
+    {
+      "code": "        System.out.println(number);",
+      "text": "Passing the variable without quotation marks prints the value it holds; writing \"number\" instead would print the word itself."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

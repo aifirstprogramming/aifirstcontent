@@ -1,0 +1,76 @@
+{
+  "summary": "This program builds a RobotPetShelter that keeps its collection of robot pets in a private list, and gives the outside world three safe ways to work with that list: add a pet, print them all, and search for one by name. It is an example of composition — a shelter is not a kind of pet, it is an object made up of other objects.",
+  "lines": [
+    {
+      "code": "        self.__pets = []",
+      "text": "The double underscore makes the list private to the shelter, so nothing outside the class can add, remove, or reorder pets without going through the shelter's own methods."
+    },
+    {
+      "code": "    def add_pet(self, pet):",
+      "text": "This is the only doorway into the private list, and it accepts any object that behaves like a robot pet."
+    },
+    {
+      "code": "        if not self.__pets:",
+      "text": "An empty list is falsy in Python, so this is the idiomatic way to handle the \"nothing here yet\" case before trying to build a report."
+    },
+    {
+      "code": "        return \"\\n\".join(",
+      "text": "Joining with a newline turns the many pet descriptions into one multi-line string, which the caller can print in a single go."
+    },
+    {
+      "code": "            f\"{pet.name} ({type(pet).__name__}) - Battery: {pet.battery}%, Mood: {pet.mood}\"",
+      "text": "type(pet).__name__ pulls out the class name of each object, so the report shows whether a pet is a RobotCat, RobotBird, or RobotDog without the shelter needing to know in advance."
+    },
+    {
+      "code": "            for pet in self.__pets",
+      "text": "This generator expression feeds one formatted line per pet into join, rather than building an intermediate list."
+    },
+    {
+      "code": "            if pet.name.lower() == name.lower():",
+      "text": "Lowercasing both sides makes the search case-insensitive, so \"rex\" and \"Rex\" find the same pet."
+    },
+    {
+      "code": "        return None",
+      "text": "Returning None when nothing matches is the standard Python signal for \"not found\", and it lets the caller test the result with a simple if."
+    },
+    {
+      "code": "cat = RobotCat(\"Whiskers\", 85, \"happy\")",
+      "text": "The three pets come from the subclasses written earlier in the chapter; the shelter never needs to know which subclass it is holding."
+    },
+    {
+      "code": "shelter = RobotPetShelter()",
+      "text": "The shelter starts out empty because its constructor takes no arguments and creates a fresh list."
+    },
+    {
+      "code": "shelter.add_pet(cat)",
+      "text": "Adding objects one at a time is what composition looks like in practice: the shelter now contains the pets rather than inheriting from them."
+    },
+    {
+      "code": "found = shelter.find_pet_by_name(\"Rex\")",
+      "text": "The search hands back the actual RobotDog object, not a copy, so any method on that object can be called next."
+    },
+    {
+      "code": "if found:",
+      "text": "Guarding the call protects against the None case; calling a method on None would crash the program."
+    },
+    {
+      "code": "    print(found.show_talent())",
+      "text": "Because the returned object is a real RobotDog, its own version of show_talent runs — polymorphism working through the shelter."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pets.py",
+      "content": "",
+      "fromExercise": "py-6-06"
+    },
+    {
+      "path": "main.py",
+      "content": "# Runner: makes the robot pet classes from earlier in the chapter\n# available before the shelter program executes.\nfrom pets import *\n\nwith open(\"composition.py\") as source:\n    code = source.read()\n\nexec(compile(code, \"composition.py\", \"exec\"))\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

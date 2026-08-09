@@ -1,0 +1,24 @@
+{
+  "summary": "This is the Thermostat class with its display method rewritten to hand back a String instead of printing it. Returning the text lets a test capture the value and check it, which is exactly what makes the method testable.",
+  "lines": [
+    {
+      "code": "public class Thermostat {",
+      "text": "The class declaration opens the Thermostat type; the body below shows only the one method that changed."
+    },
+    {
+      "code": "    //variables, constructor, and getStatus method",
+      "text": "This comment stands in for the parts of the class the book already covered, so the printed page can focus on the single edit. Because those members are not spelled out here, this snippet is a fragment and will not compile until they are restored."
+    },
+    {
+      "code": "    public String printStatusToDisplay() {",
+      "text": "The return type is now String rather than void, so the method hands a value back to whoever calls it. That single change is what turns an unverifiable side effect into something a test can assert on."
+    },
+    {
+      "code": "        return \"Thermostat status: \" + getStatus();",
+      "text": "The label is joined to the result of getStatus() with the + operator, which converts and concatenates the pieces into one String, and return sends that finished text to the caller instead of the console."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

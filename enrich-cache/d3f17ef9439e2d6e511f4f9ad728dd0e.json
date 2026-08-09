@@ -1,0 +1,49 @@
+{
+  "summary": "This program builds a playlist of Song objects in an ArrayList, then sorts the same list three times — by title, by energy level from high to low, and by artist — printing the result after each sort.",
+  "lines": [
+    {
+      "code": "import java.util.Comparator;",
+      "text": "Comparator is the interface that describes how to compare two objects; the list's sort method needs one to know what order you want."
+    },
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "The variable's type is the List interface while the object is an ArrayList, which is the usual habit: you program against the general contract and keep the freedom to swap in another implementation later."
+    },
+    {
+      "code": "        playlist.add(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "Each add appends one Song to the end of the list, so the starting order is simply the order the songs were added."
+    },
+    {
+      "code": "        for (Song song : playlist) {",
+      "text": "An enhanced for loop walks every element of the list in order, without you having to manage an index."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getTitle));",
+      "text": "Comparator.comparing builds a comparator from a key: it calls getTitle on two songs and compares the resulting strings alphabetically. Note that sort rearranges the list itself rather than returning a new one."
+    },
+    {
+      "code": "        playlist.forEach(System.out::println);",
+      "text": "forEach is the shorter alternative to a loop, and System.out::println is a method reference meaning \"call println on each element.\""
+    },
+    {
+      "code": "Comparator.comparingInt(Song::getEnergyLevel)",
+      "text": "comparingInt is the version for int keys; it avoids wrapping each number in an Integer object."
+    },
+    {
+      "code": "     .reversed());",
+      "text": "reversed flips the comparator's decision, turning low-to-high energy into high-to-low."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getArtist));",
+      "text": "Sorting a third time discards the previous energy-level ordering, because each sort completely rearranges the one list."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "public class Song {\n    private String title;\n    private String artist;\n    private String genre;\n    private int energyLevel;\n\n    public Song(String title, String artist, String genre, int energyLevel) {\n        this.title = title;\n        this.artist = artist;\n        this.genre = genre;\n        this.energyLevel = energyLevel;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getArtist() {\n        return artist;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    public int getEnergyLevel() {\n        return energyLevel;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + artist + \" (\" + genre + \", energy \" + energyLevel + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

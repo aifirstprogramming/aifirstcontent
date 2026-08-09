@@ -1,0 +1,56 @@
+{
+  "summary": "This program brews coffee through a helper method that validates its arguments, and when the arguments are wrong it throws a custom exception class written specifically for this program. The first call succeeds and prints a brewing message; the second call asks for zero shots, so the program stops with a CoffeeConjuringException.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "A valid order: the method runs all the way through and prints the brewing messages."
+    },
+    {
+      "code": "        makeCoffee(\"Latte\", 0);",
+      "text": "Zero shots is invalid, so this call throws the custom exception and ends the program before main finishes."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "The helper method takes the drink name and the shot count as parameters; being static means main can call it without creating an object."
+    },
+    {
+      "code": "        if (type == null || type.isBlank()) {",
+      "text": "Guard clauses at the top of a method reject bad input before any real work happens. Checking for null first matters, because calling isBlank on a null reference would itself crash."
+    },
+    {
+      "code": "            throw new CoffeeConjuringException(\"Coffee type must not be null or blank.\");",
+      "text": "The throw statement immediately abandons the method and hands the exception object to the caller, carrying a message that explains what went wrong."
+    },
+    {
+      "code": "            throw new CoffeeConjuringException(\"Shots must be at least 1. Provided: \" + shots);",
+      "text": "Including the offending value in the message makes the failure far easier to diagnose than a bare \"invalid input\"."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "A local variable holding an intermediate calculation; it exists only while this method is running."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "The comparison produces true or false, which is stored in a boolean so the condition reads clearly below."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "Naming the condition means the if statement reads like English instead of repeating the arithmetic."
+    },
+    {
+      "code": "    static class CoffeeConjuringException extends RuntimeException {",
+      "text": "A custom exception is just a class that extends an existing exception type. Extending RuntimeException makes it unchecked, so callers are not forced to catch it or declare it."
+    },
+    {
+      "code": "        CoffeeConjuringException(String message) { super(message); }",
+      "text": "The constructor passes the message up to RuntimeException, which stores it so it appears in the stack trace."
+    },
+    {
+      "code": "        CoffeeConjuringException(String message, Throwable cause) { super(message, cause); }",
+      "text": "A second constructor lets you attach the original exception as the cause when you wrap a lower-level failure, preserving the full chain of what went wrong."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

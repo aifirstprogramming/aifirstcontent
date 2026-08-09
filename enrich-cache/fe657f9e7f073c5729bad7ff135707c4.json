@@ -1,0 +1,29 @@
+{
+  "summary": "This is a sample run of a five-line program that asks how many balls the dog retrieved, how many the cat retrieved, and how many were never retrieved, then adds the three counts to report the total number of balls thrown.",
+  "lines": [
+    {
+      "code": "Enter number of balls dog retrieved: 8",
+      "text": "The prompt text comes from the program and the 8 is typed by the reader, so this single line shows both halves of an input() call in action."
+    },
+    {
+      "code": "Enter number of balls cat retrieved: 2",
+      "text": "Each count is collected separately because the program has no way of knowing how many balls each animal chased; only the person watching can supply that."
+    },
+    {
+      "code": "Enter number of balls never retrieved: 3",
+      "text": "Balls left lying in the grass still count as thrown, which is why the third question is needed for the total to be correct."
+    },
+    {
+      "code": "Total balls thrown: 13",
+      "text": "The final line is the sum 8 + 2 + 3, proving that the typed answers were converted to whole numbers with int() before being added; without that conversion Python would have joined the text together as \"823\"."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_fetch.py",
+      "content": "dog = int(input(\"Enter number of balls dog retrieved: \"))\ncat = int(input(\"Enter number of balls cat retrieved: \"))\nlost = int(input(\"Enter number of balls never retrieved: \"))\ntotal = dog + cat + lost\nprint(\"Total balls thrown:\", total)\n"
+    }
+  ],
+  "entrypoint": "pet_fetch.py",
+  "stdin": "8\n2\n3\n"
+}

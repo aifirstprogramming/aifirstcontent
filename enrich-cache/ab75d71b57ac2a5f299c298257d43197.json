@@ -1,0 +1,53 @@
+{
+  "summary": "This version of RobotPet guards its battery level with a property. Any attempt to set the battery below 0 or above 100 is quietly clamped into that range, so the value stored on the object is always valid.",
+  "lines": [
+    {
+      "code": "        self.battery = battery",
+      "text": "Even inside __init__, this assignment goes through the property setter below, so a pet created with a battery of 500 still starts at 100."
+    },
+    {
+      "code": "    @property",
+      "text": "The @property decorator turns the method underneath into an attribute you read as pet.battery, with no parentheses."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in _battery; the leading underscore signals that it is internal and should be reached through the property instead."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This registers the next method as the code that runs whenever anything assigns to pet.battery."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "The first guard catches drained batteries."
+    },
+    {
+      "code": "            self._battery = 0",
+      "text": "Rather than raising an error, the setter clamps the value to the lowest legal level."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "The second guard catches overcharging."
+    },
+    {
+      "code": "            self._battery = value",
+      "text": "Only a value already inside the 0-to-100 range is stored unchanged."
+    },
+    {
+      "code": "    def charge(self, amount):",
+      "text": "Charging can stay this simple precisely because the setter enforces the limits; the method itself never has to check anything."
+    },
+    {
+      "code": "        self.battery += amount",
+      "text": "This reads the property, adds the amount, and assigns back through the setter, so a huge charge tops out at 100."
+    },
+    {
+      "code": "        return f\"{self.name} performs a generic trick!\"",
+      "text": "The base talent is deliberately generic, ready for subclasses to override in later exercises."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

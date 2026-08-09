@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores three status messages in an array and prints each one using a for-each loop, which walks through every element without needing an index counter.",
+  "lines": [
+    {
+      "code": "        String[] statuses = {\"Starting\", \"Processing\", \"Finished\"};",
+      "text": "An array holds a fixed sequence of values of the same type, and this initializer syntax creates the array and fills it with three strings in one step."
+    },
+    {
+      "code": "        for (String status : statuses) {",
+      "text": "The for-each loop runs its body once per element of the array, assigning each element in turn to the variable status. Read the colon as \"in\": for each status in statuses."
+    },
+    {
+      "code": "            System.out.println(status);",
+      "text": "Inside the loop, status already holds the current element, so there is no index arithmetic to get wrong."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,37 @@
+{
+  "summary": "This program asks the reader to hand the parrot seeds over and over, adding each handful to a running total, and stops as soon as the parrot has received the 10 seeds it needs.",
+  "lines": [
+    {
+      "code": "capacity = 10",
+      "text": "This is the target the loop is working towards: the number of seeds the parrot needs before it counts as full."
+    },
+    {
+      "code": "fed = 0",
+      "text": "A running total, starting at zero because nothing has been fed yet. Counters like this must exist before the loop that updates them."
+    },
+    {
+      "code": "while fed < capacity:",
+      "text": "The loop repeats as long as the total is still short of the target, so the program does not need to know in advance how many handfuls it will take."
+    },
+    {
+      "code": "    feed = int(input(f\"Give seeds (remaining {capacity-fed}): \"))",
+      "text": "Each pass reads one handful from the keyboard and converts the text to a whole number, showing how many seeds are still outstanding so the reader can decide what to type."
+    },
+    {
+      "code": "    fed += max(0, feed)",
+      "text": "The total grows by the amount just entered, and max(0, feed) quietly turns a negative entry into zero so nobody can take seeds back out of the parrot."
+    },
+    {
+      "code": "    print(f\"Fed {feed} seed(s). Total fed: {fed}.\")",
+      "text": "Reporting both this handful and the running total makes the loop's progress visible on each pass."
+    },
+    {
+      "code": "print(\"Parrot is full!\")",
+      "text": "This line sits outside the loop, so it runs once the condition finally fails — that is, the moment the total reaches capacity."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "4\n3\n3\n",
+  "expectsUncaughtException": false
+}

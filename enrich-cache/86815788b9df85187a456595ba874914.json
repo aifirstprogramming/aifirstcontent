@@ -1,0 +1,29 @@
+{
+  "summary": "This loop keeps asking you for seeds and adding them to a running total until the parrot has had its fill. It shows a while loop, whose number of repetitions depends on what the user types rather than on a fixed count.",
+  "lines": [
+    {
+      "code": "while fed < capacity:",
+      "text": "A while loop repeats for as long as its condition stays true, so the questions continue until the running total reaches the parrot's capacity. Unlike a for loop, the number of repetitions is not known in advance because it depends on how many seeds are given each time."
+    },
+    {
+      "code": "    feed = int(input(f\"Give seeds (remaining {capacity-fed}): \"))",
+      "text": "The prompt computes how many seeds are still needed and shows it, then int() turns the typed text into a number that can be added up."
+    },
+    {
+      "code": "    fed += max(0, feed)",
+      "text": "max(0, feed) refuses to accept a negative amount, so a mistyped -5 adds nothing instead of undoing earlier feeding. Updating fed here is what eventually makes the loop condition false and ends the loop."
+    },
+    {
+      "code": "    print(f\"Fed {feed} seed(s). Total fed: {fed}.\")",
+      "text": "Reporting both the amount just given and the running total makes the loop's progress visible on each pass."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "main.py",
+      "content": "import pathlib\n\n# The parrot starts empty and is full at 10 seeds.\nfed = 0\ncapacity = 10\n\n# Run the exercise's loop with fed and capacity already defined.\nhere = pathlib.Path(__file__).resolve()\nsource = next(\n    p for p in sorted(here.parent.glob(\"*.py\")) if p.resolve() != here\n)\nexec(source.read_text())\n\nprint(\"The parrot is full!\")\n"
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": "4\n3\n5\n"
+}

@@ -1,0 +1,67 @@
+{
+  "summary": "This program finds the cheapest and most expensive product in the \"Craft\" category using stream min and max, then shows three different ways to deal with the Optional those methods return. Because the product list is left empty here, it also demonstrates what happens when there is nothing to find.",
+  "lines": [
+    {
+      "code": "import java.util.Optional;",
+      "text": "Optional is the wrapper Java uses for a result that may or may not exist, which is exactly what min and max return."
+    },
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "Creates the list the rest of the method streams over; the commented-out lines above are the work done in earlier exercises in this chapter."
+    },
+    {
+      "code": "        Optional<MarketProduct> minCraft = getMinByCategoryPrice(products, \"Craft\");",
+      "text": "Calls the helper below to search for the lowest-priced Craft product, receiving an Optional rather than a product directly."
+    },
+    {
+      "code": "        minCraft.ifPresent(p -> System.out.println(\"Cheapest Craft (ifPresent): \" + p));",
+      "text": "The first approach: ifPresent runs the lambda only when a value exists and silently does nothing when the Optional is empty, so no null check is needed."
+    },
+    {
+      "code": "        if (maxCraft.isPresent()) {",
+      "text": "The second approach: isPresent asks the question explicitly, which lets you write an else branch for the empty case."
+    },
+    {
+      "code": "            System.out.println(\"Priciest Craft (isPresent): \" + maxCraft.get());",
+      "text": "Calling get() is only safe inside this branch, because get() throws an exception on an empty Optional."
+    },
+    {
+      "code": "        MarketProduct fallback = new MarketProduct(\"No Craft Item\", \"N/A\", 0.0, \"Craft\", \"N/A\", false);",
+      "text": "Builds a stand-in product to use when no real Craft item was found, so the program always has something to print."
+    },
+    {
+      "code": "        System.out.println(\"Priciest Craft (orElse): \" + maxCraft.orElse(fallback));",
+      "text": "The third approach: orElse hands back the contained product, or the fallback when the Optional is empty, collapsing both cases into one line."
+    },
+    {
+      "code": "    public static Optional<MarketProduct> getMinByCategoryPrice(List<MarketProduct> products, String category) {",
+      "text": "Returning Optional instead of a possibly-null MarketProduct forces the caller to think about the empty case."
+    },
+    {
+      "code": "                .filter(p -> p.getCategory() != null ",
+      "text": "Guards against a product whose category was never set, since calling a method on null would crash the stream."
+    },
+    {
+      "code": "&& p.getCategory().equalsIgnoreCase(category))",
+      "text": "Compares categories ignoring capitalization, so \"craft\" and \"Craft\" both match."
+    },
+    {
+      "code": "               .min(Comparator.comparingDouble(MarketProduct::getPrice));",
+      "text": "min needs a Comparator to know what \"smallest\" means; comparingDouble builds one from each product's price."
+    },
+    {
+      "code": "                .max(Comparator.comparingDouble(MarketProduct::getPrice));",
+      "text": "max uses the identical comparator and simply picks the opposite end of the ordering."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

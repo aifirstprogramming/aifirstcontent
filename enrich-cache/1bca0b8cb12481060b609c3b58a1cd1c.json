@@ -1,0 +1,77 @@
+{
+  "summary": "This is a unittest suite for the new `speak` method that each robot pet class provides. For every pet it checks three branches of the method — low battery, a happy mood, and the plain neutral greeting — plus a fourth test confirming the pet's own name appears in whatever it says.",
+  "lines": [
+    {
+      "code": "import unittest",
+      "text": "Brings in Python's built-in testing framework, which supplies the TestCase class and the assertion helpers used below."
+    },
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "Imports the four classes under test from the module written in the earlier exercise, so the tests exercise the real code rather than a copy."
+    },
+    {
+      "code": "class TestRobotPet(unittest.TestCase):",
+      "text": "Each pet class gets its own TestCase subclass; grouping tests this way keeps the results readable and lets each group share one setUp."
+    },
+    {
+      "code": "    …",
+      "text": "The book uses an ellipsis to stand for the setUp method printed earlier in the chapter, which creates the fresh pet object that every test in the class uses."
+    },
+    {
+      "code": "    def test_speak_low_battery(self):",
+      "text": "Test method names must begin with `test` for unittest to discover and run them, and a descriptive tail tells you which branch failed."
+    },
+    {
+      "code": "        self.pet.battery = 10",
+      "text": "Setting the battery directly puts the object into the low-power state, which is far simpler than draining it through repeated actions."
+    },
+    {
+      "code": "        self.assertIn(\"recharge\", self.pet.speak())",
+      "text": "assertIn checks that the returned sentence contains the keyword, so the test still passes if the exact wording is later polished."
+    },
+    {
+      "code": "        self.pet.mood = \"happy\"",
+      "text": "Forces the mood branch of speak to run instead of relying on whatever mood the pet happens to start with."
+    },
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "A healthy battery is set on purpose so the low-battery message cannot take priority over the mood message being tested."
+    },
+    {
+      "code": "    def test_speak_neutral(self):",
+      "text": "Covers the default path where nothing special is happening, which is easy to forget when the interesting branches get all the attention."
+    },
+    {
+      "code": "    def test_speak_contains_name(self):",
+      "text": "One test per class confirms the pet identifies itself, catching a hard-coded name accidentally left in a subclass."
+    },
+    {
+      "code": "        self.assertIn(\"tired\", self.cat.speak())",
+      "text": "RobotCat overrides speak with cat-flavoured wording, so its low-battery test looks for the cat's phrase rather than the parent class's."
+    },
+    {
+      "code": "        self.assertIn(\"Best day\", self.dog.speak())",
+      "text": "A multi-word substring works exactly like a single word, which is handy when the phrase to match is a whole exclamation."
+    },
+    {
+      "code": "if __name__ == \"__main__\":",
+      "text": "This guard lets the file be run directly as a test script while still being safe to import from elsewhere."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "Finds every test method in the file, runs them, and prints a pass/fail summary."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "\"\"\"Robot pets from Chapter 7, now with the new speak() feature.\"\"\"\n\n\nclass RobotPet:\n    def __init__(self, name, battery=100, mood=\"neutral\"):\n        self.name = name\n        self.battery = battery\n        self.mood = mood\n\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name} needs to recharge.\"\n        if self.mood == \"happy\":\n            return f\"{self.name} is happy to see you!\"\n        return f\"Hello, I am {self.name}.\"\n\n\nclass RobotCat(RobotPet):\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name} is too tired to purr.\"\n        if self.mood == \"happy\":\n            return f\"Purr... {self.name} is a happy kitty!\"\n        return f\"Meow! I am {self.name}.\"\n\n\nclass RobotBird(RobotPet):\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name} says the battery is low.\"\n        if self.mood == \"happy\":\n            return f\"{self.name} sings: what a lovely day!\"\n        return f\"Chirp chirp! I am {self.name}.\"\n\n\nclass RobotDog(RobotPet):\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name} needs a charge.\"\n        if self.mood == \"happy\":\n            return f\"Best day ever! {self.name} is wagging its tail!\"\n        return f\"Woof! I am {self.name}.\"\n"
+    },
+    {
+      "path": "run_tests.py",
+      "content": "\"\"\"Runs the printed test file.\n\nThe book replaces each setUp method with an ellipsis, which Python cannot\nparse. This runner drops those placeholder lines, then supplies the setUp\nmethods the chapter described so the tests can execute unchanged.\n\"\"\"\n\nimport os\nimport unittest\n\nfrom pet_talents import RobotPet, RobotCat, RobotBird, RobotDog\n\nHERE = os.path.dirname(os.path.abspath(__file__))\nTARGET = \"implementing_a_new_feature_and_testing_it.py\"\nME = os.path.basename(__file__)\n\n\ndef find_source():\n    direct = os.path.join(HERE, TARGET)\n    if os.path.exists(direct):\n        return direct\n    for name in sorted(os.listdir(HERE)):\n        if not name.endswith(\".py\") or name in (ME, \"pet_talents.py\"):\n            continue\n        path = os.path.join(HERE, name)\n        with open(path, encoding=\"utf-8\") as handle:\n            if \"class TestRobotPet\" in handle.read():\n                return path\n    raise SystemExit(\"Could not find the book's test file.\")\n\n\nwith open(find_source(), encoding=\"utf-8\") as handle:\n    source = handle.read()\n\ncleaned = \"\\n\".join(\n    line for line in source.splitlines() if line.strip() != \"\\u2026\"\n)\n\nnamespace = {\"__name__\": \"book_tests\"}\nexec(compile(cleaned, \"book_tests\", \"exec\"), namespace)\n\nSETUPS = [\n    (\"TestRobotPet\", \"pet\", lambda: RobotPet(\"Robo\")),\n    (\"TestRobotCat\", \"cat\", lambda: RobotCat(\"Whiskers\")),\n    (\"TestRobotBird\", \"bird\", lambda: RobotBird(\"Tweety\")),\n    (\"TestRobotDog\", \"dog\", lambda: RobotDog(\"Rex\")),\n]\n\n\ndef make_setup(attribute, factory):\n    def setUp(self):\n        setattr(self, attribute, factory())\n\n    return setUp\n\n\nloader = unittest.TestLoader()\nsuite = unittest.TestSuite()\nfor class_name, attribute, factory in SETUPS:\n    test_class = namespace[class_name]\n    test_class.setUp = make_setup(attribute, factory)\n    suite.addTests(loader.loadTestsFromTestCase(test_class))\n\nunittest.TextTestRunner(verbosity=2).run(suite)\n"
+    }
+  ],
+  "entrypoint": "run_tests.py",
+  "stdin": ""
+}

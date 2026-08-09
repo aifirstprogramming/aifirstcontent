@@ -1,0 +1,36 @@
+{
+  "summary": "This is a fragment of a Maven `pom.xml` file that adds the Mockito library to the project. Mockito lets tests create stand-in \"mock\" objects, such as a fake TemperatureSensor that returns whatever reading the test needs, instead of relying on real hardware.",
+  "lines": [
+    {
+      "code": "    <dependencies>",
+      "text": "Everything the project needs from outside libraries is listed inside this one element, and Maven downloads each entry for you."
+    },
+    {
+      "code": "        <!-- JUnit 5 dependency -->",
+      "text": "An XML comment marking where the existing JUnit 5 entry sits; the book omits its details here so the new addition stands out."
+    },
+    {
+      "code": "        <dependency>",
+      "text": "Opens the description of one single library. Each library needs its own `dependency` block."
+    },
+    {
+      "code": "            <groupId>org.mockito</groupId>",
+      "text": "The group ID identifies the organization that publishes the library, which keeps two projects with the same name from colliding."
+    },
+    {
+      "code": "            <artifactId>mockito-core</artifactId>",
+      "text": "The artifact ID names the specific library within that group; `mockito-core` holds the mocking engine and the `mock()` and `when()` methods."
+    },
+    {
+      "code": "            <version>5.12.0</version>",
+      "text": "Pinning an exact version means the build behaves the same today and a year from now, rather than silently picking up changes."
+    },
+    {
+      "code": "            <scope>test</scope>",
+      "text": "The test scope makes Mockito available when compiling and running tests only, so it is never bundled into the shipped application."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

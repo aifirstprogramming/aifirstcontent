@@ -1,0 +1,68 @@
+{
+  "summary": "This program defines a general RobotPet class and three specialized versions of it — a cat, a bird, and a dog — each adding its own sound method. One of each is created and asked to speak.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "The base class holds everything all robot pets share, so the subclasses do not have to repeat it."
+    },
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to self.battery does not store the value directly; it goes through the setter defined below, so bad values are corrected before they are ever saved."
+    },
+    {
+      "code": "    @property",
+      "text": "The property decorator turns the following method into a read-only attribute, so code says pet.battery rather than pet.battery()."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in _battery, and the leading underscore signals that outside code should leave it alone and use the property instead."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This registers the next method as the code that runs whenever anything assigns to battery."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "Negative charge is impossible, so the setter quietly clamps it up to zero instead of storing nonsense."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "A battery cannot exceed full, so anything above 100 is capped at 100."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "Naming RobotPet in the parentheses makes RobotCat inherit its __init__ and its battery property, so the cat needs no constructor of its own."
+    },
+    {
+      "code": "    def meow(self):",
+      "text": "This is the cat's own contribution: behaviour that only cats have, added on top of what was inherited."
+    },
+    {
+      "code": "        return f\"{self.name} says: Meow!\"",
+      "text": "The method reads self.name even though RobotCat never sets it, which shows the inherited constructor did that work."
+    },
+    {
+      "code": "class RobotBird(RobotPet):",
+      "text": "The bird inherits the same foundation, showing that one base class can serve any number of subclasses."
+    },
+    {
+      "code": "class RobotDog(RobotPet):",
+      "text": "The dog is a third subclass, differing from the others only in the sound method it adds."
+    },
+    {
+      "code": "cat = RobotCat(\"Whiskers\", 85, \"happy\")",
+      "text": "Creating a RobotCat calls RobotPet's __init__, so all three arguments are handled by inherited code."
+    },
+    {
+      "code": "dog = RobotDog(\"Rex\", 75, \"excited\")",
+      "text": "Each object keeps its own name, battery, and mood, so the three pets do not interfere with one another."
+    },
+    {
+      "code": "print(cat.meow())",
+      "text": "Each object responds to the method belonging to its own class, which is why the three calls have different names."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

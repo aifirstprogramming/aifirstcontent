@@ -1,0 +1,33 @@
+{
+  "summary": "This program stores two whole numbers in variables, adds them together into a third variable, and prints the result. It shows how a variable can hold the outcome of a calculation rather than a value you typed yourself.",
+  "lines": [
+    {
+      "code": "public class PrintNumber {",
+      "text": "Every Java program lives inside a class, and the class name must match the file name, so this code belongs in PrintNumber.java."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the method Java runs first when the program starts; anything you want executed goes inside it."
+    },
+    {
+      "code": "        int a = 20;",
+      "text": "Declares a variable named a of type int, which holds whole numbers, and stores 20 in it."
+    },
+    {
+      "code": "        int b = 22;",
+      "text": "Declares a second int variable so the program has two values to work with."
+    },
+    {
+      "code": "        int sum = a + b;",
+      "text": "The expression on the right is evaluated first, then the result 42 is stored in a new variable named sum. Naming the result makes the code easier to read and lets you reuse the value later."
+    },
+    {
+      "code": "        System.out.println(sum);",
+      "text": "Prints the value held in sum. Because there are no quotation marks, Java prints the number stored in the variable rather than the word \"sum\"."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

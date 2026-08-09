@@ -1,0 +1,33 @@
+{
+  "summary": "This program splits 23 cake slices into portions of 2 per person, then reports how many people get a full portion and how many slices are left over. It shows the difference between Java's division operator and its remainder operator.",
+  "lines": [
+    {
+      "code": "        int slicesAvailable = 23;",
+      "text": "The total number of slices is stored as an int because slices are counted in whole units. The value 23 is deliberately odd so that the leftover calculation has something to show."
+    },
+    {
+      "code": "        int slicesPerPerson = 2;",
+      "text": "Naming the serving size in a variable makes the intent clear and lets you change the portion size in one place."
+    },
+    {
+      "code": "        int peopleFullyServed = slicesAvailable / slicesPerPerson; // integer division",
+      "text": "When both operands are ints, Java's / performs integer division and discards any fraction, so 23 / 2 gives 11 rather than 11.5. That is exactly what you want here, since a person served only half a portion is not fully served."
+    },
+    {
+      "code": "        int leftoverSlices = slicesAvailable % slicesPerPerson;    // modulus (remainder)",
+      "text": "The % operator returns what is left after the division, so 23 % 2 gives 1. Division and modulus are a pair: together they account for every slice."
+    },
+    {
+      "code": "        System.out.println(\"Slices available: \" + slicesAvailable);",
+      "text": "The + here joins text to a number, converting the int to its printed form so the label and the value appear as one line."
+    },
+    {
+      "code": "        System.out.println(\"People fully served: \" + peopleFullyServed);",
+      "text": "Printing the computed result alongside the inputs lets you verify the arithmetic at a glance."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

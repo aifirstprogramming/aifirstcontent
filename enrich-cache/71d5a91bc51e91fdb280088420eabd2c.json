@@ -1,0 +1,41 @@
+{
+  "summary": "This program filters a list of farmers market products down to the organic summer ones, sorts them by price, and collects their names into a list. The only change from the earlier version is that the pipeline now runs on a parallel stream, which splits the work across several threads.",
+  "lines": [
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "Creates the collection the stream will read from. The book leaves the actual product data as comments, so running this file as printed produces an empty result list."
+    },
+    {
+      "code": "        List<String> organicSummerNames = getOrganicSummerItemNamesSortedByPrice(products);",
+      "text": "Calls the stream method and stores the finished list, keeping the pipeline itself out of main."
+    },
+    {
+      "code": "        return products.parallelStream()",
+      "text": "This is the one change that makes the pipeline parallel: instead of stream(), parallelStream() hands the elements to the common ForkJoinPool so that filtering and mapping happen on multiple threads at once."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "Keeps only organic products whose season mentions summer. This lambda is safe in parallel because it only reads each product and stores nothing outside itself — a stateless lambda like this is the key requirement for parallel streams."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "Sorts by price. In a parallel stream each chunk is sorted separately and the results are merged, which costs more than a sequential sort but still gives the same final order."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "Replaces each product with its name, again using only the element itself so no thread can interfere with another."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "Gathers the names. There is no thread safety concern here even in parallel: each thread collects into its own list and the collector combines them in order, so you never touch a shared mutable list yourself. Adding to an external ArrayList inside forEach is what would break."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "public class MarketProduct {\n    private String name;\n    private double price;\n    private boolean organic;\n    private String season;\n\n    public MarketProduct(String name, double price, boolean organic, String season) {\n        this.name = name;\n        this.price = price;\n        this.organic = organic;\n        this.season = season;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public double getPrice() {\n        return price;\n    }\n\n    public boolean isOrganic() {\n        return organic;\n    }\n\n    public String getSeason() {\n        return season;\n    }\n\n    @Override\n    public String toString() {\n        return name + \" ($\" + price + \", organic=\" + organic + \", season=\" + season + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

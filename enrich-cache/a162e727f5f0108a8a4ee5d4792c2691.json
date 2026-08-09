@@ -1,0 +1,59 @@
+{
+  "summary": "This program builds a list of Book objects and then walks through it to collect every book whose genre is Fantasy into a second list, which it prints. It shows the standard pattern for filtering a collection: loop, test, and copy the matches into a new list.",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the everyday, resizable implementation of a list, and it must be imported before you can create one."
+    },
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that describes what a list can do; declaring variables with it keeps your code free to swap in a different implementation later."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The variable's type is the List interface while the object created is an ArrayList, and the angle brackets promise that only Book objects will go in."
+    },
+    {
+      "code": "        Book sherlock = new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\");",
+      "text": "Each book is built once as an object holding its title, author, and genre together, instead of three loose strings."
+    },
+    {
+      "code": "        books.add(sherlock);",
+      "text": "add appends the object to the end of the list, so the list grows as you go without you ever setting a size."
+    },
+    {
+      "code": "        List<Book> fantasyBooks = new ArrayList<>();",
+      "text": "A second, empty list is the destination for the filter results; the original list is never modified."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "This enhanced for loop hands you each Book in turn, which is all you need when you are only reading the list."
+    },
+    {
+      "code": "            if (book.getGenre().equalsIgnoreCase(\"Fantasy\")) {",
+      "text": "equalsIgnoreCase compares the text of the two strings while ignoring capitalization, so \"fantasy\" and \"Fantasy\" both match. Use it instead of == , which compares object identity rather than contents."
+    },
+    {
+      "code": "                fantasyBooks.add(book);",
+      "text": "Only matching books are copied across, and both lists now refer to the same Book objects rather than to copies of them."
+    },
+    {
+      "code": "        for (Book book : fantasyBooks) {",
+      "text": "A second loop over the filtered list keeps the searching and the reporting as two clearly separate steps."
+    },
+    {
+      "code": "            System.out.println(book);",
+      "text": "Passing an object to println calls its toString method, which is why Book needs a readable toString of its own."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

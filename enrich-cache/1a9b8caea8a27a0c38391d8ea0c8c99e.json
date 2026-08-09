@@ -1,0 +1,43 @@
+{
+  "summary": "This is a JUnit test that creates a Thermostat set to 60 degrees and checks that its status reads \"Heating\". It is the first automated test for the thermostat, replacing the manual check done by hand earlier in the chapter.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "Brings in the @Test annotation from JUnit 5, which is how you mark a method as a test that the test runner should execute."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), keeping the test body short and readable."
+    },
+    {
+      "code": "public class ThermostatTest {",
+      "text": "Test code lives in its own class, separate from Thermostat itself, so the production class stays free of testing details. The convention of naming it after the class under test plus \"Test\" is what most tools expect."
+    },
+    {
+      "code": "    @Test",
+      "text": "This annotation tells JUnit that the method below is a test to run and report on, so you never have to call it yourself."
+    },
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "A test method name should read like a sentence describing the expected behavior, because that name is what appears in the report when the test fails."
+    },
+    {
+      "code": "        Thermostat t = new Thermostat(60.0);",
+      "text": "Sets up the situation being tested: a thermostat at 60 degrees, comfortably below the threshold where heating should switch on."
+    },
+    {
+      "code": "        assertEquals(\"Heating\", t.getStatus());",
+      "text": "Compares the expected value with the actual one; if getStatus() returns anything other than \"Heating\", JUnit fails the test and shows both values. The expected value always comes first."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

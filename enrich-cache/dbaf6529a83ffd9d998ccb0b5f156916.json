@@ -1,0 +1,59 @@
+{
+  "summary": "This program builds a playlist of Song objects, sorts it by artist, then copies it into a LinkedList to show how a song can be inserted at a specific position in the list and removed from the middle again.",
+  "lines": [
+    {
+      "code": "import java.util.LinkedList;",
+      "text": "LinkedList is the collection this example focuses on; it stores elements as a chain of nodes, which makes inserting and removing in the middle cheap."
+    },
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "The playlist starts life as an ArrayList declared through the List interface, so the code depends on the general list behaviour rather than one implementation."
+    },
+    {
+      "code": "        playlist.add(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "Each song is created with a title, artist, genre, and energy level, and appended to the end of the list."
+    },
+    {
+      "code": "        for (Song song : playlist) {",
+      "text": "An enhanced for loop walks the list in order so the playlist can be printed before any sorting happens."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getArtist));",
+      "text": "Comparator.comparing builds a comparator from the getArtist method, and sort rearranges the list in place into alphabetical order by artist."
+    },
+    {
+      "code": "        playlist.forEach(System.out::println);",
+      "text": "forEach with a method reference is a compact alternative to writing out a loop for printing every element."
+    },
+    {
+      "code": "        LinkedList<Song> linked = new LinkedList<>(playlist);",
+      "text": "Passing an existing collection to the LinkedList constructor copies all of its elements, so the linked list starts out matching the sorted playlist."
+    },
+    {
+      "code": "        int insertAt = 1; // between Respect and One More Time",
+      "text": "Naming the position in a variable makes the later message readable and keeps the index used for insertion in one place."
+    },
+    {
+      "code": "        linked.add(insertAt, new Song(\"Songbird\", \"Fleetwood Mac\", \"Rock\", 2));",
+      "text": "The two-argument add inserts the new song at the given index and shifts everything from that point onward one place later in the list."
+    },
+    {
+      "code": "        int removeAt = 2; // remove what is now at index 2",
+      "text": "The comment matters because the insertion above changed the indexes, so index 2 no longer refers to the song it did before."
+    },
+    {
+      "code": "        Song removed = linked.remove(removeAt);",
+      "text": "remove(int) takes the element out of the list and returns it, which lets the program report exactly which song was dropped."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

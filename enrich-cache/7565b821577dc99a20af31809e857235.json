@@ -1,0 +1,44 @@
+{
+  "summary": "This program stores book titles in an ArrayList, prints them, reports how many there are, retrieves one by its position, and shows that a list happily accepts the same title twice.",
+  "lines": [
+    {
+      "code": "import java.util.ArrayList;",
+      "text": "ArrayList is the everyday resizable list in Java, and it lives in the java.util package, so it has to be imported before you can use it."
+    },
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that ArrayList implements; importing it lets you declare variables by the general type rather than the specific class."
+    },
+    {
+      "code": "        List<String> bookTitles = new ArrayList<>();",
+      "text": "The variable is typed as List but the object created is an ArrayList, a common Java habit that keeps your code free to switch to a different list implementation later. The <String> says this list holds text and nothing else."
+    },
+    {
+      "code": "        bookTitles.add(\"The Adventures of Sherlock Holmes\");",
+      "text": "add appends an item to the end of the list, and the list grows on its own, which is the main advantage over a fixed-length array."
+    },
+    {
+      "code": "        for (String title : bookTitles) {",
+      "text": "This enhanced for loop hands you each element of the list in turn without you having to manage an index counter."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal number of books: \" + bookTitles.size());",
+      "text": "size() reports how many elements the list currently holds. The \\n at the front of the text prints a blank line first, separating this section from the one above."
+    },
+    {
+      "code": "        System.out.println(\"First book: \" + bookTitles.get(0));",
+      "text": "get retrieves an element by position, and positions start at 0, so index 0 is the first book added."
+    },
+    {
+      "code": "        bookTitles.add(\"The Hobbit\");",
+      "text": "Adding a title that is already present succeeds, because a List permits duplicates; if you need uniqueness you would reach for a Set instead."
+    },
+    {
+      "code": "        System.out.println(\"Total number of books after adding duplicate: \" + bookTitles.size());",
+      "text": "Printing the size again proves the point: the count rises to 4, so the duplicate really was stored rather than silently ignored."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

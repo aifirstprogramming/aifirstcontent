@@ -1,0 +1,33 @@
+{
+  "summary": "This program adds up the eggs laid by a list of chickens using reduce, then works out how many muffins that many eggs can produce. It shows how reduce collapses a whole list down into a single value.",
+  "lines": [
+    {
+      "code": "from functools import reduce",
+      "text": "Unlike map and filter, reduce is not built in; it lives in the functools module and has to be imported before you can use it."
+    },
+    {
+      "code": "chickens = [",
+      "text": "Starts a list of dictionaries, where each dictionary is one chicken with a name and an egg count."
+    },
+    {
+      "code": "    {\"name\": \"Henrietta\", \"eggs_laid\": 5},",
+      "text": "Each entry pairs the key \"name\" with a string and the key \"eggs_laid\" with a number, so the reduce below can look up \"eggs_laid\" on every chicken."
+    },
+    {
+      "code": "total_eggs = reduce(lambda total, chicken: total + chicken[\"eggs_laid\"], chickens, 0)",
+      "text": "reduce walks the list one chicken at a time, carrying a running total. The lambda receives that total and the current chicken and returns the new total; the final 0 is the starting value, so the result is 25."
+    },
+    {
+      "code": "muffins = total_eggs * 6",
+      "text": "Turns the egg count into muffins at the stated rate of six muffins per egg."
+    },
+    {
+      "code": "print(f\"Total eggs laid: {total_eggs}\")",
+      "text": "An f-string drops the value of the variable straight into the message inside the braces."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

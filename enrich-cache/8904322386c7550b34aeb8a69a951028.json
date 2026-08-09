@@ -1,0 +1,33 @@
+{
+  "summary": "This Restaurant class holds one method that turns a numeric spice level (1 through 5) into a readable description like \"Mild\" or \"Spicy\". It is written as a small, easily testable unit: give it a number, get a string back.",
+  "lines": [
+    {
+      "code": "public class Restaurant {",
+      "text": "The class is a container for restaurant behaviour; right now it only knows how to describe spice levels, and later exercises add more methods to it."
+    },
+    {
+      "code": "    public String getSpiceLevel(int level) {",
+      "text": "The method takes the level as an int and hands back a String, so a test can compare the returned text to an expected value without any printing or user interaction."
+    },
+    {
+      "code": "        return switch (level) {",
+      "text": "This is a switch expression: the whole switch produces a single value that is returned immediately, rather than assigning to a variable in each branch."
+    },
+    {
+      "code": "            case 1 -> \"Mild\";",
+      "text": "The arrow form matches level 1 and yields its description with no break statement needed, so there is no risk of accidentally falling through to the next case."
+    },
+    {
+      "code": "            case 5 -> \"Spicy\";",
+      "text": "Level 5 is the top of the documented range, which makes it a natural boundary value to cover in a unit test."
+    },
+    {
+      "code": "            default -> \"Invalid spice level\";",
+      "text": "Any number outside 1 through 5 lands here, which both satisfies the compiler's demand that a switch expression always produce a value and gives tests a defined result for bad input such as 0 or 6."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

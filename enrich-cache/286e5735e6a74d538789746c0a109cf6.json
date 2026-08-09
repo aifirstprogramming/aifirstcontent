@@ -1,0 +1,48 @@
+{
+  "summary": "This program brews coffee with a helper method that first checks its arguments and refuses to continue if they make no sense. The first call succeeds; the second passes zero shots, so the method throws an IllegalArgumentException and the program stops with an error report.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "A valid call: the type is a real name and the shot count is positive, so the method runs all the way through its brewing messages."
+    },
+    {
+      "code": "        makeCoffee(\"Latte\", 0);",
+      "text": "Zero shots is nonsense for coffee, so this call trips the validation and ends the program before any later code can run."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "The method takes the drink name and the number of espresso shots, and returns nothing — its job is to print, not to hand back a value."
+    },
+    {
+      "code": "        if (type == null || type.isBlank()) {",
+      "text": "Guard clauses like this one belong at the top of a method so bad input is rejected before any real work begins. Checking for null first matters, because calling isBlank() on a null reference would itself crash."
+    },
+    {
+      "code": "            throw new IllegalArgumentException(\"Coffee type must not be null or blank.\");",
+      "text": "IllegalArgumentException is Java's standard way of saying \"the caller passed me something I cannot work with.\" The message explains the rule that was broken, which is what a developer reading the stack trace needs."
+    },
+    {
+      "code": "        if (shots < 1) {",
+      "text": "The second rule: at least one shot is required, so anything below 1 is rejected."
+    },
+    {
+      "code": "            throw new IllegalArgumentException(\"Shots must be at least 1.\");",
+      "text": "Throwing immediately exits the method — nothing after this line runs, so the rest of the body can safely assume the arguments are valid."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "A local variable holding a computed value; it exists only for the duration of this call and disappears when the method ends."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "A comparison produces a true-or-false value, and storing it in a named boolean makes the following condition read like plain English."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "Because the variable already holds a boolean, no comparison is needed here — the value itself is the condition."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

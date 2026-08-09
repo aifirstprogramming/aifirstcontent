@@ -1,0 +1,43 @@
+{
+  "summary": "This version of the farmers' market app runs the same filtering, sorting, and mapping pipeline on a parallel stream, so the work can be split across multiple CPU cores. Because the pipeline only reads from the product list and collects into a fresh list, it stays thread-safe.",
+  "lines": [
+    {
+      "code": "        List<MarketProduct> products = new ArrayList<>();",
+      "text": "The list starts empty; in the book the reader fills it with products where the comments below appear, so the printed output shows an empty result until that happens."
+    },
+    {
+      "code": "        List<String> organicSummerNames = getOrganicSummerItemNamesSortedByPrice(products);",
+      "text": "The main method simply hands the whole list to the helper, so all the stream logic lives in one place."
+    },
+    {
+      "code": "        return products.parallelStream()",
+      "text": "This is the only real change from the sequential version: parallelStream splits the data into chunks that the common ForkJoinPool processes at the same time."
+    },
+    {
+      "code": "                .filter(p -> p.isOrganic() && p.getSeason() != null && p.getSeason().toLowerCase().contains(\"summer\"))",
+      "text": "Each product is tested independently and nothing outside the lambda is modified, which is exactly what makes a filter safe to run on many threads at once."
+    },
+    {
+      "code": "                .sorted(Comparator.comparingDouble(MarketProduct::getPrice))",
+      "text": "Sorting a parallel stream forces the results to be merged back into price order, so the parallel speedup is partly spent on that coordination — one reason parallel pays off only on large data sets."
+    },
+    {
+      "code": "                .map(MarketProduct::getName)",
+      "text": "The method reference pulls out each product's name, turning a stream of products into a stream of strings."
+    },
+    {
+      "code": "                .collect(Collectors.toList());",
+      "text": "Collectors.toList handles the merging of per-thread partial results for you, so you never touch a shared list yourself and no synchronization is needed."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "MarketProduct.java",
+      "content": "",
+      "fromExercise": "java-9-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

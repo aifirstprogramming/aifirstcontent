@@ -1,0 +1,61 @@
+{
+  "summary": "This program brews coffee with a chosen type and number of shots, and defines its own named exception type, CoffeeConjuringException, to reject bad arguments. The second call deliberately passes zero shots so the custom exception is thrown and the program stops with an error.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "A valid call that runs the method all the way through, so you see the successful output before the failure."
+    },
+    {
+      "code": "        makeCoffee(\"Latte\", 0);",
+      "text": "Zero shots is invalid, so this call throws the custom exception; because nothing catches it, the program ends here with a stack trace."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "The method takes the drink type and shot count as parameters, and returns nothing — its job is to print the brewing steps."
+    },
+    {
+      "code": "        if (type == null || type.isBlank()) {",
+      "text": "Guards against both a missing string and one that is empty or only spaces, checking null first so isBlank is never called on nothing."
+    },
+    {
+      "code": "            throw new CoffeeConjuringException(\"Coffee type must not be null or blank.\");",
+      "text": "Throwing your own exception type instead of a generic one tells the caller exactly which rule was broken."
+    },
+    {
+      "code": "        if (shots < 1) {",
+      "text": "The second guard rejects zero or negative shots, since a coffee needs at least one."
+    },
+    {
+      "code": "            throw new CoffeeConjuringException(\"Shots must be at least 1. Provided: \" + shots);",
+      "text": "Including the offending value in the message makes the error far easier to debug than a bare complaint."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "A playful calculation that turns the shot count into a number the next line can test."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "Storing the comparison in a boolean gives the condition a readable name instead of repeating the arithmetic in the if."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "Two shots or more clear the threshold, so the bonus message only appears for stronger drinks."
+    },
+    {
+      "code": "    static class CoffeeConjuringException extends RuntimeException {",
+      "text": "Extending RuntimeException creates a new unchecked exception type, so callers are not forced to catch it; nesting it inside the class keeps this small helper next to the code that uses it."
+    },
+    {
+      "code": "        CoffeeConjuringException(String message) { super(message); }",
+      "text": "The constructor hands the message up to RuntimeException, which is what getStackTrace and the printed error display."
+    },
+    {
+      "code": "        CoffeeConjuringException(String message, Throwable cause) { super(message, cause); }",
+      "text": "A second constructor lets you wrap an original exception as the cause, preserving the full chain when one failure triggers another."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": true
+}

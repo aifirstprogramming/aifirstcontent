@@ -1,0 +1,61 @@
+{
+  "summary": "This file defines a Player class that holds one soccer player's name, position, and number of goals scored. It is a data-carrying class: later exercises build a list of Player objects and run stream pipelines over them to group and rank the players.",
+  "lines": [
+    {
+      "code": "public class Player {",
+      "text": "Declares the Player class, the blueprint every individual player object will be built from."
+    },
+    {
+      "code": "    private final String name;",
+      "text": "Stores the player's name. Marking the field private keeps it out of reach of other classes, and final means it can never change once the object is built."
+    },
+    {
+      "code": "    private final String position;",
+      "text": "Holds the position the player plays, such as Forward or Goalkeeper. Stream pipelines will group players by this value."
+    },
+    {
+      "code": "    private final int goals;",
+      "text": "Holds the goals scored as a whole number, which is what the top-scorer pipelines will compare."
+    },
+    {
+      "code": "    public Player(String name, String position, int goals) {",
+      "text": "The constructor takes all three pieces of information at once, so a Player can never exist in a half-filled state."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "Copies the constructor's name argument into the object's own field; this.name distinguishes the field from the parameter of the same name."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "A getter gives read-only access to the private name. Streams need these methods to pull values out of each player."
+    },
+    {
+      "code": "    public String getPosition() {",
+      "text": "Supplies the position to grouping pipelines, which call it through a method reference like Player::getPosition."
+    },
+    {
+      "code": "    public int getGoals() {",
+      "text": "Supplies the goal count for comparisons, used by pipelines that search for the highest scorer."
+    },
+    {
+      "code": "    @Override",
+      "text": "Tells the compiler that the method below is deliberately replacing a method inherited from Object, so a typo in the name becomes an error instead of a silent bug."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Defines how a Player appears when printed. Without it, printing a player shows a meaningless memory reference instead of readable data."
+    },
+    {
+      "code": "        return \"Player{\" +",
+      "text": "Begins assembling the readable description; the following lines concatenate each field onto the end of this string."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'' +",
+      "text": "Wraps the name in single quotes. The escape sequence '\\'' is how you write a single-quote character in Java source."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

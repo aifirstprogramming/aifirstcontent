@@ -1,0 +1,53 @@
+{
+  "summary": "This class models a thermostat that decides whether to heat, cool, or stay idle based on the current temperature. An \"eco mode\" flag widens the comfortable range so the system switches on less often and uses less energy.",
+  "lines": [
+    {
+      "code": "    private final int currentTemp;",
+      "text": "The temperature reading is stored as a field so every method can consult it, and `final` means it can never be reassigned after construction."
+    },
+    {
+      "code": "    private final boolean ecoMode;",
+      "text": "A single boolean records whether the energy-saving setting is on, which is all the feature needs to change the thermostat's behaviour."
+    },
+    {
+      "code": "    public Thermostat(int currentTemp, boolean ecoMode) {",
+      "text": "The constructor takes both values at once, so a Thermostat object is fully configured the moment it is created."
+    },
+    {
+      "code": "        this.currentTemp = currentTemp;",
+      "text": "`this.currentTemp` refers to the field while the bare `currentTemp` refers to the parameter, which is how the incoming value gets stored on the object."
+    },
+    {
+      "code": "    public String getStatus() {",
+      "text": "All the decision logic lives in one method that returns a plain string, which makes it easy for a test to assert on the result."
+    },
+    {
+      "code": "        int heatingThreshold = ecoMode ? 65 : 68;",
+      "text": "The conditional operator picks 65 in eco mode and 68 otherwise, so eco mode lets the room get cooler before the heat comes on."
+    },
+    {
+      "code": "        int coolingThreshold = ecoMode ? 78 : 75;",
+      "text": "The same pattern raises the cooling trigger in eco mode, and together the two lines widen the idle band from 68–75 to 65–78."
+    },
+    {
+      "code": "        if (currentTemp < heatingThreshold) {",
+      "text": "Heating is checked first; returning immediately means the remaining checks never run once a decision is made."
+    },
+    {
+      "code": "        if (currentTemp > coolingThreshold) {",
+      "text": "Cooling only applies above the upper threshold, keeping the two conditions mutually exclusive."
+    },
+    {
+      "code": "        return \"Idle\";",
+      "text": "Falling through to this line means the temperature sits inside the comfortable band, so no equipment needs to run."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "ThermostatDemo.java",
+      "content": "public class ThermostatDemo {\n    public static void main(String[] args) {\n        int[] readings = {64, 67, 72, 76, 80};\n\n        System.out.println(\"Temp | Normal  | Eco\");\n        for (int temp : readings) {\n            String normal = new Thermostat(temp, false).getStatus();\n            String eco = new Thermostat(temp, true).getStatus();\n            System.out.printf(\"%4d | %-7s | %s%n\", temp, normal, eco);\n        }\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "ThermostatDemo.java",
+  "stdin": ""
+}

@@ -1,0 +1,65 @@
+{
+  "summary": "This program builds a shuffled 52-card deck inside a generator function, deals one card to the player and one to the computer, and compares their ranks to declare a winner. It shows how a generator can hand out values one at a time with `next()`.",
+  "lines": [
+    {
+      "code": "import random",
+      "text": "Brings in the random module so the deck can be shuffled into an unpredictable order."
+    },
+    {
+      "code": "def card_generator():",
+      "text": "Defines a generator function: because its body contains `yield`, calling it does not run the code immediately but returns an object you can pull cards from one at a time."
+    },
+    {
+      "code": "    suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']",
+      "text": "The four suits, which supply the second half of each card's name."
+    },
+    {
+      "code": "    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']",
+      "text": "The thirteen ranks listed from lowest to highest, so their positions in the list double as their comparison values."
+    },
+    {
+      "code": "    deck = [(f'{rank} of {suit}', value) for suit in suits for value, rank in enumerate(ranks)]",
+      "text": "A nested list comprehension pairs every rank with every suit, producing 52 tuples of (name, value); `enumerate` supplies the value, giving '2' a 0 and 'Ace' a 12."
+    },
+    {
+      "code": "    random.shuffle(deck)",
+      "text": "Rearranges the list in place so the cards come out in a random order instead of suit by suit."
+    },
+    {
+      "code": "    for card in deck:",
+      "text": "Walks the shuffled deck from the top."
+    },
+    {
+      "code": "        yield card",
+      "text": "Hands one card back to the caller and pauses here; the next request resumes the loop at the following card."
+    },
+    {
+      "code": "deck = card_generator()",
+      "text": "Creates the generator object. Nothing has been shuffled yet — the function body only starts running when the first card is requested."
+    },
+    {
+      "code": "(player_card, player_rank), (computer_card, computer_rank) = next(deck), next(deck)",
+      "text": "Draws two cards with `next()` and unpacks each (name, value) tuple into its own pair of variables in one statement."
+    },
+    {
+      "code": "print(f\"Player: {player_card} | Computer: {computer_card}\")",
+      "text": "Shows both hands so the reader can see what was dealt before the verdict."
+    },
+    {
+      "code": "print(\"Player wins!\" if player_rank > computer_rank",
+      "text": "Starts a chained conditional expression that picks one of three strings; because the comparison uses the numeric value, 'King' correctly beats '10'."
+    },
+    {
+      "code": "      else \"Computer wins!\" if computer_rank > player_rank",
+      "text": "The second branch handles the computer's higher card, and its own `else` below covers the remaining case."
+    },
+    {
+      "code": "      else \"It's a tie!\")",
+      "text": "The final fallback, reached when both cards share the same rank in different suits."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

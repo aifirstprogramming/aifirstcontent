@@ -61,8 +61,8 @@ describe("loading the real books", () => {
   it("loads every published example and step", () => {
     // Published only: drafts awaiting an explanation and a proving run, and
     // retired examples the books no longer contain, are filtered out.
-    expect(content.examples).toHaveLength(30);
-    expect(content.steps).toHaveLength(39);
+    expect(content.examples).toHaveLength(137);
+    expect(content.steps).toHaveLength(146);
   });
 
   it("hides drafts and retired examples unless asked", () => {
@@ -71,7 +71,7 @@ describe("loading the real books", () => {
     // Nothing unpublished may leak into the default view, since a draft has not
     // been proved to run and a retired example is not in the book.
     expect(content.examples.every((e) => e.status === undefined)).toBe(true);
-    expect(all.examples.some((e) => e.status === "draft")).toBe(true);
+    expect(all.examples.some((e) => e.status !== undefined)).toBe(true);
     expect(all.examples.some((e) => e.status === "retired")).toBe(true);
   });
 

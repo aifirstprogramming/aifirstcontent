@@ -1,0 +1,53 @@
+{
+  "summary": "This is the data class behind a small weather application: each WeatherEntry object holds one day's date, its temperature in Celsius, and a word describing the conditions. Once you have a list of these objects, stream pipelines can filter, transform, and average them.",
+  "lines": [
+    {
+      "code": "    private final String date;      // e.g., 2026-07-01",
+      "text": "The field is private so nothing outside the class can reach in and change it, and final so it is fixed the moment the object is built. Storing the date as text keeps the class simple while still sorting correctly in year-month-day order."
+    },
+    {
+      "code": "    private final double celsius;   // temperature in °C",
+      "text": "Temperatures need decimal places, so double is the right type here rather than int."
+    },
+    {
+      "code": "    private final String condition; // e.g., Sunny, Rainy, Cloudy",
+      "text": "This label is what the \"find all rainy days\" pipeline will filter on."
+    },
+    {
+      "code": "    public WeatherEntry(String date, double celsius, String condition) {",
+      "text": "The constructor is the only way to create an entry, which guarantees every object has all three values filled in from the start."
+    },
+    {
+      "code": "        this.date = date;",
+      "text": "The parameter and the field share the name date, so this.date makes it clear that the field is the one being assigned."
+    },
+    {
+      "code": "    public String getDate() {",
+      "text": "Because the fields are private, a getter provides read-only access. Stream code will call these getters constantly."
+    },
+    {
+      "code": "    public double getCelsius() {",
+      "text": "This is the accessor that the Celsius-to-Fahrenheit conversion and the average calculation both depend on."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you mean to replace a method inherited from Object; if you misspell the method name, you get an error instead of a silent bug."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Without this, printing an entry shows a meaningless hash code. Overriding toString makes forEach(System.out::println) produce readable output."
+    },
+    {
+      "code": "                \"date='\" + date + '\\'' +",
+      "text": "The escape sequence '\\'' is a single-quote character, used to wrap the date value so the printed output looks like date='2026-07-01'."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "WeatherApp.java",
+      "content": "import java.util.List;\n\npublic class WeatherApp {\n    public static void main(String[] args) {\n        List<WeatherEntry> week = List.of(\n                new WeatherEntry(\"2026-07-01\", 22.5, \"Sunny\"),\n                new WeatherEntry(\"2026-07-02\", 19.0, \"Rainy\"),\n                new WeatherEntry(\"2026-07-03\", 25.5, \"Sunny\"),\n                new WeatherEntry(\"2026-07-04\", 17.5, \"Cloudy\"),\n                new WeatherEntry(\"2026-07-05\", 16.0, \"Rainy\"),\n                new WeatherEntry(\"2026-07-06\", 28.0, \"Sunny\"),\n                new WeatherEntry(\"2026-07-07\", 21.0, \"Cloudy\"),\n                new WeatherEntry(\"2026-07-08\", 14.5, \"Rainy\"),\n                new WeatherEntry(\"2026-07-09\", 30.5, \"Sunny\"),\n                new WeatherEntry(\"2026-07-10\", 18.5, \"Windy\"));\n\n        System.out.println(\"Rainy days:\");\n        week.stream()\n            .filter(entry -> entry.getCondition().equals(\"Rainy\"))\n            .forEach(System.out::println);\n\n        System.out.println();\n        System.out.println(\"Temperatures in Fahrenheit:\");\n        week.stream()\n            .map(entry -> entry.getCelsius() * 9 / 5 + 32)\n            .forEach(f -> System.out.printf(\"%.1f F%n\", f));\n\n        System.out.println();\n        double average = week.stream()\n                             .limit(7)\n                             .mapToDouble(WeatherEntry::getCelsius)\n                             .average()\n                             .orElse(0.0);\n        System.out.printf(\"Average for the first week: %.2f C%n\", average);\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "WeatherApp.java",
+  "stdin": ""
+}

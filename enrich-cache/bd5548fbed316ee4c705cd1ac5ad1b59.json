@@ -1,0 +1,53 @@
+{
+  "summary": "This program defines a RobotPet class with a method that decides whether a pet has enough battery for a walk of a given length, then tests three pets against a 30-minute walk.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The initializer runs automatically whenever a new RobotPet is created, receiving the values that describe that particular pet."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Storing the argument on self keeps the name attached to this specific pet object rather than losing it when __init__ ends."
+    },
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "A method is a function that lives inside the class; self refers to the pet it is called on, and duration is supplied by the caller."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "This docstring documents what the method expects and what it answers, so anyone reading the class later knows duration is in minutes."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "The rule of the program: each minute of walking costs two units of battery."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "A comparison evaluates to True or False, so the method hands that answer straight back to the caller."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Calling the class like a function creates an object, passing the three values along to __init__."
+    },
+    {
+      "code": "print(f\"{pet1.name} - Battery: {pet1.battery}, Mood: {pet1.mood}\")",
+      "text": "Dot notation reads the attributes back out of the object inside an f-string."
+    },
+    {
+      "code": "print(\"\\n30-minute walk check:\")",
+      "text": "The \\n escape prints a blank line first, separating the pet list from the walk results."
+    },
+    {
+      "code": "print(f\"{pet1.name} can walk 30 minutes: {pet1.can_walk(30)}\")",
+      "text": "Calling the method on pet1 passes that pet as self automatically, so 30 fills in duration; Rover's 85 battery clears the 60 required."
+    },
+    {
+      "code": "print(f\"{pet3.name} can walk 30 minutes: {pet3.can_walk(30)}\")",
+      "text": "Beep has only 45 battery, so the same method returns False, showing that each object carries its own data."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

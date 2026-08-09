@@ -1,0 +1,45 @@
+{
+  "summary": "This program models a printer's waiting list using a Queue backed by a LinkedList. Four filenames are added to the back of the queue, then a loop repeatedly reports how many jobs are left, looks at the next one, and removes it until the queue is empty.",
+  "lines": [
+    {
+      "code": "import java.util.Queue;",
+      "text": "Queue is the interface that describes first-in, first-out behaviour: items leave in the same order they arrived, which is exactly how a printer should work."
+    },
+    {
+      "code": "import java.util.LinkedList;",
+      "text": "LinkedList is the concrete class that supplies the actual storage; Queue on its own cannot be created with new."
+    },
+    {
+      "code": "        Queue<String> printQueue = new LinkedList<>();",
+      "text": "Declaring the variable as Queue but building a LinkedList means the rest of the code can only use queue operations, which keeps the FIFO discipline honest."
+    },
+    {
+      "code": "        printQueue.offer(\"Report.pdf\");",
+      "text": "offer adds an element to the tail of the queue and returns false instead of throwing if the queue is full, making it the safe way to enqueue."
+    },
+    {
+      "code": "        for (String job : printQueue) {",
+      "text": "A queue can still be iterated without removing anything, so this loop shows the pending jobs while leaving the queue untouched."
+    },
+    {
+      "code": "        int jobs = printQueue.size();",
+      "text": "The total is captured before processing begins, because size() shrinks with every poll and would otherwise be useless as a denominator."
+    },
+    {
+      "code": "        while (!printQueue.isEmpty()) {",
+      "text": "Checking isEmpty before each pass is the queue-safe way to loop; it guarantees peek and poll always have something to work with."
+    },
+    {
+      "code": "            System.out.println(\"Ready to print: \" + printQueue.peek());",
+      "text": "peek returns the element at the head without removing it, so the job can be announced before it is actually consumed."
+    },
+    {
+      "code": "            String processedJob = printQueue.poll();",
+      "text": "poll removes and returns the head element, advancing the queue; storing the result lets the program report which job just left."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

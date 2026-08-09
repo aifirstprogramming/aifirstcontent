@@ -1,0 +1,55 @@
+{
+  "summary": "This program stores three Book objects in an ArrayList and then demonstrates the everyday list operations: counting items, fetching one by position, adding a duplicate, removing an item, asking whether a particular book is present, and checking whether the list has become empty.",
+  "lines": [
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The variable is declared with the List interface but created as an ArrayList, so the rest of the code depends only on general list behaviour rather than on one specific implementation."
+    },
+    {
+      "code": "        Book sherlock = new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\");",
+      "text": "Each book is stored in its own named variable so it can be referred to again later, for example when removing or searching for it."
+    },
+    {
+      "code": "        books.add(sherlock);",
+      "text": "add appends the object to the end of the list, so the books stay in the order they were added."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop visits every element in turn without you having to manage an index."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal number of books: \" + books.size());",
+      "text": "size() reports how many elements the list currently holds, and it changes as you add and remove."
+    },
+    {
+      "code": "        System.out.println(\"First book: \" + books.get(0));",
+      "text": "Lists are indexed starting at 0, so get(0) returns the first element."
+    },
+    {
+      "code": "        books.add(hobbit);",
+      "text": "A list allows duplicates, so adding the same object a second time makes the size grow to four."
+    },
+    {
+      "code": "        books.remove(hobbit);",
+      "text": "remove deletes only the first matching element, which is why one copy of The Hobbit survives after the duplicate was added."
+    },
+    {
+      "code": "        System.out.println(\"\\nContains 'Pride and Prejudice'?: \" + books.contains(pride));",
+      "text": "contains searches the list and returns true or false, which is handy when you only need to know whether something is present."
+    },
+    {
+      "code": "        System.out.println(\"\\nIs the library empty?: \" + books.isEmpty());",
+      "text": "isEmpty() states plainly whether the list has any elements, which reads better than comparing size() to zero."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

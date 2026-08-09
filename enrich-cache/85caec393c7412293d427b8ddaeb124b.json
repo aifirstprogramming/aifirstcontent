@@ -1,0 +1,47 @@
+{
+  "summary": "This program builds a list of five Book objects, then collects their genres into a HashSet so each genre appears only once, and prints the resulting set. It shows the difference between a List, which keeps every value you add, and a Set, which silently drops duplicates.",
+  "lines": [
+    {
+      "code": "import java.util.Set;",
+      "text": "Set is the interface for a collection that holds no duplicate elements; declaring variables with this type keeps the code independent of which set implementation you choose."
+    },
+    {
+      "code": "import java.util.HashSet;",
+      "text": "HashSet is the concrete class being used here, and it is the fastest general-purpose Set when you do not care about ordering."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The books themselves still live in a List, because the library needs to keep every book even when two share a genre."
+    },
+    {
+      "code": "        Book hobbit = new Book(\"The Hobbit\", \"J.R.R. Tolkien\", \"Fantasy\");",
+      "text": "Three of the five books use the genre \"Fantasy\", which is exactly the duplication the Set is meant to collapse."
+    },
+    {
+      "code": "        Set<String> genres = new HashSet<>();",
+      "text": "The set is declared as Set<String> but created as a HashSet, a common Java habit of programming to the interface rather than the implementation."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop visits each Book in turn so the program can inspect its genre."
+    },
+    {
+      "code": "            genres.add(book.getGenre());",
+      "text": "Adding a genre that is already in the set does nothing, so \"Fantasy\" is stored once no matter how many fantasy books exist."
+    },
+    {
+      "code": "        for (String genre : genres) {",
+      "text": "A HashSet has no defined order, so the genres may print in any sequence — use a TreeSet when order matters."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

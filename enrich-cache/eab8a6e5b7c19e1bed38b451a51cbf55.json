@@ -1,0 +1,40 @@
+{
+  "summary": "This program defines a function that takes two pieces of information — a list of food items and a table number — and prints out a delivery report for Beepo the robot waiter. The function is then called twice with different orders, showing how one definition can be reused for many situations.",
+  "lines": [
+    {
+      "code": "def deliver_food(food_list, table_number):",
+      "text": "Defines the function with two parameters separated by a comma, so each call must supply both a food list and a table number."
+    },
+    {
+      "code": "    \"\"\"Helps Beepo the robot waiter deliver food to a table.\"\"\"",
+      "text": "A docstring: a short sentence in triple quotes that records what the function is for, so anyone reading the code later knows its purpose."
+    },
+    {
+      "code": "    print(f\"Beepo is delivering to Table {table_number}:\")",
+      "text": "An f-string drops the value of table_number straight into the message, giving each call its own heading."
+    },
+    {
+      "code": "    for food in food_list:",
+      "text": "Loops over the items in the list that was passed in, so the function works whether the order has two dishes or ten."
+    },
+    {
+      "code": "        print(f\"  - {food}\")",
+      "text": "The two leading spaces and dash indent each dish underneath the heading, making the output read like a printed order slip."
+    },
+    {
+      "code": "    print(f\"Food delivered to Table {table_number}!\\n\")",
+      "text": "The \\n adds a blank line after the confirmation so consecutive deliveries do not run together on screen."
+    },
+    {
+      "code": "deliver_food([\"Pizza\", \"Salad\", \"Water\"], 5)",
+      "text": "Calls the function with the list as the first argument and the table number as the second; order matters, because Python matches arguments to parameters by position."
+    },
+    {
+      "code": "deliver_food([\"Burger\", \"Fries\", \"Soda\"], 12)",
+      "text": "A second call with completely different data proves the point of writing a function: the logic is written once and reused."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

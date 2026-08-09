@@ -144,6 +144,16 @@
         },
         "status": {
           "$ref": "#/definitions/status"
+        },
+        "explanation": {
+          "$ref": "#/definitions/explanation"
+        },
+        "scaffold": {
+          "$ref": "#/definitions/scaffold"
+        },
+        "expectsException": {
+          "type": "boolean",
+          "description": "The exercise ends by throwing an uncaught exception on purpose, to demonstrate an error, so exiting non-zero is the correct outcome. Stored because CI must reach the same verdict as the authoring run without a model."
         }
       },
       "oneOf": [
@@ -209,6 +219,13 @@
         },
         "stdin": {
           "$ref": "#/definitions/stdin"
+        },
+        "explanation": {
+          "$ref": "#/definitions/explanation"
+        },
+        "expectsException": {
+          "type": "boolean",
+          "description": "The exercise ends by throwing an uncaught exception on purpose, to demonstrate an error, so exiting non-zero is the correct outcome. Stored because CI must reach the same verdict as the authoring run without a model."
         }
       }
     },
@@ -232,6 +249,83 @@
         "retired"
       ],
       "description": "Publication state; omit when published. `draft` is imported from a manuscript but not yet explained or proved to run. `retired` is no longer in the book, kept only so an existing learner progress entry still refers to something. Neither is served to readers."
+    },
+    "explanation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "lines"
+      ],
+      "description": "Pre-computed walkthrough of the response. Stored rather than generated at runtime so a reader sees the same words in the CLI and in the VS Code extension, which has no model.",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "One or two sentences on what the code does."
+        },
+        "lines": {
+          "type": "array",
+          "description": "Line-by-line notes. Only the lines worth commenting on, in source order.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "text"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The line of code, verbatim from the response."
+              },
+              "text": {
+                "type": "string",
+                "description": "What that line does."
+              }
+            }
+          }
+        },
+        "run": {
+          "type": "string",
+          "description": "Human-readable note on how to run it."
+        }
+      }
+    },
+    "scaffold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "files"
+      ],
+      "description": "Extra files that make a non-runnable example runnable. The response itself is never modified -- it stays byte-exact to the printed page -- so anything needed around it lives here.",
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path"
+            ],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "fromExercise": {
+                "type": "string",
+                "description": "Reuse another exercise's response as this file's content, so the two cannot drift apart. Mutually exclusive with content."
+              }
+            }
+          }
+        },
+        "entrypoint": {
+          "type": "string",
+          "description": "Which file to execute, when it is not the exercise's own file."
+        }
+      }
     }
   }
 }

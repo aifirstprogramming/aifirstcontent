@@ -1,0 +1,33 @@
+{
+  "summary": "This program asks for your name, reads what you type, and greets you. It uses an import statement at the top so the class can be referred to as just Scanner instead of java.util.Scanner.",
+  "lines": [
+    {
+      "code": "import java.util.Scanner;",
+      "text": "This tells the compiler where to find the Scanner class, so the rest of the file can write the short name Scanner instead of the full java.util.Scanner every time."
+    },
+    {
+      "code": "        Scanner scanner = new Scanner(System.in);",
+      "text": "Creates a Scanner that reads from System.in, the keyboard input stream. Thanks to the import, the type name is short and the code reads more cleanly."
+    },
+    {
+      "code": "        System.out.print(\"Enter your name: \");",
+      "text": "Uses print rather than println so the cursor stays on the same line, letting the reader type their answer right after the prompt."
+    },
+    {
+      "code": "        String name = scanner.nextLine();",
+      "text": "Reads one whole line of typed input, including any spaces, and stores it in the variable name."
+    },
+    {
+      "code": "        System.out.println(\"Welcome \" + name);",
+      "text": "The + joins the fixed text and the value the user entered into a single greeting."
+    },
+    {
+      "code": "        scanner.close();",
+      "text": "Releases the resources the Scanner was holding, which is good practice once you are finished reading input."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "Ada\n",
+  "expectsUncaughtException": false
+}

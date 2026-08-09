@@ -1,0 +1,39 @@
+{
+  "summary": "This class defines a decorated cookie as a special kind of Cookie, inheriting everything the base cookie already knows how to do and replacing only its description.",
+  "lines": [
+    {
+      "code": "public class DecoratedCookie extends Cookie {",
+      "text": "The `extends` keyword makes DecoratedCookie a subclass of Cookie, so it automatically has the flavor field and every method Cookie provides."
+    },
+    {
+      "code": "    public DecoratedCookie(String flavor) {",
+      "text": "A subclass does not inherit constructors, so DecoratedCookie needs its own to accept the flavor when an object is created."
+    },
+    {
+      "code": "        super(flavor);",
+      "text": "This hands the flavor up to the Cookie constructor, letting the parent class do the work of storing it. It must be the first statement in the constructor."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method from the parent class, so a typo in the method name becomes an error instead of a silent bug."
+    },
+    {
+      "code": "    public String describe() {",
+      "text": "Redefining describe() with the same signature as in Cookie means calls on a DecoratedCookie object run this version instead of the inherited one."
+    },
+    {
+      "code": "        return \"This \" + getFlavor() + \" cookie is decorated with sprinkles and icing!\";",
+      "text": "The flavor is read through the inherited getFlavor() method because the field itself is private to Cookie, which is how subclasses reach a parent's data safely."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "",
+      "fromExercise": "java-5-07"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

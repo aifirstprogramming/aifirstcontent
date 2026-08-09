@@ -1,0 +1,45 @@
+{
+  "summary": "This is the expanded version of the pets' speak method: instead of one fixed greeting, each pet checks its battery level and then its mood, returning a different sentence for each situation. The three subclasses override speak so a cat, a bird, and a dog each say the same set of ideas in their own voice.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "The base class holds the behaviour shared by every robot pet; the ellipsis stands for the attributes and methods written in the earlier exercises, which stay exactly as they were."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "The feature being added lives entirely inside this one method, so the tests written for it only ever need to call speak."
+    },
+    {
+      "code": "        if self.battery < 30:",
+      "text": "Battery is checked before mood because a nearly flat robot should complain about power no matter how it feels; the order of these checks is itself a design decision worth testing."
+    },
+    {
+      "code": "        if self.battery == 100:",
+      "text": "A full battery gets its own celebratory line, which is a useful boundary case: 99 and 100 must produce different answers."
+    },
+    {
+      "code": "        if self.mood == \"happy\":",
+      "text": "Once power is not an issue, mood decides the message; each mood is a separate branch and therefore deserves its own test."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "The final return is the fallback that runs when no earlier condition matched, so an unknown mood still produces a sensible sentence rather than None."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "Each subclass inherits everything from RobotPet and then replaces only what should sound different."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "Defining speak again in the subclass overrides the parent version, so a RobotCat object always uses the cat wording even though the decision structure is identical."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'ARF ARF ARF! LET\\'S PLAY!'\"",
+      "text": "The backslash escapes the apostrophe in LET'S so it is treated as text rather than as the end of the single-quoted string."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

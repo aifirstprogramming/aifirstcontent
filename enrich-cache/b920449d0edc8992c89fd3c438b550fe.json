@@ -1,0 +1,40 @@
+{
+  "summary": "This program keeps a guest list for an event in a TreeSet, a collection that automatically rejects duplicate entries and keeps what remains sorted. It adds eight names, two of which repeat, then prints how many unique guests there are and lists them in alphabetical order.",
+  "lines": [
+    {
+      "code": "import java.util.TreeSet;",
+      "text": "Brings in the TreeSet class, which stores unique values and keeps them in sorted order at all times."
+    },
+    {
+      "code": "import java.util.Set;",
+      "text": "Brings in the Set interface so the guest list can be declared by its general type rather than by the specific class."
+    },
+    {
+      "code": "        Set<String> guests = new TreeSet<>();",
+      "text": "Declares the variable as a Set but creates a TreeSet, a common Java habit: the code only relies on set behaviour, so swapping the implementation later would require no other changes."
+    },
+    {
+      "code": "        guests.add(\"Alex\");",
+      "text": "Adds a name to the set. Note that nothing here says where in the order it goes; the TreeSet places it for you."
+    },
+    {
+      "code": "        guests.add(\"Jordan\"); // duplicate",
+      "text": "Jordan is already present, so this call quietly changes nothing. A set never holds the same value twice, which is exactly what you want when people RSVP more than once."
+    },
+    {
+      "code": "        System.out.println(\"Guest count: \" + guests.size());",
+      "text": "Reports the size of the set, which is 6 rather than 8 because the two repeated names were never stored a second time."
+    },
+    {
+      "code": "        for (String guest : guests) {",
+      "text": "Walks through the set one name at a time. A TreeSet hands out its elements in sorted order, so no sorting step is needed before printing."
+    },
+    {
+      "code": "            System.out.println(\"- \" + guest);",
+      "text": "Prints each name with a leading dash so the output reads as a bulleted list."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

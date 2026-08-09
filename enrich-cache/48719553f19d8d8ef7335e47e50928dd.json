@@ -1,0 +1,53 @@
+{
+  "summary": "This program defines a RobotPet class with a can_walk method that compares the pet's battery level against the energy a walk would need, then checks the method's behaviour with two assert statements. If both checks hold, the program prints a success message.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The constructor runs whenever a new RobotPet is created and receives the three values that describe the pet."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Stores the battery level on the object so that can_walk can consult it later."
+    },
+    {
+      "code": "    def can_walk(self, duration):",
+      "text": "Defines the behaviour under test: given a walk length in minutes, decide whether this pet has the energy for it."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "A docstring records the method's contract in the code itself, so anyone reading or testing it knows what the units are."
+    },
+    {
+      "code": "        energy_required = duration * 2",
+      "text": "Fixes the rule that every minute of walking costs two units of battery, giving the test a predictable number to work with."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "Returns True or False by comparing the stored battery to the cost, which is exactly the value the asserts examine."
+    },
+    {
+      "code": "rover = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Creates a well-charged pet that should pass the walk check, setting up the positive test case."
+    },
+    {
+      "code": "beep = RobotPet(\"Beep\", 45, \"tired\")",
+      "text": "Creates a pet with too little battery for a 30-minute walk, setting up the negative test case."
+    },
+    {
+      "code": "assert rover.can_walk(30) == True, \"Rover should be able to walk for 30 minutes\"",
+      "text": "An assert states a fact that must hold; 85 battery beats the 60 required, so the program continues silently. The text after the comma is the message shown if the fact ever stops being true."
+    },
+    {
+      "code": "assert beep.can_walk(30) == False, \"Beep should not be able to walk for 30 minutes\"",
+      "text": "Tests the other side of the rule: 45 battery is below the 60 needed, so can_walk must say no. Good tests check failures as well as successes."
+    },
+    {
+      "code": "print(\"All tests passed!\")",
+      "text": "Because a failed assert stops the program immediately, reaching this line is proof that both checks held."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

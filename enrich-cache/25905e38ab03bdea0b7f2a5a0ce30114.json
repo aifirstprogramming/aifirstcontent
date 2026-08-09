@@ -1,0 +1,64 @@
+{
+  "summary": "This program defines a RobotPet class whose battery level is guarded by a property, so the value can never fall below 0 or rise above 100. It then walks and charges the pet named Rover to show the guard at work.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Assigning to self.battery inside __init__ goes through the property setter rather than storing the number directly, so even a bad starting value gets corrected."
+    },
+    {
+      "code": "    @property",
+      "text": "The @property decorator turns the method below it into an attribute that is read with pet.battery, without parentheses."
+    },
+    {
+      "code": "        return self._battery",
+      "text": "The real value lives in _battery, and the leading underscore is the convention that marks it as internal to the class."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This decorator registers the next method as the code that runs whenever something assigns to pet.battery."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "Any attempt to drop below empty is caught here and stored as 0 instead."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "Likewise, a value above a full charge is capped at 100, which is what clamping means."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "A docstring states the method's purpose in the code itself, where help() and editors can find it."
+    },
+    {
+      "code": "        energy_required = duration * 2  # 2% battery per minute",
+      "text": "The cost of a walk is worked out from a single rule, so changing the drain rate means editing one number."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The comparison itself evaluates to True or False, so there is no need for an if statement here."
+    },
+    {
+      "code": "        self.battery -= duration * 2",
+      "text": "Subtracting from self.battery still passes through the setter, so the battery cannot go negative."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Creating an instance runs __init__ with these arguments and gives back an object stored in pet1."
+    },
+    {
+      "code": "if pet1.can_walk(duration):",
+      "text": "Asking before acting is the point of can_walk: the program checks feasibility, then commits to the walk."
+    },
+    {
+      "code": "duration = 50",
+      "text": "A 50-minute walk would cost 100% battery, which Rover no longer has, so this run takes the else branch."
+    },
+    {
+      "code": "pet1.charge(40)",
+      "text": "Adding 40 to a battery of 65 would give 105, but the setter clamps the result to 100."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

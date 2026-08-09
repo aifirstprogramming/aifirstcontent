@@ -1,0 +1,52 @@
+{
+  "summary": "This program adds two numeric stream calculations to a farmers market inventory: one that adds up the price of every product, and one that averages the prices of only the organic products. Both work by turning objects into plain double values with mapToDouble, so Java's arithmetic stream operations become available.",
+  "lines": [
+    {
+      "code": "import java.util.stream.Collectors;",
+      "text": "The Collectors helper is imported for the earlier grouping and joining streams in this class, and is left in place as the file grows."
+    },
+    {
+      "code": "        // products variable and add items",
+      "text": "This marks where the List<MarketProduct> is declared and filled in the fuller version of the program; the two new calculations below depend on that list existing."
+    },
+    {
+      "code": "        double totalSum = getTotalPriceSum(products);",
+      "text": "The total is stored in a double because money adds up to fractional values, and keeping the call in a variable lets it be formatted before printing."
+    },
+    {
+      "code": "        System.out.println(\"\\nTotal inventory value: $\" + String.format(\"%.2f\", totalSum));",
+      "text": "String.format with %.2f rounds the raw double to two decimal places so the amount reads like a price instead of something like 43.699999999999996."
+    },
+    {
+      "code": "        double avgOrganic = getAverageOrganicPrice(products);",
+      "text": "The average is requested through the same pattern, keeping the calculation logic inside its own method and main focused on display."
+    },
+    {
+      "code": "    public static double getTotalPriceSum(List<MarketProduct> products) {",
+      "text": "Returning a double rather than printing inside the method makes it reusable and easy to test with different product lists."
+    },
+    {
+      "code": "                .sum();",
+      "text": "Only a DoubleStream offers sum(), which is exactly why mapToDouble was used instead of the ordinary map."
+    },
+    {
+      "code": "    public static double getAverageOrganicPrice(List<MarketProduct> products) {",
+      "text": "This method shows the standard stream shape of filter, then map, then reduce: narrow the data first, convert it to numbers, then compute one result."
+    },
+    {
+      "code": "                .filter(MarketProduct::isOrganic)",
+      "text": "Filtering before the calculation keeps non-organic products out of the average; the method reference isOrganic stands in for a boolean test on each product."
+    },
+    {
+      "code": "                .average()",
+      "text": "Averaging returns an OptionalDouble rather than a double, because an empty stream has no meaningful average."
+    },
+    {
+      "code": "                .orElse(0.0);",
+      "text": "This unwraps the OptionalDouble, supplying 0.0 when no organic products exist so the caller never has to handle a missing value."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

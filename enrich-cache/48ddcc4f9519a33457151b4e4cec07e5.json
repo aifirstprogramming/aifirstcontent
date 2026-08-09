@@ -1,0 +1,45 @@
+{
+  "summary": "This program asks you to type a temperature in Celsius, converts it to Fahrenheit, and prints the result. The conversion is wrapped in a try-catch block so that typing something that is not a number produces a friendly message instead of a crash.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius: \");",
+      "text": "Using print instead of println leaves the cursor on the same line, so what you type appears right after the prompt."
+    },
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "The try block guards everything inside it against errors, and declaring the Scanner in the parentheses (a try-with-resources) closes it automatically when the block ends."
+    },
+    {
+      "code": "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
+      "text": "The typed line is read as text, trim removes any stray spaces, and parseDouble turns it into a number — this is the step that fails if the text is not numeric."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "The conversion itself lives in its own function, so main stays focused on talking to the user."
+    },
+    {
+      "code": "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
+      "text": "Joining numbers to text with + builds one readable sentence out of both values."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "If anything inside the try throws, control jumps here; catching the broad Exception type is the simplest starting point, and later exercises narrow it down."
+    },
+    {
+      "code": "            System.out.println(\"Invalid input. Please enter a numeric temperature value.\");",
+      "text": "The reader gets a clear explanation of what went wrong rather than a stack trace, and the program ends normally."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "A static helper function can be called straight from main without creating an object, and it returns a double because temperatures have decimals."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "This is the Celsius-to-Fahrenheit formula; because celsius is a double, the multiplication and division stay decimal instead of being rounded off."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "twenty five\n",
+  "expectsUncaughtException": false
+}

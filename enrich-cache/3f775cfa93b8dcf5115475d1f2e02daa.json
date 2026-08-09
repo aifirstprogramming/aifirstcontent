@@ -1,0 +1,53 @@
+{
+  "summary": "This is a JUnit test class for a TrafficLight object. Each test creates a fresh light, advances it through the Red \\u2192 Green \\u2192 Yellow \\u2192 Red cycle, and checks both the current colour and whether drivers must stop.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "Brings in the @Test annotation from JUnit 5, which is how the test runner recognises a method as a test to execute."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), which keeps the test bodies readable."
+    },
+    {
+      "code": "class TrafficLightTest {",
+      "text": "The test class is named after the class under test, a convention that makes the pairing obvious to both readers and tools."
+    },
+    {
+      "code": "    void startsOnRed() {",
+      "text": "Test method names describe the behaviour being verified, so a failure report reads like a sentence about what broke."
+    },
+    {
+      "code": "        TrafficLight light = new TrafficLight();",
+      "text": "Every test builds its own light, so no test can be affected by changes another test made."
+    },
+    {
+      "code": "        assertEquals(\"Red\", light.getColor());",
+      "text": "Checks the expected value against the actual one; in JUnit the expected value always comes first."
+    },
+    {
+      "code": "        assertTrue(light.isStopRequired());",
+      "text": "Asserts that a boolean is true, documenting that a red light must stop traffic."
+    },
+    {
+      "code": "        light.advance();",
+      "text": "The single call under test is separated from the setup above by a blank line, following the arrange-act-assert shape."
+    },
+    {
+      "code": "        assertFalse(light.isStopRequired());",
+      "text": "Green is the one state where stopping is not required, so this test pins down the negative case too."
+    },
+    {
+      "code": "    void advancesFromYellowToRed() {",
+      "text": "Advancing three times should wrap back to Red, which proves the cycle loops rather than running off the end."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "TrafficLight.java",
+      "content": "public class TrafficLight {\n\n    private static final String[] CYCLE = { \"Red\", \"Green\", \"Yellow\" };\n\n    private int position = 0;\n\n    public String getColor() {\n        return CYCLE[position];\n    }\n\n    public void advance() {\n        position = (position + 1) % CYCLE.length;\n    }\n\n    public boolean isStopRequired() {\n        return !getColor().equals(\"Green\");\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

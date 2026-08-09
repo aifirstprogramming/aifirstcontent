@@ -1,0 +1,40 @@
+{
+  "summary": "This program figures out how many people can each get two slices of cake from a tray of 23 slices, and how many slices are left over. It demonstrates Java's integer division operator (/) and the modulus operator (%).",
+  "lines": [
+    {
+      "code": "public class DessertServingsCalculation {",
+      "text": "Every Java program lives inside a class, and the class name must match the file name, so this code belongs in DessertServingsCalculation.java."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the method Java runs first when the program starts; all the work below happens inside it."
+    },
+    {
+      "code": "        int slicesAvailable = 23;",
+      "text": "The total supply of cake slices is stored in an int variable, which holds whole numbers only."
+    },
+    {
+      "code": "        int slicesPerPerson = 2;",
+      "text": "Naming the serving size as a variable rather than typing 2 everywhere means one edit changes the whole calculation."
+    },
+    {
+      "code": "        int peopleFullyServed = slicesAvailable / slicesPerPerson; // integer division",
+      "text": "Dividing one int by another gives an int: 23 / 2 is 11, not 11.5, because Java throws away the fractional part rather than rounding. That is exactly what you want here, since a person served only half a portion is not fully served."
+    },
+    {
+      "code": "        int leftoverSlices = slicesAvailable % slicesPerPerson;    // modulus (remainder)",
+      "text": "The % operator returns the remainder of the division, so 23 % 2 is 1 -- the single slice that could not complete another full serving."
+    },
+    {
+      "code": "        System.out.println(\"Slices available: \" + slicesAvailable);",
+      "text": "The + operator joins text to a number here, converting the int into characters so it can be printed as part of the sentence."
+    },
+    {
+      "code": "        System.out.println(\"People fully served: \" + peopleFullyServed);",
+      "text": "Reporting the two computed results together shows how division and modulus split a quantity into complete groups plus a remainder."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

@@ -1,0 +1,49 @@
+{
+  "summary": "This program builds a small library of Book objects in a List, then collects each book's genre into a Set so that repeated genres appear only once, and prints the resulting genre list.",
+  "lines": [
+    {
+      "code": "import java.util.Set;",
+      "text": "Set is the interface for a collection that refuses duplicate elements, which is exactly the guarantee we want for a list of genres."
+    },
+    {
+      "code": "import java.util.HashSet;",
+      "text": "HashSet is the concrete implementation of Set we will actually create; it stores elements in a hash table, so membership checks are fast but order is not preserved."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The books themselves still belong in a List, because a library can legitimately hold two copies of the same title and the order matters."
+    },
+    {
+      "code": "        Book eragon = new Book(\"Eragon\", \"Christopher Paolini\", \"Fantasy\");",
+      "text": "This is the second of three Fantasy books, and those repeats are what the Set is here to collapse."
+    },
+    {
+      "code": "        Set<String> genres = new HashSet<>();",
+      "text": "Declaring the variable as Set but constructing a HashSet is the usual Java style: the code depends only on the interface, so the implementation could be swapped later."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop walks through every Book in the list, binding each one to the variable book in turn."
+    },
+    {
+      "code": "            genres.add(book.getGenre());",
+      "text": "Adding a genre that is already present simply does nothing, so \"Fantasy\" ends up stored once even though three books carry it."
+    },
+    {
+      "code": "        System.out.println(\"\\nGenres in the library:\");",
+      "text": "The \\n escape sequence inserts a blank line before the heading, which separates this section from anything printed earlier."
+    },
+    {
+      "code": "        for (String genre : genres) {",
+      "text": "A Set can be iterated just like a List, but the order you see is decided by the hash table and is not the order the genres were added."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

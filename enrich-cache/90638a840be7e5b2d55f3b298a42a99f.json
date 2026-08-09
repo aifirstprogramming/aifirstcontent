@@ -1,0 +1,29 @@
+{
+  "summary": "This small program creates a Thermostat object set to 72 degrees and prints the status that the thermostat reports back. It is the \"by hand\" way of testing a class: run it, look at the output, and decide whether the answer is right.",
+  "lines": [
+    {
+      "code": "public class ThermostatApp {",
+      "text": "The app class is kept separate from the Thermostat class itself, so the thermostat holds the logic and this class only exercises it."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "Java starts every program at main, so this is the method the runtime calls when you run ThermostatApp."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(72.0);",
+      "text": "Calling new runs the Thermostat constructor and hands it the starting temperature, giving you one concrete object to inspect."
+    },
+    {
+      "code": "        System.out.println(\"Thermostat status: \" + thermostat.getStatus());",
+      "text": "The plus sign joins the label to whatever getStatus() returns, so you can read the object's reported state on screen and judge it yourself. Manual checks like this are the step that automated tests later replace."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "public class Thermostat {\n    private double temperature;\n\n    public Thermostat(double temperature) {\n        this.temperature = temperature;\n    }\n\n    public double getTemperature() {\n        return temperature;\n    }\n\n    public String getStatus() {\n        if (temperature < 68.0) {\n            return \"HEATING\";\n        }\n        if (temperature > 76.0) {\n            return \"COOLING\";\n        }\n        return \"IDLE\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

@@ -1,0 +1,43 @@
+{
+  "summary": "This is a fragment of a Maven pom.xml file, not Java code. It declares Mockito as a project dependency so tests can create stand-in \"mock\" objects for collaborators such as the TemperatureSensor interface instead of relying on real hardware.",
+  "lines": [
+    {
+      "code": "    <dependencies>",
+      "text": "The <dependencies> block is where a Maven project lists every external library it needs; Maven downloads each one and puts it on the compile or test classpath for you."
+    },
+    {
+      "code": "        <!-- JUnit 5 dependency -->",
+      "text": "An XML comment marking the spot where the JUnit 5 dependency already sits, so you can see the new entry is being added alongside it rather than replacing it."
+    },
+    {
+      "code": "        <dependency>",
+      "text": "Each library gets its own <dependency> element containing the coordinates Maven uses to locate the exact artifact."
+    },
+    {
+      "code": "            <groupId>org.mockito</groupId>",
+      "text": "The group id identifies the organization that publishes the library, which keeps names from colliding between different projects."
+    },
+    {
+      "code": "            <artifactId>mockito-core</artifactId>",
+      "text": "The artifact id names the specific library within that group; mockito-core is the mocking engine that provides mock() and when()."
+    },
+    {
+      "code": "            <version>5.12.0</version>",
+      "text": "Pinning an exact version means everyone building the project gets identical behaviour instead of silently picking up a newer, possibly incompatible release."
+    },
+    {
+      "code": "            <scope>test</scope>",
+      "text": "Test scope makes Mockito available to test code only, so a mocking framework never ends up shipped inside your production build."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "PomSnippetNote.java",
+      "content": "public class PomSnippetNote {\n    public static void main(String[] args) {\n        System.out.println(\"This exercise is an XML snippet for pom.xml, not Java source.\");\n        System.out.println(\"Maven reads it and adds mockito-core 5.12.0 to the test classpath,\");\n        System.out.println(\"which lets ThermostatTest mock the TemperatureSensor interface.\");\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "PomSnippetNote.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

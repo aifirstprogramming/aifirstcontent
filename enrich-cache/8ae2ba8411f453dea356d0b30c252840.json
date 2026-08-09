@@ -1,0 +1,41 @@
+{
+  "summary": "This program builds a small glossary using a Map, where each Java collection name is a key paired with its definition. It looks up one definition by name, then copies the keys into a TreeSet so the terms can be listed in alphabetical order.",
+  "lines": [
+    {
+      "code": "import java.util.TreeSet;",
+      "text": "TreeSet is imported alongside the map classes because it keeps its contents sorted, which is what makes the alphabetical listing possible."
+    },
+    {
+      "code": "        Map<String, String> glossary = new HashMap<>();",
+      "text": "The variable is declared as the Map interface but created as a HashMap; both type parameters are String because a term and its definition are each text."
+    },
+    {
+      "code": "        glossary.put(\"List\", \"An ordered collection (also known as a sequence) that may contain duplicate elements. Allows positional access and insertion of elements.\");",
+      "text": "put stores a key-value pair, so the term \"List\" becomes the key you look up and the definition becomes the value you get back."
+    },
+    {
+      "code": "        String termToFind = \"Map\";",
+      "text": "Holding the search term in a variable means the lookup and the printed label always agree, and you change the search in one place."
+    },
+    {
+      "code": "        System.out.println(termToFind + \": \" + glossary.get(termToFind));",
+      "text": "get returns the value stored under that key, or null if the term was never added to the glossary."
+    },
+    {
+      "code": "        System.out.println(\"\\nTerms in the glossary (alphabetical order):\");",
+      "text": "The \\n escape sequence starts a new line before the heading, which separates the two sections of output visually."
+    },
+    {
+      "code": "        TreeSet<String> sortedTerms = new TreeSet<>(glossary.keySet());",
+      "text": "keySet gives you all the terms in the map, and passing them to a TreeSet constructor copies them into sorted order — a HashMap on its own has no reliable ordering."
+    },
+    {
+      "code": "        for (String term : sortedTerms) {",
+      "text": "Iterating over a TreeSet visits the elements smallest to largest, so the terms come out alphabetically without any sorting code of your own."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,49 @@
+{
+  "summary": "This defines a MarketProduct class: a single, unchangeable record of one item for sale at a farmers' market, holding its name, vendor, price, category, season, and whether it is organic. Later exercises in this chapter build lists of these objects and process them with streams.",
+  "lines": [
+    {
+      "code": "    private final String name;",
+      "text": "Marking a field `private final` means it is set once in the constructor and can never change afterwards, which makes the object safe to share across stream operations, including parallel ones."
+    },
+    {
+      "code": "    private final double price;",
+      "text": "Price is a `double` so it can hold values with cents, and later exercises will sum and average this field with `mapToDouble`."
+    },
+    {
+      "code": "    private final boolean organic;",
+      "text": "A `boolean` field stores a plain yes-or-no fact, ideal for filtering the stream down to just the organic products."
+    },
+    {
+      "code": "    public MarketProduct(String name, String vendor, double price, String category, String season, boolean organic) {",
+      "text": "The constructor demands every value up front, so it is impossible to create a half-filled MarketProduct."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name `name`, so `this.name` is needed to say \"the field belonging to this object\" rather than the parameter."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "Because the fields are private, a getter is how outside code reads a value. Stream code will call these getters constantly inside lambdas."
+    },
+    {
+      "code": "    public boolean isOrganic() {",
+      "text": "Java convention names a getter for a boolean `isX` rather than `getX`, which is why this reads naturally as `product.isOrganic()`."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from `Object`; if you misspell the method name, compilation fails instead of silently doing nothing."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Every object inherits a `toString`, but the default prints an unhelpful memory address. Overriding it means printing a product, or a whole list of them, shows readable field values."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'' +",
+      "text": "The `'\\''` is an escaped single quote character, so the output wraps text values in quotes and makes it obvious where a name starts and ends."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This program stores three shopping cart items in variables and joins them into one readable line using string concatenation. The + operator glues strings together, and the \", \" pieces supply the separators between item names.",
+  "lines": [
+    {
+      "code": "item1 = \"Apples\"",
+      "text": "The first item name is stored in a variable so it can be reused later instead of being typed again inside the print call."
+    },
+    {
+      "code": "cart_list = item1 + \", \" + item3",
+      "text": "Placeholder."
+    },
+    {
+      "code": "print(\"Shopping cart contains: \" + cart_list)",
+      "text": "Concatenating a label onto the finished list produces a full sentence; note that + only works here because both sides are strings."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,53 @@
+{
+  "summary": "These four test methods check the RobotPet.charge method from every angle: adding charge, adding so much that it hits the 100 maximum, passing a negative amount to drain the battery, and draining past the 0 minimum. Each one sets the battery to a known starting value, calls charge, and asserts the resulting battery level.",
+  "lines": [
+    {
+      "code": "    def test_charge_increases_battery(self):",
+      "text": "Each test method's name states the behaviour being checked, so a failure report tells you what broke without you having to read the code. The name must start with test_ for unittest to find and run it."
+    },
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "This is the arrange step: the shared pet created in setUp is put into a known starting state so the expected result is predictable. Never rely on whatever battery level a previous test left behind."
+    },
+    {
+      "code": "        self.pet.charge(20)",
+      "text": "The act step calls the one method under test. Notice that charge changes the object rather than returning a value, so the assertion has to inspect the object afterwards."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 70)",
+      "text": "The assert step compares the battery attribute against the value you worked out by hand, 50 + 20. If charge did anything else, the test fails and prints both numbers."
+    },
+    {
+      "code": "    def test_charge_caps_at_hundred(self):",
+      "text": "Testing the boundary is as important as testing the normal case, because capping logic is exactly where off-by-one mistakes hide."
+    },
+    {
+      "code": "        self.pet.charge(50)",
+      "text": "Charging 90 by 50 would give 140, which is impossible for a percentage, so this call forces the upper limit to do its job."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 100)",
+      "text": "The expected value is the cap rather than the arithmetic total, which is what makes this a test of the limit."
+    },
+    {
+      "code": "    def test_charge_negative_decreases_battery(self):",
+      "text": "A negative argument is a legitimate use of charge in this design, so it deserves its own test rather than being left as an accident that happens to work."
+    },
+    {
+      "code": "        self.pet.charge(-10)",
+      "text": "Passing a negative amount drains the battery, reusing the same method instead of needing a separate discharge method."
+    },
+    {
+      "code": "    def test_charge_floors_at_zero(self):",
+      "text": "This is the mirror image of the cap test: draining 10 by 50 must stop at 0 instead of going negative."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 0)",
+      "text": "Zero, not -40, is the correct answer, and asserting it locks the lower bound into place so a future edit cannot quietly remove it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

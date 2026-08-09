@@ -47,6 +47,15 @@ function documentXml(path: string): string {
  * `<w:tab/>` markers within a paragraph, which is exactly what a DOM walk over
  * text nodes throws away, and a full parser buys nothing else here.
  */
+/**
+ * Trailing spaces on a line are a Word artifact: invisible on the page, but they
+ * break the pack's no-trailing-whitespace invariant and would report as drift on
+ * every scrape. Leading whitespace is indentation and is preserved.
+ */
+function stripTrailing(text: string): string {
+  return text.replace(/[ \t\u00a0]+$/, "");
+}
+
 export function readParagraphs(path: string): Paragraph[] {
   const xml = documentXml(path);
   const out: Paragraph[] = [];
@@ -57,7 +66,7 @@ export function readParagraphs(path: string): Paragraph[] {
   while ((m = paraRe.exec(xml)) !== null) {
     const inner = m[1] ?? "";
     const styleMatch = inner.match(/<w:pStyle\s+w:val="([^"]*)"/);
-    out.push({ style: styleMatch ? styleMatch[1] : "Normal", text: paragraphText(inner) });
+    out.push({ style: styleMatch ? styleMatch[1] : "Normal", text: stripTrailing(paragraphText(inner)) });
   }
   return out;
 }

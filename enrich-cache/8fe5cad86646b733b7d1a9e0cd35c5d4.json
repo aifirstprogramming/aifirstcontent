@@ -1,0 +1,29 @@
+{
+  "summary": "This program stores several facts about a giraffe in variables, each using one of Python's basic data types, then prints them all in a single formatted report.",
+  "lines": [
+    {
+      "code": "name = \"Gerald\"",
+      "text": "Text in quotes is a string, the type Python uses for names and any other sequence of characters."
+    },
+    {
+      "code": "height_m = 5.5",
+      "text": "A number written with a decimal point is a float, which is what you need for measurements that fall between whole numbers. The `_m` in the name is a reminder that the value is in metres."
+    },
+    {
+      "code": "weight_kg = 1200",
+      "text": "A number with no decimal point is an integer, suitable for a weight recorded to the nearest kilogram."
+    },
+    {
+      "code": "is_endangered = False",
+      "text": "`False` is a boolean, the type with only two possible values, `True` and `False`. Naming such a variable as a yes/no question makes the code read naturally."
+    },
+    {
+      "code": "print(f\"Name: {name}\\nHeight: {height_m}m\\nWeight: {weight_kg}kg\\nSpots: {spots}\\nEndangered: {is_endangered}\\nTop Speed: {top_speed_kmh}km/h\\nLifespan: {lifespan_years} years\")",
+      "text": "The `f` before the quote makes this an f-string, so each name in curly braces is replaced by its variable's value. Each `\\n` is a newline character, which is why one print call produces seven lines of output."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

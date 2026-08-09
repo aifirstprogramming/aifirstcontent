@@ -1,0 +1,57 @@
+{
+  "summary": "This defines a Room class: a small blueprint that bundles a room's name together with its length and width. It is a domain class, meaning it models one thing from the real world and offers methods to read and change its data.",
+  "lines": [
+    {
+      "code": "public class Room {",
+      "text": "Declares the blueprint. Every room object created from this class carries its own name, length, and width."
+    },
+    {
+      "code": "    private String name;",
+      "text": "Stores the room's name, such as \"Kitchen\". Marking it private means code outside the class cannot touch it directly."
+    },
+    {
+      "code": "    private double length;",
+      "text": "Holds the length as a decimal number, since room dimensions are rarely whole numbers."
+    },
+    {
+      "code": "    public Room() {",
+      "text": "A no-argument constructor that creates an empty room, to be filled in later with the setter methods."
+    },
+    {
+      "code": "    public Room(String name, double length, double width) {",
+      "text": "A second constructor that accepts all three values at once, so a fully described room can be built in a single step."
+    },
+    {
+      "code": "        this.name = name;",
+      "text": "The parameter and the field share the name name, so this.name makes it clear that the field is the one being assigned."
+    },
+    {
+      "code": "    public String getName() {",
+      "text": "A getter: the controlled way for other classes to read the private name field."
+    },
+    {
+      "code": "    public void setName(String name) {",
+      "text": "A setter: the controlled way to change the name after the object exists. Keeping fields private and going through methods like this is called encapsulation."
+    },
+    {
+      "code": "    @Override",
+      "text": "Announces that the method below replaces one inherited from Object. The compiler will complain if the signature does not match, which catches typos."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Defines what the room looks like as text, so printing a Room shows its data instead of a cryptic memory reference."
+    },
+    {
+      "code": "        return \"Room{\" +",
+      "text": "Begins assembling the description; the + at the end of each line continues building one long string."
+    },
+    {
+      "code": "                \"name='\" + name + '\\'' +",
+      "text": "Wraps the name in single quotes. The '\\'' is an escaped quote character, which is how Java writes a literal apostrophe."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

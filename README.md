@@ -142,9 +142,58 @@ that do not read like an instruction are usually stray program output. Every
 published example is executed by `bun run run-exercises`, which is what actually
 caught output being stored as an exercise's code.
 
+## Explanations are pre-computed, not generated
+
+Every published exercise carries the walkthrough a reader sees:
+
+```jsonc
+{ "explanation": {
+    "summary": "This program defines a small reusable block of code called a method…",
+    "lines": [{ "code": "public static void main(String[] args) {", "text": "main is where…" }],
+    "run": "java IntroFunction.java" } }
+```
+
+It is stored rather than produced on demand for two reasons. An explanation that
+reworded itself on every request would undercut the promise that the tool agrees with
+the printed book — and the **VS Code extension has no model at all**, so anything
+generated at runtime simply would not exist there. A model is used once, at authoring
+time, by `bun run enrich`; nothing calls one when a reader asks.
+
+`run` is set by the tooling, not by the model: it is the command that actually
+executed during verification, so the line a reader is shown cannot drift from what CI
+proved.
+
+Non-runnable code gets a `scaffold` instead of being edited. The response stays
+byte-exact to the page; the surrounding files a fragment needs live alongside it, and
+`fromExercise` points at another exercise's code rather than copying it.
+
+```sh
+export ANTHROPIC_API_KEY=...
+bun run enrich                 # every draft
+bun run enrich --limit 5       # a few first, to check quality
+bun run enrich --fresh --id java-6-10
+bun run verify-content         # re-run the checks with no model and no writes
+```
+
+**A draft is published only once it has actually run.** That gate is
+`scripts/lib/verify.ts`, shared with `run-exercises.ts` so CI reaches the same verdict
+without an API key. What "runs" means depends on the kind: a `program` executes, a
+`class` compiles, a `test` passes, a `snippet` runs inside its scaffold. Two facts the
+gate needs are stored in the pack for that reason — the scaffold, and
+`expectsException` for exercises that throw on purpose.
+
+Java tests run through the JUnit console launcher, so the books need no `pom.xml` and
+CI needs no Maven:
+
+```sh
+mkdir -p ~/.aifirst-toolcache
+curl -sSLo ~/.aifirst-toolcache/junit-console.jar \
+  https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/junit-platform-console-standalone-1.10.2.jar
+```
+
 ## Progress unit
 
-Learner progress is tracked per **example** (38 today), not per step. Steps are individually viewable
+Learner progress is tracked per **example** (137 today), not per step. Steps are individually viewable
 and applicable, but the titled example is the unit the book presents and therefore the unit a learner
 thinks in.
 
@@ -164,8 +213,10 @@ since those run under Bun and use `import.meta`.
 
 | Book | Examples | Chapters with content |
 |---|---|---|
-| AI First Python Programming | 21 | 1–3 of 10 |
-| AI First Java Programming | 17 | 1–3 of 12 |
+| AI First Python Programming | 51 | 1–7 of 10 |
+| AI First Java Programming | 86 | 1–9 of 12 |
+
+Every one of them has been executed, and carries a stored explanation.
 
 Chapters are authored ahead of their examples, so empty chapters are a normal state — the loader keeps
 them, and consumers must skip rather than error on them. Progress percentages are computed over

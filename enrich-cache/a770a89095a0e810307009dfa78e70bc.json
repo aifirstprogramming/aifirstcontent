@@ -1,0 +1,33 @@
+{
+  "summary": "This program stores a herd of goats as a list of dictionaries, then uses filter with a lambda to pick out only the goats whose calm level is 7 or higher and prints them.",
+  "lines": [
+    {
+      "code": "goats = [",
+      "text": "Starts a list where each item will be a dictionary describing one goat, a common way to hold several pieces of information about many things."
+    },
+    {
+      "code": "    {\"name\": \"Billy\", \"calm_level\": 8},",
+      "text": "Each dictionary pairs the key \"name\" with a goat's name and \"calm_level\" with a number, so both facts travel together as one item."
+    },
+    {
+      "code": "calm_goats = list(filter(lambda goat: goat[\"calm_level\"] >= 7, goats))",
+      "text": "filter runs the little lambda function on every goat and keeps only those for which it returns True; list() turns the result into a real list you can loop over more than once."
+    },
+    {
+      "code": "print(\"\\nCalmest goats (calm level >= 7):\")",
+      "text": "The \\n prints a blank line first, which separates the heading from anything above it in the terminal."
+    },
+    {
+      "code": "for goat in calm_goats:",
+      "text": "Walks through the filtered list one goat at a time so each survivor can be printed."
+    },
+    {
+      "code": "    print(f\"  {goat['name']} (calm level: {goat['calm_level']})\")",
+      "text": "An f-string pulls both values out of the dictionary by key; note the single quotes inside, since the f-string itself already uses double quotes."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

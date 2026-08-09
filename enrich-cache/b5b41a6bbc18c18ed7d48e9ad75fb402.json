@@ -1,0 +1,48 @@
+{
+  "summary": "This version of the playlist app puts whole Song objects into a PriorityQueue instead of plain numbers or strings, using a comparator on each song's energy level so the queue always hands back the most energetic song first. A poll() loop drains the queue, printing songs in descending order of energy.",
+  "lines": [
+    {
+      "code": "import java.util.PriorityQueue;",
+      "text": "PriorityQueue is the queue that keeps its elements ordered by priority rather than by arrival time, so the head is always the \"most important\" element."
+    },
+    {
+      "code": "        PriorityQueue<Song> energyQueue = new PriorityQueue<>(",
+      "text": "Declaring the queue as PriorityQueue<Song> means it stores real domain objects, so nothing is lost the way it would be if you only queued titles or energy numbers."
+    },
+    {
+      "code": "                Comparator.comparingInt(Song::getEnergyLevel).reversed());",
+      "text": "A Song has no natural ordering, so the queue is given a comparator that reads each song's energy level; .reversed() flips the usual smallest-first rule into highest-energy-first."
+    },
+    {
+      "code": "        energyQueue.addAll(playlist);",
+      "text": "addAll copies every song from the existing list in one call, and the queue quietly arranges them internally according to the comparator as they go in."
+    },
+    {
+      "code": "        while (!energyQueue.isEmpty()) {",
+      "text": "Because poll() removes elements, checking isEmpty() each time round is how you drain the queue exactly once per song."
+    },
+    {
+      "code": "            Song nextSong = energyQueue.poll(); // highest energy first",
+      "text": "poll() removes and returns the head of the queue, which under this comparator is always the highest-energy song still waiting."
+    },
+    {
+      "code": "            System.out.println(\"Playing: \" + nextSong);",
+      "text": "Concatenating the object into a string calls the Song class's toString method, which is why a whole song's details appear instead of a memory address."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "",
+      "fromExercise": "java-8-01"
+    },
+    {
+      "path": "EnergyQueueDemo.java",
+      "content": "import java.util.ArrayList;\nimport java.util.Comparator;\nimport java.util.List;\nimport java.util.PriorityQueue;\n\npublic class EnergyQueueDemo {\n    public static void main(String[] args) {\n        List<Song> playlist = new ArrayList<>();\n        playlist.add(new Song(\"Bohemian Rhapsody\", \"Queen\", \"Rock\", 7));\n        playlist.add(new Song(\"Thunderstruck\", \"AC/DC\", \"Rock\", 10));\n        playlist.add(new Song(\"Clair de Lune\", \"Debussy\", \"Classical\", 2));\n        playlist.add(new Song(\"Billie Jean\", \"Michael Jackson\", \"Pop\", 8));\n\n        System.out.println(\"\\n--- Priority Playlist (Songs by Energy, High \\u2192 Low) ---\");\n        PriorityQueue<Song> energyQueue = new PriorityQueue<>(\n                Comparator.comparingInt(Song::getEnergyLevel).reversed());\n        energyQueue.addAll(playlist);\n\n        System.out.println(\"Processing by energy with poll():\");\n        while (!energyQueue.isEmpty()) {\n            Song nextSong = energyQueue.poll();\n            System.out.println(\"Playing: \" + nextSong);\n        }\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "EnergyQueueDemo.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

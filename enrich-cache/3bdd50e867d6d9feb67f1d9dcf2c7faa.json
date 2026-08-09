@@ -1,0 +1,77 @@
+{
+  "summary": "This program asks for a temperature in Celsius and keeps asking until the reader types a real number inside the physically possible range of -273.15 to 100, then converts that value to Fahrenheit. It combines a loop with two kinds of checking: one for text that is not a number at all, and one for numbers that are out of range.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius (-273.15 to 100): \");",
+      "text": "Stating the allowed range in the prompt itself means the reader knows the rule before making a mistake. Using print rather than println leaves the cursor on the same line, so typing happens right after the colon."
+    },
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "This is a try-with-resources statement: the Scanner is created here and Java automatically closes it when the block ends, however it ends."
+    },
+    {
+      "code": "            Double celsius = null;",
+      "text": "The capital-D Double is the object version of double, and unlike a plain double it can hold null to mean \"no valid value yet.\" It is declared outside the loop so it survives after the loop finishes."
+    },
+    {
+      "code": "            while (true) {",
+      "text": "An intentionally endless loop. The only ways out are the break below, once a good value arrives, so the user gets unlimited retries."
+    },
+    {
+      "code": "                String input = scanner.nextLine().trim();",
+      "text": "Reads the whole typed line as text and trim removes any stray spaces at the ends, which would otherwise make a perfectly good number fail to parse."
+    },
+    {
+      "code": "                    double value = Double.parseDouble(input);",
+      "text": "Turns the text into a number. If the text is not a number, this line throws NumberFormatException instead of returning, and control jumps to the catch below."
+    },
+    {
+      "code": "                    if (value < -273.15 || value > 100) {",
+      "text": "The range check. The || means \"or,\" so the value is rejected when it is below absolute zero or above the boiling point of water."
+    },
+    {
+      "code": "                        System.out.print(\"Out of range. Enter a value between -273.15 and 100: \");",
+      "text": "A rejection message that repeats the rule, so the user does not have to scroll back to see what was expected."
+    },
+    {
+      "code": "                        continue;",
+      "text": "Skips the rest of the loop body and starts the next round immediately, which is what asks for input again."
+    },
+    {
+      "code": "                    celsius = value;",
+      "text": "Only a number that survived both parsing and the range check gets stored, so celsius can never hold garbage."
+    },
+    {
+      "code": "                    break;",
+      "text": "Leaves the endless loop now that a valid value is in hand."
+    },
+    {
+      "code": "                } catch (NumberFormatException e) {",
+      "text": "Catches the specific failure from parseDouble. Because the catch sits inside the loop, a typo costs one extra prompt rather than crashing the program."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "Calls the conversion function with the validated value. Java automatically unwraps the Double object into the plain double the method expects."
+    },
+    {
+      "code": "            System.out.println(celsius + \"°C is \" + fahrenheit + \"°F\");",
+      "text": "Shows both temperatures in one sentence so the result is self-explanatory."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "A final safety net for anything unexpected, such as input ending before a valid number is entered. It reports a friendly message instead of dumping a stack trace."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "The conversion lives in its own function so the validation loop in main stays focused on collecting input."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "The standard formula. Because celsius is a double, the multiplication happens in decimal first, so the 9/5 division does not lose the fraction."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "500\nabc\n25\n",
+  "expectsUncaughtException": false
+}

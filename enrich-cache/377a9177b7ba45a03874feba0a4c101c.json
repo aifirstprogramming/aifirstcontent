@@ -1,0 +1,49 @@
+{
+  "summary": "This defines a WeatherEntry class, a small immutable data holder that bundles one day's date, temperature in Celsius, and sky condition into a single object. A weather app can then store many of these in a list and run stream pipelines over them.",
+  "lines": [
+    {
+      "code": "    private final String date;      // e.g., 2026-07-01",
+      "text": "The date is stored as text in ISO order (year-month-day), which sorts correctly as a plain string. Marking the field final means it can never change after the object is built."
+    },
+    {
+      "code": "    private final double celsius;   // temperature in °C",
+      "text": "Temperature uses double because readings carry fractional degrees, such as 21.5."
+    },
+    {
+      "code": "    private final String condition; // e.g., Sunny, Rainy, Cloudy",
+      "text": "The condition is a simple label that later stream filters can compare against, such as keeping only the rainy days."
+    },
+    {
+      "code": "    public WeatherEntry(String date, double celsius, String condition) {",
+      "text": "The constructor is the only way to supply values, so every WeatherEntry is fully populated the moment it exists."
+    },
+    {
+      "code": "        this.date = date;",
+      "text": "The keyword this distinguishes the field named date from the constructor parameter of the same name."
+    },
+    {
+      "code": "    public String getDate() {",
+      "text": "Because the fields are private, getter methods give read-only access to the data from outside the class. Stream code calls these through method references like WeatherEntry::getDate."
+    },
+    {
+      "code": "    public double getCelsius() {",
+      "text": "This getter is what a mapToDouble pipeline uses to pull out temperatures for converting to Fahrenheit or averaging."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from Object, so a typo in the method name becomes a compile error instead of a silent bug."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Overriding toString gives the object a readable form, so printing an entry or a whole list shows the actual weather data rather than a memory address."
+    },
+    {
+      "code": "                \"date='\" + date + '\\'' +",
+      "text": "The escape sequence '\\'' is a single-quote character, which wraps the date in quotes to make the printed output easier to read."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

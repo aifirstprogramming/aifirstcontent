@@ -1,0 +1,17 @@
+{
+  "summary": "This program prints the numbers 1 through 5, one per line, using a for loop over a range of numbers.",
+  "lines": [
+    {
+      "code": "for i in range(1, 6):",
+      "text": "range(1, 6) produces the numbers 1, 2, 3, 4, 5 — the first number is included but the second is not, so you write one past where you want to stop. On each pass through the loop, the variable i holds the next number in that sequence."
+    },
+    {
+      "code": "    print(i)",
+      "text": "The indentation is what places this line inside the loop, so it runs once for every value of i."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

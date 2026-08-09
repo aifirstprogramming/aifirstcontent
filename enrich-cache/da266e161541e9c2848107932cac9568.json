@@ -1,0 +1,59 @@
+{
+  "summary": "This is the finished House class: it stores an address, a bedroom count, and a bathroom count, exposes getters and setters for each, and adds a toString method so a House can be printed as readable text instead of a memory address.",
+  "lines": [
+    {
+      "code": "    private String address;",
+      "text": "The fields are marked private so that outside code cannot reach in and change them directly; every change must go through a method the class controls."
+    },
+    {
+      "code": "    public House(String address, int bedrooms, double bathrooms) {",
+      "text": "The constructor demands all three values up front, so it is impossible to create a House that is missing its address or room counts."
+    },
+    {
+      "code": "        this.address = address;",
+      "text": "The parameter and the field share the name address, so this.address makes it clear that the field is being assigned from the parameter."
+    },
+    {
+      "code": "    private double bathrooms;",
+      "text": "Bathrooms is a double rather than an int because half baths are real: a house can have 2.5 bathrooms."
+    },
+    {
+      "code": "    public String getAddress() {",
+      "text": "A getter hands out the stored value without exposing the field itself, which is the standard way to read private data."
+    },
+    {
+      "code": "    public void setAddress(String address) {",
+      "text": "A setter is the single doorway for changing the field later, which is where validation would go if you needed it."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from Object; if you misspell the method name, compilation fails instead of silently doing nothing."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Every object inherits toString from Object, and Java calls it automatically whenever an object is printed or joined to a String, so defining it here controls how a House appears."
+    },
+    {
+      "code": "        return \"House{\" +",
+      "text": "The return value is built by concatenating literal text with the field values, producing one line that names the class and lists its state."
+    },
+    {
+      "code": "                \"address='\" + address + '\\'' +",
+      "text": "The escaped '\\'' is a single-quote character, wrapping the address in quotes so an empty or padded address is still visible in the output."
+    },
+    {
+      "code": "                \", bedrooms=\" + bedrooms +",
+      "text": "An int joined to a String is converted to its digits automatically, so no extra conversion call is needed."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "HouseBuilder.java",
+      "content": "",
+      "fromExercise": "java-5-02"
+    }
+  ],
+  "entrypoint": "HouseBuilder.java",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

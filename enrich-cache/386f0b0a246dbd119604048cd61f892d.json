@@ -1,0 +1,21 @@
+{
+  "summary": "This program asks you for the current temperature and, when it is below 10 degrees Celsius, advises you to wear a hat. It is the smallest possible example of a decision in code.",
+  "lines": [
+    {
+      "code": "temp = float(input(\"Temperature (°C): \"))",
+      "text": "input always hands back text, so float converts what you typed into a decimal number that can be compared with other numbers."
+    },
+    {
+      "code": "if temp < 10:",
+      "text": "The comparison produces either True or False, and the indented block below runs only when the result is True."
+    },
+    {
+      "code": "    print(\"Wear a hat!\")",
+      "text": "The indentation is what makes this line belong to the if; type 15 and nothing is printed at all, because there is no else branch."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "4\n",
+  "expectsUncaughtException": false
+}

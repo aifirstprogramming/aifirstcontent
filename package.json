@@ -34,7 +34,7 @@
   "//prepare": [
     "npm runs `prepare` when a package is installed from a git ref. That is how",
     "the VS Code extension consumes this one, and a git install ships src/ but no",
-    "dist/ \u2014 while the extension compiles with tsc against the CommonJS build.",
+    "dist/ — while the extension compiles with tsc against the CommonJS build.",
     "Bun skips lifecycle scripts by default, and the CLI resolves the `bun` export",
     "condition to src/ regardless, so this is a no-op for it."
   ],
@@ -46,9 +46,12 @@
     "scrape": "bun scripts/scrape.ts",
     "ids": "bun scripts/add-ids.ts",
     "check": "bun scripts/validate.ts && bun test && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
-    "run-exercises": "bun scripts/run-exercises.ts"
+    "run-exercises": "bun scripts/run-exercises.ts",
+    "enrich": "bun scripts/enrich.ts",
+    "verify-content": "bun scripts/enrich.ts --dry-run --recheck"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.116.0",
     "@types/bun": "latest",
     "@types/node": "^20.19.41",
     "ajv": "^8.17.1",

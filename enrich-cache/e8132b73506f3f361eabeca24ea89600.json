@@ -1,0 +1,76 @@
+{
+  "summary": "This is the expanded version of the robot pets' speak() method: instead of one fixed sentence, each pet now checks its battery level first and then its mood, returning a different line for each situation. Every subclass overrides speak() so a cat, a bird, and a dog all say the same kinds of things in their own voice.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "The shared base class. The ellipsis in the book stands for the parts of RobotPet you already wrote (the constructor, charge, and play); only speak is being changed here."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "The whole point of this exercise: a method that used to return one sentence now has several branches, each of which needs its own unit test."
+    },
+    {
+      "code": "        if self.battery < 30:",
+      "text": "Battery is checked before mood, so a nearly flat pet always complains about its charge no matter how it feels. Order of the checks is part of the behaviour your tests pin down."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'I need to recharge...'\"",
+      "text": "Returning immediately means the rest of the checks never run, which is what makes the low-battery case take priority."
+    },
+    {
+      "code": "        if self.battery == 100:",
+      "text": "An exact comparison, so this fires only on a completely full battery — a good reminder to test 99 and 100 separately."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "The fallback at the end of the chain: if no battery or mood condition matched, the pet still says something instead of returning None."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "RobotCat inherits everything from RobotPet, then replaces the pieces that should sound feline."
+    },
+    {
+      "code": "        return f\"{self.name} pounces on a laser dot!\"",
+      "text": "show_talent exists only in the subclass, since each kind of pet has its own trick."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'Purrr... fully charged!'\"",
+      "text": "The cat's version of the full-battery message. Because RobotCat defines its own speak, Python uses this method and never the one in RobotPet."
+    },
+    {
+      "code": "class RobotBird(RobotPet):",
+      "text": "The same pattern again: one more subclass with the identical set of branches and its own wording."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'Tweet Tweet TWEET! So many songs!'\"",
+      "text": "Every subclass answers the \"excited\" mood, so a test can loop over all pet types and expect a distinct, non-empty reply from each."
+    },
+    {
+      "code": "class RobotDog(RobotPet):",
+      "text": "The last subclass. Because all four classes share the same branch structure, one test method per branch can be written once and reused for each pet."
+    },
+    {
+      "code": "            return f\"{self.name} says: 'ARF ARF ARF! LET\\'S PLAY!'\"",
+      "text": "The backslash escapes the apostrophe in LET'S so it does not end the string early. Inside double quotes it is not strictly required, but it does no harm."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Woof.'\"",
+      "text": "The dog's default line, reached only when the battery is between 30 and 99 and the mood is none of the three handled values."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pets.py",
+      "content": "",
+      "fromExercise": "py-7-10"
+    },
+    {
+      "path": "main.py",
+      "content": "from pets import RobotCat, RobotBird, RobotDog\n\npets = [RobotCat(\"Whiskers\"), RobotBird(\"Tweety\"), RobotDog(\"Rex\")]\nsituations = [(\"happy\", 100), (\"excited\", 60), (\"sad\", 60), (\"calm\", 20)]\n\nfor pet in pets:\n    print(pet.show_talent())\n    for mood, battery in situations:\n        pet.mood = mood\n        pet.battery = battery\n        print(pet.speak())\n    print()\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "main.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

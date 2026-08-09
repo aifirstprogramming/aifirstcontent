@@ -1,0 +1,17 @@
+{
+  "summary": "This program counts backwards, printing the numbers 5, 4, 3, 2, and 1 on separate lines. It shows how a range can walk downwards instead of upwards.",
+  "lines": [
+    {
+      "code": "for i in range(5, 0, -1):",
+      "text": "The three arguments to range are the start, the stop, and the step. Starting at 5 and stepping by -1 counts down, and because the stop value is never included, the sequence ends at 1 rather than 0."
+    },
+    {
+      "code": "    print(i)",
+      "text": "The indented body runs once for each value the loop hands to i, so each countdown number appears on its own line."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

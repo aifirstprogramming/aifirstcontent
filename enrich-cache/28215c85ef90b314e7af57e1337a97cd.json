@@ -1,0 +1,77 @@
+{
+  "summary": "This is the RobotPet family of classes with a new `speak` method added to each one, so every pet answers in its own voice depending on how much battery it has left and what mood it is in. Each subclass overrides both `show_talent` and `speak`, giving the same method call a different result for a cat, a bird, and a dog.",
+  "lines": [
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The constructor takes the three pieces of state every pet needs; `mood` is what the new `speak` feature reads to decide on a cheerful reply."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Assigning through the attribute name rather than to `_battery` directly means the setter below runs, so an out-of-range starting value is clamped before it is ever stored."
+    },
+    {
+      "code": "    @property",
+      "text": "The `@property` decorator turns `battery` into a computed attribute: readers write `pet.battery` and Python quietly calls this method."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "The matching setter intercepts every assignment to `battery`, which is where the validation rule lives."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "A negative charge makes no sense, so the value is pinned to zero instead of being rejected with an error."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "Likewise a battery cannot exceed full, so anything over 100 is capped at 100."
+    },
+    {
+      "code": "            self._battery = value",
+      "text": "Only a sensible value is stored in the underlying `_battery` attribute; the leading underscore signals it is the private backing store for the property."
+    },
+    {
+      "code": "    def charge(self, amount):",
+      "text": "Charging goes through the property too, so a huge amount still leaves the battery at exactly 100."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "The base class gives a bland default so every pet has a talent even if a subclass forgets to define one."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "This is the new feature being tested: a single method whose answer depends on both battery level and mood."
+    },
+    {
+      "code": "        if self.battery < 30:",
+      "text": "The low-battery check comes first, so an exhausted pet complains about power no matter how happy it is. The order of these checks is exactly the behaviour a unit test needs to pin down."
+    },
+    {
+      "code": "        if self.mood == \"happy\":",
+      "text": "With enough power left, a happy mood produces the upbeat line."
+    },
+    {
+      "code": "        return f\"{self.name} says: 'Hello!'\"",
+      "text": "Reaching the end without matching a condition gives the neutral fallback greeting."
+    },
+    {
+      "code": "class RobotCat(RobotPet):",
+      "text": "`RobotCat` inherits the constructor, the battery property, and `charge` from `RobotPet`, so only the behaviour that differs has to be written."
+    },
+    {
+      "code": "    def speak(self):",
+      "text": "Redefining `speak` in the subclass overrides the parent version; calling `speak()` on a cat runs this one instead. Each subclass keeps the same three-branch structure so the tests can check the same cases for every pet."
+    },
+    {
+      "code": "class RobotBird(RobotPet):",
+      "text": "The bird follows the identical pattern with its own wording, which is what makes polymorphism useful: a list of mixed pets can all be asked to speak."
+    },
+    {
+      "code": "class RobotDog(RobotPet):",
+      "text": "The dog completes the set of three subclasses that the accompanying test file exercises."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

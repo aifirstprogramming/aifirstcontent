@@ -1,0 +1,75 @@
+{
+  "summary": "This program builds a list of Book objects, sorts it several different ways using Comparator, and then compares two sets of book titles to find their intersection, union, and difference.",
+  "lines": [
+    {
+      "code": "import java.util.*;",
+      "text": "Brings in the whole java.util package, which supplies List, ArrayList, Comparator, Set, HashSet, and Arrays all at once."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "Declares the variable by the List interface but creates an ArrayList, so the code depends on the general contract rather than one particular implementation."
+    },
+    {
+      "code": "        books.add(new Book(\"The Adventures of Sherlock Holmes\", \"Arthur Conan Doyle\", \"Mystery\"));",
+      "text": "Adds a Book to the end of the list; the three arguments match the title, author, and genre the Book constructor expects."
+    },
+    {
+      "code": "        for (Book b : books) {",
+      "text": "The enhanced for loop walks the list in order, giving each element the name b for the body of the loop."
+    },
+    {
+      "code": "            System.out.println(b);",
+      "text": "Printing an object calls its toString method, which is why Book needs a readable toString for this output to be useful."
+    },
+    {
+      "code": "        books.sort(Comparator.comparing(Book::getTitle));",
+      "text": "Sorts the list in place. Comparator.comparing builds a comparator from a key, and Book::getTitle is a method reference meaning \"call getTitle on each book to get that key.\""
+    },
+    {
+      "code": "        System.out.println(\"\\nSorted by Title:\");",
+      "text": "The \\n escape adds a blank line before the heading so each section of output is visually separated."
+    },
+    {
+      "code": "        books.sort(Comparator.comparing(Book::getAuthor));",
+      "text": "The same list is re-sorted using a different key, showing that the ordering lives in the comparator, not in the list."
+    },
+    {
+      "code": "        books.sort(Comparator.comparing(Book::getGenre)",
+      "text": "Starts a two-level sort with genre as the primary key."
+    },
+    {
+      "code": "                             .thenComparing(Book::getTitle));",
+      "text": "Chains a tiebreaker: books that share a genre are then ordered by title."
+    },
+    {
+      "code": "        Set<String> myTitles = new HashSet<>(Arrays.asList(",
+      "text": "A Set holds no duplicates and has no guaranteed order. Arrays.asList wraps the listed titles so the HashSet constructor can copy them in."
+    },
+    {
+      "code": "        Set<String> intersection = new HashSet<>(myTitles);",
+      "text": "Copies myTitles first, because the set operations that follow modify the set they are called on and would otherwise destroy the original."
+    },
+    {
+      "code": "        intersection.retainAll(friendTitles);",
+      "text": "Keeps only the elements that also appear in friendTitles, leaving the titles both people own."
+    },
+    {
+      "code": "        union.addAll(friendTitles);",
+      "text": "Adds every title from the friend's set; because a set rejects duplicates, shared titles appear only once."
+    },
+    {
+      "code": "        difference.removeAll(friendTitles);",
+      "text": "Strips out everything the friend also has, leaving the titles unique to my collection."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + author + \" (\" + genre + \")\";\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

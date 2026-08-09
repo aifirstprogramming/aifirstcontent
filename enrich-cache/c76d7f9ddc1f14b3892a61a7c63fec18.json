@@ -1,0 +1,41 @@
+{
+  "summary": "This program stores an order status as a number and uses a switch statement to print the matching description. Because status is 2, it prints \"Processing\".",
+  "lines": [
+    {
+      "code": "        int status = 2;",
+      "text": "The status is held as a plain integer code, which is exactly the kind of value a switch is designed to test."
+    },
+    {
+      "code": "        switch (status) {",
+      "text": "A switch compares one value against several fixed alternatives, which is clearer than a long chain of if/else if tests."
+    },
+    {
+      "code": "            case 1:",
+      "text": "Each case names one possible value of status; execution jumps to the matching label."
+    },
+    {
+      "code": "                System.out.println(\"Starting\");",
+      "text": "This is the body that runs when status is 1."
+    },
+    {
+      "code": "                break;",
+      "text": "The break exits the switch. Without it, execution would fall through into the next case and print more than one message."
+    },
+    {
+      "code": "            case 2:",
+      "text": "This is the label that matches here, since status was set to 2."
+    },
+    {
+      "code": "            default:",
+      "text": "The default branch catches every value that no case listed, so unexpected status codes still produce sensible output."
+    },
+    {
+      "code": "                System.out.println(\"Unknown\");",
+      "text": "The last branch needs no break because the switch ends right after it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

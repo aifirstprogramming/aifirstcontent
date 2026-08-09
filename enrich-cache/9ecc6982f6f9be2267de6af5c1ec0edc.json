@@ -1,0 +1,71 @@
+{
+  "summary": "This is a JUnit test class for the Thermostat, with one focused test per possible status in both regular and eco mode, plus a test for the display message. Each test creates a thermostat at a chosen temperature and checks that getStatus() reports the expected result.",
+  "lines": [
+    {
+      "code": "import org.junit.jupiter.api.Test;",
+      "text": "Brings in the @Test annotation from JUnit 5, which marks a method as a test the framework should run."
+    },
+    {
+      "code": "import static org.junit.jupiter.api.Assertions.assertEquals;",
+      "text": "A static import lets you write assertEquals(...) directly instead of Assertions.assertEquals(...), keeping the tests short and readable."
+    },
+    {
+      "code": "public class ThermostatTest {",
+      "text": "Test classes conventionally take the name of the class under test with \"Test\" appended, so the pairing is obvious at a glance."
+    },
+    {
+      "code": "    void returnsHeatingWhenTemperatureIsLow() {",
+      "text": "The method name states the expected behaviour as a sentence, so a failure report tells you what broke without your having to read the body."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(60, false);",
+      "text": "Each test builds its own thermostat, so tests never share state and can run in any order. The false argument means eco mode is off."
+    },
+    {
+      "code": "        assertEquals(\"Heating\", thermostat.getStatus());",
+      "text": "assertEquals compares the expected value (first) with the actual value (second); the test passes only if they match exactly."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(72, false);",
+      "text": "72 sits inside the comfortable band in regular mode, so no heating or cooling should be requested."
+    },
+    {
+      "code": "        Thermostat thermostat = new Thermostat(76, false);",
+      "text": "76 is above the regular-mode upper limit, which exercises the cooling branch."
+    },
+    {
+      "code": "    void ecoModeAllowsCoolerTemperaturesBeforeHeating() {",
+      "text": "Eco mode widens the acceptable range, so this test checks that a temperature which would be Idle in regular mode still triggers heating in eco mode."
+    },
+    {
+      "code": "        Thermostat thermostatEco = new Thermostat(64, true);",
+      "text": "Passing true switches eco mode on, shifting the thresholds the status logic uses."
+    },
+    {
+      "code": "        Thermostat thermostatEco = new Thermostat(66, true);",
+      "text": "66 falls in eco mode's wider comfort band, so the thermostat should stay idle and save energy."
+    },
+    {
+      "code": "        Thermostat thermostatEco = new Thermostat(79, true);",
+      "text": "79 pushes past even eco mode's raised cooling threshold, confirming cooling still kicks in eventually."
+    },
+    {
+      "code": "    void printStatusToDisplayReturnsCurrentStatus() {",
+      "text": "This last test covers the display method rather than the status itself, checking that the wording sent to the screen is built correctly."
+    },
+    {
+      "code": "        assertEquals(\"Thermostat status: Idle\", thermostat.printStatusToDisplay());",
+      "text": "Because printStatusToDisplay returns a String instead of printing, its full output can be asserted directly in a test."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Thermostat.java",
+      "content": "",
+      "fromExercise": "java-6-09"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

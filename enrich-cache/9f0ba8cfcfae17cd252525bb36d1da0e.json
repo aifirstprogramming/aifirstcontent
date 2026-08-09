@@ -1,0 +1,45 @@
+{
+  "summary": "This is a domain class: a blueprint that describes one song by bundling its title, artist, genre, and energy level into a single object. Classes like this give a program a vocabulary of its own, so a playlist can be a list of Songs rather than a tangle of loose strings and numbers.",
+  "lines": [
+    {
+      "code": "    private String title;",
+      "text": "Each song carries its own copy of this field. Marking it `private` means only code inside `Song` can touch it directly, so a song's title can never be corrupted from the outside."
+    },
+    {
+      "code": "    private int energyLevel;",
+      "text": "Energy is a number rather than text because you will want to compare and sort by it later, and numbers compare naturally."
+    },
+    {
+      "code": "    public Song(String title, String artist, String genre, int energyLevel) {",
+      "text": "The constructor is the only way to build a `Song`, and it demands all four values up front. That guarantees there is no such thing as a half-filled song object."
+    },
+    {
+      "code": "        this.title = title;",
+      "text": "The parameter and the field share the name `title`, so `this.title` says \"the field belonging to this object\" while the bare `title` means the value just passed in."
+    },
+    {
+      "code": "    public String getTitle() { return title; }",
+      "text": "A getter hands out the stored value without letting callers replace it. Written on one line because the body is a single trivial statement."
+    },
+    {
+      "code": "    @Override",
+      "text": "This annotation tells the compiler you intend to replace a method inherited from `Object`. If you misspell the method name, the build fails instead of silently creating a new unused method."
+    },
+    {
+      "code": "    public String toString() {",
+      "text": "Every Java object inherits a `toString`, and by default it prints something useless like `Song@1b6d3586`. Overriding it means printing a song, or a whole list of songs, produces something a human can read."
+    },
+    {
+      "code": "        return title + \" by \" + artist +",
+      "text": "String concatenation with `+` stitches the fields into one readable line; the expression continues on the next line, which Java allows because the statement is not finished until the semicolon."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "PlaylistApp.java",
+      "content": "import java.util.ArrayList;\nimport java.util.List;\n\npublic class PlaylistApp {\n    public static void main(String[] args) {\n        List<Song> playlist = new ArrayList<>();\n\n        playlist.add(new Song(\"Midnight City\", \"M83\", \"Electronic\", 8));\n        playlist.add(new Song(\"Weightless\", \"Marconi Union\", \"Ambient\", 2));\n        playlist.add(new Song(\"Thunderstruck\", \"AC/DC\", \"Rock\", 10));\n\n        System.out.println(\"Playlist (\" + playlist.size() + \" songs):\");\n        for (Song song : playlist) {\n            System.out.println(\"  \" + song);\n        }\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "PlaylistApp.java",
+  "stdin": ""
+}

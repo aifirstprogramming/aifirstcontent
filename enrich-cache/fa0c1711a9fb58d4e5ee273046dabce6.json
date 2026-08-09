@@ -1,0 +1,51 @@
+{
+  "summary": "This program builds a list of Book objects for a small library, then walks through that list to collect each book's genre into a second list of strings and prints them. It shows how one collection can be used to build another.",
+  "lines": [
+    {
+      "code": "import java.util.List;",
+      "text": "List is the interface that describes an ordered collection; declaring variables as List keeps your code flexible about which implementation you use."
+    },
+    {
+      "code": "        List<Book> books = new ArrayList<>();",
+      "text": "The angle brackets say this list holds Book objects only, so the compiler catches any attempt to add something else."
+    },
+    {
+      "code": "        Book eragon = new Book(\"Eragon\", \"Christopher Paolini\", \"Fantasy\");",
+      "text": "Creating the object and adding it to the list are two separate steps; at this point Eragon exists but the library does not know about it yet."
+    },
+    {
+      "code": "        books.add(eragon);",
+      "text": "add() appends the book to the end of the list, so the order of these calls is the order the books will be visited later."
+    },
+    {
+      "code": "        List<String> genres = new ArrayList<>();",
+      "text": "A second list, this time of plain strings, ready to receive one genre per book."
+    },
+    {
+      "code": "        for (Book book : books) {",
+      "text": "The enhanced for loop hands you each Book in turn without you having to manage an index counter."
+    },
+    {
+      "code": "            genres.add(book.getGenre());",
+      "text": "Each book is asked for its genre and that string is stored in the genres list, which is how you extract one field from a collection of objects."
+    },
+    {
+      "code": "        System.out.println(\"\\nGenres in the library:\");",
+      "text": "The \\n escape sequence prints a blank line before the heading, which separates this section visually from any earlier output."
+    },
+    {
+      "code": "        for (String genre : genres) {",
+      "text": "Looping over the new list proves it was filled correctly and shows that genres repeat, since three books share the Fantasy genre."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Book.java",
+      "content": "public class Book {\n    private String title;\n    private String author;\n    private String genre;\n\n    public Book(String title, String author, String genre) {\n        this.title = title;\n        this.author = author;\n        this.genre = genre;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getAuthor() {\n        return author;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n}\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

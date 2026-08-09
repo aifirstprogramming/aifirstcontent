@@ -1,0 +1,40 @@
+{
+  "summary": "This program models a browser's history with an ArrayDeque, a double-ended queue that lets you add and remove at either end. New pages are pushed onto the front, going back removes from the front, and pruning the oldest pages removes from the back. Note that the first line as printed begins with a capital `Import`, and Java is case-sensitive, so the file will not compile until that word is lowercase `import`.",
+  "lines": [
+    {
+      "code": "Import java.util.Deque;",
+      "text": "This is the source of the compiler error: Java keywords are all lowercase, so `Import` is read as a stray identifier rather than an import statement. Changing the capital I to a lowercase i makes the file compile."
+    },
+    {
+      "code": "import java.util.ArrayDeque;",
+      "text": "`Deque` is only the interface; `ArrayDeque` is the concrete class that actually stores the elements, so both names have to be imported."
+    },
+    {
+      "code": "        Deque<String> history = new ArrayDeque<>();",
+      "text": "Declaring the variable as the `Deque` interface while creating an `ArrayDeque` keeps the code tied to the behaviour rather than the implementation, which is standard practice in Java."
+    },
+    {
+      "code": "        history.addFirst(\"https://example.com/home\");",
+      "text": "`addFirst` inserts at the head of the deque, so each newly visited page becomes the front element and the earliest visit drifts toward the back."
+    },
+    {
+      "code": "        history.forEach(System.out::println);",
+      "text": "The `::` method reference hands `println` to `forEach` as the action to run on every element, which is a compact substitute for writing a loop."
+    },
+    {
+      "code": "        String lastVisited = history.pollFirst();",
+      "text": "Going back means discarding the page you are currently on, which lives at the front; `pollFirst` removes it and returns it, or returns null if the deque is empty."
+    },
+    {
+      "code": "        String oldest1 = history.pollLast();",
+      "text": "Because new pages were added at the front, the oldest visit sits at the back, so `pollLast` is what trims history from the far end."
+    },
+    {
+      "code": "        System.out.println(\"\\nClear oldest pages from the back: \" + oldest1 + \", \" + oldest2);",
+      "text": "The `\\n` escape starts a blank line before the heading, keeping the three stages of output visually separated."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

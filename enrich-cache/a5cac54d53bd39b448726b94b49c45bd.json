@@ -1,0 +1,17 @@
+{
+  "summary": "This program stores a name in a variable and prints a greeting that includes it. It is the version without user input, so the name is fixed in the code.",
+  "lines": [
+    {
+      "code": "        String name = \"Ada\";",
+      "text": "A String variable holds a sequence of text characters, written between double quotes. Naming the value gives you one place to change it later."
+    },
+    {
+      "code": "        System.out.println(\"Welcome \" + name);",
+      "text": "The + operator joins two pieces of text into one, so the greeting and the stored name print as a single line. Note the space at the end of \"Welcome \" \nu2014 without it the output would read \"WelcomeAda\"."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

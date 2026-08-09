@@ -1,0 +1,36 @@
+{
+  "summary": "This program walks through a fixed list of student names, asks whether each one is present, and collects the names of anyone who does not answer \"yes\" so it can print them at the end.",
+  "lines": [
+    {
+      "code": "students = [\"Alice\", \"Bob\", \"Charlie\", \"Diana\", \"Eve\"]",
+      "text": "A list holds several values in one variable, in the order you wrote them. This is the fixed roll to be called."
+    },
+    {
+      "code": "absentees = []",
+      "text": "An empty list is created before the loop starts so there is somewhere to put names as they are discovered. Starting empty is the normal pattern when you are building a collection up as you go."
+    },
+    {
+      "code": "for student in students:",
+      "text": "The for loop hands the block below one name at a time, storing it in the variable student, until the list runs out."
+    },
+    {
+      "code": "    present = input(f\"Is {student} present? (yes/no): \").lower()",
+      "text": "The f-string drops the current name straight into the question, and .lower() converts the reply to lowercase so that \"Yes\", \"YES\", and \"yes\" are all treated the same."
+    },
+    {
+      "code": "    if present != \"yes\":",
+      "text": "The != operator means \"is not equal to\", so anything other than a yes counts as absent. Treating only \"yes\" as present means a blank or mistyped answer errs on the side of marking the student absent."
+    },
+    {
+      "code": "        absentees.append(student)",
+      "text": "append adds the name to the end of the absentees list, which is how the list grows during the loop."
+    },
+    {
+      "code": "print(\"Absentees:\", absentees)",
+      "text": "This sits outside the loop, at the left margin, so it runs once after every student has been asked."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "yes\nno\nyes\nno\nyes\n"
+}

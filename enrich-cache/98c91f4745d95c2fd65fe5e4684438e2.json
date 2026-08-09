@@ -1,0 +1,53 @@
+{
+  "summary": "This program builds a playlist of Song objects, sorts it by artist, then copies it into a LinkedList to show how to insert a song at a chosen position and remove a song from the middle of the list.",
+  "lines": [
+    {
+      "code": "import java.util.LinkedList;",
+      "text": "LinkedList is the collection this exercise focuses on; it stores each song in a node that points to its neighbours, so inserting or deleting in the middle does not shift every later element."
+    },
+    {
+      "code": "        List<Song> playlist = new ArrayList<>();",
+      "text": "The playlist starts as an ArrayList declared through the List interface, which is the usual habit so the concrete class can be swapped later without touching the rest of the code."
+    },
+    {
+      "code": "        playlist.add(new Song(\"Respect\", \"Aretha Franklin\", \"Soul\", 7));",
+      "text": "Each Song carries a title, artist, genre, and energy rating, so the collection holds real objects rather than loose strings."
+    },
+    {
+      "code": "        for (Song song : playlist) {",
+      "text": "The enhanced for loop walks the collection in order without you managing an index."
+    },
+    {
+      "code": "        playlist.sort(Comparator.comparing(Song::getArtist));",
+      "text": "Comparator.comparing with a method reference builds the comparison rule from the artist field, and sort rearranges the list in place using it."
+    },
+    {
+      "code": "        playlist.forEach(System.out::println);",
+      "text": "forEach with a method reference is the compact equivalent of the loop above; it hands each song to println."
+    },
+    {
+      "code": "        LinkedList<Song> linked = new LinkedList<>(playlist);",
+      "text": "Passing an existing collection to the constructor copies its elements, so the LinkedList begins with the same four songs in artist order."
+    },
+    {
+      "code": "        int insertAt = 1; // between Respect and One More Time",
+      "text": "Naming the position in a variable makes the intent clear and lets the same number be reused in the message printed below."
+    },
+    {
+      "code": "        linked.add(insertAt, new Song(\"Songbird\", \"Fleetwood Mac\", \"Rock\", 2));",
+      "text": "The two-argument add inserts at the given index instead of appending, and everything from that index onward moves one place later."
+    },
+    {
+      "code": "        Song removed = linked.remove(removeAt);",
+      "text": "remove(int) deletes the element at that index and returns it, so the removed song can be reported rather than silently discarded."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Song.java",
+      "content": "public class Song {\n    private String title;\n    private String artist;\n    private String genre;\n    private int energy;\n\n    public Song(String title, String artist, String genre, int energy) {\n        this.title = title;\n        this.artist = artist;\n        this.genre = genre;\n        this.energy = energy;\n    }\n\n    public String getTitle() {\n        return title;\n    }\n\n    public String getArtist() {\n        return artist;\n    }\n\n    public String getGenre() {\n        return genre;\n    }\n\n    public int getEnergy() {\n        return energy;\n    }\n\n    @Override\n    public String toString() {\n        return title + \" by \" + artist + \" (\" + genre + \", energy \" + energy + \")\";\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

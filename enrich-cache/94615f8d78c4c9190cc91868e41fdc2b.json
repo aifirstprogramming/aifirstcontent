@@ -1,0 +1,36 @@
+{
+  "summary": "This defines a blueprint for a robot pet that remembers its name, battery level, and mood, and can perform a trick on request. It is the starting point that the chapter's unit tests will check.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "Starts the class, a template from which any number of individual robot pets can be created."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The initializer runs automatically each time a new RobotPet is created, and it collects the three details that describe that pet."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Stores the name on the object itself so the pet keeps it for as long as it exists, rather than losing it when the initializer ends."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "Records the battery level as an attribute, which is the kind of value a unit test can later inspect or expect to change."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "Records the pet's mood, completing the object's state."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "Defines a behaviour belonging to every RobotPet; `self` gives the method access to that particular pet's attributes."
+    },
+    {
+      "code": "        return f\"{self.name} performs a generic trick!\"",
+      "text": "Returns the sentence instead of printing it, which is exactly what makes the method testable: a test can compare the returned string against the expected text."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

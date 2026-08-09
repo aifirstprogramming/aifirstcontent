@@ -1,0 +1,52 @@
+{
+  "summary": "This program demonstrates Java's four levels of method access — public, protected, package-private, and private — using the analogy of sharing a message with different-sized audiences. All four methods are called from main inside the same class, which is the one place every access level is allowed.",
+  "lines": [
+    {
+      "code": "public class ShareMessageModifiers {",
+      "text": "The class itself is public, so any other class in the program can refer to it. The file must be named ShareMessageModifiers.java to match."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "This is the entry point Java looks for when you run the class, so execution begins here."
+    },
+    {
+      "code": "        ShareMessageModifiers demo = new ShareMessageModifiers();",
+      "text": "The four sharing methods are instance methods, not static ones, so you need an object to call them on. This creates one and names it demo."
+    },
+    {
+      "code": "        demo.shareWithEveryone();",
+      "text": "Calling the public method works from here and would work equally well from any other class in any package."
+    },
+    {
+      "code": "        demo.shareWithFamily();",
+      "text": "The protected method is reachable from the same package or from a subclass, and code inside the class itself always qualifies."
+    },
+    {
+      "code": "        demo.shareWithNeighbors();",
+      "text": "The package-private method has no modifier at all, so only classes sitting in the same package may call it."
+    },
+    {
+      "code": "        demo.keepToSelf();",
+      "text": "The private method can only be called from inside ShareMessageModifiers, which is exactly where this line lives. Moving this call to another class would cause a compile error."
+    },
+    {
+      "code": "    public void shareWithEveryone() {",
+      "text": "public is the widest setting: no restriction on who may call the method."
+    },
+    {
+      "code": "    protected void shareWithFamily() {",
+      "text": "protected narrows access to the same package plus subclasses, even subclasses declared in a different package."
+    },
+    {
+      "code": "    void shareWithNeighbors() {",
+      "text": "Leaving off the modifier entirely gives package-private access, the default when you say nothing. It is narrower than protected because subclasses in other packages are shut out."
+    },
+    {
+      "code": "    private void keepToSelf() {",
+      "text": "private is the narrowest setting and the one to reach for by default, because it keeps helper logic hidden inside the class that owns it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": ""
+}

@@ -1,0 +1,21 @@
+{
+  "summary": "This is a Java interface: a contract that says any temperature sensor must be able to report a current temperature as a whole number. It contains no code of its own, so real hardware sensors and fake test sensors can both fulfil it in their own way.",
+  "lines": [
+    {
+      "code": "public interface TemperatureSensor {",
+      "text": "An interface names a capability rather than a concrete thing, so code that needs a temperature can depend on this name instead of on one particular sensor. Because the type is declared public, Java requires it to live in a file called TemperatureSensor.java."
+    },
+    {
+      "code": "    int getCurrentTemperature();",
+      "text": "The method has no body, only a signature ending in a semicolon: every implementing class must supply its own way of producing the reading. That is what makes testing easy, since a test can hand over a stub sensor that always returns 12 instead of waiting for real hardware."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "SensorDemo.java",
+      "content": "// Runnable demo for the TemperatureSensor contract.\n// The interface is declared here without the public keyword so that this one\n// file compiles and runs on its own.\ninterface TemperatureSensor {\n    int getCurrentTemperature();\n}\n\n// A fake sensor: no hardware, just a value we choose. This is the kind of\n// object a unit test would use.\nclass StubSensor implements TemperatureSensor {\n    private final int reading;\n\n    StubSensor(int reading) {\n        this.reading = reading;\n    }\n\n    @Override\n    public int getCurrentTemperature() {\n        return reading;\n    }\n}\n\n// Business logic that depends only on the contract, never on a specific sensor.\nclass Thermostat {\n    private final TemperatureSensor sensor;\n\n    Thermostat(TemperatureSensor sensor) {\n        this.sensor = sensor;\n    }\n\n    boolean shouldTurnOnHeat() {\n        return sensor.getCurrentTemperature() < 18;\n    }\n}\n\npublic class SensorDemo {\n    public static void main(String[] args) {\n        TemperatureSensor coldRoom = new StubSensor(12);\n        TemperatureSensor warmRoom = new StubSensor(25);\n\n        System.out.println(\"Cold room reading: \" + coldRoom.getCurrentTemperature());\n        System.out.println(\"Heat on? \" + new Thermostat(coldRoom).shouldTurnOnHeat());\n\n        System.out.println(\"Warm room reading: \" + warmRoom.getCurrentTemperature());\n        System.out.println(\"Heat on? \" + new Thermostat(warmRoom).shouldTurnOnHeat());\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "SensorDemo.java",
+  "stdin": ""
+}

@@ -1,0 +1,25 @@
+{
+  "summary": "This program stores a count of three kinds of fruit in three variables and then prints each count with a label. It is a first look at how a name in Python holds a value you can use later.",
+  "lines": [
+    {
+      "code": "apples = 5",
+      "text": "The equals sign is an assignment: it creates a variable named apples and stores the number 5 in it. Nothing is displayed yet, the value is simply being remembered."
+    },
+    {
+      "code": "bananas = 7",
+      "text": "Each basket gets its own variable name, so the three counts stay separate and can be changed independently."
+    },
+    {
+      "code": "print(\"Apples:\", apples)",
+      "text": "print can take several values separated by commas; it shows the text label \"Apples:\" followed by the number stored in the variable, with a space between them."
+    },
+    {
+      "code": "print(\"Bananas:\", bananas)",
+      "text": "Notice that the quoted text is printed literally while the bare word bananas is looked up as a variable — that difference is the heart of this exercise."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

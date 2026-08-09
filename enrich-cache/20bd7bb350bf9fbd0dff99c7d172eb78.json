@@ -1,0 +1,49 @@
+{
+  "summary": "This program is a small bakery menu app: it creates three kinds of cookie objects, prints a description of each, then prepares a gift order. It shows polymorphism at work, since one helper method handles a plain Cookie and both of its subclasses.",
+  "lines": [
+    {
+      "code": "        Cookie regular = new Cookie(\"Chocolate Chip\");",
+      "text": "Creates a plain cookie object, passing the flavor to the constructor so each object carries its own data."
+    },
+    {
+      "code": "        DecoratedCookie decorated = new DecoratedCookie(\"Birthday Cake\");",
+      "text": "A DecoratedCookie is a Cookie with extra behaviour, so it is built the same way but describes itself differently."
+    },
+    {
+      "code": "        GiftCookie gift = new GiftCookie(\"Sugar\");",
+      "text": "GiftCookie adds gift-wrapping on top of a decorated cookie, which is why it gets its own variable type here rather than being stored as a plain Cookie."
+    },
+    {
+      "code": "        showCookieOption(regular);",
+      "text": "The same helper is called with three different objects; each one supplies its own version of describe()."
+    },
+    {
+      "code": "        System.out.println(gift.packageCookie(\"Enjoy your sweet surprise!\"));",
+      "text": "Calls a method that only GiftCookie has, which is possible because the variable's declared type is GiftCookie and not Cookie."
+    },
+    {
+      "code": "    private static void showCookieOption(Cookie cookie) {",
+      "text": "The parameter type is Cookie, so any subclass can be passed in; private keeps this helper an internal detail of the class."
+    },
+    {
+      "code": "        System.out.println(\"- \" + cookie.describe());",
+      "text": "Java decides at run time which describe() to run based on the actual object, which is the heart of polymorphism."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "Cookie.java",
+      "content": "public class Cookie {\n    private String flavor;\n\n    public Cookie(String flavor) {\n        this.flavor = flavor;\n    }\n\n    public String getFlavor() {\n        return flavor;\n    }\n\n    public String describe() {\n        return flavor + \" cookie\";\n    }\n}\n"
+    },
+    {
+      "path": "DecoratedCookie.java",
+      "content": "public class DecoratedCookie extends Cookie {\n    public DecoratedCookie(String flavor) {\n        super(flavor);\n    }\n\n    @Override\n    public String describe() {\n        return getFlavor() + \" cookie with decorative icing\";\n    }\n}\n"
+    },
+    {
+      "path": "GiftCookie.java",
+      "content": "public class GiftCookie extends DecoratedCookie {\n    public GiftCookie(String flavor) {\n        super(flavor);\n    }\n\n    @Override\n    public String describe() {\n        return getFlavor() + \" cookie in a gift box\";\n    }\n\n    public String packageCookie(String message) {\n        return \"Gift box packed: \" + getFlavor() + \" cookie\\nCard reads: \" + message;\n    }\n}\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

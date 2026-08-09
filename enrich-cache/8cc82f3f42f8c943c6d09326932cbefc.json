@@ -1,0 +1,39 @@
+{
+  "summary": "This program creates three House objects with different addresses, bedroom counts, and bathroom counts, then prints each one. Because House has no toString() method yet, the output is Java's default text (class name plus a hash code) rather than readable house details.",
+  "lines": [
+    {
+      "code": "public class HouseBuilder {",
+      "text": "A separate class whose only job is to build and use House objects, keeping the data class and the program that runs it apart."
+    },
+    {
+      "code": "    public static void main(String[] args) {",
+      "text": "The main method is where Java starts running the program."
+    },
+    {
+      "code": "        House privetDrive = new House(\"4 Privet Drive\", 3, 2.5);",
+      "text": "The new keyword creates one House object in memory, passing the address, bedroom count, and bathroom count to the constructor; privetDrive is the variable that holds a reference to it."
+    },
+    {
+      "code": "        System.out.println(privetDrive);",
+      "text": "Printing an object asks it for its text form. Since House does not define toString(), you get something like House@1b6d3586 instead of the address and room counts, which is exactly the problem the next exercise fixes."
+    },
+    {
+      "code": "        House holmesHouse = new House(\"221B Baker Street\", 1, 1.0);",
+      "text": "A second object built from the same blueprint with its own values, showing that one class can describe any number of houses."
+    },
+    {
+      "code": "        House friendsHouse = new House(\"90 Bedford Street\", 2, 1.0);",
+      "text": "A third House; note that 1.0 is written as a decimal because the bathroom count is a double."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "House.java",
+      "content": "",
+      "fromExercise": "java-5-01"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

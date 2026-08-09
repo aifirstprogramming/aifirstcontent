@@ -1,0 +1,61 @@
+{
+  "summary": "This program defines a RobotPet class that guards its battery level with a property, so any value assigned is clamped into the range 0 to 100. Three pets are created and their details printed.",
+  "lines": [
+    {
+      "code": "        self.battery = battery  # uses the property setter for validation",
+      "text": "Even inside the constructor, this assignment goes through the property setter rather than storing the value directly, so a bad starting battery is corrected right away."
+    },
+    {
+      "code": "    @property",
+      "text": "The @property decorator turns the method below into a read-only attribute: readers write pet.battery, not pet.battery()."
+    },
+    {
+      "code": "    def battery(self):",
+      "text": "This getter hands back the internally stored value. The leading underscore in _battery signals that outside code should leave it alone and use the property instead."
+    },
+    {
+      "code": "    @battery.setter",
+      "text": "This decorator registers the next method as the code that runs whenever something assigns to .battery, which is where the validation lives."
+    },
+    {
+      "code": "    def battery(self, value):",
+      "text": "The setter receives the value being assigned and decides what actually gets stored."
+    },
+    {
+      "code": "        if value < 0:",
+      "text": "Anything negative is treated as an empty battery rather than being rejected with an error."
+    },
+    {
+      "code": "        elif value > 100:",
+      "text": "Anything above full is capped, so the battery can never claim more charge than it holds."
+    },
+    {
+      "code": "            self._battery = value",
+      "text": "A value already inside the valid range is stored unchanged."
+    },
+    {
+      "code": "        \"\"\"Check if the pet has enough energy for a walk of given duration (in minutes).\"\"\"",
+      "text": "A docstring documents what the method expects and returns; help(RobotPet.can_walk) will show this text."
+    },
+    {
+      "code": "        energy_required = duration * 2  # 2% battery per minute",
+      "text": "Naming the calculation makes the rule visible, so the walking cost can be tuned in one place."
+    },
+    {
+      "code": "        return self.battery >= energy_required",
+      "text": "The comparison itself is either True or False, so it can be returned directly without an if statement."
+    },
+    {
+      "code": "pet1 = RobotPet(\"Rover\", 85, \"happy\")",
+      "text": "Creating an instance runs __init__, which routes the battery value through the validating setter."
+    },
+    {
+      "code": "print(f\"{pet1.name} - Battery: {pet1.battery}, Mood: {pet1.mood}\")",
+      "text": "Reading pet1.battery quietly calls the getter, which is the point of encapsulation: the protection is invisible at the point of use."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

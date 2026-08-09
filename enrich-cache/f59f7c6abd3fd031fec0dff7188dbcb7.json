@@ -1,0 +1,33 @@
+{
+  "summary": "This program stores a decimal number in a float and a more precise decimal in a double, then shows what happens when the two are mixed in arithmetic and when a double is forced back into a float.",
+  "lines": [
+    {
+      "code": "        float f = 3.14f;                 // 32-bit floating point",
+      "text": "A float holds about seven significant digits. The trailing f is required, because Java treats a plain decimal literal as a double and will not silently squeeze it into a float."
+    },
+    {
+      "code": "        double d = 3.141592653589793;    // 64-bit floating point",
+      "text": "A double uses twice the memory and holds roughly fifteen significant digits, which is why it is the default choice for decimal numbers in Java."
+    },
+    {
+      "code": "        System.out.println(\"float: \" + f);",
+      "text": "Joining a number to a string with + converts the number to text so it can be printed."
+    },
+    {
+      "code": "        double sum = f + d;              // float promoted to double",
+      "text": "When a float and a double meet in the same expression, Java widens the float to a double first, so the result is a double and no precision is lost."
+    },
+    {
+      "code": "        float narrowed = (float) d;      // explicit cast from double to float",
+      "text": "Going from double to float discards precision, so Java demands the explicit (float) cast as proof that you accept the loss."
+    },
+    {
+      "code": "        System.out.println(\"double cast to float: \" + narrowed);",
+      "text": "The printed value shows the truncated digits, making the cost of narrowing visible."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

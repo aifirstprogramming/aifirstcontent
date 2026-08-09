@@ -1,0 +1,73 @@
+{
+  "summary": "This file is a unittest suite for the new `speak` method that was added to the robot pet classes. Each test sets the pet's battery and mood to a known state, calls `speak()`, and checks that the returned sentence contains the words that state is supposed to produce.",
+  "lines": [
+    {
+      "code": "import unittest",
+      "text": "Brings in Python's built-in testing framework, which supplies the `TestCase` base class and the assertion methods used throughout the file."
+    },
+    {
+      "code": "from pet_talents import RobotPet, RobotCat, RobotBird, RobotDog",
+      "text": "Imports the four classes under test from the module that holds the production code, keeping the tests in a separate file from the thing they test."
+    },
+    {
+      "code": "class TestRobotPet(unittest.TestCase):",
+      "text": "Each class of pet gets its own `TestCase` class, so a failure report tells you immediately which pet misbehaved."
+    },
+    {
+      "code": "    …",
+      "text": "The ellipsis stands for the `setUp` method shown earlier in the chapter, which runs before every test and creates a fresh pet (here `self.pet`) so that no test can be affected by changes another test made."
+    },
+    {
+      "code": "    def test_speak_low_battery(self):",
+      "text": "Test methods must begin with `test_` for unittest to discover and run them; the rest of the name should describe the situation being checked."
+    },
+    {
+      "code": "        self.pet.battery = 10",
+      "text": "Sets up the condition the test is about by dropping the battery below the low-power threshold, rather than waiting for the pet to run down naturally."
+    },
+    {
+      "code": "        self.assertIn(\"recharge\", self.pet.speak())",
+      "text": "`assertIn` passes when the first value appears somewhere inside the second, so the test checks for the key word instead of the exact sentence — the wording can be polished later without breaking the test."
+    },
+    {
+      "code": "    def test_speak_happy(self):",
+      "text": "Covers the second branch of `speak`: a healthy battery combined with a happy mood."
+    },
+    {
+      "code": "        self.pet.mood = \"happy\"",
+      "text": "Mood and battery are both set explicitly, because a test that relies on default values silently breaks when those defaults change."
+    },
+    {
+      "code": "    def test_speak_neutral(self):",
+      "text": "Covers the fall-through branch, the ordinary greeting used when nothing special is going on. Together these three tests exercise every path through `speak`."
+    },
+    {
+      "code": "    def test_speak_contains_name(self):",
+      "text": "Checks a rule that should hold no matter which branch runs: the pet always says its own name."
+    },
+    {
+      "code": "        self.assertIn(\"tired\", self.cat.speak())",
+      "text": "The cat's low-battery wording differs from the base pet's, which is exactly why each subclass needs its own tests rather than inheriting the parent's."
+    },
+    {
+      "code": "        self.assertIn(\"Best day\", self.dog.speak())",
+      "text": "The searched text may be more than one word; `assertIn` looks for the whole phrase as a substring, capitals included."
+    },
+    {
+      "code": "if __name__ == \"__main__\":",
+      "text": "This guard is true only when the file is run directly, so importing it elsewhere will not kick off the test run."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "Finds every `test_` method in the file, runs each one on a freshly built pet, and prints a summary of passes and failures."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "class RobotPet:\n    def __init__(self, name, battery=100, mood=\"neutral\"):\n        self.name = name\n        self.battery = battery\n        self.mood = mood\n\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name}: I need to recharge soon.\"\n        if self.mood == \"happy\":\n            return f\"{self.name} is feeling happy!\"\n        return f\"Hello, I am {self.name}.\"\n\n\nclass RobotCat(RobotPet):\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name} is too tired to meow.\"\n        if self.mood == \"happy\":\n            return f\"Purr! {self.name} is a happy kitty!\"\n        return f\"Meow! I am {self.name}.\"\n\n\nclass RobotBird(RobotPet):\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name}'s battery is low.\"\n        if self.mood == \"happy\":\n            return f\"{self.name} sings a lovely song!\"\n        return f\"Chirp! I am {self.name}.\"\n\n\nclass RobotDog(RobotPet):\n    def speak(self):\n        if self.battery < 20:\n            return f\"{self.name} needs a charge.\"\n        if self.mood == \"happy\":\n            return f\"Best day ever! Woof from {self.name}!\"\n        return f\"Woof! I am {self.name}.\"\n"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": ""
+}

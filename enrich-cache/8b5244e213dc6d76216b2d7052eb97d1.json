@@ -1,0 +1,60 @@
+{
+  "summary": "These four unit tests check the RobotPet.charge method by setting the battery to a known value, charging it, and asserting the new level. Together they cover normal charging, the 100 percent ceiling, draining with a negative amount, and the zero floor.",
+  "lines": [
+    {
+      "code": "    def test_charge_increases_battery(self):",
+      "text": "Each test method lives inside the TestCase class and its name starts with test_, which is how unittest finds and runs it automatically."
+    },
+    {
+      "code": "        self.pet.battery = 50",
+      "text": "Setting the battery directly gives the test a known starting point, so the result does not depend on whatever value the constructor chose."
+    },
+    {
+      "code": "        self.pet.charge(20)",
+      "text": "This is the action under test: everything before it is setup and everything after it is checking the outcome."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 70)",
+      "text": "The assertion compares the state after the call with the value you worked out by hand; if charge misbehaves, the test fails here with both numbers shown."
+    },
+    {
+      "code": "    def test_charge_caps_at_hundred(self):",
+      "text": "A second test for the same method, because one test per behaviour keeps failures easy to diagnose."
+    },
+    {
+      "code": "        self.pet.charge(50)",
+      "text": "Charging 90 by 50 would give 140, so this deliberately pushes past the maximum to see whether the cap is applied."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 100)",
+      "text": "The expected value is the ceiling rather than the raw sum, which is the rule this test exists to protect."
+    },
+    {
+      "code": "    def test_charge_negative_decreases_battery(self):",
+      "text": "Passing a negative amount is the documented way to drain the battery, so it deserves its own test."
+    },
+    {
+      "code": "    def test_charge_floors_at_zero(self):",
+      "text": "This is the mirror image of the cap test: draining 10 by 50 must stop at zero instead of going negative."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.battery, 0)",
+      "text": "Testing both edges of the allowed range, 0 and 100, is a habit worth keeping for any value that is clamped."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "robot_pet.py",
+      "content": "",
+      "fromExercise": "py-7-06"
+    },
+    {
+      "path": "run_tests.py",
+      "content": "import os\nimport unittest\n\nfrom robot_pet import RobotPet\n\n\ndef make_pet():\n    try:\n        return RobotPet(\"Robo\")\n    except TypeError:\n        return RobotPet()\n\n\nCLASS_HEADER = (\n    \"class TestRobotPet(unittest.TestCase):\\n\"\n    \"    def setUp(self):\\n\"\n    \"        self.pet = make_pet()\\n\"\n)\n\nHERE = os.path.dirname(os.path.abspath(__file__))\nwith open(os.path.join(HERE, \"unit_tests_that_change_state.py\")) as source:\n    test_methods = source.read()\n\nnamespace = {\"unittest\": unittest, \"make_pet\": make_pet}\nexec(CLASS_HEADER + test_methods, namespace)\n\nTestRobotPet = namespace[\"TestRobotPet\"]\n\nif __name__ == \"__main__\":\n    unittest.main(argv=[\"run_tests\"], verbosity=2, exit=False)\n",
+      "fromExercise": ""
+    }
+  ],
+  "entrypoint": "run_tests.py",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,25 @@
+{
+  "summary": "This is a revised version of the Thermostat's display method: instead of printing the status to the console, it builds a message and hands it back to the caller as a String. Returning a value makes the method easy to test, because a test can compare the returned text against what it expects.",
+  "lines": [
+    {
+      "code": "public class Thermostat {",
+      "text": "The same Thermostat class from earlier in the chapter, shown here with only the one method that is changing."
+    },
+    {
+      "code": "    //variables, constructor, and getStatus method",
+      "text": "A placeholder standing in for the fields, constructor, and getStatus method you already wrote; they stay exactly as they were."
+    },
+    {
+      "code": "    public String printStatusToDisplay() {",
+      "text": "The return type is now String rather than void, so the method produces a value that a test or another part of the program can inspect."
+    },
+    {
+      "code": "        return \"Thermostat status: \" + getStatus();",
+      "text": "The label and the result of getStatus() are joined into one string and returned, replacing the earlier call to System.out.println so that nothing is written to the console."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

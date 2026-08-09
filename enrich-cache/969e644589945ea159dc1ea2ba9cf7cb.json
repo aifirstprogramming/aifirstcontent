@@ -1,0 +1,41 @@
+{
+  "summary": "This program defines a makeCoffee function that takes two arguments — the drink type and the number of espresso shots — and calls it twice with different values. Inside, a small calculation decides whether the coffee earns a bonus message, showing how a function can hold logic as well as printing.",
+  "lines": [
+    {
+      "code": "        makeCoffee(\"Espresso\", 2);",
+      "text": "Calls the function with two arguments: the text \"Espresso\" and the number 2. The order matters, because the first value fills the first parameter and the second fills the second."
+    },
+    {
+      "code": "        makeCoffee(\"Latte\", 1);",
+      "text": "Reusing the same function with different arguments is the whole point of parameters: one definition, many results."
+    },
+    {
+      "code": "    static void makeCoffee(String type, int shots) {",
+      "text": "Declares the function's two parameters with their types, so the compiler knows type holds text and shots holds a whole number. void means the function prints its results rather than handing a value back."
+    },
+    {
+      "code": "        System.out.println(\"🔮 Brewing \" + type + \" with \" + shots + \" shot(s)...\");",
+      "text": "Joining text and variables with + builds one message, and Java automatically converts the number in shots into characters for printing."
+    },
+    {
+      "code": "        int magicPower = shots * 42;",
+      "text": "Turns the incoming argument into a new value, which is what makes the function more than a printer — it computes something from its input."
+    },
+    {
+      "code": "        boolean hasAlchemyBoost = magicPower > 50;",
+      "text": "A comparison produces either true or false, and storing that in a boolean gives the condition a readable name."
+    },
+    {
+      "code": "        if (hasAlchemyBoost) {",
+      "text": "The block below runs only when the boolean is true, so two shots (84 magic power) earn the boost while one shot (42) does not."
+    },
+    {
+      "code": "        System.out.println();",
+      "text": "Printing nothing leaves a blank line, which separates the output of the two calls so each coffee reads as its own block."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

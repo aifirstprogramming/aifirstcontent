@@ -1,0 +1,40 @@
+{
+  "summary": "This program asks for a temperature in Celsius, converts it to Fahrenheit, and prints the result. If what you type is not a number, it catches the NumberFormatException and prints a friendly message instead of crashing.",
+  "lines": [
+    {
+      "code": "        System.out.print(\"Enter temperature in Celsius: \");",
+      "text": "Using print rather than println leaves the cursor on the same line, so the reader types the answer right after the prompt."
+    },
+    {
+      "code": "        try (java.util.Scanner scanner = new java.util.Scanner(System.in)) {",
+      "text": "This is a try-with-resources block: the Scanner is created here and closed automatically when the block ends, however it ends. Everything inside is also guarded by the catch clauses below."
+    },
+    {
+      "code": "            double celsius = Double.parseDouble(scanner.nextLine().trim());",
+      "text": "The typed line is stripped of stray spaces by trim and then converted to a number. Double.parseDouble is the line that throws NumberFormatException when the text is not a valid number."
+    },
+    {
+      "code": "            double fahrenheit = celsiusToFahrenheit(celsius);",
+      "text": "The conversion itself lives in its own method, so main stays focused on talking to the user."
+    },
+    {
+      "code": "        } catch (NumberFormatException e) {",
+      "text": "This catch handles the one failure the program can genuinely predict: input that is not numeric. Because it is listed first, it takes priority over the broader catch below."
+    },
+    {
+      "code": "        } catch (Exception e) {",
+      "text": "A safety net for anything else that could go wrong, such as no input being available at all. A general catch must always come after the more specific ones, or the compiler will reject it as unreachable."
+    },
+    {
+      "code": "    public static double celsiusToFahrenheit(double celsius) {",
+      "text": "A small static method with a clear name and a single job, which is what makes it easy to reuse and to test."
+    },
+    {
+      "code": "        return (celsius * 9/5) + 32;",
+      "text": "Multiplying by 9 before dividing by 5 matters here: celsius is a double, so the arithmetic stays in decimals rather than truncating the way 9/5 alone would with whole numbers."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "warm\n"
+}

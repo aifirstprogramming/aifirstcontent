@@ -1,0 +1,33 @@
+{
+  "summary": "This defines a Cookie class: a blueprint that stores one cookie's flavor and can describe itself in a sentence. It is the starting point for a small bakery program built up over the next few exercises.",
+  "lines": [
+    {
+      "code": "public class Cookie {",
+      "text": "Declares the class, which acts as the blueprint for every individual cookie object the bakery program will create."
+    },
+    {
+      "code": "    private final String flavor;",
+      "text": "Each cookie carries its own flavor. `private` keeps it hidden from outside code, and `final` means it is set once when the cookie is made and never changes afterwards."
+    },
+    {
+      "code": "    public Cookie(String flavor) {",
+      "text": "The constructor is the special method that runs when you write `new Cookie(...)`; it demands a flavor so no cookie can exist without one."
+    },
+    {
+      "code": "        this.flavor = flavor;",
+      "text": "Assigns the value passed in to the object's own field. The `this.` prefix distinguishes the field from the parameter, which shares the same name."
+    },
+    {
+      "code": "    public String describe() {",
+      "text": "A behaviour that belongs to the cookie itself: rather than another class reaching in for the flavor, the cookie reports on itself."
+    },
+    {
+      "code": "        return \"This is a \" + flavor + \" cookie.\";",
+      "text": "Builds the sentence by joining text with the field's value and hands it back to the caller, which is free to print it, store it, or display it."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

@@ -1,0 +1,37 @@
+{
+  "summary": "This defines a RobotPet class that stores a pet's name, battery level, and mood, and can perform a generic trick. It is the code under test for the unit tests in this section.",
+  "lines": [
+    {
+      "code": "class RobotPet:",
+      "text": "This is the blueprint for every robot pet in the chapter; the tests you write will create instances of it and check their behaviour."
+    },
+    {
+      "code": "    def __init__(self, name, battery, mood):",
+      "text": "The constructor runs whenever you write something like RobotPet(\"Rex\", 100, \"happy\"), and it receives the three starting values for the new pet."
+    },
+    {
+      "code": "        self.name = name",
+      "text": "Copying the argument onto self stores it on the object itself, so the name survives after the constructor finishes."
+    },
+    {
+      "code": "        self.battery = battery",
+      "text": "The battery level is kept as an attribute so later methods, and later tests, can read and change it."
+    },
+    {
+      "code": "        self.mood = mood",
+      "text": "The mood is the third piece of state a test can assert on after calling a method."
+    },
+    {
+      "code": "    def show_talent(self):",
+      "text": "A method that returns a description of what the pet does; returning a string rather than printing it is what makes it easy to test."
+    },
+    {
+      "code": "        return f\"performs a generic trick!\"",
+      "text": "The base pet has no special skill, so it returns a fixed sentence. The f prefix does nothing useful here because there are no braces to fill in, but it is harmless."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

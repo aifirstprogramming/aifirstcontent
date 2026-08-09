@@ -1,0 +1,17 @@
+{
+  "summary": "This declares an interface named TemperatureSensor, a contract that says any real or fake sensor must be able to report a current temperature as a whole number. Code that depends on this interface can work with a hardware sensor in production and a simple stand-in during testing.",
+  "lines": [
+    {
+      "code": "public interface TemperatureSensor {",
+      "text": "An interface lists what a type must be able to do without saying how it does it, which lets you swap in a real hardware sensor or a test double later on."
+    },
+    {
+      "code": "    int getCurrentTemperature();",
+      "text": "The method has no body, only a signature ending in a semicolon; every class that implements TemperatureSensor must supply its own version that returns an int reading."
+    }
+  ],
+  "scaffoldFiles": [],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}

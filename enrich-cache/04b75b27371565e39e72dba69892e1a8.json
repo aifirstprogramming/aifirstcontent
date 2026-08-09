@@ -1,0 +1,71 @@
+{
+  "summary": "This is a test file that checks a RobotPet class using Python's built-in unittest framework. It creates a robot pet before each test and then verifies that its attributes are stored correctly and that show_talent() returns a string containing the pet's name.",
+  "lines": [
+    {
+      "code": "import unittest",
+      "text": "Brings in Python's standard testing framework, which supplies the test class and the assertion methods used below."
+    },
+    {
+      "code": "from pet_talents import RobotPet",
+      "text": "Pulls the class under test out of the pet_talents.py module; test files live separately from the code they exercise."
+    },
+    {
+      "code": "class TestRobotPet(unittest.TestCase):",
+      "text": "Inheriting from unittest.TestCase is what turns this class into a test suite: the framework finds it and runs every method whose name starts with test_."
+    },
+    {
+      "code": "    def setUp(self):",
+      "text": "setUp runs automatically before each individual test, so every test starts with a fresh object and cannot be affected by changes another test made."
+    },
+    {
+      "code": "        self.pet = RobotPet(\"Robo\", 100, \"happy\")",
+      "text": "Stores the freshly built pet on self so all the test methods can reach it."
+    },
+    {
+      "code": "    def test_init_attributes(self):",
+      "text": "Each test method takes self and gets its own run; the name should describe what is being checked."
+    },
+    {
+      "code": "        self.assertEqual(self.pet.name, \"Robo\")",
+      "text": "assertEqual fails the test if the two values differ, confirming the constructor saved the name it was given."
+    },
+    {
+      "code": "    def test_show_talent_contains_name(self):",
+      "text": "A separate test for a separate behaviour, so a failure tells you exactly which expectation broke."
+    },
+    {
+      "code": "        self.assertIn(\"Robo\", result)",
+      "text": "assertIn checks that the text appears somewhere inside the returned string, which is more flexible than demanding an exact sentence."
+    },
+    {
+      "code": "        self.assertIsInstance(result, str)",
+      "text": "Verifies show_talent returns a string rather than printing and returning None, a common mistake in this kind of method."
+    },
+    {
+      "code": "    def test_different_name(self):",
+      "text": "Tests the class with a second, differently configured object to be sure the results really depend on the data passed in."
+    },
+    {
+      "code": "        self.assertNotIn(\"Robo\", pet2.show_talent())",
+      "text": "assertNotIn guards against the opposite error: a hard-coded name leaking into every pet's talent message."
+    },
+    {
+      "code": "if __name__ == \"__main__\":",
+      "text": "This block only runs when the file is executed directly, so importing it elsewhere does not launch the tests."
+    },
+    {
+      "code": "    unittest.main()",
+      "text": "Discovers every test method in the file, runs them, and prints a pass/fail summary."
+    }
+  ],
+  "scaffoldFiles": [
+    {
+      "path": "pet_talents.py",
+      "content": "",
+      "fromExercise": "py-7-03"
+    }
+  ],
+  "entrypoint": "",
+  "stdin": "",
+  "expectsUncaughtException": false
+}
