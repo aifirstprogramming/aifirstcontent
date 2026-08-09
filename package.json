@@ -1,6 +1,6 @@
 {
   "name": "@aifirst/content",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Canonical AI First book content, plus the shared loader and prompt matcher used by the aifirst CLI and the AI First VS Code extension.",
   "license": "MIT",
   "repository": {
