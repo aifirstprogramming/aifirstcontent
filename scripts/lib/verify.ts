@@ -250,6 +250,25 @@ function syntaxCheck(dir: string, language: string, mainFile: string, timeoutMs:
   };
 }
 
+/**
+ * The command to show a reader.
+ *
+ * `__junit__` is an internal marker for "compile against the launcher, then run the
+ * suite" -- verify() expands it. Printing it verbatim leaked the marker into the
+ * explanation a reader sees, so the readable form is produced here. The jar path is
+ * written as <junit> rather than an absolute path, which differs per machine.
+ */
+export function displayCommand(commands: string[][], mainFile: string): string {
+  if (commands[0]?.[0] === "__junit__") {
+    const cls = mainFile.replace(/\.java$/, "");
+    return (
+      `javac -cp <junit>:. -sourcepath . -d out ${mainFile} && ` +
+      `java -jar <junit> execute -cp out --select-class ${cls}`
+    );
+  }
+  return commands.map((c) => c.join(" ")).join(" && ");
+}
+
 export interface VerifyOptions {
   timeoutMs?: number;
   responseOf?: (exerciseId: string) => string | undefined;

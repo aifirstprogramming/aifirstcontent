@@ -3185,7 +3185,7 @@
                     "text": "The assertion states what should be true: the expected value comes first, the actual result second. If they differ, JUnit fails the test and shows both values."
                   }
                 ],
-                "run": "__junit__ ThermostatTest.java"
+                "run": "javac -cp <junit>:. -sourcepath . -d out ThermostatTest.java && java -jar <junit> execute -cp out --select-class ThermostatTest"
               },
               "scaffold": {
                 "files": [
@@ -3393,7 +3393,7 @@
                     "text": "Confirms eco mode holds off on heating at 66 degrees, which is exactly the difference the feature was meant to introduce."
                   }
                 ],
-                "run": "__junit__ ThermostatTest.java"
+                "run": "javac -cp <junit>:. -sourcepath . -d out ThermostatTest.java && java -jar <junit> execute -cp out --select-class ThermostatTest"
               },
               "scaffold": {
                 "files": [
@@ -3561,7 +3561,7 @@
                     "text": "The expected value includes the platform's line separator because println adds a newline, and using System.lineSeparator() keeps the test passing on Windows as well as macOS and Linux."
                   }
                 ],
-                "run": "__junit__ ThermostatTest.java"
+                "run": "javac -cp <junit>:. -sourcepath . -d out ThermostatTest.java && java -jar <junit> execute -cp out --select-class ThermostatTest"
               },
               "scaffold": {
                 "files": [
@@ -3715,7 +3715,7 @@
                     "text": "This last test checks the formatting method rather than the decision logic, verifying that the status is wrapped in the expected display text."
                   }
                 ],
-                "run": "__junit__ ThermostatTest.java"
+                "run": "javac -cp <junit>:. -sourcepath . -d out ThermostatTest.java && java -jar <junit> execute -cp out --select-class ThermostatTest"
               },
               "scaffold": {
                 "files": [
@@ -3935,7 +3935,7 @@
                     "text": "Yellow shares the stop-required behaviour with red, and giving it its own test documents that rule instead of leaving it to chance."
                   }
                 ],
-                "run": "__junit__ TrafficLightTest.java"
+                "run": "javac -cp <junit>:. -sourcepath . -d out TrafficLightTest.java && java -jar <junit> execute -cp out --select-class TrafficLightTest"
               },
               "scaffold": {
                 "files": [

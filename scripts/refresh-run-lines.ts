@@ -8,7 +8,7 @@ import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { suggestFilename } from "../src/filenames";
 import { loadFromDirectory } from "../src/loader";
-import { verifyCommand } from "./lib/verify";
+import { displayCommand, verifyCommand } from "./lib/verify";
 
 const BOOKS_DIR = join(import.meta.dir, "..", "books");
 const content = loadFromDirectory(BOOKS_DIR, { includeUnpublished: true, strict: false });
@@ -16,9 +16,10 @@ const content = loadFromDirectory(BOOKS_DIR, { includeUnpublished: true, strict:
 const runById = new Map<string, string>();
 for (const example of content.examples) {
   for (const step of example.steps) {
-    const { commands, skipped } = verifyCommand(example, step, suggestFilename(example, step), step.scaffold);
+    const mainFile = suggestFilename(example, step);
+    const { commands, skipped } = verifyCommand(example, step, mainFile, step.scaffold);
     if (skipped || commands.length === 0) continue;
-    runById.set(step.id, commands.map((c) => c.join(" ")).join(" && "));
+    runById.set(step.id, displayCommand(commands, mainFile));
   }
 }
 

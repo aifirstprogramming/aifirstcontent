@@ -38,7 +38,7 @@ import { loadFromDirectory } from "../src/loader";
 import type { Example, Explanation, Scaffold, Step } from "../src/types";
 import { suggestFilename } from "../src/filenames";
 import { reorder } from "./lib/apply";
-import { JUNIT_URL, junitAvailable, verify, verifyCommand } from "./lib/verify";
+import { JUNIT_URL, displayCommand, junitAvailable, verify, verifyCommand } from "./lib/verify";
 
 const ROOT = join(import.meta.dir, "..");
 const BOOKS_DIR = join(ROOT, "books");
@@ -540,7 +540,8 @@ async function enrichExample(example: Example): Promise<void> {
       }
 
       if (r.ok) {
-        const { commands: cmds } = verifyCommand(example, step, suggestFilename(example, step), scaffold);
+        const mainFile = suggestFilename(example, step);
+        const { commands: cmds } = verifyCommand(example, step, mainFile, scaffold);
         enriched.set(step.id, {
           id: step.id,
           explanation: {
@@ -548,7 +549,7 @@ async function enrichExample(example: Example): Promise<void> {
             lines: out.lines,
             // Set here, not by the model: the line a reader is shown is the command
             // that actually ran.
-            run: cmds.map((c) => c.join(" ")).join(" && "),
+            run: displayCommand(cmds, mainFile),
           },
           ...(scaffold ? { scaffold } : {}),
           ...(stdin !== undefined ? { stdin } : {}),
