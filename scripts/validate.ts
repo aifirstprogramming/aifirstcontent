@@ -144,6 +144,14 @@ try {
     for (const [index, operation] of step.replay.operations.entries()) {
       validateOperation(step.id, `replay operation ${index + 1}`, operation);
     }
+    const initialId = step.replay.initialState?.fromExercise;
+    if (initialId) {
+      const initial = content.steps.find((candidate) => candidate.id === initialId);
+      if (!initial) fail(`${step.id} replay references unknown initial exercise ${initialId}`);
+      else if ((initial.scaffold?.files.length ?? 0) === 0) {
+        fail(`${step.id} initial exercise ${initialId} has no scaffold files`);
+      }
+    }
     validateEvents(step.id, "replay event", step.replay.events ?? []);
     validateEvents(step.id, "pre-plan event", step.replay.prePlanEvents ?? [], true);
     if (step.replay.workflow) validateWorkflow(step.id, step.replay.workflow);

@@ -86,6 +86,8 @@ export interface PlanWorkflow {
 export interface Replay {
   /** Captured Showtail prompt that starts this replay. */
   prompt?: string;
+  /** Exercise scaffold that matches the workspace where this replay was captured. */
+  initialState?: { fromExercise: string };
   /** Ordered trusted operations to apply in the learner workspace. */
   operations: ReplayOperation[];
   /** Captured text shown around the operations, in display order. */

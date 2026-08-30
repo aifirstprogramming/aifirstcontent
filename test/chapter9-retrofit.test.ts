@@ -85,6 +85,7 @@ describe("Python chapter 9 Showtail retrofit", () => {
 
   test("the normal v2 importer exactly regenerates all three exercises", () => {
     let initialFiles: Map<string, string> | undefined;
+    let initialExerciseId: string | undefined;
     for (const exercise of manifest.exercises) {
       const step = target(exercise.id);
       const exerciseRoot = join(dirname(manifestPath), exercise.bundle);
@@ -100,6 +101,7 @@ describe("Python chapter 9 Showtail retrofit", () => {
         turnIndex: 0,
         sourceFiles: files,
         initialFiles,
+        initialExerciseId,
         response: response(step.response),
       });
       expect(
@@ -108,6 +110,17 @@ describe("Python chapter 9 Showtail retrofit", () => {
       expect(derived.replay).toEqual(step.replay);
       expect(derived.scaffold).toEqual(step.scaffold);
       initialFiles = files;
+      initialExerciseId = exercise.id;
     }
+  });
+
+  test("records the captured starting exercise for standalone fallback", () => {
+    expect(target("py-9-01").replay?.initialState).toBeUndefined();
+    expect(target("py-9-02").replay?.initialState).toEqual({
+      fromExercise: "py-9-01",
+    });
+    expect(target("py-9-03").replay?.initialState).toEqual({
+      fromExercise: "py-9-02",
+    });
   });
 });

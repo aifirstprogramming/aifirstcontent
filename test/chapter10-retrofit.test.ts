@@ -135,6 +135,7 @@ describe("Python chapter 10 Showtail retrofit", () => {
 
   test("the normal v2 importer exactly regenerates the complete progression", () => {
     let initialFiles = scaffoldFiles(target("py-9-03"));
+    let initialExerciseId = "py-9-03";
     for (const exercise of manifest.exercises) {
       const step = target(exercise.id);
       const exerciseRoot = join(dirname(manifestPath), exercise.bundle);
@@ -150,6 +151,7 @@ describe("Python chapter 10 Showtail retrofit", () => {
         turnIndex: 0,
         sourceFiles: files,
         initialFiles,
+        initialExerciseId,
         response: response(step.response),
       });
       expect(
@@ -158,7 +160,22 @@ describe("Python chapter 10 Showtail retrofit", () => {
       expect(derived.replay).toEqual(step.replay);
       expect(derived.scaffold).toEqual(step.scaffold);
       initialFiles = files;
+      initialExerciseId = exercise.id;
     }
+  });
+
+  test("links every captured replay to its preceding project state", () => {
+    expect(
+      manifest.exercises.map((exercise) => [
+        exercise.id,
+        target(exercise.id).replay?.initialState?.fromExercise,
+      ]),
+    ).toEqual([
+      ["py-10-01", "py-9-03"],
+      ["py-10-02", "py-10-01"],
+      ["py-10-03", "py-10-02"],
+      ["py-10-04", "py-10-03"],
+    ]);
   });
 
   test("retains questionless plan mode for the undo exercise", () => {

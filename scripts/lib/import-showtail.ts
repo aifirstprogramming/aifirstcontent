@@ -35,6 +35,7 @@ export interface DeriveReplayOptions {
   sourceFiles: Map<string, string>;
   response: string;
   initialFiles?: Map<string, string>;
+  initialExerciseId?: string;
 }
 
 const MUTATING_TOOLS = new Set(["write", "edit"]);
@@ -791,6 +792,27 @@ function fallbackOperations(
   return [...writes, ...verification];
 }
 
+function replayNeedsInitialState(
+  initialFiles: Map<string, string> | undefined,
+  events: ReplayEvent[],
+): boolean {
+  if (!initialFiles || initialFiles.size === 0) return false;
+  const created = new Set<string>();
+  for (const event of events) {
+    if (event.type !== "operation") continue;
+    const operation = event.operation;
+    if (
+      (operation.type === "read" || operation.type === "edit") &&
+      !created.has(operation.path) &&
+      initialFiles.has(operation.path)
+    ) return true;
+    if (operation.type === "write" || operation.type === "edit") {
+      created.add(operation.path);
+    }
+  }
+  return false;
+}
+
 function validateFinalState(
   initialFiles: Map<string, string> | undefined,
   events: ReplayEvent[],
@@ -942,8 +964,16 @@ export function deriveReplay(options: DeriveReplayOptions): DerivedReplay {
   const reportSha256 = createHash("sha256")
     .update(options.reportText)
     .digest("hex");
+  const needsInitialState = replayNeedsInitialState(options.initialFiles, [
+    ...(workflow.prePlanEvents ?? []),
+    ...(workflow.workflow?.interludes ?? []).flatMap((interlude) => interlude.events),
+    ...completion.events,
+  ]);
   const replay: Replay = {
     prompt: turn.prompt.text,
+    ...(options.initialExerciseId && needsInitialState
+      ? { initialState: { fromExercise: options.initialExerciseId } }
+      : {}),
     operations: fallbackOperations(options.sourceFiles, completion.events),
     ...(workflow.prePlanEvents
       ? { prePlanEvents: workflow.prePlanEvents }

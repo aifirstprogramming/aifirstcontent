@@ -136,13 +136,17 @@ function processBundle(
   }
   const { target, turnIndex } = matches[0];
   const previous = target.index > 0 ? target.all[target.index - 1] : undefined;
+  const initialFiles = scaffoldFiles(previous?.step.scaffold ?? previous?.parent.scaffold);
   const derived = deriveReplay({
     report,
     reportText,
     turnIndex,
     sourceFiles: sourceFiles(join(bundle, "source")),
     response: target.response,
-    initialFiles: scaffoldFiles(previous?.step.scaffold ?? previous?.parent.scaffold),
+    initialFiles,
+    initialExerciseId: initialFiles && previous
+      ? previous.step.id ?? previous.parent.id
+      : undefined,
   });
   const exerciseId = target.step.id ?? target.parent.id;
   if (expectedExerciseId && exerciseId !== expectedExerciseId) {
