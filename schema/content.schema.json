@@ -154,6 +154,9 @@
         "expectsException": {
           "type": "boolean",
           "description": "The exercise ends by throwing an uncaught exception on purpose, to demonstrate an error, so exiting non-zero is the correct outcome. Stored because CI must reach the same verdict as the authoring run without a model."
+        },
+        "replay": {
+          "$ref": "#/definitions/replay"
         }
       },
       "oneOf": [
@@ -226,12 +229,222 @@
         "expectsException": {
           "type": "boolean",
           "description": "The exercise ends by throwing an uncaught exception on purpose, to demonstrate an error, so exiting non-zero is the correct outcome. Stored because CI must reach the same verdict as the authoring run without a model."
+        },
+        "replay": {
+          "$ref": "#/definitions/replay"
         }
       }
     },
     "stdin": {
       "type": "string",
       "description": "Sample input for an exercise that reads stdin. Required whenever the response reads input (enforced by scripts/validate.ts): an assistant cannot type into a running program, so without a sample these exercises could never be completed through one."
+    },
+    "replay": {
+      "type": "object",
+      "required": ["operations"],
+      "additionalProperties": false,
+      "properties": {
+        "prompt": { "type": "string" },
+        "commentary": { "type": "array", "items": { "type": "string" } },
+        "prePlanEvents": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/replayEvent" }
+        },
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/replayEvent" }
+        },
+        "completionText": { "type": "string", "minLength": 1 },
+        "source": { "$ref": "#/definitions/replaySource" },
+        "workflow": { "$ref": "#/definitions/planWorkflow" },
+        "operations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/replayOperation" }
+        }
+      }
+    },
+    "planWorkflow": {
+      "type": "object",
+      "required": ["questions", "canonicalAnswers", "canonicalPlan"],
+      "additionalProperties": false,
+      "properties": {
+        "questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/planQuestion" }
+        },
+        "canonicalAnswers": { "$ref": "#/definitions/planAnswers" },
+        "canonicalPlan": { "type": "string", "minLength": 1 },
+        "interludes": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/planInterlude" }
+        },
+        "variants": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/planVariant" }
+        }
+      }
+    },
+    "replaySource": {
+      "type": "object",
+      "required": ["kind", "reportSha256", "generatedAt", "turnIndex"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "showtail" },
+        "reportSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "generatedAt": { "type": "string", "minLength": 1 },
+        "turnIndex": { "type": "integer", "minimum": 0 },
+        "sessionId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "planQuestion": {
+      "type": "object",
+      "required": ["id", "question", "header", "options"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "question": { "type": "string", "minLength": 1 },
+        "header": { "type": "string", "minLength": 1, "maxLength": 12 },
+        "group": { "type": "string", "minLength": 1 },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/definitions/planOption" }
+        },
+        "when": { "$ref": "#/definitions/planAnswers" }
+      }
+    },
+    "planInterlude": {
+      "type": "object",
+      "required": ["afterQuestion", "events"],
+      "additionalProperties": false,
+      "properties": {
+        "afterQuestion": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/replayEvent" }
+        }
+      }
+    },
+    "planOption": {
+      "type": "object",
+      "required": ["id", "label", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "label": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "planAnswers": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" }
+    },
+    "planVariant": {
+      "type": "object",
+      "required": ["id", "answers", "plan", "operations"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+        "answers": { "$ref": "#/definitions/planAnswers" },
+        "plan": { "type": "string", "minLength": 1 },
+        "commentary": { "type": "array", "items": { "type": "string" } },
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/replayEvent" }
+        },
+        "operations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/replayOperation" }
+        }
+      }
+    },
+    "replayOperation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type", "path", "content"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "write" },
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+" },
+            "content": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type", "path", "oldText", "newText"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "edit" },
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+" },
+            "oldText": { "type": "string", "minLength": 1 },
+            "newText": { "type": "string" },
+            "replaceAll": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type", "path"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "read" },
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type", "command"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "command" },
+            "command": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+            "cwd": { "type": "string", "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).*" },
+            "env": { "type": "object", "additionalProperties": { "type": "string" } },
+            "stdin": { "type": "string" },
+            "readOnly": { "type": "boolean" },
+            "expectedExitCode": { "type": "integer" },
+            "expectedStdout": { "type": "string" },
+            "expectedStderr": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "replayEvent": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type", "text"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "text" },
+            "text": { "type": "string", "minLength": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type", "text"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "status" },
+            "text": { "type": "string", "minLength": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type", "operation"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "operation" },
+            "operation": { "$ref": "#/definitions/replayOperation" }
+          }
+        }
+      ]
     },
     "kind": {
       "enum": [

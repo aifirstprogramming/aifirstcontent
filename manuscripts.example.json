@@ -7,7 +7,7 @@
     "",
     "  chmod 600 manuscripts.json     it holds an API key",
     "",
-    "Only `bun run scrape` and `bun run enrich` read this. Nothing that ships does,",
+    "Only the scrape, import-showtail and enrich authoring tools read this. Nothing that ships does,",
     "and CI has neither the file nor the key."
   ],
 
@@ -18,10 +18,12 @@
     "because silently scraping nothing looks exactly like 'no changes'."
   ],
   "java": {
-    "root": "/path/to/AI First Java Programming"
+    "root": "/path/to/AI First Java Programming",
+    "replays": "/path/to/AI First Java Programming/Showtail Exports"
   },
   "py": {
-    "root": "/path/to/AI First Python Programming/Chapters"
+    "root": "/path/to/AI First Python Programming/Chapters",
+    "replays": "/path/to/AI First Python Programming/Showtail Exports"
   },
 
   "//anthropicApiKey": [

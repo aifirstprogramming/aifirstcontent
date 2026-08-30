@@ -61,8 +61,8 @@ describe("loading the real books", () => {
   it("loads every published example and step", () => {
     // Published only: drafts awaiting an explanation and a proving run, and
     // retired examples the books no longer contain, are filtered out.
-    expect(content.examples).toHaveLength(139);
-    expect(content.steps).toHaveLength(148);
+    expect(content.examples).toHaveLength(142);
+    expect(content.steps).toHaveLength(151);
   });
 
   it("hides drafts and retired examples unless asked", () => {

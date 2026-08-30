@@ -56,6 +56,8 @@ export interface BookConfig {
   tag: BookTag;
   language: string;
   root: string;
+  /** Optional folder containing Showtail report/source bundles for this book. */
+  replays?: string;
   /** Whether the book's Appendix is part of the book. Neither is, today. */
   includeAppendix: boolean;
 }
@@ -66,7 +68,7 @@ export interface BookConfig {
  * Where the manuscripts actually live is not here: the books are not open source,
  * so their paths belong in a local config file rather than in a public repository.
  */
-const BOOK_SHAPE: Omit<BookConfig, "root">[] = [
+const BOOK_SHAPE: Omit<BookConfig, "root" | "replays">[] = [
   {
     tag: "java",
     language: "java",
@@ -89,7 +91,7 @@ const BOOK_SHAPE: Omit<BookConfig, "root">[] = [
  */
 export function books(): BookConfig[] {
   const path = configPath();
-  const raw = readLocalConfig() as Record<string, { root?: string } | undefined>;
+  const raw = readLocalConfig() as Record<string, { root?: string; replays?: string } | undefined>;
 
   const out: BookConfig[] = [];
   for (const shape of BOOK_SHAPE) {
@@ -102,7 +104,9 @@ export function books(): BookConfig[] {
     if (!existsSync(root)) {
       throw new Error(`${path}: the ${shape.tag} root does not exist: ${root}`);
     }
-    out.push({ ...shape, root });
+    const replays = raw[shape.tag]?.replays;
+    if (replays && !existsSync(replays)) throw new Error(`${path}: the ${shape.tag} replay root does not exist: ${replays}`);
+    out.push({ ...shape, root, ...(replays ? { replays } : {}) });
   }
 
   if (out.length === 0) throw new Error(configHelp(path));

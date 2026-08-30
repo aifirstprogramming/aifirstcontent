@@ -52,6 +52,7 @@ export const EXAMPLE_KEYS = [
   "expectsException",
   "explanation",
   "scaffold",
+  "replay",
 ];
 
 export function reorder(obj: Record<string, unknown>): Record<string, unknown> {

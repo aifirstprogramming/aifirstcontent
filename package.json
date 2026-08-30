@@ -44,6 +44,8 @@
     "test": "bun test",
     "validate": "bun scripts/validate.ts",
     "scrape": "bun scripts/scrape.ts",
+    "import-showtail": "bun scripts/import-showtail.ts",
+    "generate-rocket-test-content": "bun scripts/generate-rocket-test-content.ts",
     "ids": "bun scripts/add-ids.ts",
     "check": "bun scripts/validate.ts && bun test && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
     "run-exercises": "bun scripts/run-exercises.ts",

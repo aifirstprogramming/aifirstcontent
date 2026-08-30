@@ -129,6 +129,43 @@ not have a copy of and the scraper skips it. Nothing else in the repo reads this
 **CI never has it** — the scraper is an authoring tool whose output is committed, and
 CI validates the result.
 
+### Importing captured Showtail replays
+
+A manuscript example may also have a Showtail report and its complete final source
+tree. Configure the optional `replays` folder beside each manuscript root, then use
+one bundle directory per example or progressive step:
+
+```text
+Showtail Exports/
+  save-the-duckling/
+    report.json
+    source/
+      main.py
+      constants.py
+      entities.py
+```
+
+The Word scraper remains authoritative for book placement, prompts, response
+listings and prose. The source directory is authoritative for final project files,
+and Showtail is authoritative for commentary, planning and tool execution.
+
+```sh
+bun run scrape --write
+bun run ids
+bun run import-showtail          # audit only
+bun run import-showtail --write
+bun run enrich
+bun run verify-content
+bun run check
+```
+
+The importer matches bundles to examples by exact normalized prompt and refuses
+ambiguous matches, unsafe paths, incomplete command results, source drift, or
+manual replay data unless `--force` is supplied. Current Showtail v1 reports remain
+display-only because they omit Write/Edit inputs, questions, answers and plans.
+Executable import requires Showtail schema version 2 with ordered raw events. See
+`docs/showtail-import.md` for the event contract and derivation rules.
+
 What it applies automatically and what it refuses to is the design, documented in
 `scripts/lib/apply.ts`. Briefly: it takes the book's code when only the code
 differs, and the book's prompt when only the prompt differs. It retires an
@@ -205,7 +242,7 @@ curl -sSLo ~/.aifirst-toolcache/junit-console.jar \
 
 ## Progress unit
 
-Learner progress is tracked per **example** (139 today), not per step. Steps are individually viewable
+Learner progress is tracked per **example** (142 today), not per step. Steps are individually viewable
 and applicable, but the titled example is the unit the book presents and therefore the unit a learner
 thinks in.
 
@@ -225,7 +262,7 @@ since those run under Bun and use `import.meta`.
 
 | Book | Examples | Chapters with content |
 |---|---|---|
-| AI First Python Programming | 52 | 1–7 of 10 |
+| AI First Python Programming | 55 | 1–7 and 9 of 10 |
 | AI First Java Programming | 87 | 1–9 of 12 |
 
 Every one of them has been executed, and carries a stored explanation.
