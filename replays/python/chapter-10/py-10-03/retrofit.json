@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "exerciseId": "py-10-03",
+  "retrofitDate": "2026-08-30",
+  "showtailVersion": "0.14.1",
+  "session": {
+    "integration": "claude",
+    "id": "6bc3239c-efba-4147-8b9a-b3226a4f327d",
+    "transcript": "chapter 10 - level editor/claude-original/6bc3239c-efba-4147-8b9a-b3226a4f327d.jsonl",
+    "sha256": "bd6ecc0f5cc87fa07676bac4322ac6c2981595e039174910417051fbd0cba6df"
+  },
+  "promptSha256": "9465bfb459b5a1e50f4e266042fc3e97e84631a5254a1ea04112979bc2d68f04",
+  "legacyReport": {
+    "path": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
+    "sha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63"
+  },
+  "sourceCheckpoint": {
+    "path": "chapter 10 - level editor/source-checkpoints/06-19db183b-Implement desert theme and level editor enhancements",
+    "rawTreeSha256": "7dc8990b2c54ea5fd102e92df6ef227e8e314c9728b508dcb96785be229a74ad",
+    "canonicalTreeSha256": "d939c1870331a567c2ce64987214d0a10531bd6476d195b673833e77e66c9caa"
+  },
+  "plans": [
+    {
+      "toolUseId": "toolu_016TLpfm1VJZhG2AVT75wvEe",
+      "path": "chapter 10 - level editor/plans/toolu_016TLpfm1VJZhG2AVT75wvEe.md",
+      "sha256": "d31b3f2fac0c9a47c67d856e30fad6275010614a29c80410337a3a7fc539d906"
+    }
+  ],
+  "normalizations": {
+    "scopedToCanonicalPrompt": true,
+    "eventSequencesRenumbered": true,
+    "generatedAtPreservedFromV1": true,
+    "lineEndings": [
+      "assets_gen.py",
+      "constants.py",
+      "entities.py",
+      "level_editor.py",
+      "level.py",
+      "levels/level_1.json",
+      "levels/level_2.json",
+      "levels/level_3.json",
+      "main.py"
+    ],
+    "excludedSourcePaths": [
+      "levels/level_4.json"
+    ],
+    "excludedGeneratedAssets": true
+  },
+  "outputs": {
+    "reportSha256": "c89467f40302c3db78e51718cf72db3d4d06fbef2f3931b1e368ecea868d64c2",
+    "sourceTreeSha256": "d939c1870331a567c2ce64987214d0a10531bd6476d195b673833e77e66c9caa"
+  }
+}

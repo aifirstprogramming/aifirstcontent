@@ -30,7 +30,7 @@ describe("interactive exercises in the pack", () => {
 
   it("finds the input-reading steps", () => {
     // Published interactive steps; drafts are not yet required to carry samples.
-    expect(interactive.length).toBe(21);
+    expect(interactive.length).toBe(23);
   });
 
   it("every one carries a sample stdin", () => {

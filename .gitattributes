@@ -8,5 +8,8 @@
 
 books/*.json text eol=lf
 
+# Historical reports are immutable evidence; preserve their original bytes.
+replays/**/legacy/report-v1.json -text whitespace=cr-at-eol
+
 *.png binary
 *.ico binary

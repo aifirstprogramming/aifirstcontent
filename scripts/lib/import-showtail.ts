@@ -109,6 +109,27 @@ function safeRelativePath(
   return selected;
 }
 
+function safeWorkspacePath(
+  value: string,
+  sourcePaths: string[],
+  workspaceRoots: string[],
+): string | undefined {
+  const sourcePath = safeRelativePath(value, sourcePaths);
+  if (sourcePath) return sourcePath;
+  const normalized = normalizePath(value);
+  for (const root of workspaceRoots) {
+    if (!normalized.startsWith(`${root}/`)) continue;
+    const relative = normalized.slice(root.length + 1);
+    if (
+      relative &&
+      !posix.isAbsolute(relative) &&
+      !relative.split("/").includes("..")
+    )
+      return relative;
+  }
+  return undefined;
+}
+
 function capturedWorkspaceRoots(
   events: ShowtailV2Event[],
   sourcePaths: string[],
@@ -132,7 +153,39 @@ function capturedWorkspaceRoots(
 function normalizeCommandPaths(command: string, roots: string[]): string {
   let normalized = command.replace(/\\/g, "/");
   for (const root of roots) normalized = normalized.split(root).join(".");
-  return normalized;
+  normalized = normalized.replace(
+    /\bpython(?=\s+(?:--version\b|-c\b|-m\b|[A-Za-z0-9_./-]+\.py\b))/g,
+    "python3",
+  );
+  return normalized.replace(
+    /grep -n "([^"]*)\/\[([^"]*)"/g,
+    (_match, before: string, after: string) =>
+      `grep -Fn "${before}[${after}"`,
+  );
+}
+
+function capturedWorkspaceOutput(value: string, roots: string[]): boolean {
+  const normalized = normalizePath(value);
+  return roots.some((root) => normalized.includes(root));
+}
+
+function normalizeOutput(value: string | undefined): string {
+  return (value ?? "").replace(/\r\n/g, "\n");
+}
+
+function stripVolatileGitInspections(command: string): {
+  command: string;
+  stripped: boolean;
+} {
+  let stripped = false;
+  const lines = command.split("\n").filter((line) => {
+    const inspection = /^(?:\s*cd\s+[^&]+&&\s*)?git\s+(?:status|diff|log)\b/.test(
+      line,
+    );
+    if (inspection) stripped = true;
+    return !inspection;
+  });
+  return { command: lines.join("\n").trim(), stripped };
 }
 
 function toolResults(events: ShowtailV2Event[]): Map<string, ShowtailV2Event> {
@@ -327,7 +380,9 @@ function operationFromTool(
   }
   if (name === "read") {
     const rawPath = string(input.file_path) ?? string(input.path);
-    const path = rawPath ? safeRelativePath(rawPath, sourcePaths) : undefined;
+    const path = rawPath
+      ? safeWorkspacePath(rawPath, sourcePaths, workspaceRoots)
+      : undefined;
     if (!path && rawPath && absolutePath(rawPath)) {
       diagnostics.push(
         diagnostic(
@@ -354,9 +409,23 @@ function operationFromTool(
   }
   if (name === "bash" || name === "shell" || name === "powershell") {
     const rawCommand = string(input.command);
-    const command = rawCommand
-      ? normalizeCommandPaths(rawCommand, workspaceRoots)
+    const portable = rawCommand
+      ? stripVolatileGitInspections(rawCommand)
       : undefined;
+    const command = portable?.command
+      ? normalizeCommandPaths(portable.command, workspaceRoots)
+      : undefined;
+    if (portable?.stripped) {
+      diagnostics.push(
+        diagnostic(
+          "inferred",
+          "info",
+          "tool_use.Bash",
+          "Removed environment-specific git inspection from replay command",
+        ),
+      );
+      if (!command) return undefined;
+    }
     if (!command) {
       diagnostics.push(
         diagnostic(
@@ -391,9 +460,15 @@ function operationFromTool(
         ),
       );
     }
-    const volatileTestTiming = /\bRan \d+ tests? in \d+(?:\.\d+)?s\b/.test(
-      result.stdout ?? "",
-    );
+    const stdout = normalizeOutput(result.stdout);
+    const stderr = normalizeOutput(result.stderr);
+    const volatileTestTiming = /\bRan \d+ tests? in \d+(?:\.\d+)?s\b/.test(stdout);
+    const volatileRuntimeOutput =
+      /(?:^|\n)Python \d+\.\d+|(?:^|\n)pygame(?:-ce)? \d+\.\d+|Hello from the pygame community/.test(
+        stdout,
+      );
+    const volatileStdoutPath = capturedWorkspaceOutput(stdout, workspaceRoots);
+    const volatileStderrPath = capturedWorkspaceOutput(stderr, workspaceRoots);
     if (volatileTestTiming) {
       diagnostics.push(
         diagnostic(
@@ -404,6 +479,26 @@ function operationFromTool(
         ),
       );
     }
+    if (volatileRuntimeOutput) {
+      diagnostics.push(
+        diagnostic(
+          "inferred",
+          "info",
+          "tool_result.stdout",
+          "Ignored environment-specific Python/pygame version output while preserving exit-code verification",
+        ),
+      );
+    }
+    if (volatileStdoutPath || volatileStderrPath) {
+      diagnostics.push(
+        diagnostic(
+          "inferred",
+          "info",
+          "tool_result.output",
+          "Ignored captured authoring workspace paths while preserving exit-code verification",
+        ),
+      );
+    }
     return {
       type: "command",
       command: ["bash", "-lc", command],
@@ -411,10 +506,10 @@ function operationFromTool(
       expectedExitCode: exitCode,
       ...(!readOnly
         ? {
-            ...(!volatileTestTiming
-              ? { expectedStdout: result.stdout ?? "" }
+            ...(!volatileTestTiming && !volatileRuntimeOutput && !volatileStdoutPath
+              ? { expectedStdout: stdout }
               : {}),
-            expectedStderr: result.stderr ?? "",
+            ...(!volatileStderrPath ? { expectedStderr: stderr } : {}),
           }
         : {}),
     };
@@ -492,7 +587,16 @@ function deriveWorkflow(
       event.type === "tool_use" &&
       event.toolName?.toLowerCase() === "askuserquestion",
   );
-  if (asks.length === 0) return { replayStart: 0 };
+  const approval = events.find((event) => event.type === "plan_approved");
+  const planEvent = [...events]
+    .reverse()
+    .find(
+      (event) =>
+        event.type === "plan_snapshot" &&
+        event.plan &&
+        (!approval || event.sequence < approval.sequence),
+    );
+  if (asks.length === 0 && !planEvent && !approval) return { replayStart: 0 };
   const results = toolResults(events);
   const usedQuestionIds = new Set<string>();
   const usedOptionIds = new Map<string, Set<string>>();
@@ -551,15 +655,6 @@ function deriveWorkflow(
     if (captured.length > 0)
       interludes.push({ afterQuestion: derived.at(-1)!.id, events: captured });
   }
-  const approval = events.find((event) => event.type === "plan_approved");
-  const planEvent = [...events]
-    .reverse()
-    .find(
-      (event) =>
-        event.type === "plan_snapshot" &&
-        event.plan &&
-        (!approval || event.sequence < approval.sequence),
-    );
   if (!planEvent?.plan)
     diagnostics.push(
       diagnostic(
@@ -578,9 +673,13 @@ function deriveWorkflow(
         "No plan approval boundary was exported",
       ),
     );
-  const firstAsk = asks[0].sequence;
+  const planningBoundary =
+    asks[0]?.sequence ??
+    planEvent?.sequence ??
+    approval?.sequence ??
+    0;
   const prePlanEvents = replayEvents(
-    events.filter((event) => event.sequence < firstAsk),
+    events.filter((event) => event.sequence < planningBoundary),
     sourcePaths,
     workspaceRoots,
     diagnostics,
@@ -629,10 +728,10 @@ function validateFinalState(
   initialFiles: Map<string, string> | undefined,
   events: ReplayEvent[],
   sourceFiles: Map<string, string>,
-): string[] {
-  if (!initialFiles) return [];
-  const state = new Map(initialFiles);
+): { problems: string[]; needsInitialState: boolean } {
+  const state = new Map(initialFiles ?? []);
   const problems: string[] = [];
+  let needsInitialState = false;
   for (const event of events) {
     if (event.type !== "operation") continue;
     const operation = event.operation;
@@ -640,6 +739,10 @@ function validateFinalState(
       state.set(operation.path, operation.content);
     if (operation.type === "edit") {
       const current = state.get(operation.path);
+      if (current === undefined && !initialFiles) {
+        needsInitialState = true;
+        continue;
+      }
       if (current === undefined || !current.includes(operation.oldText))
         problems.push(
           `${operation.path}: captured edit does not apply to the initial state`,
@@ -653,10 +756,11 @@ function validateFinalState(
         );
     }
   }
-  for (const [path, content] of sourceFiles)
-    if (state.get(path) !== content)
-      problems.push(`${path}: replay result differs from supplied source`);
-  return problems;
+  if (!needsInitialState)
+    for (const [path, content] of sourceFiles)
+      if (state.get(path) !== content)
+        problems.push(`${path}: replay result differs from supplied source`);
+  return { problems, needsInitialState };
 }
 
 export function auditLegacyReport(report: ShowtailReport): ImportDiagnostic[] {
@@ -738,19 +842,14 @@ export function deriveReplay(options: DeriveReplayOptions): DerivedReplay {
     false,
   );
   const completion = lastAssistantAsCompletion(rawReplayEvents);
-  const stateProblems = validateFinalState(
+  const finalState = validateFinalState(
     options.initialFiles,
     completion.events,
     options.sourceFiles,
   );
-  for (const problem of stateProblems)
+  for (const problem of finalState.problems)
     diagnostics.push(diagnostic("inferred", "error", "finalState", problem));
-  if (
-    !options.initialFiles &&
-    completion.events.some(
-      (event) => event.type === "operation" && event.operation.type === "edit",
-    )
-  ) {
+  if (finalState.needsInitialState) {
     diagnostics.push(
       diagnostic(
         "inferred",

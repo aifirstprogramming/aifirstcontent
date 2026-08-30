@@ -368,9 +368,169 @@ describe("Showtail v2 replay derivation", () => {
       message: "Successful shell result implies exit code 0",
     });
   });
+
+  test("normalizes archived Windows Python commands and volatile runtime output", () => {
+    const raw = rawV2();
+    for (const sequence of [11, 13]) {
+      const write = raw.turns[0].events.find(
+        (event) => event.sequence === sequence,
+      )!;
+      const input = write.input as { file_path: string };
+      input.file_path = `C:\\Users\\author\\demo\\${input.file_path.split("/").at(-1)}`;
+    }
+    const run = raw.turns[0].events.find((event) => event.sequence === 15)!;
+    run.input = {
+      command: 'cd "C:\\Users\\author\\demo" && python main.py',
+    };
+    const result = raw.turns[0].events.find((event) => event.sequence === 16)!;
+    result.stdout =
+      "pygame 2.6.1 (SDL 2.28.4, Python 3.11.9)\r\n" +
+      "Hello from the pygame community. https://www.pygame.org/contribute.html\r\n" +
+      "C:\\Users\\author\\demo\\assets\r\n";
+    const derived = deriveReplay({
+      report: parseShowtailReport(raw),
+      reportText: JSON.stringify(raw),
+      turnIndex: 0,
+      sourceFiles: new Map([
+        ["main.py", "from helper import value\nprint(value)\n"],
+        ["helper.py", "value = 'ok'\n"],
+      ]),
+      response: "from helper import value\nprint(value)",
+      initialFiles: new Map(),
+    });
+    const command = derived.replay?.events?.find(
+      (event) =>
+        event.type === "operation" && event.operation.type === "command",
+    );
+    expect(command).toEqual({
+      type: "operation",
+      operation: {
+        type: "command",
+        command: ["bash", "-lc", 'cd "." && python3 main.py'],
+        expectedExitCode: 0,
+        expectedStderr: "",
+      },
+    });
+    expect(derived.diagnostics).toContainEqual({
+      category: "inferred",
+      severity: "info",
+      field: "tool_result.stdout",
+      message:
+        "Ignored environment-specific Python/pygame version output while preserving exit-code verification",
+    });
+  });
+
+  test("preserves plan approval even when Claude asked no design questions", () => {
+    const raw = {
+      schemaVersion: 2,
+      generatedAt: "2026-08-30T00:00:00.000Z",
+      displayName: "plan-only",
+      turns: [
+        {
+          prompt: { text: "Add undo support" },
+          aiOutputs: [],
+          codeChanges: [],
+          toolCalls: [],
+          events: [
+            {
+              sequence: 0,
+              type: "tool_use",
+              toolUseId: "read",
+              toolName: "Read",
+              input: { file_path: "/workspace/main.py" },
+            },
+            {
+              sequence: 1,
+              type: "tool_result",
+              toolUseId: "read",
+              content: "old",
+            },
+            {
+              sequence: 2,
+              type: "plan_snapshot",
+              plan: "# Undo plan\n\nTrack snapshots before each edit.",
+            },
+            { sequence: 3, type: "plan_approved" },
+            {
+              sequence: 4,
+              type: "tool_use",
+              toolUseId: "write",
+              toolName: "Write",
+              input: { file_path: "/workspace/main.py", content: "new\n" },
+            },
+            {
+              sequence: 5,
+              type: "tool_result",
+              toolUseId: "write",
+              content: "written",
+            },
+            { sequence: 6, type: "assistant_text", text: "Undo support is ready." },
+          ],
+        },
+      ],
+    };
+    const derived = deriveReplay({
+      report: parseShowtailReport(raw),
+      reportText: JSON.stringify(raw),
+      turnIndex: 0,
+      sourceFiles: new Map([["main.py", "new\n"]]),
+      initialFiles: new Map([["main.py", "old\n"]]),
+      response: "new",
+    });
+    expect(derived.diagnostics.filter((item) => item.severity === "error")).toEqual([]);
+    expect(derived.replay?.workflow).toEqual({
+      questions: [],
+      canonicalAnswers: {},
+      canonicalPlan: "# Undo plan\n\nTrack snapshots before each edit.",
+    });
+    expect(derived.replay?.prePlanEvents).toEqual([
+      { type: "operation", operation: { type: "read", path: "main.py" } },
+    ]);
+    expect(derived.replay?.completionText).toBe("Undo support is ready.");
+  });
 });
 
 describe("Showtail bundle import command", () => {
+  test("imports committed retrofit manifests without manuscript configuration", async () => {
+    for (const [chapter, exerciseIds] of [
+      ["chapter-09", ["py-9-01", "py-9-02", "py-9-03"]],
+      ["chapter-10", ["py-10-01", "py-10-02", "py-10-03", "py-10-04"]],
+    ] as const) {
+      const proc = Bun.spawn(
+        [
+          process.execPath,
+          "run",
+          join(import.meta.dir, "..", "scripts", "import-showtail.ts"),
+          "--manifest",
+          join(
+            import.meta.dir,
+            "..",
+            "replays",
+            "python",
+            chapter,
+            "retrofit-manifest.json",
+          ),
+          "--format",
+          "json",
+        ],
+        { stdout: "pipe", stderr: "pipe" },
+      );
+      const [stdout, stderr] = await Promise.all([
+        new Response(proc.stdout).text(),
+        new Response(proc.stderr).text(),
+      ]);
+      await proc.exited;
+      expect(proc.exitCode, stderr).toBe(0);
+      const result = JSON.parse(stdout);
+      expect(
+        result.results.map((item: { exerciseId: string }) => item.exerciseId),
+      ).toEqual(exerciseIds);
+      expect(
+        result.results.every((item: { changed: boolean }) => !item.changed),
+      ).toBe(true);
+    }
+  });
+
   test("matches manuscript-derived prompts and writes a replayable draft", async () => {
     root = mkdtempSync(join(tmpdir(), "aifirst-showtail-import-"));
     const booksDir = join(root, "books");

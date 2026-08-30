@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "exerciseId": "py-9-01",
+  "retrofitDate": "2026-08-30",
+  "showtailVersion": "0.14.1",
+  "session": {
+    "integration": "claude",
+    "id": "d861f3ac-3626-4d9b-b5ef-1a5765793ef3",
+    "transcript": "chapter 9 - game/claude-original/d861f3ac-3626-4d9b-b5ef-1a5765793ef3.jsonl",
+    "sha256": "7209663ee80fdd1705e460bc075773f804c2455fabaf014702ae8d2f81c1512e"
+  },
+  "promptSha256": "cd9d66417551832958ea31bebf779226864fbe76d99b32c242f2136b167139d5",
+  "legacyReport": {
+    "path": "chapter 9 - game/showtail-reports/initial-game/report-cassandra-chin-at-gmail-com-2026-08-19T131558125-claude-matched.json",
+    "sha256": "74ae68b2913a9adda5ad61d1947be627d2c2ef31da069fe5671e76fad8d92228"
+  },
+  "sourceCheckpoint": {
+    "path": "chapter 9 - game/source-checkpoints/01-c05288ea-Initial commit - Save the Duckling game",
+    "rawTreeSha256": "d7e53ef0d073f128fd6ae5ffedf60de56481371f29dc67a4a82364f5507d8c4a",
+    "canonicalTreeSha256": "b4ff687e76278732e5999daf364ad3c7ff99ac53322d93aac1ec772a98f53849"
+  },
+  "plans": [
+    {
+      "toolUseId": "toolu_016FB4JqbaJxRircUuxKrFzb",
+      "path": "chapter 9 - game/plans/toolu_016FB4JqbaJxRircUuxKrFzb.md",
+      "sha256": "b0f8f86d476d3eff0a0190767399633e362586ab262598b8e33ae937fadf57df"
+    }
+  ],
+  "normalizations": {
+    "scopedToCanonicalPrompt": true,
+    "eventSequencesRenumbered": true,
+    "generatedAtPreservedFromV1": true,
+    "lineEndings": [
+      "assets_gen.py",
+      "constants.py",
+      "entities.py",
+      "level.py",
+      "main.py"
+    ],
+    "excludedSourcePaths": [],
+    "excludedGeneratedAssets": true
+  },
+  "outputs": {
+    "reportSha256": "586dd379b6cc2db2202b2a6ddc93043f029937346c546fbb3978994dd7b73999",
+    "sourceTreeSha256": "b4ff687e76278732e5999daf364ad3c7ff99ac53322d93aac1ec772a98f53849"
+  }
+}

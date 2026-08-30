@@ -35,30 +35,34 @@ describe("interactive replay workflows", () => {
   test("stores the book path separately from option ordering", () => {
     const workflow = duckling.replay!.workflow!;
     expect(workflow.canonicalAnswers).toEqual({
-      gameplay: "top_down",
+      game_style: "top_down_maze_exploration",
       challenge: "collect_siblings",
-      visual_style: "sprite_images",
-      asset_source: "generate_png",
+      art_style: "simple_sprite_images",
+      sprite_source: "generate_simple_png_sprites_programmatically",
     });
-    expect(workflow.questions.find((question) => question.id === "challenge")?.options[0].id).toBe("predators");
+    expect(workflow.questions.find((question) => question.id === "challenge")?.options[0].id).toBe("avoid_predators");
     expect(workflow.questions.slice(0, 3).map((question) => question.group)).toEqual([
-      "game_design",
-      "game_design",
-      "game_design",
+      "group_1",
+      "group_1",
+      "group_1",
     ]);
   });
 
   test("asks the asset question only for sprite-image plans", () => {
-    const assets = duckling.replay!.workflow!.questions.find((question) => question.id === "asset_source")!;
-    expect(assets.when).toEqual({ visual_style: "sprite_images" });
+    const assets = duckling.replay!.workflow!.questions.find((question) => question.id === "sprite_source")!;
+    expect(assets.when).toEqual({
+      game_style: "top_down_maze_exploration",
+      challenge: "collect_siblings",
+      art_style: "simple_sprite_images",
+    });
     expect(duckling.replay!.workflow!.canonicalPlan).toContain("Save the Duckling");
   });
 
   test("stores the fox follow-up as a direct deterministic replay", () => {
     expect(fox.prompt).toBe("The game currently has no enemies. Add a fox to the game.");
     expect(fox.replay!.workflow).toBeUndefined();
-    expect(fox.replay!.operations).toHaveLength(10);
-    expect(operationCounts(fox.replay!.events)).toEqual({ read: 7, edit: 16, command: 4 });
+    expect(fox.replay!.operations).toHaveLength(8);
+    expect(operationCounts(fox.replay!.events)).toEqual({ read: 8, edit: 16, command: 4 });
     expect(fox.replay!.completionText).toContain("Added two foxes");
   });
 
@@ -66,18 +70,18 @@ describe("interactive replay workflows", () => {
     const workflow = levels.replay!.workflow!;
     expect(workflow.questions.map((question) => question.id)).toEqual([
       "transition",
-      "difficulty",
-      "siblings",
+      "difficulty_style",
+      "sibling_count",
     ]);
     expect(workflow.canonicalAnswers).toEqual({
-      transition: "brief_auto",
-      difficulty: "patrol_variety",
-      siblings: "increase",
+      transition: "brief_level_complete_screen_then_auto_advance",
+      difficulty_style: "add_patrol_variety",
+      sibling_count: "increase_siblings_per_level_e_g_6_8_10",
     });
     expect(workflow.canonicalPlan).toContain("Level 3");
-    expect(levels.replay!.operations).toHaveLength(11);
-    expect(workflow.questions.every((question) => question.group === "level_design")).toBe(true);
-    expect(workflow.interludes?.[0]?.afterQuestion).toBe("siblings");
+    expect(levels.replay!.operations).toHaveLength(10);
+    expect(workflow.questions.every((question) => question.group === "group_1")).toBe(true);
+    expect(workflow.interludes?.[0]?.afterQuestion).toBe("sibling_count");
     expect(operationCounts(workflow.interludes?.[0]?.events)).toEqual({ command: 2 });
     expect(levels.replay!.prePlanEvents?.filter((event) => event.type === "operation").every((event) =>
       event.operation.type === "read" || (event.operation.type === "command" && event.operation.readOnly))).toBe(true);
@@ -92,6 +96,6 @@ describe("interactive replay workflows", () => {
     expect(duckling.replay!.events?.filter((event) => event.type === "operation").map((event) => event.operation.type)).toContain("edit");
     expect(duckling.replay!.events?.filter((event) => event.type === "operation").map((event) => event.operation.type).filter((type) => type === "read")).toHaveLength(4);
     expect(duckling.replay!.completionText).toContain("The game is complete and working");
-    expect(duckling.replay!.workflow!.interludes?.[0]?.afterQuestion).toBe("asset_source");
+    expect(duckling.replay!.workflow!.interludes?.[0]?.afterQuestion).toBe("sprite_source");
   });
 });

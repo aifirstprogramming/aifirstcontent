@@ -159,6 +159,10 @@ bun run verify-content
 bun run check
 ```
 
+Historical v1 captures are regenerated from their original native CLI
+transcripts with `bun run retrofit-showtail`; see `docs/showtail-import.md`.
+The resulting committed v2 bundles use the same importer as all new authoring.
+
 The importer matches bundles to examples by exact normalized prompt and refuses
 ambiguous matches, unsafe paths, incomplete command results, source drift, or
 manual replay data unless `--force` is supplied. Current Showtail v1 reports remain

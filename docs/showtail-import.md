@@ -65,6 +65,42 @@ These are generic Claude-session facts, not AI First-specific fields. Showtail v
 reports still import as display-only history but cannot create executable book
 content.
 
+## Retrofitting legacy v1 captures
+
+The finite set of chapters authored before schema v2 uses a separate, one-time
+retrofit command. It imports the original native CLI transcript through the
+current Showtail release, scopes the resulting v2 report to each manuscript
+prompt, and pairs it with the archived source checkpoint:
+
+```bash
+bun run retrofit-showtail -- \
+  --archive "/path/to/authoritative-archive" \
+  --showtail /path/to/showtail \
+  --write
+
+bun run import-showtail -- \
+  --manifest replays/python/chapter-09/retrofit-manifest.json \
+  --write
+```
+
+The committed manifest contains only archive-relative paths and SHA-256 hashes.
+Native JSONL, plan files and supplementary author artifacts remain in the
+external archive. Generated bundles retain the untouched v1 report, a
+deterministic exercise-scoped v2 report, LF-normalized text source, and a
+provenance audit. A hash mismatch or incomplete structured transcript fails the
+whole conversion; the tool never fills missing facts from handcrafted replay
+content.
+
+When a supported integration's native transcript is unavailable but v1 retained
+timestamped assistant text and code-change paths, a manifest may explicitly use
+`capture.mode: "legacy-diff"`. The retrofit then verifies that those reported
+paths exactly equal the files changed between two authoritative checkpoints and
+reconstructs whole-file Edit events. The audit records the integration, both
+checkpoint hashes, and `reconstructedFrom`; it is never presented as native
+transcript capture. Per-exercise `sourceExcludes` similarly records manual runtime
+artifacts, such as a level file saved interactively during GUI testing, that must
+not be attributed to the AI replay.
+
 ## Deterministic derivation
 
 - One AskUserQuestion call containing multiple questions becomes one group.

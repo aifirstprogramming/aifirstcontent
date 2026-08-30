@@ -2,10 +2,11 @@
 /** Import replay bundles after manuscript scraping has created the book examples. */
 
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
-import { basename, join, relative } from "node:path";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import type { RawBook, RawExample, RawPromptStep, RawResponse, Scaffold } from "../src/types";
-import { books, type BookConfig } from "./lib/mine";
+import { books } from "./lib/mine";
 import { deriveReplay, type ImportDiagnostic } from "./lib/import-showtail";
+import { readRetrofitManifest } from "./lib/retrofit-showtail";
 import { parseShowtailReport } from "./lib/showtail";
 import { promptKey } from "./lib/docx";
 
@@ -16,6 +17,9 @@ const write = args.includes("--write");
 const force = args.includes("--force");
 const jsonOutput = args.includes("--format") && args[args.indexOf("--format") + 1] === "json";
 const bookFilter = args.includes("--book") ? args[args.indexOf("--book") + 1] : undefined;
+const manifestPath = args.includes("--manifest")
+  ? resolve(args[args.indexOf("--manifest") + 1]!)
+  : undefined;
 
 interface RawTarget {
   parent: RawExample;
@@ -109,7 +113,12 @@ function error(field: string, message: string): ImportDiagnostic {
   return { category: "missing", severity: "error", field, message };
 }
 
-function processBundle(cfg: BookConfig, book: RawBook, bundle: string): BundleResult {
+function processBundle(
+  bookTag: string,
+  book: RawBook,
+  bundle: string,
+  expectedExerciseId?: string,
+): BundleResult {
   const reportPath = join(bundle, "report.json");
   const reportText = readFileSync(reportPath, "utf8");
   const report = parseShowtailReport(JSON.parse(reportText));
@@ -119,7 +128,7 @@ function processBundle(cfg: BookConfig, book: RawBook, bundle: string): BundleRe
     .map((target) => ({ target, turnIndex })));
   if (matches.length !== 1) {
     return {
-      book: cfg.tag,
+      book: bookTag,
       bundle: basename(bundle),
       changed: false,
       diagnostics: [error("prompt", `Expected one manuscript prompt match; found ${matches.length}`)],
@@ -136,13 +145,27 @@ function processBundle(cfg: BookConfig, book: RawBook, bundle: string): BundleRe
     initialFiles: scaffoldFiles(previous?.step.scaffold ?? previous?.parent.scaffold),
   });
   const exerciseId = target.step.id ?? target.parent.id;
+  if (expectedExerciseId && exerciseId !== expectedExerciseId) {
+    return {
+      book: bookTag,
+      bundle: basename(dirname(bundle)),
+      exerciseId,
+      changed: false,
+      diagnostics: [
+        error(
+          "exerciseId",
+          `Manifest expected ${expectedExerciseId}, but the report matched ${exerciseId}`,
+        ),
+      ],
+    };
+  }
   if (!derived.replay || !derived.scaffold) {
-    return { book: cfg.tag, bundle: basename(bundle), exerciseId, changed: false, diagnostics: derived.diagnostics };
+    return { book: bookTag, bundle: basename(bundle), exerciseId, changed: false, diagnostics: derived.diagnostics };
   }
   const currentReplay = target.step.replay;
   if (currentReplay && currentReplay.source?.kind !== "showtail" && !force) {
     return {
-      book: cfg.tag,
+      book: bookTag,
       bundle: basename(bundle),
       exerciseId,
       changed: false,
@@ -154,18 +177,43 @@ function processBundle(cfg: BookConfig, book: RawBook, bundle: string): BundleRe
   target.step.scaffold = derived.scaffold;
   if (derived.scaffold.files.length > 1) target.parent.kind = "project";
   const after = JSON.stringify({ replay: target.step.replay, scaffold: target.step.scaffold });
-  return { book: cfg.tag, bundle: basename(bundle), exerciseId, changed: before !== after, diagnostics: derived.diagnostics };
+  return { book: bookTag, bundle: basename(bundle), exerciseId, changed: before !== after, diagnostics: derived.diagnostics };
 }
 
 const results: BundleResult[] = [];
-for (const cfg of books().filter((book) => !bookFilter || book.tag === bookFilter)) {
-  if (!cfg.replays) continue;
-  const filename = bookFile(cfg.tag);
+if (manifestPath) {
+  const manifest = readRetrofitManifest(manifestPath);
+  if (bookFilter && manifest.book !== bookFilter)
+    throw new Error(
+      `Manifest targets ${manifest.book}, not requested book ${bookFilter}`,
+    );
+  const filename = bookFile(manifest.book);
   const path = join(BOOKS_DIR, filename);
   const book = JSON.parse(readFileSync(path, "utf8")) as RawBook;
-  for (const bundle of bundleDirs(cfg.replays)) results.push(processBundle(cfg, book, bundle));
-  const failures = results.some((result) => result.book === cfg.tag && result.diagnostics.some((item) => item.severity === "error"));
+  for (const exercise of manifest.exercises) {
+    const bundle = resolve(dirname(manifestPath), exercise.bundle, "bundle");
+    results.push(processBundle(manifest.book, book, bundle, exercise.id));
+  }
+  const failures = results.some((result) =>
+    result.diagnostics.some((item) => item.severity === "error"),
+  );
   if (write && !failures) writeFileSync(path, `${JSON.stringify(book, null, 2)}\n`);
+} else {
+  for (const cfg of books().filter((book) => !bookFilter || book.tag === bookFilter)) {
+    if (!cfg.replays) continue;
+    const filename = bookFile(cfg.tag);
+    const path = join(BOOKS_DIR, filename);
+    const book = JSON.parse(readFileSync(path, "utf8")) as RawBook;
+    for (const bundle of bundleDirs(cfg.replays))
+      results.push(processBundle(cfg.tag, book, bundle));
+    const failures = results.some(
+      (result) =>
+        result.book === cfg.tag &&
+        result.diagnostics.some((item) => item.severity === "error"),
+    );
+    if (write && !failures)
+      writeFileSync(path, `${JSON.stringify(book, null, 2)}\n`);
+  }
 }
 
 if (jsonOutput) {

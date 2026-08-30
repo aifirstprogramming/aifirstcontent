@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "exerciseId": "py-10-02",
+  "retrofitDate": "2026-08-30",
+  "showtailVersion": "0.14.1",
+  "session": {
+    "integration": "github-copilot",
+    "id": "legacy-40fe304e319c-py-10-02",
+    "reconstructedFrom": "showtail-v1-code-changes-and-source-checkpoints",
+    "initialCheckpoint": "chapter 10 - level editor/source-checkpoints/04-7eec8da6-Refactor level management and introduce level editor",
+    "initialTreeSha256": "e69beb244e980f29ccf544b360550b1b614ca0bad41128f9f1148d6bce87afb0",
+    "initialCanonicalTreeSha256": "07151633c8a490b93b1f86773d11f6352d4fde2c2d24e47dfa5da083c56fd7ed"
+  },
+  "promptSha256": "51e0d42aefe6535372a6e3f8eb8ac4ac51a0aae6404637f5252afe092c757e8b",
+  "legacyReport": {
+    "path": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
+    "sha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63"
+  },
+  "sourceCheckpoint": {
+    "path": "chapter 10 - level editor/source-checkpoints/05-4fec2b67-Introduce LevelDef dataclass for JSON IO",
+    "rawTreeSha256": "522097a25fcc76f9c910e34bd9ba16766ab0f642e9b80968ad609b443a1934b5",
+    "canonicalTreeSha256": "d01e8e8d2bf7e6dcc090b029fa6872474a61efa3745366606454393d1b7f878a"
+  },
+  "plans": [],
+  "normalizations": {
+    "scopedToCanonicalPrompt": true,
+    "eventSequencesRenumbered": true,
+    "generatedAtPreservedFromV1": true,
+    "lineEndings": [
+      "assets_gen.py",
+      "constants.py",
+      "entities.py",
+      "level_editor.py",
+      "level.py",
+      "levels/level_1.json",
+      "levels/level_2.json",
+      "levels/level_3.json",
+      "main.py"
+    ],
+    "excludedSourcePaths": [
+      "levels/level_4.json"
+    ],
+    "excludedGeneratedAssets": true
+  },
+  "outputs": {
+    "reportSha256": "8bcbc81d029312c4d2649ad2fad51832d86d021f9c3661a7181252f22842013b",
+    "sourceTreeSha256": "d01e8e8d2bf7e6dcc090b029fa6872474a61efa3745366606454393d1b7f878a"
+  }
+}
