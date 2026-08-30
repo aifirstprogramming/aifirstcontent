@@ -282,6 +282,100 @@ describe("Showtail v2 replay derivation", () => {
     });
   });
 
+  test("appends a free-typed answer as the canonical planning option", () => {
+    const raw = rawV2();
+    const question = (
+      raw.turns[0].events.find((event) => event.sequence === 3)!.input as {
+        questions: Array<{ options: Array<{ label: string }> }>;
+      }
+    ).questions[0]!;
+    const resultEvent = raw.turns[0].events.find(
+      (event) => event.sequence === 4,
+    )!;
+    resultEvent.content = {
+      answers: {
+        Assets: "Named sandwich profiles stored in a single JSON file",
+      },
+    };
+
+    const result = deriveReplay({
+      report: parseShowtailReport(raw),
+      reportText: JSON.stringify(raw),
+      turnIndex: 0,
+      sourceFiles: new Map([
+        ["main.py", "from helper import value\nprint(value)\n"],
+        ["helper.py", "value = 'ok'\n"],
+      ]),
+      response: "from helper import value\nprint(value)",
+      initialFiles: new Map(),
+    });
+
+    expect(question.options).toHaveLength(2);
+    expect(
+      result.diagnostics.filter((item) => item.severity === "error"),
+    ).toEqual([]);
+    expect(result.replay?.workflow?.questions[3]?.options).toEqual([
+      {
+        id: "generate_png",
+        label: "Generate PNG",
+        description: "Generate them locally.",
+      },
+      {
+        id: "provide_files",
+        label: "Provide files",
+        description: "Wait for supplied files.",
+      },
+      {
+        id: "named_sandwich_profiles_stored_in_a_single_json",
+        label: "Named sandwich profiles stored in a single JSON file",
+        description: "Captured learner-authored choice.",
+      },
+    ]);
+    expect(result.replay?.workflow?.canonicalAnswers.assets).toBe(
+      "named_sandwich_profiles_stored_in_a_single_json",
+    );
+  });
+
+  test("rejects an answer that ambiguously matches duplicate offered choices", () => {
+    const raw = rawV2();
+    const ask = raw.turns[0].events.find((event) => event.sequence === 3)!;
+    ask.input = {
+      questions: [
+        {
+          question: "How should sprites be created?",
+          header: "Assets",
+          options: [
+            { label: "JSON file", description: "First spelling." },
+            { label: "json file", description: "Second spelling." },
+          ],
+        },
+      ],
+    };
+    raw.turns[0].events.find((event) => event.sequence === 4)!.content = {
+      answers: { Assets: "JSON file" },
+    };
+
+    const result = deriveReplay({
+      report: parseShowtailReport(raw),
+      reportText: JSON.stringify(raw),
+      turnIndex: 0,
+      sourceFiles: new Map([
+        ["main.py", "from helper import value\nprint(value)\n"],
+        ["helper.py", "value = 'ok'\n"],
+      ]),
+      response: "from helper import value\nprint(value)",
+      initialFiles: new Map(),
+    });
+
+    expect(result.replay).toBeUndefined();
+    expect(result.diagnostics).toContainEqual({
+      category: "missing",
+      severity: "error",
+      field: "workflow.answers.assets",
+      message: "AskUserQuestion answer matches more than one offered option",
+    });
+  });
+
   test("rejects legacy reports for executable content import", () => {
     const report = parseShowtailReport({
       generatedAt: "2026-08-30T00:00:00.000Z",
@@ -417,6 +511,113 @@ describe("Showtail v2 replay derivation", () => {
       field: "tool_result.stdout",
       message:
         "Ignored environment-specific Python/pygame version output while preserving exit-code verification",
+    });
+  });
+
+  test("preserves shell commands that use backslash line continuations", () => {
+    const raw = rawV2();
+    const run = raw.turns[0].events.find((event) => event.sequence === 15)!;
+    run.input = {
+      command: "python3 main.py && \\\necho done && \\\npython3 -m unittest -v",
+    };
+    const result = raw.turns[0].events.find((event) => event.sequence === 16)!;
+    result.stdout = "ok\ndone\n";
+    const derived = deriveReplay({
+      report: parseShowtailReport(raw),
+      reportText: JSON.stringify(raw),
+      turnIndex: 0,
+      sourceFiles: new Map([
+        ["main.py", "from helper import value\nprint(value)\n"],
+        ["helper.py", "value = 'ok'\n"],
+      ]),
+      response: "from helper import value\nprint(value)",
+      initialFiles: new Map(),
+    });
+    const command = derived.replay?.events?.find(
+      (event) =>
+        event.type === "operation" && event.operation.type === "command",
+    );
+    expect(command).toMatchObject({
+      type: "operation",
+      operation: {
+        type: "command",
+        command: [
+          "bash",
+          "-lc",
+          "python3 main.py && echo done && python3 -m unittest -v",
+        ],
+      },
+    });
+  });
+
+  test("keeps workspace source paths valid after a command changes directory", () => {
+    const raw = rawV2();
+    const run = raw.turns[0].events.find((event) => event.sequence === 15)!;
+    run.input = {
+      command:
+        "cd /tmp/manual-run\npython3 /workspace/main.py\ncd /workspace",
+    };
+    const result = raw.turns[0].events.find((event) => event.sequence === 16)!;
+    result.stdout = "ok\n";
+    const derived = deriveReplay({
+      report: parseShowtailReport(raw),
+      reportText: JSON.stringify(raw),
+      turnIndex: 0,
+      sourceFiles: new Map([
+        ["main.py", "from helper import value\nprint(value)\n"],
+        ["helper.py", "value = 'ok'\n"],
+      ]),
+      response: "from helper import value\nprint(value)",
+      initialFiles: new Map(),
+    });
+    const command = derived.replay?.events?.find(
+      (event) =>
+        event.type === "operation" && event.operation.type === "command",
+    );
+    expect(command).toMatchObject({
+      type: "operation",
+      operation: {
+        type: "command",
+        command: [
+          "bash",
+          "-lc",
+          'AIFIRST_REPLAY_ROOT=$(pwd)\ncd /tmp/manual-run\npython3 "$AIFIRST_REPLAY_ROOT"/main.py\ncd "$AIFIRST_REPLAY_ROOT"',
+        ],
+      },
+    });
+  });
+
+  test("keeps explicit exit-code probes running under set -e", () => {
+    const raw = rawV2();
+    const run = raw.turns[0].events.find((event) => event.sequence === 15)!;
+    run.input = {
+      command: 'set -e\npython3 main.py; echo "exit=$?"',
+    };
+    const derived = deriveReplay({
+      report: parseShowtailReport(raw),
+      reportText: JSON.stringify(raw),
+      turnIndex: 0,
+      sourceFiles: new Map([
+        ["main.py", "from helper import value\nprint(value)\n"],
+        ["helper.py", "value = 'ok'\n"],
+      ]),
+      response: "from helper import value\nprint(value)",
+      initialFiles: new Map(),
+    });
+    const command = derived.replay?.events?.find(
+      (event) =>
+        event.type === "operation" && event.operation.type === "command",
+    );
+    expect(command).toMatchObject({
+      type: "operation",
+      operation: {
+        type: "command",
+        command: [
+          "bash",
+          "-lc",
+          'set -e\npython3 main.py || AIFIRST_REPLAY_STATUS=$?; echo "exit=${AIFIRST_REPLAY_STATUS:-0}"; unset AIFIRST_REPLAY_STATUS',
+        ],
+      },
     });
   });
 

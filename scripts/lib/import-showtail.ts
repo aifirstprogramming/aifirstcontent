@@ -151,8 +151,26 @@ function capturedWorkspaceRoots(
 }
 
 function normalizeCommandPaths(command: string, roots: string[]): string {
-  let normalized = command.replace(/\\/g, "/");
-  for (const root of roots) normalized = normalized.split(root).join(".");
+  let normalized = command.replace(/\\\r?\n/g, "").replace(/\\/g, "/");
+  normalized = normalized.replace(
+    /^([^\n]+);\s*echo (["'])exit=\$\?\2$/gm,
+    (_match, invocation: string, quote: string) =>
+      `${invocation} || AIFIRST_REPLAY_STATUS=$?; echo ${quote}exit=\${AIFIRST_REPLAY_STATUS:-0}${quote}; unset AIFIRST_REPLAY_STATUS`,
+  );
+  const referencedRoots = roots.filter((root) => normalized.includes(root));
+  const directoryTargets = [...normalized.matchAll(/\bcd\s+("[^"]+"|'[^']+'|[^\s;&|]+)/g)].map(
+    (match) => match[1]!.replace(/^['"]|['"]$/g, ""),
+  );
+  const changesDirectory = directoryTargets.some(
+    (target) => !referencedRoots.some((root) => target.includes(root)),
+  );
+  if (changesDirectory && referencedRoots.length > 0) {
+    for (const root of referencedRoots)
+      normalized = normalized.split(root).join('"$AIFIRST_REPLAY_ROOT"');
+    normalized = `AIFIRST_REPLAY_ROOT=$(pwd)\n${normalized}`;
+  } else {
+    for (const root of roots) normalized = normalized.split(root).join(".");
+  }
   normalized = normalized.replace(
     /\bpython(?=\s+(?:--version\b|-c\b|-m\b|[A-Za-z0-9_./-]+\.py\b))/g,
     "python3",
@@ -217,19 +235,43 @@ function parseAnswers(content: unknown): Record<string, string> {
   }
 }
 
+interface AnswerResolution {
+  answer?: string;
+  problem?: "ambiguous";
+}
+
 function answerFor(
   question: PlanQuestion,
   answers: Record<string, string>,
-): string | undefined {
+): AnswerResolution {
   const raw =
     answers[question.question] ??
     answers[question.header] ??
     answers[question.id];
-  if (!raw) return undefined;
+  if (!raw?.trim()) return {};
+  const label = raw.trim();
+  const exact = question.options.filter(
+    (option) => option.label.trim().toLowerCase() === label.toLowerCase(),
+  );
+  if (exact.length === 1) return { answer: exact[0]!.id };
+  if (exact.length > 1) return { problem: "ambiguous" };
   const wanted = slug(raw, "answer");
-  return question.options.find(
+  const normalized = question.options.filter(
     (option) => slug(option.label, "option") === wanted || option.id === wanted,
-  )?.id;
+  );
+  if (normalized.length === 1) return { answer: normalized[0]!.id };
+  if (normalized.length > 1) return { problem: "ambiguous" };
+
+  const used = new Set(question.options.map((option) => option.id));
+  const base = slug(label, "custom_option").replace(/_+$/, "");
+  let id = base;
+  for (let suffix = 2; used.has(id); suffix++) id = `${base}_${suffix}`;
+  question.options.push({
+    id,
+    label,
+    description: "Captured learner-authored choice.",
+  });
+  return { answer: id };
 }
 
 function questionsFromTool(
@@ -467,6 +509,9 @@ function operationFromTool(
       /(?:^|\n)Python \d+\.\d+|(?:^|\n)pygame(?:-ce)? \d+\.\d+|Hello from the pygame community/.test(
         stdout,
       );
+    const volatileDirectoryListing = /(?:^|&&\s*)ls\s+-la(?:\s|$)/.test(
+      command,
+    );
     const volatileStdoutPath = capturedWorkspaceOutput(stdout, workspaceRoots);
     const volatileStderrPath = capturedWorkspaceOutput(stderr, workspaceRoots);
     if (volatileTestTiming) {
@@ -489,6 +534,16 @@ function operationFromTool(
         ),
       );
     }
+    if (volatileDirectoryListing) {
+      diagnostics.push(
+        diagnostic(
+          "inferred",
+          "info",
+          "tool_result.stdout",
+          "Ignored environment-specific directory listing while preserving exit-code verification",
+        ),
+      );
+    }
     if (volatileStdoutPath || volatileStderrPath) {
       diagnostics.push(
         diagnostic(
@@ -506,7 +561,10 @@ function operationFromTool(
       expectedExitCode: exitCode,
       ...(!readOnly
         ? {
-            ...(!volatileTestTiming && !volatileRuntimeOutput && !volatileStdoutPath
+            ...(!volatileTestTiming &&
+            !volatileRuntimeOutput &&
+            !volatileDirectoryListing &&
+            !volatileStdoutPath
               ? { expectedStdout: stdout }
               : {}),
             ...(!volatileStderrPath ? { expectedStderr: stderr } : {}),
@@ -616,8 +674,17 @@ function deriveWorkflow(
     const answers = parseAnswers(result?.content);
     for (const question of derived) {
       if (askIndex > 0) question.when = { ...priorAnswers };
-      const answer = answerFor(question, answers);
-      if (!answer)
+      const resolution = answerFor(question, answers);
+      if (resolution.problem === "ambiguous")
+        diagnostics.push(
+          diagnostic(
+            "missing",
+            "error",
+            `workflow.answers.${question.id}`,
+            "AskUserQuestion answer matches more than one offered option",
+          ),
+        );
+      else if (!resolution.answer)
         diagnostics.push(
           diagnostic(
             "missing",
@@ -627,8 +694,8 @@ function deriveWorkflow(
           ),
         );
       else {
-        canonicalAnswers[question.id] = answer;
-        priorAnswers[question.id] = answer;
+        canonicalAnswers[question.id] = resolution.answer;
+        priorAnswers[question.id] = resolution.answer;
       }
       questions.push(question);
     }

@@ -47,6 +47,7 @@
     "import-showtail": "bun scripts/import-showtail.ts",
     "retrofit-showtail": "bun scripts/retrofit-showtail.ts",
     "generate-rocket-test-content": "bun scripts/generate-rocket-test-content.ts",
+    "generate-claude-e2e-test-content": "bun scripts/generate-claude-e2e-test-content.ts",
     "ids": "bun scripts/add-ids.ts",
     "check": "bun scripts/validate.ts && bun test && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
     "run-exercises": "bun scripts/run-exercises.ts",

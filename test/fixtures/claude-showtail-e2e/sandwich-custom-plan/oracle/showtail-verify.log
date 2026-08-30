@@ -1,0 +1,56 @@
+Showtail verification
+
+PASS  config.json is present and valid
+FAIL  journal entries are valid
+        sandwich-custom-plan-at-example-invalid entry 21 (raw_mtgccfjk_ab0fa5): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 22 (raw_mtgccfjl_5d7f5c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 23 (raw_mtgccfjl_7fef6c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 24 (raw_mtgccfjm_e045ad): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 25 (raw_mtgccfjm_f145ff): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 26 (raw_mtgccfjm_dd0a5f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 27 (raw_mtgccfjn_f1dbea): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 28 (raw_mtgccfjn_0c3aa9): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 29 (raw_mtgccfjo_3583be): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 30 (raw_mtgccfjo_6a7343): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 31 (raw_mtgccfjp_576e62): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 32 (raw_mtgccfjp_7897d9): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 33 (raw_mtgccfjq_e0978e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 34 (raw_mtgccfjq_ac3842): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 35 (raw_mtgccfjq_91c86d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 36 (raw_mtgccfjr_18b6cb): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 37 (raw_mtgccfjr_0df3bf): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 38 (raw_mtgccfjs_051f40): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 39 (raw_mtgccfjs_28290f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 40 (raw_mtgccfjt_de1d8f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 41 (raw_mtgccfjt_3c9750): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 42 (raw_mtgccfjt_57536d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 43 (raw_mtgccfju_8ebe53): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 44 (raw_mtgccfju_fc030e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 45 (raw_mtgccfjv_52dac5): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 46 (raw_mtgccfjv_b42f8c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 47 (raw_mtgccfjv_6b46ed): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 48 (raw_mtgccfjw_20d1fa): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 49 (raw_mtgccfjw_f87fab): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 50 (raw_mtgccfjx_39c6a8): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 51 (raw_mtgccfjx_6d376a): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 52 (raw_mtgccfjx_bb7d4e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 53 (raw_mtgccfjy_a692c7): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 54 (raw_mtgccfjy_4fe401): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 55 (raw_mtgccfjy_756001): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 56 (raw_mtgccfjz_0d2e83): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        sandwich-custom-plan-at-example-invalid entry 59 (raw_mtgccgpr_90dabb): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+PASS  journal chain is unbroken
+        chain intact; 59 chained journal entries verified.
+PASS  journal history is append-only (git)
+        The trail is not in a git repository (or git is not installed), so there is no record outside `.showtail/` to hold the journal against — nothing to check here, and not a problem. Note what that costs: the checks above prove the trail is internally consistent, not that it was never rewritten. Committing `.showtail/` as you work, and pushing it, is what gives it an anchor.
+PASS  stored content matches its address
+        All 59 stored object(s) match their address.
+PASS  file snapshots are accounted for
+        ok      sandwich_cli.py
+        ok      test_sandwich_cli.py
+PASS  recorded paths are repo-relative (portable)
+        All recorded paths are repo-relative.
+PASS  a report can be generated
+        Report generated successfully (not written to disk).
+
+Some checks failed (see above).

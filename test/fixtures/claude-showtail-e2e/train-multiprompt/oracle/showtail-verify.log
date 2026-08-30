@@ -1,0 +1,86 @@
+Showtail verification
+
+PASS  config.json is present and valid
+FAIL  journal entries are valid
+        train-multiprompt-at-example-invalid entry 10 (raw_mtgavzso_1ef1b4): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 11 (raw_mtgavzso_10c763): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 12 (raw_mtgavzsp_b62b1f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 13 (raw_mtgavzsp_8d9182): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 14 (raw_mtgavzsp_c4caf1): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 15 (raw_mtgavzsq_412bc7): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 16 (raw_mtgavzsq_6822a7): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 17 (raw_mtgavzsr_39b667): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 18 (raw_mtgavzsr_c64af8): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 19 (raw_mtgavzss_95ffb2): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 20 (raw_mtgavzss_0a0bfe): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 21 (raw_mtgavzst_977e36): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 22 (raw_mtgavzst_286642): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 23 (raw_mtgavzst_a97dba): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 41 (raw_mtgaxe14_622684): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 42 (raw_mtgaxe15_f403b2): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 43 (raw_mtgaxe15_20e7b4): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 44 (raw_mtgaxe16_1e0c74): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 45 (raw_mtgaxe16_8c7e6c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 46 (raw_mtgaxe16_1d440b): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 47 (raw_mtgaxe17_42ad8d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 48 (raw_mtgaxe17_bda442): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 49 (raw_mtgaxe18_50b1e7): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 50 (raw_mtgaxe19_e2476d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 51 (raw_mtgaxe19_d8deda): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 52 (raw_mtgaxe19_c307a1): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 53 (raw_mtgaxe1a_e75bd1): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 54 (raw_mtgaxe1a_960eb5): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 55 (raw_mtgaxe1b_f247f2): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 56 (raw_mtgaxe1b_084211): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 57 (raw_mtgaxe1c_4483bd): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 58 (raw_mtgaxe1d_aea6e4): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 59 (raw_mtgaxe1d_ffa473): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 60 (raw_mtgaxe1e_6ea963): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 61 (raw_mtgaxe1f_6df857): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 62 (raw_mtgaxe1f_059fcd): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 63 (raw_mtgaxe1g_973371): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 64 (raw_mtgaxe1g_51676d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 65 (raw_mtgaxe1g_2e10b3): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 84 (raw_mtgaz670_26306f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 85 (raw_mtgaz670_27ab32): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 86 (raw_mtgaz671_26199d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 87 (raw_mtgaz671_cb54b0): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 88 (raw_mtgaz672_f95f72): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 89 (raw_mtgaz673_77c609): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 90 (raw_mtgaz673_79f764): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 91 (raw_mtgaz675_698828): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 92 (raw_mtgaz675_f50c02): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 93 (raw_mtgaz676_23773e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 94 (raw_mtgaz676_b75e4b): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 95 (raw_mtgaz676_a61b79): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 96 (raw_mtgaz677_51014d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 97 (raw_mtgaz677_26d8aa): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 98 (raw_mtgaz678_cfa44c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 99 (raw_mtgaz678_906135): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 100 (raw_mtgaz679_0dd553): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 101 (raw_mtgaz679_540631): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 102 (raw_mtgaz67a_1692bd): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 103 (raw_mtgaz67a_b9b0e2): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 104 (raw_mtgaz67b_5b9217): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 105 (raw_mtgaz67b_897ca2): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 106 (raw_mtgaz67b_d8156a): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 107 (raw_mtgaz67c_472099): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 108 (raw_mtgaz67c_54304e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 109 (raw_mtgaz67d_6f7e83): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 110 (raw_mtgaz67d_5cf0a8): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        train-multiprompt-at-example-invalid entry 113 (raw_mtgaz722_b82fea): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+PASS  journal chain is unbroken
+        chain intact; 113 chained journal entries verified.
+PASS  journal history is append-only (git)
+        The trail is not in a git repository (or git is not installed), so there is no record outside `.showtail/` to hold the journal against — nothing to check here, and not a problem. Note what that costs: the checks above prove the trail is internally consistent, not that it was never rewritten. Committing `.showtail/` as you work, and pushing it, is what gives it an anchor.
+PASS  stored content matches its address
+        All 111 stored object(s) match their address.
+PASS  file snapshots are accounted for
+        ok      train_sim.py
+        ok      test_train_sim.py
+PASS  recorded paths are repo-relative (portable)
+        All recorded paths are repo-relative.
+PASS  a report can be generated
+        Report generated successfully (not written to disk).
+
+Some checks failed (see above).

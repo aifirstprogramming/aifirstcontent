@@ -1,0 +1,23 @@
+[
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    "stdout": "",
+    "stderr": "test_allergen_exclusion_triggers_substitution (test_sandwich_cli.TestBuild.test_allergen_exclusion_triggers_substitution) ... ok\ntest_full_build_decrements_stock_and_orders_timeline (test_sandwich_cli.TestBuild.test_full_build_decrements_stock_and_orders_timeline) ... ok\ntest_grocery_list_included_in_build_output (test_sandwich_cli.TestBuild.test_grocery_list_included_in_build_output) ... ok\ntest_out_of_stock_triggers_substitution (test_sandwich_cli.TestBuild.test_out_of_stock_triggers_substitution) ... ok\ntest_required_layer_unresolvable_fails_atomically (test_sandwich_cli.TestBuild.test_required_layer_unresolvable_fails_atomically) ... error: no available bread option for 'sourdough'; tried: sourdough (contains excluded allergen), wheat (contains excluded allergen), gluten_free (contains excluded allergen)\nok\ntest_save_persists_profile (test_sandwich_cli.TestBuild.test_save_persists_profile) ... ok\ntest_unknown_ingredient_errors (test_sandwich_cli.TestBuild.test_unknown_ingredient_errors) ... error: unknown bread ingredient: 'rye'\nok\ntest_low_stock_reported (test_sandwich_cli.TestGroceryList.test_low_stock_reported) ... ok\ntest_threshold_option (test_sandwich_cli.TestGroceryList.test_threshold_option) ... ok\ntest_well_stocked_message (test_sandwich_cli.TestGroceryList.test_well_stocked_message) ... ok\ntest_fresh_file_initializes_default_pantry (test_sandwich_cli.TestInventory.test_fresh_file_initializes_default_pantry) ... ok\ntest_no_profiles_message (test_sandwich_cli.TestProfiles.test_no_profiles_message) ... ok\ntest_profiles_lists_saved (test_sandwich_cli.TestProfiles.test_profiles_lists_saved) ... ok\ntest_rebuild_unknown_profile_errors (test_sandwich_cli.TestRebuild.test_rebuild_unknown_profile_errors) ... error: no saved profile named 'nope'\nok\ntest_rebuild_uses_saved_profile_and_resubstitutes (test_sandwich_cli.TestRebuild.test_rebuild_uses_saved_profile_and_resubstitutes) ... ok\ntest_restock_increases_and_persists (test_sandwich_cli.TestRestock.test_restock_increases_and_persists) ... ok\ntest_restock_nonpositive_amount_errors (test_sandwich_cli.TestRestock.test_restock_nonpositive_amount_errors) ... error: amount must be positive\nok\ntest_restock_unknown_ingredient_errors (test_sandwich_cli.TestRestock.test_restock_unknown_ingredient_errors) ... error: unknown ingredient 'rye'\nok\n\n----------------------------------------------------------------------\nRan 18 tests in 0.031s\n\nOK\n",
+    "exitCode": 0
+  },
+  {
+    "command": [
+      "python3",
+      "sandwich_cli.py",
+      "--help"
+    ],
+    "stdout": "usage: sandwich_cli [-h] [--data-file DATA_FILE]\n                    {inventory,build,profiles,rebuild,restock,grocery-list}\n                    ...\n\nBuild sandwiches from a layered pantry.\n\npositional arguments:\n  {inventory,build,profiles,rebuild,restock,grocery-list}\n    inventory           show the full layered pantry\n    build               build a sandwich\n    profiles            list saved sandwich profiles\n    rebuild             rebuild a saved profile\n    restock             add stock to an ingredient\n    grocery-list        show consolidated low-stock report\n\noptions:\n  -h, --help            show this help message and exit\n  --data-file DATA_FILE\n                        path to the JSON persistence file\n",
+    "stderr": "",
+    "exitCode": 0
+  }
+]

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "id": "train-multiprompt",
+  "exerciseId": "py-98-01",
+  "title": "Multi-Prompt Train Simulator",
+  "claudeVersion": "2.1.251 (Claude Code)",
+  "showtailVersion": "0.14.1",
+  "showtailVerifyExitCode": 3,
+  "showtailVerifyKnownRawEventGap": true,
+  "terminal": {
+    "term": "xterm-256color",
+    "columns": 120,
+    "lines": 40,
+    "locale": "C.UTF-8"
+  },
+  "turns": [
+    {
+      "prompt": "Build a deterministic standard-library Python train simulator in this empty workspace. Work directly in auto mode: do not enter plan mode and do not ask clarification questions. Create train_sim.py and test_train_sim.py. Model stations, scheduled departures, travel times, delays, and deterministic arrival events. Provide a CLI that prints a readable schedule and simulation result. Run python3 -m unittest -v and do not finish until it passes. Finish with the exact sentence: Train simulator base complete.",
+      "completionMarker": "Train simulator base complete.",
+      "responsePath": "train_sim.py",
+      "expectedFiles": [
+        "train_sim.py",
+        "test_train_sim.py"
+      ],
+      "source": "bundle/turns/01/source",
+      "replayCheckpoint": "oracle/learn-turns/01/source"
+    },
+    {
+      "prompt": "Enhance the existing train simulator with CSV and JSON schedule export. Stay in auto mode: do not enter plan mode and do not ask clarification questions. Add deterministic CLI flags for both formats and extend the unittest coverage. Run python3 -m unittest -v and verify both export formats before finishing. Finish with the exact sentence: Train schedule export complete.",
+      "completionMarker": "Train schedule export complete.",
+      "responsePath": "train_sim.py",
+      "expectedFiles": [
+        "train_sim.py",
+        "test_train_sim.py"
+      ],
+      "source": "bundle/turns/02/source",
+      "replayCheckpoint": "oracle/learn-turns/02/source"
+    },
+    {
+      "prompt": "Enhance the existing train simulator with a dependency-free static HTML train dashboard export. Stay in auto mode: do not enter plan mode and do not ask clarification questions. The dashboard must summarize stations, scheduled and actual times, delays, and status using deterministic HTML. Add a CLI flag and unittest coverage, run python3 -m unittest -v, and verify two dashboard exports are byte-identical. Finish with the exact sentence: Train dashboard complete.",
+      "completionMarker": "Train dashboard complete.",
+      "responsePath": "train_sim.py",
+      "expectedFiles": [
+        "train_sim.py",
+        "test_train_sim.py"
+      ],
+      "source": "bundle/turns/03/source",
+      "replayCheckpoint": "oracle/learn-turns/03/source"
+    }
+  ],
+  "verification": [
+    [
+      "python3",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    [
+      "python3",
+      "train_sim.py"
+    ]
+  ]
+}
