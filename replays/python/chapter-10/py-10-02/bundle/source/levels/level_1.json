@@ -1,0 +1,20 @@
+{
+    "obstacle_layout": [
+        [3, 2, "rock"], [3, 3, "rock"], [4, 3, "bush"],
+        [7, 5, "bush"], [7, 6, "bush"], [8, 5, "rock"],
+        [10, 1, "rock"], [10, 2, "rock"],
+        [13, 8, "bush"], [14, 9, "bush"], [14, 10, "rock"],
+        [5, 11, "rock"], [6, 11, "bush"],
+        [17, 4, "bush"], [17, 5, "rock"],
+        [18, 8, "water"], [19, 8, "water"], [20, 8, "water"],
+        [18, 9, "water"], [19, 9, "water"], [20, 9, "water"]
+    ],
+    "sibling_spawns": [[2, 10], [9, 3], [13, 12], [5, 7], [20, 2], [16, 12]],
+    "mother_pos": [21, 10],
+    "player_start": [1, 1],
+    "fox_patrols": [
+        ["h", 6, 10, 16],
+        ["h", 13, 2, 20]
+    ],
+    "fox_speed": 90.0
+}

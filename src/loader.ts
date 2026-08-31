@@ -237,6 +237,7 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         ...(step.explanation ? { explanation: step.explanation } : {}),
         ...(step.scaffold ? { scaffold: step.scaffold } : {}),
         ...(step.expectsException ? { expectsException: true } : {}),
+        ...(step.replay ? { replay: step.replay } : {}),
         ...(step.stdin === undefined ? {} : { stdin: step.stdin }),
       };
     });
@@ -263,6 +264,7 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         ...(rawExample.explanation ? { explanation: rawExample.explanation } : {}),
         ...(rawExample.scaffold ? { scaffold: rawExample.scaffold } : {}),
         ...(rawExample.expectsException ? { expectsException: true } : {}),
+        ...(rawExample.replay ? { replay: rawExample.replay } : {}),
       },
     ];
   }

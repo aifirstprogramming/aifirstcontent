@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "sandwich-custom-plan",
+  "exerciseId": "py-98-02",
+  "title": "Custom-Choice Sandwich Builder",
+  "claudeVersion": "2.1.251 (Claude Code)",
+  "showtailVersion": "0.14.1",
+  "showtailVerifyExitCode": 3,
+  "showtailVerifyKnownRawEventGap": true,
+  "terminal": {
+    "term": "xterm-256color",
+    "columns": 120,
+    "lines": 40,
+    "locale": "C.UTF-8"
+  },
+  "turns": [
+    {
+      "prompt": "Create a standard-library Python command-line app for building sandwiches in this empty workspace. Remain in plan mode before writing files or running mutating commands. Ask exactly three separate clarification questions, one at a time, and give exactly three offered options for each question. The questions must cover the inventory and allergen model, the command output, and persistence. After all three answers, present a detailed implementation plan and wait for approval. After approval create sandwich_cli.py and test_sandwich_cli.py, implement the selected design, and use only the Python standard library. Run python3 -m unittest -v and exercise the CLI before finishing. Finish with the exact sentence: Sandwich builder complete.",
+      "completionMarker": "Sandwich builder complete.",
+      "responsePath": "sandwich_cli.py",
+      "expectedFiles": [
+        "sandwich_cli.py",
+        "test_sandwich_cli.py"
+      ],
+      "source": "bundle/turns/01/source",
+      "replayCheckpoint": "oracle/learn-turns/01/source",
+      "answers": [
+        {
+          "kind": "custom",
+          "text": "Layered pantry inventory with substitutions and allergen exclusions"
+        },
+        {
+          "kind": "custom",
+          "text": "Assembly timeline plus a consolidated grocery list"
+        },
+        {
+          "kind": "custom",
+          "text": "Named sandwich profiles stored in a single JSON file"
+        }
+      ]
+    }
+  ],
+  "verification": [
+    [
+      "python3",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    [
+      "python3",
+      "sandwich_cli.py",
+      "--help"
+    ]
+  ]
+}

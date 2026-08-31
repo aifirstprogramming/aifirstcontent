@@ -1,0 +1,16 @@
+from pathlib import Path
+
+TILE_SIZE = 40
+GRID_COLS = 24
+GRID_ROWS = 16
+SCREEN_WIDTH = GRID_COLS * TILE_SIZE
+SCREEN_HEIGHT = GRID_ROWS * TILE_SIZE
+FPS = 60
+
+PLAYER_SPEED = 180.0  # pixels per second
+
+ASSET_DIR = Path(__file__).parent / "assets"
+
+HUD_COLOR = (40, 30, 10)
+WIN_TEXT_COLOR = (255, 255, 255)
+WIN_OVERLAY_COLOR = (0, 0, 0, 150)

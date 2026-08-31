@@ -108,8 +108,14 @@ export function materialize(
         continue;
       }
     }
+    if (file.contentBase64 !== undefined) {
+      const target = join(dir, file.path);
+      mkdirSync(dirname(target), { recursive: true });
+      writeFileSync(target, Buffer.from(file.contentBase64, "base64"));
+      continue;
+    }
     if (content === undefined) {
-      problems.push(`scaffold file ${file.path} has neither content nor fromExercise`);
+      problems.push(`scaffold file ${file.path} has no content source`);
       continue;
     }
     const target = join(dir, file.path);

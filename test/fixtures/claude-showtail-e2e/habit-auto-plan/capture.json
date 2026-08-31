@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "id": "habit-auto-plan",
+  "exerciseId": "py-98-03",
+  "title": "Auto Then Plan Habit Tracker",
+  "claudeVersion": "2.1.251 (Claude Code)",
+  "showtailVersion": "0.14.1",
+  "showtailVerifyExitCode": 3,
+  "showtailVerifyKnownRawEventGap": true,
+  "terminal": {
+    "term": "xterm-256color",
+    "columns": 120,
+    "lines": 40,
+    "locale": "C.UTF-8"
+  },
+  "turns": [
+    {
+      "prompt": "Build a deterministic standard-library Python habit tracker CLI in this empty workspace. Work directly in auto mode: do not enter plan mode and do not ask clarification questions. Create habit_tracker.py and test_habit_tracker.py with add, list, and complete commands backed by a JSON data file. Run python3 -m unittest -v and exercise the CLI before finishing. Finish with the exact sentence: Habit tracker base complete.",
+      "completionMarker": "Habit tracker base complete.",
+      "responsePath": "habit_tracker.py",
+      "expectedFiles": [
+        "habit_tracker.py",
+        "test_habit_tracker.py"
+      ],
+      "source": "bundle/turns/01/source",
+      "replayCheckpoint": "oracle/learn-turns/01/source"
+    },
+    {
+      "prompt": "Plan and then implement an enhancement to the existing habit tracker for weekly goals, streak calculation, and a deterministic Markdown progress report. Before presenting the plan, ask exactly one clarification question with exactly three options about the weekly report format and recommend the first option. Do not edit files until I approve the plan. After approval update the implementation and tests, run python3 -m unittest -v, and verify two reports are byte-identical. Finish with the exact sentence: Habit tracker planning enhancement complete.",
+      "completionMarker": "Habit tracker planning enhancement complete.",
+      "responsePath": "habit_tracker.py",
+      "expectedFiles": [
+        "habit_tracker.py",
+        "test_habit_tracker.py"
+      ],
+      "source": "bundle/turns/02/source",
+      "replayCheckpoint": "oracle/learn-turns/02/source",
+      "enterPlan": true,
+      "answers": [
+        {
+          "kind": "first"
+        }
+      ]
+    }
+  ],
+  "verification": [
+    [
+      "python3",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    [
+      "python3",
+      "habit_tracker.py",
+      "--help"
+    ]
+  ]
+}

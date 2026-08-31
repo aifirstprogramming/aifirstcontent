@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "book": "py",
+  "bookFile": "books/ai-first-python-programming.json",
+  "chapterTitle": "Chapter 10: Designing a Level Editor",
+  "retrofitDate": "2026-08-30",
+  "showtailVersion": "0.14.1",
+  "projectName": "save-the-duckling-level-editor-retrofit",
+  "session": {
+    "integration": "claude",
+    "id": "6bc3239c-efba-4147-8b9a-b3226a4f327d",
+    "transcript": "chapter 10 - level editor/claude-original/6bc3239c-efba-4147-8b9a-b3226a4f327d.jsonl",
+    "sha256": "bd6ecc0f5cc87fa07676bac4322ac6c2981595e039174910417051fbd0cba6df"
+  },
+  "exercises": [
+    {
+      "id": "py-10-01",
+      "title": "Design a Level Editor",
+      "description": "Move level definitions into JSON and build a standalone visual editor.",
+      "prompt": "Design a level editor for the savetheduckling game.",
+      "promptSha256": "0e3672b89b77b65b066bdb81a8af00f757ff00a717981c75b7a6f319e528a4dd",
+      "responsePath": "level_editor.py",
+      "stdin": "\n",
+      "explanation": {
+        "summary": "This project moves level data into JSON files and adds a standalone pygame editor for placing obstacles, siblings, the mother, and the player start on a grid.",
+        "lines": [
+          {
+            "code": "TOOLS = [",
+            "text": "Defines the selectable editor tools and the placement tuple associated with each tool."
+          },
+          {
+            "code": "def apply_tool(placements, tool_entry, cell):",
+            "text": "Updates the grid's placement dictionary while keeping the mother and player start as singletons."
+          },
+          {
+            "code": "def save_level(placements):",
+            "text": "Validates the required entities and serializes the current grid into a level JSON file."
+          },
+          {
+            "code": "elif event.type == pygame.MOUSEBUTTONDOWN:",
+            "text": "Turns left and right mouse clicks into place and erase operations on grid cells."
+          }
+        ],
+        "run": "Run python3 level_editor.py from the project directory."
+      },
+      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
+      "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
+      "sourceCheckpoint": "chapter 10 - level editor/source-checkpoints/04-7eec8da6-Refactor level management and introduce level editor",
+      "sourceTreeSha256": "e69beb244e980f29ccf544b360550b1b614ca0bad41128f9f1148d6bce87afb0",
+      "sourceExcludes": [
+        "levels/level_4.json"
+      ],
+      "bundle": "py-10-01",
+      "plans": [
+        {
+          "toolUseId": "toolu_016WRggZQLoBTe35MxMm2S5B",
+          "path": "chapter 10 - level editor/plans/toolu_016WRggZQLoBTe35MxMm2S5B.md",
+          "sha256": "5cf9cef85b85ec728084dfc2d26113dcb0d72cae77f44937d2faf95c04ee7825"
+        }
+      ]
+    },
+    {
+      "id": "py-10-02",
+      "title": "Centralize Level JSON Saving",
+      "description": "Reuse LevelDef for both loading and saving level JSON.",
+      "prompt": "wouldn't it be cleaner to also have a matching save_level_def in the LevelDef class?",
+      "promptSha256": "51e0d42aefe6535372a6e3f8eb8ac4ac51a0aae6404637f5252afe092c757e8b",
+      "responsePath": "level.py",
+      "explanation": {
+        "summary": "The level model now owns both directions of JSON conversion, so the editor constructs a LevelDef and delegates serialization instead of maintaining a separate dictionary schema.",
+        "lines": [
+          {
+            "code": "def save_level_def(level_def, path):",
+            "text": "Provides the save-side counterpart to load_level_def in the same module."
+          },
+          {
+            "code": "json.dump(asdict(level_def), f, indent=4)",
+            "text": "Converts the dataclass and all of its fields to a JSON-compatible dictionary before writing it."
+          },
+          {
+            "code": "LEVELS = load_levels()",
+            "text": "Builds the runtime level list from the JSON files using the same LevelDef representation."
+          }
+        ],
+        "run": "Import level.py or run the game/editor entrypoints that consume its LevelDef objects."
+      },
+      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
+      "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
+      "sourceCheckpoint": "chapter 10 - level editor/source-checkpoints/05-4fec2b67-Introduce LevelDef dataclass for JSON IO",
+      "sourceTreeSha256": "522097a25fcc76f9c910e34bd9ba16766ab0f642e9b80968ad609b443a1934b5",
+      "sourceExcludes": [
+        "levels/level_4.json"
+      ],
+      "bundle": "py-10-02",
+      "capture": {
+        "mode": "legacy-diff",
+        "integration": "github-copilot",
+        "initialCheckpoint": "chapter 10 - level editor/source-checkpoints/04-7eec8da6-Refactor level management and introduce level editor",
+        "initialTreeSha256": "e69beb244e980f29ccf544b360550b1b614ca0bad41128f9f1148d6bce87afb0"
+      }
+    },
+    {
+      "id": "py-10-03",
+      "title": "Add Undo and Redo",
+      "description": "Track editor snapshots and support Ctrl+Z and Ctrl+Y.",
+      "prompt": "Implement undo/redo for the level editor.",
+      "promptSha256": "9465bfb459b5a1e50f4e266042fc3e97e84631a5254a1ea04112979bc2d68f04",
+      "responsePath": "level_editor.py",
+      "stdin": "\n",
+      "explanation": {
+        "summary": "The editor records snapshots before every real mutation, enabling conventional Ctrl+Z undo and Ctrl+Y redo without writing separate inverse logic for each tool.",
+        "lines": [
+          {
+            "code": "def snapshot(placements):",
+            "text": "Copies the complete lightweight placement dictionary so it can be restored later."
+          },
+          {
+            "code": "undo_stack.append(before)",
+            "text": "Records the state that existed before a placement or clear operation changed the grid."
+          },
+          {
+            "code": "placements.update(undo_stack.pop())",
+            "text": "Restores the most recent undo snapshot after saving the current state for redo."
+          },
+          {
+            "code": "placements.update(redo_stack.pop())",
+            "text": "Reapplies the most recently undone state when the reader presses Ctrl+Y."
+          }
+        ],
+        "run": "Run python3 level_editor.py and use Ctrl+Z or Ctrl+Y after editing the grid."
+      },
+      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
+      "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
+      "sourceCheckpoint": "chapter 10 - level editor/source-checkpoints/06-19db183b-Implement desert theme and level editor enhancements",
+      "sourceTreeSha256": "7dc8990b2c54ea5fd102e92df6ef227e8e314c9728b508dcb96785be229a74ad",
+      "sourceExcludes": [
+        "levels/level_4.json"
+      ],
+      "bundle": "py-10-03",
+      "plans": [
+        {
+          "toolUseId": "toolu_016TLpfm1VJZhG2AVT75wvEe",
+          "path": "chapter 10 - level editor/plans/toolu_016TLpfm1VJZhG2AVT75wvEe.md",
+          "sha256": "d31b3f2fac0c9a47c67d856e30fad6275010614a29c80410337a3a7fc539d906"
+        }
+      ]
+    },
+    {
+      "id": "py-10-04",
+      "title": "Animate a Beatability Pathfinder",
+      "description": "Use breadth-first search to test and visualize whether a level is beatable.",
+      "prompt": "Create a path finding algorithm for the level editor to test if a level is beatable. Make it animated.",
+      "promptSha256": "0cef8c1b964b2c90cd894337704c52e1fd7b8b7edf516a779c50c19c90ed417c",
+      "responsePath": "pathfinder.py",
+      "explanation": {
+        "summary": "This module uses breadth-first search to prove that every required target is reachable and supplies visitation/path data for the editor's animated beatability display.",
+        "lines": [
+          {
+            "code": "frontier = deque([start])",
+            "text": "Starts breadth-first search with the player position as the first frontier cell."
+          },
+          {
+            "code": "if nxt in came_from or nxt in blocked:",
+            "text": "Skips cells that were already discovered or cannot be crossed because they contain an obstacle."
+          },
+          {
+            "code": "path.reverse()",
+            "text": "Turns the predecessor chain into a route ordered from the current start to the selected goal."
+          },
+          {
+            "code": "goal = reached[0]  # first-reached among remaining == nearest by BFS distance",
+            "text": "Chooses the nearest remaining target because breadth-first visitation is ordered by path length."
+          }
+        ],
+        "run": "Run python3 level_editor.py and press T after placing the player, siblings, and mother."
+      },
+      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
+      "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
+      "sourceCheckpoint": "chapter 10 - level editor/final-source/07-working-tree-animated-pathfinder",
+      "sourceTreeSha256": "22604403e0a47965d46e2ed05dfd751c635479023c9975cf5708a958b7558e04",
+      "sourceExcludes": [
+        "levels/level_4.json"
+      ],
+      "bundle": "py-10-04",
+      "plans": [
+        {
+          "toolUseId": "toolu_01WdD1kRog3rYFy2qhsiZzaf",
+          "path": "chapter 10 - level editor/plans/toolu_01WdD1kRog3rYFy2qhsiZzaf.md",
+          "sha256": "2657030099c69152fb74ba99db81d18565490e141c9accefa95c4500ea2540a3"
+        }
+      ]
+    }
+  ]
+}

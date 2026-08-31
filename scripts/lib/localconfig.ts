@@ -6,8 +6,9 @@
  * the enrichment script uses. Both are read from `manuscripts.json`, which is
  * gitignored, or from the environment.
  *
- * Nothing the CLI or the extension ships reads this. Only `bun run scrape` and
- * `bun run enrich` do, and CI has neither the file nor the key.
+ * Nothing the CLI or the extension ships reads this. Only the manuscript,
+ * Showtail-import and enrichment authoring tools do, and CI has neither the file
+ * nor the key.
  */
 
 import { execFileSync } from "node:child_process";
@@ -15,8 +16,8 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 export interface LocalConfig {
-  java?: { root?: string };
-  py?: { root?: string };
+  java?: { root?: string; replays?: string };
+  py?: { root?: string; replays?: string };
   /** Used by scripts/enrich.ts. ANTHROPIC_API_KEY takes precedence. */
   anthropicApiKey?: string;
 }

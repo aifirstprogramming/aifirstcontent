@@ -1,0 +1,102 @@
+Showtail verification
+
+PASS  config.json is present and valid
+FAIL  journal entries are valid
+        habit-auto-plan-at-example-invalid entry 11 (raw_mtgcx5k1_c3c7ae): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 12 (raw_mtgcx5k1_684a03): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 13 (raw_mtgcx5k1_248203): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 14 (raw_mtgcx5k2_d714c6): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 15 (raw_mtgcx5k2_c35c3e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 16 (raw_mtgcx5k3_114955): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 17 (raw_mtgcx5k3_40de0f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 18 (raw_mtgcx5k3_367837): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 19 (raw_mtgcx5k4_e9aad6): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 20 (raw_mtgcx5k4_84b8b8): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 21 (raw_mtgcx5k4_4ddb35): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 22 (raw_mtgcx5k5_2ec23c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 23 (raw_mtgcx5k5_b0ea8c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 24 (raw_mtgcx5k6_5b8d8f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 25 (raw_mtgcx5k6_748a31): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 67 (raw_mtgd1smz_df65b5): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 68 (raw_mtgd1sn0_cf74e7): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 69 (raw_mtgd1sn0_70d5a9): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 70 (raw_mtgd1sn0_9426e3): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 71 (raw_mtgd1sn1_24c0a8): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 72 (raw_mtgd1sn1_aa548d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 73 (raw_mtgd1sn2_5e4a37): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 74 (raw_mtgd1sn2_dbb033): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 75 (raw_mtgd1sn3_56a9d8): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 76 (raw_mtgd1sn3_e12e24): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 77 (raw_mtgd1sn3_388f6e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 78 (raw_mtgd1sn4_f76d9a): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 79 (raw_mtgd1sn4_29b947): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 80 (raw_mtgd1sn5_e5db2b): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 81 (raw_mtgd1sn6_b75ef5): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 82 (raw_mtgd1sn6_a72b07): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 83 (raw_mtgd1sn6_edb029): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 84 (raw_mtgd1sn7_484c06): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 85 (raw_mtgd1sn7_c6650f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 86 (raw_mtgd1sn8_aba4ba): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 87 (raw_mtgd1sn8_05671d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 88 (raw_mtgd1sn8_7b7097): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 89 (raw_mtgd1sn9_6c2dae): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 90 (raw_mtgd1sn9_3efdab): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 91 (raw_mtgd1sna_c95416): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 92 (raw_mtgd1sna_66aadc): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 93 (raw_mtgd1snb_1f4f5b): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 94 (raw_mtgd1snc_b66bb9): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 95 (raw_mtgd1snc_2f948e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 96 (raw_mtgd1snd_3c00d3): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 97 (raw_mtgd1snd_cf714c): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 98 (raw_mtgd1sne_27f11e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 99 (raw_mtgd1sne_6b7c60): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 100 (raw_mtgd1snf_a836b0): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 101 (raw_mtgd1snf_984a0a): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 102 (raw_mtgd1sng_2a803a): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 103 (raw_mtgd1sng_d44c96): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 104 (raw_mtgd1sng_3128d8): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 105 (raw_mtgd1sni_9b16a1): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 106 (raw_mtgd1sni_30e4df): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 107 (raw_mtgd1snj_b39eb9): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 108 (raw_mtgd1snj_9513b1): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 109 (raw_mtgd1snj_120f8b): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 110 (raw_mtgd1snk_b9825f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 111 (raw_mtgd1snk_33f757): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 112 (raw_mtgd1snk_539683): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 113 (raw_mtgd1snl_23dbe3): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 114 (raw_mtgd1snl_9fcb33): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 115 (raw_mtgd1snm_2ccca7): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 116 (raw_mtgd1snm_a16846): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 117 (raw_mtgd1snm_5d2e90): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 118 (raw_mtgd1snn_b997a7): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 119 (raw_mtgd1snn_cb639d): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 120 (raw_mtgd1sno_275484): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 121 (raw_mtgd1sno_17c49e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 122 (raw_mtgd1snp_d40b1e): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 123 (raw_mtgd1snp_b837ee): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 124 (raw_mtgd1snq_19badd): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 125 (raw_mtgd1snq_aa4ba3): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 126 (raw_mtgd1snq_a22668): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 127 (raw_mtgd1snr_bfd7b0): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 128 (raw_mtgd1snr_af5aaf): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 129 (raw_mtgd1snr_a5d8f9): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 130 (raw_mtgd1sns_cb10cf): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 131 (raw_mtgd1sns_24ce2f): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 132 (raw_mtgd1snt_385ead): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 133 (raw_mtgd1snt_e57674): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+        habit-auto-plan-at-example-invalid entry 136 (raw_mtgd1tid_72cddd): type: type must be one of: prompt, ai_output, artifact, decision, plan, tool_call, recap
+PASS  journal chain is unbroken
+        chain intact; 136 chained journal entries verified.
+PASS  journal history is append-only (git)
+        The trail is not in a git repository (or git is not installed), so there is no record outside `.showtail/` to hold the journal against — nothing to check here, and not a problem. Note what that costs: the checks above prove the trail is internally consistent, not that it was never rewritten. Committing `.showtail/` as you work, and pushing it, is what gives it an anchor.
+PASS  stored content matches its address
+        All 135 stored object(s) match their address.
+PASS  file snapshots are accounted for
+        ok      habit_tracker.py
+        ok      test_habit_tracker.py
+PASS  recorded paths are repo-relative (portable)
+        All recorded paths are repo-relative.
+PASS  a report can be generated
+        Report generated successfully (not written to disk).
+
+Some checks failed (see above).

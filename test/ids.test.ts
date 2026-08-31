@@ -86,8 +86,7 @@ describe("resolve", () => {
   });
 
   it("accepts an unambiguous prefix", () => {
-    // Only one python chapter-1 exercise exists, so "py-1" is unambiguous.
-    expect(resolve("py-1", content).example.id).toBe("py-1-01");
+    expect(resolve("py-1-0", content).example.id).toBe("py-1-01");
   });
 
   it("throws with candidates on an ambiguous prefix", () => {

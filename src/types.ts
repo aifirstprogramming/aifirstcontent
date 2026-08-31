@@ -15,6 +15,101 @@
 /** A response is authored either as one string or as an array of lines. */
 export type RawResponse = string | string[];
 
+export type ReplayOperation =
+  | { type: "write"; path: string; content: string }
+  | { type: "edit"; path: string; oldText: string; newText: string; replaceAll?: boolean }
+  | { type: "read"; path: string }
+  | {
+      type: "command";
+      command: string[];
+      cwd?: string;
+      env?: Record<string, string>;
+      stdin?: string;
+      /** Required when a command is allowed to run before plan approval. */
+      readOnly?: boolean;
+      expectedExitCode?: number;
+      expectedStdout?: string;
+      expectedStderr?: string;
+    };
+
+export type ReplayEvent =
+  | { type: "text"; text: string }
+  | { type: "status"; text: string }
+  | { type: "operation"; operation: ReplayOperation };
+
+export interface PlanOption {
+  /** Stable machine id stored in workflow and progress metadata. */
+  id: string;
+  label: string;
+  description: string;
+}
+
+export interface PlanQuestion {
+  id: string;
+  question: string;
+  header: string;
+  options: PlanOption[];
+  /** Adjacent questions with the same group are shown in one native dialog. */
+  group?: string;
+  /** Ask only when every earlier answer here matches. */
+  when?: Record<string, string>;
+}
+
+export interface PlanVariant {
+  id: string;
+  /** Complete answer vector for every question applicable to this path. */
+  answers: Record<string, string>;
+  plan: string;
+  operations: ReplayOperation[];
+  commentary?: string[];
+  events?: ReplayEvent[];
+}
+
+export interface PlanInterlude {
+  /** Run after this question is answered and before planning advances. */
+  afterQuestion: string;
+  /** Only read-only operations are permitted before plan approval. */
+  events: ReplayEvent[];
+}
+
+export interface PlanWorkflow {
+  questions: PlanQuestion[];
+  /** The choices used by the printed book and canonical replay. */
+  canonicalAnswers: Record<string, string>;
+  canonicalPlan: string;
+  /** Captured read-only work between question groups and plan approval. */
+  interludes?: PlanInterlude[];
+  /** Optional deterministic alternatives available without an LLM. */
+  variants?: PlanVariant[];
+}
+
+export interface Replay {
+  /** Captured Showtail prompt that starts this replay. */
+  prompt?: string;
+  /** Exercise scaffold that matches the workspace where this replay was captured. */
+  initialState?: { fromExercise: string };
+  /** Ordered trusted operations to apply in the learner workspace. */
+  operations: ReplayOperation[];
+  /** Captured text shown around the operations, in display order. */
+  commentary?: string[];
+  /** Read-only captured activity that occurred before planning questions. */
+  prePlanEvents?: ReplayEvent[];
+  /** Ordered post-approval transcript. Preferred over parallel commentary/operations. */
+  events?: ReplayEvent[];
+  /** Captured final response after the last operation succeeds. */
+  completionText?: string;
+  /** Interactive planning that must finish before replay operations begin. */
+  workflow?: PlanWorkflow;
+  /** Authoring provenance used for safe, idempotent Showtail re-imports. */
+  source?: {
+    kind: "showtail";
+    reportSha256: string;
+    generatedAt: string;
+    turnIndex: number;
+    sessionId?: string;
+  };
+}
+
 export interface RawPromptStep {
   id: string;
   prompt: string;
@@ -32,6 +127,7 @@ export interface RawPromptStep {
   scaffold?: Scaffold;
   /** See Step.expectsException. */
   expectsException?: boolean;
+  replay?: Replay;
 }
 
 /**
@@ -89,6 +185,8 @@ export interface Scaffold {
 export interface ScaffoldFile {
   path: string;
   content?: string;
+  /** Binary file contents encoded for JSON-based and embedded content packs. */
+  contentBase64?: string;
   /** Reuse another exercise's response, so the two cannot drift apart. */
   fromExercise?: string;
 }
@@ -108,6 +206,7 @@ export interface RawExample {
   scaffold?: Scaffold;
   /** See Step.expectsException. */
   expectsException?: boolean;
+  replay?: Replay;
 }
 
 export interface RawChapter {
@@ -181,6 +280,7 @@ export interface Step {
    * examples end with a call the book itself comments as "will throw".
    */
   expectsException?: boolean;
+  replay?: Replay;
 }
 
 /** A titled example from the book. This is the unit learner progress is tracked against. */
