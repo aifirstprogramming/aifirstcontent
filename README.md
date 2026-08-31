@@ -280,3 +280,14 @@ authored examples only, so a learner never sees a misleading denominator.
 Don't, without changing the extension in lockstep. The algorithm in `matcher.ts` is lifted verbatim
 from the extension's original `AIFirstLanguageModelProvider`, and `test/matcher.test.ts` pins its
 behavior against every authored prompt. A scoring tweak here changes which code a reader is shown.
+
+## License
+
+The committed source, schemas, examples, explanations, replay data, and other
+content in this repository are licensed under the
+[Apache License 2.0](LICENSE). See [NOTICE](NOTICE) for attribution. The
+private source manuscripts and separately published Apress books are not
+committed and are not covered by this repository's license.
+
+The license does not grant rights to the AI First names or logos. See
+[TRADEMARKS.md](TRADEMARKS.md).

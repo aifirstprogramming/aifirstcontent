@@ -2,7 +2,7 @@
   "name": "@aifirst/content",
   "version": "1.5.0",
   "description": "Canonical AI First book content, plus the shared loader and prompt matcher used by the aifirst CLI and the AI First VS Code extension.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/aifirstprogramming/aifirstcontent.git"
