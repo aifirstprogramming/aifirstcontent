@@ -102,6 +102,7 @@ describe("Python chapter 9 Showtail retrofit", () => {
         sourceFiles: files,
         initialFiles,
         initialExerciseId,
+        binaryFiles: step.scaffold?.files.filter((file) => file.contentBase64 !== undefined),
         response: response(step.response),
       });
       expect(

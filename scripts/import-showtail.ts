@@ -75,6 +75,10 @@ function scaffoldFiles(scaffold: Scaffold | undefined): Map<string, string> | un
   return files.length > 0 ? new Map(files) : undefined;
 }
 
+function binaryScaffoldFiles(scaffold: Scaffold | undefined): Scaffold["files"] {
+  return (scaffold?.files ?? []).filter((file) => file.contentBase64 !== undefined);
+}
+
 const EXCLUDED_DIRS = new Set([".git", ".venv", "venv", "node_modules", "__pycache__", "assets"]);
 const EXCLUDED_FILES = /(^|\/)(screenshot[^/]*|\.DS_Store)$|\.(png|jpe?g|gif|webp|pyc|class)$/i;
 
@@ -147,6 +151,7 @@ function processBundle(
     initialExerciseId: initialFiles && previous
       ? previous.step.id ?? previous.parent.id
       : undefined,
+    binaryFiles: binaryScaffoldFiles(target.step.scaffold),
   });
   const exerciseId = target.step.id ?? target.parent.id;
   if (expectedExerciseId && exerciseId !== expectedExerciseId) {

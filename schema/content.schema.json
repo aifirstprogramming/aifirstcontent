@@ -527,6 +527,11 @@
             "required": [
               "path"
             ],
+            "oneOf": [
+              { "required": ["content"] },
+              { "required": ["contentBase64"] },
+              { "required": ["fromExercise"] }
+            ],
             "properties": {
               "path": {
                 "type": "string"
@@ -534,9 +539,14 @@
               "content": {
                 "type": "string"
               },
+              "contentBase64": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Binary file contents encoded as base64 so JSON content packs remain self-contained."
+              },
               "fromExercise": {
                 "type": "string",
-                "description": "Reuse another exercise's response as this file's content, so the two cannot drift apart. Mutually exclusive with content."
+                "description": "Reuse another exercise's response as this file's content, so the two cannot drift apart. Mutually exclusive with content and contentBase64."
               }
             }
           }

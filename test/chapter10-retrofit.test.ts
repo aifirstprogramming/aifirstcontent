@@ -152,6 +152,7 @@ describe("Python chapter 10 Showtail retrofit", () => {
         sourceFiles: files,
         initialFiles,
         initialExerciseId,
+        binaryFiles: step.scaffold?.files.filter((file) => file.contentBase64 !== undefined),
         response: response(step.response),
       });
       expect(
@@ -176,6 +177,22 @@ describe("Python chapter 10 Showtail retrofit", () => {
       ["py-10-03", "py-10-02"],
       ["py-10-04", "py-10-03"],
     ]);
+  });
+
+  test("embeds the tracked duckling PNGs in every project scaffold", () => {
+    const assetRoot = join(root, "assets", "python", "save-the-duckling");
+    const names = readdirSync(assetRoot).filter((name) => name.endsWith(".png")).sort();
+    for (const id of ["py-9-01", "py-9-02", "py-9-03", "py-10-01", "py-10-02", "py-10-03", "py-10-04"]) {
+      const embedded = (target(id).scaffold?.files ?? [])
+        .filter((file) => file.contentBase64 !== undefined)
+        .sort((left, right) => left.path.localeCompare(right.path));
+      expect(embedded.map((file) => file.path)).toEqual(names.map((name) => `assets/${name}`));
+      for (const file of embedded) {
+        expect(Buffer.from(file.contentBase64!, "base64")).toEqual(
+          readFileSync(join(assetRoot, file.path.replace(/^assets\//, ""))),
+        );
+      }
+    }
   });
 
   test("retains questionless plan mode for the undo exercise", () => {

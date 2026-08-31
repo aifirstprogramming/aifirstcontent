@@ -8,6 +8,7 @@ import type {
   ReplayEvent,
   ReplayOperation,
   Scaffold,
+  ScaffoldFile,
 } from "../../src/types";
 import type { ShowtailReport, ShowtailTurn, ShowtailV2Event } from "./showtail";
 
@@ -36,6 +37,7 @@ export interface DeriveReplayOptions {
   response: string;
   initialFiles?: Map<string, string>;
   initialExerciseId?: string;
+  binaryFiles?: ScaffoldFile[];
 }
 
 const MUTATING_TOOLS = new Set(["write", "edit"]);
@@ -994,9 +996,10 @@ export function deriveReplay(options: DeriveReplayOptions): DerivedReplay {
     },
   };
   const scaffold: Scaffold = {
-    files: [...options.sourceFiles.entries()]
-      .sort(([left], [right]) => left.localeCompare(right))
-      .map(([path, content]) => ({ path, content })),
+    files: [
+      ...[...options.sourceFiles.entries()].map(([path, content]) => ({ path, content })),
+      ...(options.binaryFiles ?? []),
+    ].sort((left, right) => left.path.localeCompare(right.path)),
     entrypoint: responseMatches[0],
   };
   diagnostics.push(

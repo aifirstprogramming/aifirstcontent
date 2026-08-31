@@ -185,6 +185,8 @@ export interface Scaffold {
 export interface ScaffoldFile {
   path: string;
   content?: string;
+  /** Binary file contents encoded for JSON-based and embedded content packs. */
+  contentBase64?: string;
   /** Reuse another exercise's response, so the two cannot drift apart. */
   fromExercise?: string;
 }

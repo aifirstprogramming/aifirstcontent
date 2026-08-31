@@ -135,7 +135,22 @@ try {
     }
   }
 
-  // 7. Every published step must have a deterministic replay.
+  // 7. Scaffold files must have exactly one valid content source.
+  for (const step of content.steps) {
+    for (const file of step.scaffold?.files ?? []) {
+      const sources = [file.content, file.contentBase64, file.fromExercise]
+        .filter((value) => value !== undefined).length;
+      if (sources !== 1) fail(`${step.id} scaffold file ${file.path} must have exactly one content source`);
+      if (file.contentBase64 !== undefined) {
+        const decoded = Buffer.from(file.contentBase64, "base64");
+        if (decoded.length === 0 || decoded.toString("base64") !== file.contentBase64) {
+          fail(`${step.id} scaffold file ${file.path} has invalid base64 content`);
+        }
+      }
+    }
+  }
+
+  // 8. Every published step must have a deterministic replay.
   for (const step of content.steps) {
     if (!step.replay || step.replay.operations.length === 0) {
       fail(`${step.id} is published but has no replay operations`);
