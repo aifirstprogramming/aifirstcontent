@@ -8,7 +8,7 @@ import {
   loadFromRaw,
   normalizeResponse,
 } from "../src/loader";
-import type { RawBook } from "../src/types";
+import type { Dependency, RawBook } from "../src/types";
 
 const BOOKS = join(import.meta.dir, "..", "books");
 const content = loadFromDirectory(BOOKS);
@@ -118,6 +118,21 @@ describe("loading the real books", () => {
       expect(ex.chapterNumber).toBeGreaterThan(0);
       expect(["python", "java"]).toContain(ex.language);
     }
+  });
+
+  it("copies exercise dependencies onto every normalized step", () => {
+    const ids = ["py-9-01", "py-9-02", "py-9-03", "py-10-01", "py-10-02", "py-10-03", "py-10-04"];
+    const expected: Dependency[] = [
+      { kind: "python-package", package: "pygame", module: "pygame" },
+      { kind: "python-package", package: "Pillow", module: "PIL" },
+    ];
+
+    for (const id of ids) {
+      const example = content.examples.find((candidate) => candidate.id === id);
+      expect(example?.dependencies).toEqual(expected);
+      expect(example?.steps.every((step) => JSON.stringify(step.dependencies) === JSON.stringify(expected))).toBe(true);
+    }
+    expect(content.examples.filter((example) => example.dependencies).map((example) => example.id)).toEqual(ids);
   });
 });
 

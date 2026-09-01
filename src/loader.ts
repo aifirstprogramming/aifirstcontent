@@ -161,6 +161,7 @@ export function loadFromRaw(entries: RawEntry[], options: LoadOptions = {}): Con
             kind: rawExample.kind ?? "program",
             ...(rawExample.status ? { status: rawExample.status } : {}),
             ...(rawExample.scaffold ? { scaffold: rawExample.scaffold } : {}),
+            ...(rawExample.dependencies ? { dependencies: rawExample.dependencies } : {}),
             bookId,
             bookTag: tag,
             bookTitle: raw.title,
@@ -236,6 +237,7 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         interactive: readsStdin(response),
         ...(step.explanation ? { explanation: step.explanation } : {}),
         ...(step.scaffold ? { scaffold: step.scaffold } : {}),
+        ...(rawExample.dependencies ? { dependencies: rawExample.dependencies } : {}),
         ...(step.expectsException ? { expectsException: true } : {}),
         ...(step.replay ? { replay: step.replay } : {}),
         ...(step.stdin === undefined ? {} : { stdin: step.stdin }),
@@ -263,6 +265,7 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         // authored form was used.
         ...(rawExample.explanation ? { explanation: rawExample.explanation } : {}),
         ...(rawExample.scaffold ? { scaffold: rawExample.scaffold } : {}),
+        ...(rawExample.dependencies ? { dependencies: rawExample.dependencies } : {}),
         ...(rawExample.expectsException ? { expectsException: true } : {}),
         ...(rawExample.replay ? { replay: rawExample.replay } : {}),
       },

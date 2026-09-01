@@ -135,7 +135,20 @@ try {
     }
   }
 
-  // 7. Scaffold files must have exactly one valid content source.
+  // 7. Exercise dependencies are explicit, unique, and valid for the language.
+  for (const example of content.examples) {
+    const seenDependencies = new Set<string>();
+    for (const dependency of example.dependencies ?? []) {
+      const key = `${dependency.kind}:${dependency.package}:${dependency.module}`;
+      if (seenDependencies.has(key)) fail(`${example.id} declares duplicate dependency ${dependency.package}`);
+      seenDependencies.add(key);
+      if (dependency.kind === "python-package" && example.language !== "python") {
+        fail(`${example.id} declares Python package ${dependency.package} but its language is ${example.language}`);
+      }
+    }
+  }
+
+  // 8. Scaffold files must have exactly one valid content source.
   for (const step of content.steps) {
     for (const file of step.scaffold?.files ?? []) {
       const sources = [file.content, file.contentBase64, file.fromExercise]
@@ -150,7 +163,7 @@ try {
     }
   }
 
-  // 8. Every published step must have a deterministic replay.
+  // 9. Every published step must have a deterministic replay.
   for (const step of content.steps) {
     if (!step.replay || step.replay.operations.length === 0) {
       fail(`${step.id} is published but has no replay operations`);

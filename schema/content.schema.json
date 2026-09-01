@@ -151,6 +151,9 @@
         "scaffold": {
           "$ref": "#/definitions/scaffold"
         },
+        "dependencies": {
+          "$ref": "#/definitions/dependencies"
+        },
         "expectsException": {
           "type": "boolean",
           "description": "The exercise ends by throwing an uncaught exception on purpose, to demonstrate an error, so exiting non-zero is the correct outcome. Stored because CI must reach the same verdict as the authoring run without a model."
@@ -462,6 +465,31 @@
         "project"
       ],
       "description": "How runnable the example is. `program` runs as a single file; `class` has no entry point; `test` needs a test runner; `project` needs several files. Defaults to program."
+    },
+    "dependencies": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/pythonPackageDependency" }
+        ]
+      }
+    },
+    "pythonPackageDependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "package", "module"],
+      "properties": {
+        "kind": { "const": "python-package" },
+        "package": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "module": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.]*$"
+        }
+      }
     },
     "status": {
       "enum": [

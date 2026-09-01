@@ -191,6 +191,18 @@ export interface ScaffoldFile {
   fromExercise?: string;
 }
 
+/** A package that must be importable before a Python exercise starts. */
+export interface PythonPackageDependency {
+  kind: "python-package";
+  /** Distribution name passed to pip, for example "Pillow". */
+  package: string;
+  /** Module imported to verify availability, for example "PIL". */
+  module: string;
+}
+
+/** Tagged so future language ecosystems can add dependency kinds compatibly. */
+export type Dependency = PythonPackageDependency;
+
 export interface RawExample {
   id: string;
   title: string;
@@ -204,6 +216,7 @@ export interface RawExample {
   stdin?: string;
   explanation?: Explanation;
   scaffold?: Scaffold;
+  dependencies?: Dependency[];
   /** See Step.expectsException. */
   expectsException?: boolean;
   replay?: Replay;
@@ -274,6 +287,8 @@ export interface Step {
   explanation?: Explanation;
   /** Extra files needed to run this step; see Scaffold. */
   scaffold?: Scaffold;
+  /** Exercise-level prerequisites copied onto every normalized step. */
+  dependencies?: Dependency[];
   /**
    * The code throws on purpose, to demonstrate an error, so a non-zero exit is the
    * expected outcome. A runner must not treat that as failure -- Chapter 4's coffee
@@ -299,6 +314,7 @@ export interface Example {
   /** Absent when published; see Status. */
   status?: Status;
   scaffold?: Scaffold;
+  dependencies?: Dependency[];
   /**
    * Subdirectory to write this exercise into, when its filename is shared with
    * another exercise. Absent for the common case of a name used once.
