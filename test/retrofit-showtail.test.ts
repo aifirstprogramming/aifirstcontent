@@ -1,11 +1,12 @@
 import { describe, expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   canonicalizeLegacyDiffReport,
   canonicalSourceTree,
   canonicalizeExerciseReport,
+  resolveArchiveInputBySha256,
   sha256,
 } from "../scripts/lib/retrofit-showtail";
 
@@ -176,5 +177,18 @@ describe("Showtail legacy retrofit helpers", () => {
     expect(sha256("duckling")).toBe(
       "3c6e2b168e490cd6ce26c83646240fae04e43f3ce3f1fd278421e49cea517f7f",
     );
+  });
+
+  test("finds private archive reports by hash without committing their filenames", () => {
+    const root = mkdtempSync(join(tmpdir(), "aifirst-retrofit-hash-"));
+    mkdirSync(join(root, "reports"));
+    const report = join(root, "reports", "private-author-report.json");
+    writeFileSync(report, "{\"schemaVersion\":1}\n");
+    expect(
+      resolveArchiveInputBySha256(
+        root,
+        sha256(readFileSync(report)),
+      ),
+    ).toBe(report);
   });
 });

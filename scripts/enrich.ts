@@ -306,7 +306,7 @@ function cacheKey(example: Example, step: Step, attempt: number): string {
   const h = createHash("sha256");
   h.update(
     [step.prompt, step.response, example.kind, example.language, MODEL, String(PROMPT_VERSION), String(attempt)].join(
-      " ",
+      "\0",
     ),
   );
   return h.digest("hex").slice(0, 32);

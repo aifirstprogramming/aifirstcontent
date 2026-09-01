@@ -13,11 +13,9 @@
   },
   "promptSha256": "51e0d42aefe6535372a6e3f8eb8ac4ac51a0aae6404637f5252afe092c757e8b",
   "legacyReport": {
-    "path": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
     "sha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63"
   },
   "sourceCheckpoint": {
-    "path": "chapter 10 - level editor/source-checkpoints/05-4fec2b67-Introduce LevelDef dataclass for JSON IO",
     "rawTreeSha256": "522097a25fcc76f9c910e34bd9ba16766ab0f642e9b80968ad609b443a1934b5",
     "canonicalTreeSha256": "d01e8e8d2bf7e6dcc090b029fa6872474a61efa3745366606454393d1b7f878a"
   },
@@ -43,7 +41,12 @@
     "excludedGeneratedAssets": true
   },
   "outputs": {
-    "reportSha256": "8bcbc81d029312c4d2649ad2fad51832d86d021f9c3661a7181252f22842013b",
+    "reportSha256": "3016302e9462937c6161a32dad1b41aa651b221e525f0a33a2729e0327b31243",
     "sourceTreeSha256": "d01e8e8d2bf7e6dcc090b029fa6872474a61efa3745366606454393d1b7f878a"
+  },
+  "privacy": {
+    "originalArtifactsCommitted": false,
+    "identitiesRemoved": true,
+    "workspacePathsNormalized": true
   }
 }

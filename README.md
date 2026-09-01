@@ -255,6 +255,7 @@ thinks in.
 ```sh
 bun install
 bun run check      # validate + test + both typecheck configs
+bun run audit:repo # reject secrets, manuscripts, raw logs, and author-local paths
 bun run build      # emit dist/ (CommonJS + .d.ts) for the VS Code extension
 ```
 

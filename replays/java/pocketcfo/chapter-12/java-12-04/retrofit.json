@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "exerciseId": "java-12-04",
+  "retrofitDate": "2026-09-01",
+  "source": {
+    "kind": "showtail-v2-archive",
+    "reportSha256": "65e23eee3ad488aabdd9fe8f104aaf28a9c0162c64c660685e3041b20b6fd5da",
+    "primaryTurn": 34,
+    "segments": [
+      {
+        "turn": 29,
+        "mode": "full"
+      },
+      {
+        "turn": 30,
+        "mode": "post-approval"
+      },
+      {
+        "turn": 32,
+        "mode": "full"
+      },
+      {
+        "turn": 33,
+        "mode": "post-approval"
+      },
+      {
+        "turn": 34,
+        "mode": "full"
+      },
+      {
+        "turn": 36,
+        "mode": "full"
+      },
+      {
+        "turn": 38,
+        "mode": "full"
+      },
+      {
+        "turn": 39,
+        "mode": "full"
+      },
+      {
+        "turn": 40,
+        "mode": "full"
+      }
+    ]
+  },
+  "manuscript": {
+    "promptSha256": "73f75ad7a66efb6cee11a7e73473274364ced237d0b64958bfa7e8077fc827f7",
+    "responseSha256": "546b5e35416abbab99b0daedecbccab8294e2c056743d1070dddd33bc3e50ede",
+    "responsePath": "src/main/java/com/example/finance/Category.java",
+    "responseMatch": "excerpt"
+  },
+  "checkpoint": {
+    "label": "chapter-12-final",
+    "canonicalTreeSha256": "b86e1a1e3743401b1ada672b760d5baad294a954b4c7febf328b27ba5dede1ea"
+  },
+  "corrections": [
+    {
+      "path": "sample-data/sample-transactions.csv",
+      "beforeSha256": "435ce49dccacac0bfd38a4e7ee545301da88ba4e561e49a1d0a75bc01099d362",
+      "afterSha256": "679d117da68e8286653b934bd85cd32bfd2ad965900130c6dd057a9b870a270e"
+    }
+  ],
+  "normalizations": [
+    {
+      "id": "relocate-month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "optional": true,
+      "beforeSha256": "938426128d34fca6322ea26c49d387d6935acb49e65f6cc6ec3381cf14216b67",
+      "afterSha256": "48220ebcc0ab08f65af62ef0935fa46fde9767bc38f7bd6f32cee7f8e7864823"
+    },
+    {
+      "id": "month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "skipIfContains": "    private LocalDate dateWithinMonth(YearMonth month) {",
+      "beforeSha256": "48220ebcc0ab08f65af62ef0935fa46fde9767bc38f7bd6f32cee7f8e7864823",
+      "afterSha256": "05b2524b93d1d1f7fda6158d4c4f69aa9e1e3893bc2b7e0abf25b19d764e5da2"
+    }
+  ],
+  "privacy": {
+    "originalArtifactsCommitted": false,
+    "identitiesRemoved": true,
+    "workspacePathsNormalized": true
+  },
+  "outputs": {
+    "reportSha256": "10f1ec1e8d78ee45880ffe64e8c0d2cb6d5eef5d7ce10d4641288352bf64a7e3",
+    "sourceTreeSha256": "fc5e55bb2a56a80e873edfcbe12ee57a6f8b4aae0efb94f12826a683f8eb6000"
+  }
+}

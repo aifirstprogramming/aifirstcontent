@@ -15,7 +15,6 @@
     {
       "id": "py-9-01",
       "promptSha256": "cd9d66417551832958ea31bebf779226864fbe76d99b32c242f2136b167139d5",
-      "legacyReport": "chapter 9 - game/showtail-reports/initial-game/report-cassandra-chin-at-gmail-com-2026-08-19T131558125-claude-matched.json",
       "legacyReportSha256": "74ae68b2913a9adda5ad61d1947be627d2c2ef31da069fe5671e76fad8d92228",
       "sourceCheckpoint": "chapter 9 - game/source-checkpoints/01-c05288ea-Initial commit - Save the Duckling game",
       "sourceTreeSha256": "d7e53ef0d073f128fd6ae5ffedf60de56481371f29dc67a4a82364f5507d8c4a",
@@ -31,7 +30,6 @@
     {
       "id": "py-9-02",
       "promptSha256": "20604938b65af7c4f09b857d16f1318c549c182364e9cd80d805ac267e23c802",
-      "legacyReport": "chapter 9 - game/showtail-reports/fox/report-cassandra-chin-at-gmail-com-2026-08-21T190126819.json",
       "legacyReportSha256": "5679d2eaf40ab58e185ee3f6fbfe7dba849c729428dd32a0706c2e3ec321c4e7",
       "sourceCheckpoint": "chapter 9 - game/source-checkpoints/02-7f5ec572-Add two new levels with increased difficulty",
       "sourceTreeSha256": "6b6142faa19971c7abcade6c6e2cd97b448a80fce0f6ce0c188cda7e50d7bd67",
@@ -40,7 +38,6 @@
     {
       "id": "py-9-03",
       "promptSha256": "7a2157cf6692e84c1cd6a9fbebc2a2fb249a382420358df79ab4049345649fc2",
-      "legacyReport": "chapter 9 - game/showtail-reports/harder-levels/report-cassandra-chin-at-gmail-com-2026-08-21T215213386.json",
       "legacyReportSha256": "4a857a8b94245e8f33c7317c8a1b1267e933d0460f06e653f0c582b7242f4037",
       "sourceCheckpoint": "chapter 9 - game/source-checkpoints/03-b0e7f901-Add level progression and completion handling with timers",
       "sourceTreeSha256": "bd7cb040b43b58082384b7dd5722fd962cf938e88dab57ba1e0924cc46f288bc",

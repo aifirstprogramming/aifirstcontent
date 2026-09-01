@@ -19,10 +19,13 @@ import {
   canonicalSourceTree,
   readRetrofitManifest,
   resolveArchiveInput,
+  resolveArchiveInputBySha256,
   sha256,
   stableJson,
   type RetrofitExerciseInput,
 } from "./lib/retrofit-showtail";
+import { sanitizeShowtailReport } from "./lib/sanitize-showtail";
+import { parseShowtailReport } from "./lib/showtail";
 
 const ROOT = join(import.meta.dir, "..");
 const args = process.argv.slice(2);
@@ -139,7 +142,6 @@ function outputPaths(exercise: RetrofitExerciseInput) {
     bundle: join(root, "bundle"),
     report: join(root, "bundle", "report.json"),
     source: join(root, "bundle", "source"),
-    legacy: join(root, "legacy", "report-v1.json"),
     audit: join(root, "retrofit.json"),
   };
 }
@@ -252,7 +254,12 @@ try {
     const prompt = step.prompt ?? exercise.prompt ?? "";
     if (sha256(prompt) !== exercise.promptSha256)
       throw new Error(`${exercise.id} prompt hash no longer matches the manifest`);
-    const legacyPath = resolveArchiveInput(archiveRoot, exercise.legacyReport);
+    const legacyPath = exercise.legacyReport
+      ? resolveArchiveInput(archiveRoot, exercise.legacyReport)
+      : resolveArchiveInputBySha256(
+          archiveRoot,
+          exercise.legacyReportSha256,
+        );
     const legacyBuffer = verifyHash(
       legacyPath,
       exercise.legacyReportSha256,
@@ -294,7 +301,6 @@ try {
             prompt,
             sessionId: manifest.session.id,
           });
-    const reportText = stableJson(report);
     const turn = (report.turns as Array<Record<string, unknown>>)[0]!;
     const events = turn.events as Array<Record<string, unknown>>;
     for (const plan of exercise.plans ?? []) {
@@ -311,6 +317,12 @@ try {
           `${exercise.id} archived plan does not match the native transcript`,
         );
     }
+    const reportText = stableJson(
+      sanitizeShowtailReport(
+        parseShowtailReport(report),
+        [...source.files.keys()],
+      ),
+    );
     const sourceFiles = textFiles(source.files);
     const audit = {
       version: 1,
@@ -328,7 +340,6 @@ try {
             : manifest.session.id,
         ...(capture.mode === "native"
           ? {
-              transcript: manifest.session.transcript,
               sha256: manifest.session.sha256,
             }
           : {
@@ -341,15 +352,13 @@ try {
       },
       promptSha256: exercise.promptSha256,
       legacyReport: {
-        path: exercise.legacyReport,
         sha256: exercise.legacyReportSha256,
       },
       sourceCheckpoint: {
-        path: exercise.sourceCheckpoint,
         rawTreeSha256: source.rawTreeSha256,
         canonicalTreeSha256: source.canonicalTreeSha256,
       },
-      plans: exercise.plans ?? [],
+      plans: (exercise.plans ?? []).map(({ path: _path, ...plan }) => plan),
       normalizations: {
         scopedToCanonicalPrompt: true,
         eventSequencesRenumbered: true,
@@ -366,7 +375,6 @@ try {
     return {
       exercise,
       paths: outputPaths(exercise),
-      legacyBuffer,
       reportText,
       sourceFiles,
       auditText: stableJson(audit),
@@ -377,7 +385,6 @@ try {
     const current = (path: string): Buffer | undefined =>
       existsSync(path) ? readFileSync(path) : undefined;
     const changed =
-      !current(item.paths.legacy)?.equals(item.legacyBuffer) ||
       current(item.paths.report)?.toString("utf8") !== item.reportText ||
       current(item.paths.audit)?.toString("utf8") !== item.auditText ||
       item.sourceFiles.some(
@@ -388,11 +395,9 @@ try {
       existingFiles(item.paths.source).join("\0") !==
         item.sourceFiles.map((file) => file.path).join("\0");
     if (write && changed) {
-      mkdirSync(dirname(item.paths.legacy), { recursive: true });
       mkdirSync(item.paths.bundle, { recursive: true });
       rmSync(item.paths.source, { recursive: true, force: true });
       mkdirSync(item.paths.source, { recursive: true });
-      writeFileSync(item.paths.legacy, item.legacyBuffer);
       writeFileSync(item.paths.report, item.reportText);
       for (const file of item.sourceFiles) {
         const path = join(item.paths.source, file.path);

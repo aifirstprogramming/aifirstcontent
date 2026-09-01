@@ -26,7 +26,7 @@ export interface RetrofitExerciseInput {
   responsePath?: string;
   stdin?: string;
   explanation?: Explanation;
-  legacyReport: string;
+  legacyReport?: string;
   legacyReportSha256: string;
   sourceCheckpoint: string;
   sourceTreeSha256: string;
@@ -198,10 +198,9 @@ export function readRetrofitManifest(path: string): RetrofitManifest {
           item.promptSha256,
           `manifest.exercises[${index}].promptSha256`,
         ),
-        legacyReport: string(
-          item.legacyReport,
-          `manifest.exercises[${index}].legacyReport`,
-        ),
+        ...(optionalString(item.legacyReport)
+          ? { legacyReport: item.legacyReport as string }
+          : {}),
         legacyReportSha256: string(
           item.legacyReportSha256,
           `manifest.exercises[${index}].legacyReportSha256`,
@@ -342,6 +341,22 @@ export function canonicalSourceTree(
 
 export function resolveArchiveInput(archiveRoot: string, path: string): string {
   return safeArchivePath(archiveRoot, path);
+}
+
+export function resolveArchiveInputBySha256(
+  archiveRoot: string,
+  expectedSha256: string,
+  suffix = ".json",
+): string {
+  const root = resolve(archiveRoot);
+  const matches = allFiles(root).filter(
+    (path) => path.endsWith(suffix) && sha256(readFileSync(path)) === expectedSha256,
+  );
+  if (matches.length !== 1)
+    throw new Error(
+      `Expected one ${suffix} archive input with SHA-256 ${expectedSha256}; found ${matches.length}`,
+    );
+  return matches[0]!;
 }
 
 function canonicalEvent(

@@ -43,7 +43,6 @@
         ],
         "run": "Run python3 level_editor.py from the project directory."
       },
-      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
       "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
       "sourceCheckpoint": "chapter 10 - level editor/source-checkpoints/04-7eec8da6-Refactor level management and introduce level editor",
       "sourceTreeSha256": "e69beb244e980f29ccf544b360550b1b614ca0bad41128f9f1148d6bce87afb0",
@@ -84,7 +83,6 @@
         ],
         "run": "Import level.py or run the game/editor entrypoints that consume its LevelDef objects."
       },
-      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
       "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
       "sourceCheckpoint": "chapter 10 - level editor/source-checkpoints/05-4fec2b67-Introduce LevelDef dataclass for JSON IO",
       "sourceTreeSha256": "522097a25fcc76f9c910e34bd9ba16766ab0f642e9b80968ad609b443a1934b5",
@@ -129,7 +127,6 @@
         ],
         "run": "Run python3 level_editor.py and use Ctrl+Z or Ctrl+Y after editing the grid."
       },
-      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
       "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
       "sourceCheckpoint": "chapter 10 - level editor/source-checkpoints/06-19db183b-Implement desert theme and level editor enhancements",
       "sourceTreeSha256": "7dc8990b2c54ea5fd102e92df6ef227e8e314c9728b508dcb96785be229a74ad",
@@ -174,7 +171,6 @@
         ],
         "run": "Run python3 level_editor.py and press T after placing the player, siblings, and mother."
       },
-      "legacyReport": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
       "legacyReportSha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63",
       "sourceCheckpoint": "chapter 10 - level editor/final-source/07-working-tree-animated-pathfinder",
       "sourceTreeSha256": "22604403e0a47965d46e2ed05dfd751c635479023c9975cf5708a958b7558e04",

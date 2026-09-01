@@ -6,23 +6,19 @@
   "session": {
     "integration": "claude",
     "id": "6bc3239c-efba-4147-8b9a-b3226a4f327d",
-    "transcript": "chapter 10 - level editor/claude-original/6bc3239c-efba-4147-8b9a-b3226a4f327d.jsonl",
     "sha256": "bd6ecc0f5cc87fa07676bac4322ac6c2981595e039174910417051fbd0cba6df"
   },
   "promptSha256": "0cef8c1b964b2c90cd894337704c52e1fd7b8b7edf516a779c50c19c90ed417c",
   "legacyReport": {
-    "path": "chapter 10 - level editor/showtail-reports/pathfinder-inclusive/report-cassandra-chin-at-gmail-com-2026-08-29T175204543.json",
     "sha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63"
   },
   "sourceCheckpoint": {
-    "path": "chapter 10 - level editor/final-source/07-working-tree-animated-pathfinder",
     "rawTreeSha256": "22604403e0a47965d46e2ed05dfd751c635479023c9975cf5708a958b7558e04",
     "canonicalTreeSha256": "91244fca26c02b8f5b027eecfa5639dfd56580aafdcad3027ebb4e788df10255"
   },
   "plans": [
     {
       "toolUseId": "toolu_01WdD1kRog3rYFy2qhsiZzaf",
-      "path": "chapter 10 - level editor/plans/toolu_01WdD1kRog3rYFy2qhsiZzaf.md",
       "sha256": "2657030099c69152fb74ba99db81d18565490e141c9accefa95c4500ea2540a3"
     }
   ],
@@ -44,7 +40,12 @@
     "excludedGeneratedAssets": true
   },
   "outputs": {
-    "reportSha256": "5c9ebb74992abc73e13a6adf659065db13b80a57a063db805d82efeb52474bcd",
+    "reportSha256": "1248f8701eca4a76def315744d646529d6337285df67a5934cb5dc0819c51fb4",
     "sourceTreeSha256": "91244fca26c02b8f5b027eecfa5639dfd56580aafdcad3027ebb4e788df10255"
+  },
+  "privacy": {
+    "originalArtifactsCommitted": false,
+    "identitiesRemoved": true,
+    "workspacePathsNormalized": true
   }
 }

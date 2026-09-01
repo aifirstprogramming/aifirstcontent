@@ -35,6 +35,13 @@ export interface DeriveReplayOptions {
   turnIndex: number;
   sourceFiles: Map<string, string>;
   response: string;
+  /**
+   * Project chapters often print an excerpt from a larger source file. When set,
+   * this identifies that authoritative file instead of requiring a whole-file
+   * byte match.
+   */
+  responsePath?: string;
+  responseMatch?: "exact" | "excerpt";
   initialFiles?: Map<string, string>;
   initialExerciseId?: string;
   binaryFiles?: ScaffoldFile[];
@@ -74,11 +81,30 @@ function slug(value: string, fallback: string): string {
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "")
     .slice(0, 48);
-  return normalized || fallback;
+  if (!normalized) return fallback;
+  return /^[a-z]/.test(normalized) ? normalized : `option_${normalized}`;
 }
 
 function withoutFinalNewline(value: string): string {
   return value.endsWith("\n") ? value.slice(0, -1) : value;
+}
+
+/** Require every nonblank manuscript line to occur in source order. */
+export function responseExcerptMatches(response: string, source: string): boolean {
+  const expected = withoutFinalNewline(response)
+    .split("\n")
+    .map((line) => line.replace(/\s+$/, ""))
+    .filter((line) => line.trim() !== "");
+  const actual = withoutFinalNewline(source)
+    .split("\n")
+    .map((line) => line.replace(/\s+$/, ""));
+  let cursor = 0;
+  for (const line of expected) {
+    const found = actual.indexOf(line, cursor);
+    if (found < 0) return false;
+    cursor = found + 1;
+  }
+  return expected.length > 0;
 }
 
 function normalizePath(value: string): string {
@@ -187,7 +213,9 @@ function normalizeCommandPaths(command: string, roots: string[]): string {
 
 function capturedWorkspaceOutput(value: string, roots: string[]): boolean {
   const normalized = normalizePath(value);
-  return roots.some((root) => normalized.includes(root));
+  return normalized.includes("<workspace>") ||
+    normalized.includes("<author-home>") ||
+    roots.some((root) => normalized.includes(root));
 }
 
 function normalizeOutput(value: string | undefined): string {
@@ -902,18 +930,29 @@ export function deriveReplay(options: DeriveReplayOptions): DerivedReplay {
     return { diagnostics: auditLegacyReport(options.report) };
   const sourcePaths = [...options.sourceFiles.keys()].sort();
   const workspaceRoots = capturedWorkspaceRoots(turn.events, sourcePaths);
-  const responseMatches = sourcePaths.filter(
-    (path) =>
-      withoutFinalNewline(options.sourceFiles.get(path)!) ===
-      withoutFinalNewline(options.response),
-  );
+  const responseMatches = options.responsePath
+    ? (() => {
+        const content = options.sourceFiles.get(options.responsePath!);
+        if (content === undefined) return [];
+        const matches = options.responseMatch === "excerpt"
+          ? responseExcerptMatches(options.response, content)
+          : withoutFinalNewline(content) === withoutFinalNewline(options.response);
+        return matches ? [options.responsePath!] : [];
+      })()
+    : sourcePaths.filter(
+        (path) =>
+          withoutFinalNewline(options.sourceFiles.get(path)!) ===
+          withoutFinalNewline(options.response),
+      );
   if (responseMatches.length !== 1)
     diagnostics.push(
       diagnostic(
         "missing",
         "error",
         "responsePath",
-        `Expected one source file matching the manuscript response; found ${responseMatches.length}`,
+        options.responsePath
+          ? `The declared response source ${options.responsePath} does not match the manuscript ${options.responseMatch ?? "exact"} response`
+          : `Expected one source file matching the manuscript response; found ${responseMatches.length}`,
       ),
     );
   const workflow = deriveWorkflow(

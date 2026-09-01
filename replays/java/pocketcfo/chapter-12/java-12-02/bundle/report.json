@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-01T20:35:12.438Z",
+  "displayName": "PocketCFO",
+  "sessionId": "pocketcfo-java-12-02",
+  "turns": [
+    {
+      "prompt": {
+        "text": "Could you create a sample .csv file for us to test loading into the application?",
+        "timestamp": "2026-08-28T15:09:39.440Z"
+      },
+      "events": [
+        {
+          "sequence": 0,
+          "type": "user_text",
+          "text": "Could you create a sample .csv file for us to test loading into the application?"
+        },
+        {
+          "sequence": 1,
+          "type": "tool_use",
+          "timestamp": "2026-08-28T15:09:43.095Z",
+          "toolUseId": "java-12-02-tool-001",
+          "toolName": "Bash",
+          "input": {
+            "command": "find . -maxdepth 4 -iname \"*.csv\" -o -iname \"*csv*\" | grep -v node_modules | head -50",
+            "description": "Search for existing CSV files or CSV-related code"
+          }
+        },
+        {
+          "sequence": 2,
+          "type": "tool_result",
+          "timestamp": "2026-08-28T15:09:44.423Z",
+          "toolUseId": "java-12-02-tool-001",
+          "isError": false,
+          "content": {
+            "stdout": "./personal-finance-app/target/surefire-reports/com.example.finance.TransactionCsvImporterTest.txt\n./personal-finance-app/target/surefire-reports/TEST-com.example.finance.TransactionCsvImporterTest.xml",
+            "stderr": "",
+            "interrupted": false,
+            "isImage": false,
+            "noOutputExpected": false
+          },
+          "stdout": "./personal-finance-app/target/surefire-reports/com.example.finance.TransactionCsvImporterTest.txt\n./personal-finance-app/target/surefire-reports/TEST-com.example.finance.TransactionCsvImporterTest.xml"
+        },
+        {
+          "sequence": 3,
+          "type": "tool_use",
+          "timestamp": "2026-08-28T15:09:47.335Z",
+          "toolUseId": "java-12-02-tool-002",
+          "toolName": "Bash",
+          "input": {
+            "command": "find . -iname \"*CsvImporter*\" -not -path \"*/target/*\"",
+            "description": "Find CSV importer source files"
+          }
+        },
+        {
+          "sequence": 4,
+          "type": "tool_result",
+          "timestamp": "2026-08-28T15:09:47.376Z",
+          "toolUseId": "java-12-02-tool-002",
+          "isError": false,
+          "content": {
+            "stdout": "./personal-finance-app/src/test/java/com/example/finance/TransactionCsvImporterTest.java\n./personal-finance-app/src/main/java/com/example/finance/TransactionCsvImporter.java",
+            "stderr": "",
+            "interrupted": false,
+            "isImage": false,
+            "noOutputExpected": false
+          },
+          "stdout": "./personal-finance-app/src/test/java/com/example/finance/TransactionCsvImporterTest.java\n./personal-finance-app/src/main/java/com/example/finance/TransactionCsvImporter.java"
+        },
+        {
+          "sequence": 5,
+          "type": "tool_use",
+          "timestamp": "2026-08-28T15:09:50.466Z",
+          "toolUseId": "java-12-02-tool-003",
+          "toolName": "Read",
+          "input": {
+            "file_path": "src/main/java/com/example/finance/TransactionCsvImporter.java"
+          }
+        },
+        {
+          "sequence": 6,
+          "type": "tool_result",
+          "timestamp": "2026-08-28T15:09:50.482Z",
+          "toolUseId": "java-12-02-tool-003",
+          "content": {
+            "type": "text",
+            "file": {
+              "filePath": "./src/main/java/com/example/finance/TransactionCsvImporter.java",
+              "content": "package com.example.finance;\n\nimport org.apache.commons.csv.CSVFormat;\nimport org.apache.commons.csv.CSVParser;\nimport org.apache.commons.csv.CSVRecord;\n\nimport java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.UncheckedIOException;\nimport java.math.BigDecimal;\nimport java.nio.charset.StandardCharsets;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\nimport java.time.LocalDate;\nimport java.time.format.DateTimeFormatter;\nimport java.time.format.DateTimeParseException;\nimport java.util.ArrayList;\nimport java.util.Iterator;\nimport java.util.List;\nimport java.util.Locale;\nimport java.util.Map;\n\n/**\n * Imports transactions from vendor CSV exports whose column headers vary\n * (e.g. \"Date\" vs \"Transaction Date\", a signed \"Amount\" vs separate\n * \"Debit\"/\"Credit\" columns). Never persists anything itself and never lets a\n * bad row or a bad file crash the caller: whole-file problems are reported\n * via {@link TransactionCsvImportException}, per-row problems are collected\n * into the returned {@link ImportResult} so the caller can decide what to\n * show the user.\n */\npublic final class TransactionCsvImporter {\n\n    private static final List<DateTimeFormatter> DATE_FORMATS = List.of(\n            DateTimeFormatter.ISO_LOCAL_DATE,\n            DateTimeFormatter.ofPattern(\"M/d/yyyy\", Locale.ROOT));\n\n    public record RowError(long rowNumber, String reason) {\n    }\n\n    public record ImportResult(List<TransactionDraft> rows, List<RowError> errors) {\n        public int successCount() {\n            return rows.size();\n        }\n\n        public int errorCount() {\n            return errors.size();\n        }\n    }\n\n    public ImportResult importFile(Path csvFile) {\n        CSVFormat format = CSVFormat.Builder.create(CSVFormat.DEFAULT)\n                .setHeader()\n                .setSkipHeaderRecord(true)\n                .setTrim(true)\n                .setIgnoreEmptyLines(true)\n                .setIgnoreSurroundingSpaces(true)\n                .build();\n\n        try (BufferedReader reader = Files.newBufferedReader(csvFile, StandardCharsets.UTF_8);\n             CSVParser parser = CSVParser.parse(reader, format)) {\n            return importFrom(parser);\n        } catch (IOException e) {\n            throw new TransactionCsvImportException(\"Could not read file: \" + csvFile + \" (\" + e.getMessage() + \")\", e);\n        } catch (UncheckedIOException | IllegalStateException | IllegalArgumentException e) {\n            throw new TransactionCsvImportException(\"Could not parse file: \" + csvFile + \" (\" + e.getMessage() + \")\", e);\n        }\n    }\n\n    private ImportResult importFrom(CSVParser parser) {\n        Map<String, Integer> headerMap = parser.getHeaderMap();\n        if (headerMap == null || headerMap.isEmpty()) {\n            throw new TransactionCsvImportException(\"CSV file is empty or has no header row\");\n        }\n\n        ColumnLayout columns = ColumnLayout.resolve(headerMap);\n\n        List<TransactionDraft> rows = new ArrayList<>();\n        List<RowError> errors = new ArrayList<>();\n        Iterator<CSVRecord> iterator = parser.iterator();\n        while (true) {\n            CSVRecord record;\n            try {\n                if (!iterator.hasNext()) {\n                    break;\n                }\n                record = iterator.next();\n            } catch (RuntimeException e) {\n                errors.add(new RowError(-1, \"Stopped reading file: \" + e.getMessage()));\n                break;\n            }\n\n            try {\n                rows.add(parseRow(record, columns));\n            } catch (RuntimeException e) {\n                errors.add(new RowError(record.getRecordNumber(), e.getMessage()));\n            }\n        }\n\n        return new ImportResult(rows, errors);\n    }\n\n    private TransactionDraft parseRow(CSVRecord record, ColumnLayout columns) {\n        LocalDate date = parseDate(record.get(columns.dateIndex()));\n        String description = columns.descriptionIndex() >= 0 ? record.get(columns.descriptionIndex()) : \"\";\n        String categoryName = columns.categoryIndex() >= 0 ? record.get(columns.categoryIndex()) : \"Uncategorized\";\n        if (categoryName.isBlank()) {\n            categoryName = \"Uncategorized\";\n        }\n\n        AmountAndType amountAndType = columns.amountIndex() >= 0\n                ? fromSignedAmount(record.get(columns.amountIndex()))\n                : fromDebitCredit(record.get(columns.debitIndex()), record.get(columns.creditIndex()));\n\n        return new TransactionDraft(date, amountAndType.type(), categoryName, amountAndType.amount(), description);\n    }\n\n    private LocalDate parseDate(String raw) {\n        String trimmed = raw.trim();\n        for (DateTimeFormatter formatter : DATE_FORMATS) {\n            try {\n                return LocalDate.parse(trimmed, formatter);\n            } catch (DateTimeParseException ignored) {\n                // try the next format\n            }\n        }\n        throw new IllegalArgumentException(\"Unparseable date '\" + raw + \"' (expected yyyy-MM-dd or M/d/yyyy)\");\n    }\n\n    private AmountAndType fromSignedAmount(String raw) {\n        BigDecimal value = parseAmount(raw);\n        int signum = value.signum();\n        if (signum == 0) {\n            throw new IllegalArgumentException(\"Zero-amount row skipped - sign is ambiguous\");\n        }\n        return signum < 0\n                ? new AmountAndType(value.abs(), TransactionType.EXPENSE)\n                : new AmountAndType(value, TransactionType.INCOME);\n    }\n\n    private AmountAndType fromDebitCredit(String debitRaw, String creditRaw) {\n        boolean hasDebit = !isBlank(debitRaw);\n        boolean hasCredit = !isBlank(creditRaw);\n        if (hasDebit && hasCredit) {\n            throw new IllegalArgumentException(\"Row has both a Debit and a Credit value - ambiguous\");\n        }\n        if (hasDebit) {\n            return new AmountAndType(parseAmount(debitRaw).abs(), TransactionType.EXPENSE);\n        }\n        if (hasCredit) {\n            return new AmountAndType(parseAmount(creditRaw).abs(), TransactionType.INCOME);\n        }\n        throw new IllegalArgumentException(\"Row has neither a Debit nor a Credit value\");\n    }\n\n    private boolean isBlank(String value) {\n        return value == null || value.isBlank();\n    }\n\n    private BigDecimal parseAmount(String raw) {\n        String cleaned = raw.trim().replace(\"$\", \"\").replace(\",\", \"\");\n        try {\n            return new BigDecimal(cleaned);\n        } catch (NumberFormatException e) {\n            throw new NumberFormatException(\"Unparseable amount '\" + raw + \"'\");\n        }\n    }\n\n    private record AmountAndType(BigDecimal amount, TransactionType type) {\n    }\n\n    private record ColumnLayout(int dateIndex, int amountIndex, int debitIndex, int creditIndex,\n                                 int descriptionIndex, int categoryIndex) {\n\n        static ColumnLayout resolve(Map<String, Integer> headerMap) {\n            Map<String, Integer> normalized = new java.util.HashMap<>();\n            for (Map.Entry<String, Integer> entry : headerMap.entrySet()) {\n                normalized.put(entry.getKey().trim().toLowerCase(Locale.ROOT), entry.getValue());\n            }\n\n            int dateIndex = firstMatch(normalized, \"date\", \"transaction date\");\n            int amountIndex = firstMatch(normalized, \"amount\");\n            int debitIndex = firstMatch(normalized, \"debit\");\n            int creditIndex = firstMatch(normalized, \"credit\");\n            int descriptionIndex = firstMatch(normalized, \"description\");\n            int categoryIndex = firstMatch(normalized, \"category\");\n\n            if (dateIndex < 0) {\n                throw new TransactionCsvImportException(\"CSV is missing a Date/'Transaction Date' column\");\n            }\n            if (amountIndex < 0 && (debitIndex < 0 || creditIndex < 0)) {\n                throw new TransactionCsvImportException(\n                        \"CSV is missing an Amount column (or both Debit and Credit columns)\");\n            }\n\n            return new ColumnLayout(dateIndex, amountIndex, debitIndex, creditIndex, descriptionIndex, categoryIndex);\n        }\n\n        private static int firstMatch(Map<String, Integer> normalized, String... aliases) {\n            for (String alias : aliases) {\n                Integer index = normalized.get(alias);\n                if (index != null) {\n                    return index;\n                }\n            }\n            return -1;\n        }\n    }\n}\n",
+              "numLines": 210,
+              "startLine": 1,
+              "totalLines": 210
+            }
+          }
+        },
+        {
+          "sequence": 7,
+          "type": "tool_use",
+          "timestamp": "2026-08-28T15:09:50.915Z",
+          "toolUseId": "java-12-02-tool-004",
+          "toolName": "Read",
+          "input": {
+            "file_path": "src/test/java/com/example/finance/TransactionCsvImporterTest.java"
+          }
+        },
+        {
+          "sequence": 8,
+          "type": "tool_result",
+          "timestamp": "2026-08-28T15:09:50.929Z",
+          "toolUseId": "java-12-02-tool-004",
+          "content": {
+            "type": "text",
+            "file": {
+              "filePath": "./src/test/java/com/example/finance/TransactionCsvImporterTest.java",
+              "content": "package com.example.finance;\n\nimport org.junit.jupiter.api.Test;\nimport org.junit.jupiter.api.io.TempDir;\n\nimport java.math.BigDecimal;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\nimport java.time.LocalDate;\nimport java.util.List;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\nimport static org.junit.jupiter.api.Assertions.assertThrows;\nimport static org.junit.jupiter.api.Assertions.assertTrue;\n\nclass TransactionCsvImporterTest {\n\n    private final TransactionCsvImporter importer = new TransactionCsvImporter();\n\n    @Test\n    void importsRowsWithStandardDateAndSignedAmountHeaders(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Amount,Description,Category\",\n                \"2026-08-01,2500.00,August paycheck,Salary\",\n                \"2026-08-03,-64.32,Weekly shop,Groceries\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(2, result.successCount());\n        assertEquals(0, result.errorCount());\n        TransactionDraft income = result.rows().get(0);\n        assertEquals(TransactionType.INCOME, income.type());\n        assertEquals(new BigDecimal(\"2500.00\"), income.amount());\n        TransactionDraft expense = result.rows().get(1);\n        assertEquals(TransactionType.EXPENSE, expense.type());\n        assertEquals(new BigDecimal(\"64.32\"), expense.amount());\n    }\n\n    @Test\n    void resolvesTransactionDateHeaderAlias(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Transaction Date,Amount,Description\",\n                \"2026-08-05,10.00,Coffee\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(1, result.successCount());\n        assertEquals(LocalDate.of(2026, 8, 5), result.rows().get(0).date());\n    }\n\n    @Test\n    void importsRowsWithDebitCreditColumnsInsteadOfAmount(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Description,Debit,Credit,Category\",\n                \"2026-08-01,Paycheck,,2500.00,Salary\",\n                \"2026-08-03,Groceries,64.32,,Groceries\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(2, result.successCount());\n        assertEquals(TransactionType.INCOME, result.rows().get(0).type());\n        assertEquals(new BigDecimal(\"2500.00\"), result.rows().get(0).amount());\n        assertEquals(TransactionType.EXPENSE, result.rows().get(1).type());\n        assertEquals(new BigDecimal(\"64.32\"), result.rows().get(1).amount());\n    }\n\n    @Test\n    void defaultsCategoryToUncategorizedWhenColumnIsAbsent(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Amount,Description\",\n                \"2026-08-01,10.00,Coffee\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(\"Uncategorized\", result.rows().get(0).categoryName());\n    }\n\n    @Test\n    void parsesBothIsoAndUsSlashDateFormatsInTheSameFile(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Amount,Description\",\n                \"2026-08-05,10.00,Coffee\",\n                \"8/5/2026,20.00,Lunch\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(2, result.successCount());\n        assertEquals(LocalDate.of(2026, 8, 5), result.rows().get(0).date());\n        assertEquals(LocalDate.of(2026, 8, 5), result.rows().get(1).date());\n    }\n\n    @Test\n    void handlesQuotedDescriptionsWithEmbeddedCommas(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Amount,Description\",\n                \"2026-08-01,10.00,\\\"Coffee Shop, Inc.\\\"\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(1, result.successCount());\n        assertEquals(\"Coffee Shop, Inc.\", result.rows().get(0).description());\n    }\n\n    @Test\n    void skipsMalformedRowsWithoutLosingValidRowsInSameFile(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Amount,Description\",\n                \"2026-08-01,10.00,Good row\",\n                \"not-a-date,10.00,Bad date\",\n                \"2026-08-02,not-a-number,Bad amount\",\n                \"2026-08-03,20.00,Another good row\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(2, result.successCount());\n        assertEquals(2, result.errorCount());\n        assertTrue(result.rows().stream().anyMatch(r -> r.description().equals(\"Good row\")));\n        assertTrue(result.rows().stream().anyMatch(r -> r.description().equals(\"Another good row\")));\n    }\n\n    @Test\n    void skipsRowWithBothDebitAndCreditFilled(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Description,Debit,Credit\",\n                \"2026-08-01,Ambiguous,5.00,5.00\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(0, result.successCount());\n        assertEquals(1, result.errorCount());\n    }\n\n    @Test\n    void skipsZeroAmountRowAsAmbiguousSign(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Amount,Description\",\n                \"2026-08-01,0.00,Zero\") + \"\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(0, result.successCount());\n        assertEquals(1, result.errorCount());\n    }\n\n    @Test\n    void throwsWhenDateColumnIsMissingEntirely(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Amount,Description\",\n                \"10.00,Coffee\") + \"\\n\");\n\n        assertThrows(TransactionCsvImportException.class, () -> importer.importFile(file));\n    }\n\n    @Test\n    void throwsWhenNeitherAmountNorDebitCreditColumnsArePresent(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, String.join(\"\\n\",\n                \"Date,Description\",\n                \"2026-08-01,Coffee\") + \"\\n\");\n\n        assertThrows(TransactionCsvImportException.class, () -> importer.importFile(file));\n    }\n\n    @Test\n    void throwsOnCompletelyEmptyFile(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, \"\");\n\n        assertThrows(TransactionCsvImportException.class, () -> importer.importFile(file));\n    }\n\n    @Test\n    void returnsEmptyResultForHeaderOnlyFileWithNoDataRows(@TempDir Path tempDir) throws Exception {\n        Path file = tempDir.resolve(\"import.csv\");\n        Files.writeString(file, \"Date,Amount,Description\\n\");\n\n        TransactionCsvImporter.ImportResult result = importer.importFile(file);\n\n        assertEquals(List.of(), result.rows());\n        assertEquals(List.of(), result.errors());\n    }\n}\n",
+              "numLines": 193,
+              "startLine": 1,
+              "totalLines": 193
+            }
+          }
+        },
+        {
+          "sequence": 9,
+          "type": "tool_use",
+          "timestamp": "2026-08-28T15:09:55.028Z",
+          "toolUseId": "java-12-02-tool-005",
+          "toolName": "Bash",
+          "input": {
+            "command": "ls \".\"",
+            "description": "List personal-finance-app directory contents"
+          }
+        },
+        {
+          "sequence": 10,
+          "type": "tool_result",
+          "timestamp": "2026-08-28T15:09:55.067Z",
+          "toolUseId": "java-12-02-tool-005",
+          "isError": false,
+          "content": {
+            "stdout": "pom.xml\nREADME.md\nsrc\ntarget",
+            "stderr": "",
+            "interrupted": false,
+            "isImage": false,
+            "noOutputExpected": false
+          },
+          "stdout": "pom.xml\nREADME.md\nsrc\ntarget"
+        },
+        {
+          "sequence": 11,
+          "type": "assistant_text",
+          "timestamp": "2026-08-28T15:09:58.112Z",
+          "text": "I'll create a sample CSV matching the importer's expected format (Date, Amount, Description, Category — signed amounts, ISO dates) with a realistic mix of income/expenses."
+        },
+        {
+          "sequence": 12,
+          "type": "tool_use",
+          "timestamp": "2026-08-28T15:10:01.995Z",
+          "toolUseId": "java-12-02-tool-006",
+          "toolName": "Write",
+          "input": {
+            "file_path": "sample-data/sample-transactions.csv",
+            "content": "Date,Amount,Description,Category\n2026-08-01,2500.00,August paycheck,Salary\n2026-08-02,-64.32,Weekly grocery shop,Groceries\n2026-08-03,-12.50,Coffee Shop,Dining\n2026-08-05,-45.00,Electric bill,Utilities\n2026-08-07,-89.99,\"Corner Market, Inc.\",Groceries\n2026-08-10,150.00,Freelance design work,Freelance\n2026-08-12,-35.20,Gas station fill-up,Transportation\n2026-08-15,2500.00,August paycheck,Salary\n2026-08-16,-18.75,Movie tickets,Entertainment\n2026-08-18,-120.00,Internet and cable,Utilities\n2026-08-20,-52.40,Pharmacy,Health\n2026-08-22,-9.99,Streaming subscription,Entertainment\n2026-08-24,75.00,Refund from return,Other\n2026-08-26,-200.00,Car insurance,Insurance\n2026-08-28,-30.00,Restaurant dinner,Dining\n"
+          }
+        },
+        {
+          "sequence": 13,
+          "type": "tool_result",
+          "timestamp": "2026-08-28T15:10:44.518Z",
+          "toolUseId": "java-12-02-tool-006",
+          "content": {
+            "type": "create",
+            "filePath": "./sample-data/sample-transactions.csv",
+            "content": "Date,Amount,Description,Category\n2026-08-01,2500.00,August paycheck,Salary\n2026-08-02,-64.32,Weekly grocery shop,Groceries\n2026-08-03,-12.50,Coffee Shop,Dining\n2026-08-05,-45.00,Electric bill,Utilities\n2026-08-07,-89.99,\"Corner Market, Inc.\",Groceries\n2026-08-10,150.00,Freelance design work,Freelance\n2026-08-12,-35.20,Gas station fill-up,Transportation\n2026-08-15,2500.00,August paycheck,Salary\n2026-08-16,-18.75,Movie tickets,Entertainment\n2026-08-18,-120.00,Internet and cable,Utilities\n2026-08-20,-52.40,Pharmacy,Health\n2026-08-22,-9.99,Streaming subscription,Entertainment\n2026-08-24,75.00,Refund from return,Other\n2026-08-26,-200.00,Car insurance,Insurance\n2026-08-28,-30.00,Restaurant dinner,Dining\n",
+            "structuredPatch": [],
+            "originalFile": null,
+            "userModified": false
+          }
+        },
+        {
+          "sequence": 14,
+          "type": "assistant_text",
+          "timestamp": "2026-08-28T15:10:47.342Z",
+          "text": "Created `personal-finance-app/sample-data/sample-transactions.csv` — 15 rows matching the `Date,Amount,Description,Category` format `TransactionCsvImporter` expects (ISO dates, signed amounts, one quoted description with an embedded comma to test that path too). Positive amounts import as income, negative as expenses."
+        }
+      ],
+      "aiOutputs": [],
+      "codeChanges": [],
+      "toolCalls": []
+    }
+  ]
+}

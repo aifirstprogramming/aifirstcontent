@@ -1,0 +1,285 @@
+{
+  "version": 1,
+  "book": "java",
+  "bookFile": "books/ai-first-java-programming.json",
+  "retrofitDate": "2026-09-01",
+  "reportSha256": "65e23eee3ad488aabdd9fe8f104aaf28a9c0162c64c660685e3041b20b6fd5da",
+  "normalizations": [
+    {
+      "id": "month-aware-goal-contribution-date",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "oldText": "        goalContributionRepository.add(LocalDate.now(), goalName, amount);",
+      "newText": "        goalContributionRepository.add(dateWithinMonth(month), goalName, amount);"
+    },
+    {
+      "id": "relocate-month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "optional": true,
+      "oldText": "    /**\n     * Today's date if it falls within the given month, else the 1st of that\n     * month — so allocating into a past/future month (not \"now\") doesn't\n     * silently record a contribution date outside the month it's meant to\n     * count toward.\n     */\n    private LocalDate dateWithinMonth(YearMonth month) {\n        LocalDate today = LocalDate.now();\n        return YearMonth.from(today).equals(month) ? today : month.atDay(1);\n    }\n\n    /**\n     * Updates an existing allocation.",
+      "newText": "    /**\n     * Updates an existing allocation."
+    },
+    {
+      "id": "month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "skipIfContains": "    private LocalDate dateWithinMonth(YearMonth month) {",
+      "oldText": "    public static class GoalProgress {",
+      "newText": "    /**\n     * Today's date if it falls within the given month, else the 1st of that\n     * month — so allocating into a past/future month (not \"now\") doesn't\n     * silently record a contribution date outside the month it's meant to\n     * count toward.\n     */\n    private LocalDate dateWithinMonth(YearMonth month) {\n        LocalDate today = LocalDate.now();\n        return YearMonth.from(today).equals(month) ? today : month.atDay(1);\n    }\n\n    public static class GoalProgress {"
+    }
+  ],
+  "chapters": [
+    {
+      "number": 11,
+      "title": "Chapter 11: Project: PocketCFO App, Part 1",
+      "goal": "Build the first version of a JavaFX personal finance application with layered domain, repository, service, and view classes, then add update and delete behavior.",
+      "manuscript": "chapter11",
+      "exercises": [
+        {
+          "id": "java-11-01",
+          "title": "Build the PocketCFO Application",
+          "description": "Create the first JavaFX version of PocketCFO for transactions, categories, savings goals, obligations, and monthly summaries.",
+          "promptSha256": "82befe4d812ea2a7a8789bd68264a267d436712961e7c01c6b91844fa77f0edf",
+          "responseSha256": "ca75b0967275d2231917b9d23f0cc81988add26bbf3c5d0fdfc04a66689ab019",
+          "responsePath": "src/main/java/com/example/finance/Transaction.java",
+          "responseMatch": "excerpt",
+          "primaryTurn": 1,
+          "segments": [
+            { "turn": 1, "mode": "full" }
+          ],
+          "bundle": "chapter-11/java-11-01",
+          "explanation": {
+            "summary": "The transaction domain class captures one income or expense entry with its identity, date, category, amount, and description.",
+            "lines": [
+              {
+                "code": "    private final long id;",
+                "text": "The identifier stays fixed for the lifetime of a transaction, allowing repository operations to find the correct entry later."
+              },
+              {
+                "code": "    public Transaction(long id, LocalDate date, TransactionType type, String categoryName,",
+                "text": "The constructor requires every value needed to create a complete transaction rather than leaving partially initialized objects."
+              },
+              {
+                "code": "    public BigDecimal getAmount() {",
+                "text": "Money uses BigDecimal so calculations do not inherit the rounding surprises of binary floating-point values."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        },
+        {
+          "id": "java-11-02",
+          "title": "Add Update and Delete Operations",
+          "description": "Extend PocketCFO repositories and views so categories, transactions, savings goals, and obligations can be corrected or removed.",
+          "promptSha256": "ae18574551b431453a4268f3cdca95a1dbe89e8c7360fcac0ed76925bf7123a7",
+          "responseSha256": "34a2bfedaea2a53b3fb17d19586568acde6f31eed114e7bf2e02d6536199d6be",
+          "responsePath": "src/main/java/com/example/finance/TransactionRepository.java",
+          "responseMatch": "excerpt",
+          "primaryTurn": 3,
+          "segments": [
+            { "turn": 3, "mode": "full" },
+            { "turn": 4, "mode": "full" },
+            { "turn": 5, "mode": "full" },
+            { "turn": 6, "mode": "full" },
+            { "turn": 7, "mode": "full" },
+            { "turn": 8, "mode": "full" },
+            { "turn": 9, "mode": "full" },
+            { "turn": 10, "mode": "full" },
+            { "turn": 14, "mode": "full" },
+            { "turn": 15, "mode": "full" },
+            { "turn": 16, "mode": "full" },
+            { "turn": 17, "mode": "full" },
+            { "turn": 18, "mode": "full" },
+            { "turn": 19, "mode": "full" }
+          ],
+          "checkpoint": {
+            "label": "chapter-11-final",
+            "archivePrefix": "source/chapter11-code-tests/personal-finance-app/",
+            "canonicalTreeSha256": "976aadc95a10f11dce829ebf59727f0514040626d7e65804642b7489f97f417d"
+          },
+          "bundle": "chapter-11/java-11-02",
+          "explanation": {
+            "summary": "The repository replaces the transaction with the matching id and then persists the revised collection.",
+            "lines": [
+              {
+                "code": "        for (int i = 0; i < transactions.size(); i++) {",
+                "text": "An index-based loop is useful here because the matching list element must be replaced in place."
+              },
+              {
+                "code": "            if (transactions.get(i).getId() == id) {",
+                "text": "The stable transaction id identifies the exact entry to update even when other values have changed."
+              },
+              {
+                "code": "                transactions.set(i, new Transaction(id, date, type, categoryName, amount, description));",
+                "text": "Replacing the object keeps the repository list consistent with the newly supplied transaction values."
+              },
+              {
+                "code": "        persist();",
+                "text": "Persisting after the loop makes the in-memory change durable in the application's data file."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "Chapter 12: Project: PocketCFO App, Part 2",
+      "goal": "Extend PocketCFO with CSV transaction imports, multi-month and year-to-date reporting, and analysis that compares category priorities with actual spending.",
+      "manuscript": "chapter12",
+      "exercises": [
+        {
+          "id": "java-12-01",
+          "title": "Import Transactions from CSV",
+          "description": "Parse common bank-export column layouts, preserve valid rows when other rows fail, and connect CSV importing to the JavaFX interface.",
+          "promptSha256": "f31b7b003aa085582b3661c37657bea952c4197c3cfd89f11c37cd7b6f178825",
+          "responseSha256": "373fb7e3655b828bcb2c5dbfdb351ad75b1e3876fb30559dfaff9223eaea7b3a",
+          "responsePath": "pom.xml",
+          "responseMatch": "excerpt",
+          "primaryTurn": 22,
+          "segments": [
+            { "turn": 22, "mode": "full" }
+          ],
+          "bundle": "chapter-12/java-12-01",
+          "explanation": {
+            "summary": "The Maven dependency adds Apache Commons CSV so PocketCFO can parse vendor exports without implementing fragile comma splitting itself.",
+            "lines": [
+              {
+                "code": "            <groupId>org.apache.commons</groupId>",
+                "text": "The group id identifies the organization that publishes the CSV library in Maven repositories."
+              },
+              {
+                "code": "            <artifactId>commons-csv</artifactId>",
+                "text": "The artifact id selects the Commons CSV component that understands quoted fields, headers, and row iteration."
+              },
+              {
+                "code": "            <version>1.11.0</version>",
+                "text": "Pinning a version makes dependency resolution repeatable instead of silently changing the project later."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        },
+        {
+          "id": "java-12-02",
+          "title": "Create Sample Transaction Data",
+          "description": "Create a representative CSV file for exercising PocketCFO's transaction importer.",
+          "promptSha256": "ba699d89703cd813706e63442faaf0f4bb7e2393fe5b54461c18a3f814c00298",
+          "responseSha256": "4e0378b3a7237fcb0fbd04ab285dba734551eea946fc744f6c04053c2699f185",
+          "responsePath": "sample-data/sample-transactions.csv",
+          "responseMatch": "excerpt",
+          "primaryTurn": 23,
+          "segments": [
+            { "turn": 23, "mode": "full" }
+          ],
+          "bundle": "chapter-12/java-12-02",
+          "explanation": {
+            "summary": "The sample file supplies the headers and signed transaction values expected by the CSV importer.",
+            "lines": [
+              {
+                "code": "Date,Amount,Description,Category",
+                "text": "The header names map each CSV column to the transaction field the importer should populate."
+              },
+              {
+                "code": "2026-08-01,2500.00,August paycheck,Salary",
+                "text": "A positive amount represents incoming money and gives the importer an income example."
+              },
+              {
+                "code": "2026-08-02,-64.32,Weekly grocery shop,Groceries",
+                "text": "A negative amount represents spending and retains the category supplied by the export."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        },
+        {
+          "id": "java-12-03",
+          "title": "Add Multi-Month and Year-to-Date Support",
+          "description": "Navigate between months and calculate year-to-date category and summary totals.",
+          "promptSha256": "b573fa8b6f440b8eaae4bc2b7c1eaaf404c9f8c3b0b0c7233de82ecc616caa06",
+          "responseSha256": "10e2eeb9527a75f2635fc27d11bb4773b2221e08d9613e499a788c2af7e62055",
+          "responsePath": "src/main/java/com/example/finance/BudgetService.java",
+          "responseMatch": "excerpt",
+          "primaryTurn": 25,
+          "segments": [
+            { "turn": 25, "mode": "full" }
+          ],
+          "bundle": "chapter-12/java-12-03",
+          "explanation": {
+            "summary": "The year-to-date category total keeps the category, accumulated spending, scaled target, and income-only state together for reporting.",
+            "lines": [
+              {
+                "code": "        private final Category category;",
+                "text": "Keeping the Category object lets the summary retain its name and target information without duplicating those fields."
+              },
+              {
+                "code": "        private final BigDecimal actual;",
+                "text": "The actual value stores the accumulated year-to-date amount using precise decimal arithmetic."
+              },
+              {
+                "code": "        private final BigDecimal scaledTarget;",
+                "text": "The target is scaled to the number of included months so actual spending is compared with an equivalent period."
+              },
+              {
+                "code": "        private final boolean incomeOnly;",
+                "text": "This flag lets later reporting distinguish income categories from expense categories."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        },
+        {
+          "id": "java-12-04",
+          "title": "Compare Spending with Category Priorities",
+          "description": "Rank chosen category priorities beside categories ordered by actual spending to reveal alignment or mismatch.",
+          "promptSha256": "73f75ad7a66efb6cee11a7e73473274364ced237d0b64958bfa7e8077fc827f7",
+          "responseSha256": "546b5e35416abbab99b0daedecbccab8294e2c056743d1070dddd33bc3e50ede",
+          "responsePath": "src/main/java/com/example/finance/Category.java",
+          "responseMatch": "excerpt",
+          "primaryTurn": 34,
+          "segments": [
+            { "turn": 29, "mode": "full" },
+            { "turn": 30, "mode": "post-approval" },
+            { "turn": 32, "mode": "full" },
+            { "turn": 33, "mode": "post-approval" },
+            { "turn": 34, "mode": "full" },
+            { "turn": 36, "mode": "full" },
+            { "turn": 38, "mode": "full" },
+            { "turn": 39, "mode": "full" },
+            { "turn": 40, "mode": "full" }
+          ],
+          "checkpoint": {
+            "label": "chapter-12-final",
+            "archivePrefix": "source/chapter12-code-tests/personal-finance-app/",
+            "canonicalTreeSha256": "b86e1a1e3743401b1ada672b760d5baad294a954b4c7febf328b27ba5dede1ea",
+            "correctionPaths": [
+              "sample-data/sample-transactions.csv"
+            ]
+          },
+          "bundle": "chapter-12/java-12-04",
+          "explanation": {
+            "summary": "Categories can carry an optional numeric priority while remaining compatible with existing categories that have no assigned rank.",
+            "lines": [
+              {
+                "code": "    private final Integer priority;",
+                "text": "Using the nullable Integer wrapper allows a category to remain unprioritized instead of inventing a numeric placeholder."
+              },
+              {
+                "code": "        this(name, monthlyTarget, null);",
+                "text": "The original two-argument constructor delegates to the new constructor, preserving existing call sites."
+              },
+              {
+                "code": "    public Optional<Integer> getPriority() {",
+                "text": "Optional makes callers handle the absence of a priority explicitly before sorting or displaying it."
+              },
+              {
+                "code": "        return Optional.ofNullable(priority);",
+                "text": "ofNullable converts the stored wrapper into either a present priority value or an empty Optional."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "exerciseId": "java-11-02",
+  "retrofitDate": "2026-09-01",
+  "source": {
+    "kind": "showtail-v2-archive",
+    "reportSha256": "65e23eee3ad488aabdd9fe8f104aaf28a9c0162c64c660685e3041b20b6fd5da",
+    "primaryTurn": 3,
+    "segments": [
+      {
+        "turn": 3,
+        "mode": "full"
+      },
+      {
+        "turn": 4,
+        "mode": "full"
+      },
+      {
+        "turn": 5,
+        "mode": "full"
+      },
+      {
+        "turn": 6,
+        "mode": "full"
+      },
+      {
+        "turn": 7,
+        "mode": "full"
+      },
+      {
+        "turn": 8,
+        "mode": "full"
+      },
+      {
+        "turn": 9,
+        "mode": "full"
+      },
+      {
+        "turn": 10,
+        "mode": "full"
+      },
+      {
+        "turn": 14,
+        "mode": "full"
+      },
+      {
+        "turn": 15,
+        "mode": "full"
+      },
+      {
+        "turn": 16,
+        "mode": "full"
+      },
+      {
+        "turn": 17,
+        "mode": "full"
+      },
+      {
+        "turn": 18,
+        "mode": "full"
+      },
+      {
+        "turn": 19,
+        "mode": "full"
+      }
+    ]
+  },
+  "manuscript": {
+    "promptSha256": "ae18574551b431453a4268f3cdca95a1dbe89e8c7360fcac0ed76925bf7123a7",
+    "responseSha256": "34a2bfedaea2a53b3fb17d19586568acde6f31eed114e7bf2e02d6536199d6be",
+    "responsePath": "src/main/java/com/example/finance/TransactionRepository.java",
+    "responseMatch": "excerpt"
+  },
+  "checkpoint": {
+    "label": "chapter-11-final",
+    "canonicalTreeSha256": "976aadc95a10f11dce829ebf59727f0514040626d7e65804642b7489f97f417d"
+  },
+  "corrections": [],
+  "normalizations": [
+    {
+      "id": "month-aware-goal-contribution-date",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "beforeSha256": "021a4fbc2f02f0589f7d0a0377a2c773c40ff0e5b908274792814330e4cb0675",
+      "afterSha256": "66d096088a774e68ae64e2bce5c2cb847928d1ab70898ae822876130f0bf8148"
+    },
+    {
+      "id": "month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "skipIfContains": "    private LocalDate dateWithinMonth(YearMonth month) {",
+      "beforeSha256": "66d096088a774e68ae64e2bce5c2cb847928d1ab70898ae822876130f0bf8148",
+      "afterSha256": "a17f828e7bc5c8ebb2d2cd6033bb5ffc041c4b1a1c1a0698c23d5e07b0ffbfc7"
+    }
+  ],
+  "privacy": {
+    "originalArtifactsCommitted": false,
+    "identitiesRemoved": true,
+    "workspacePathsNormalized": true
+  },
+  "outputs": {
+    "reportSha256": "d73e9b0d7e9feb035d5a0455da1f53d7688b33bd20cff8a4aa863bf3409a8377",
+    "sourceTreeSha256": "6e78dc257b8a03e1b588ea34bd508db730b5cdf594f1c88ca5a5407107a97e6f"
+  }
+}

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import type { RawBook, RawExample, RawPromptStep, RawResponse } from "../src/types";
 import { deriveReplay } from "../scripts/lib/import-showtail";
@@ -54,12 +54,10 @@ function sourceFiles(sourceRoot: string): Map<string, string> {
 }
 
 describe("Python chapter 9 Showtail retrofit", () => {
-  test("commits immutable v1 evidence and deterministic v2 provenance", () => {
+  test("commits sanitized v2 evidence and hash-only legacy provenance", () => {
     for (const exercise of manifest.exercises) {
       const exerciseRoot = join(dirname(manifestPath), exercise.bundle);
-      const legacy = readFileSync(
-        join(exerciseRoot, "legacy", "report-v1.json"),
-      );
+      const legacyPath = join(exerciseRoot, "legacy", "report-v1.json");
       const reportText = readFileSync(
         join(exerciseRoot, "bundle", "report.json"),
         "utf8",
@@ -69,14 +67,17 @@ describe("Python chapter 9 Showtail retrofit", () => {
         readFileSync(join(exerciseRoot, "retrofit.json"), "utf8"),
       );
       const files = sourceFiles(join(exerciseRoot, "bundle", "source"));
-      expect(JSON.parse(legacy.toString("utf8")).schemaVersion ?? 1).toBe(1);
-      expect(sha256(legacy)).toBe(exercise.legacyReportSha256);
+      expect(existsSync(legacyPath)).toBe(false);
+      expect(exercise.legacyReport).toBeUndefined();
+      expect(audit.legacyReport).toEqual({ sha256: exercise.legacyReportSha256 });
+      expect(audit.privacy.originalArtifactsCommitted).toBe(false);
       expect(report.schemaVersion).toBe(2);
       expect(report.sessionId).toBe(manifest.session.id);
       expect(report.turns).toHaveLength(1);
       expect(report.turns[0].prompt.text).toBe(target(exercise.id).prompt);
       expect(audit.outputs.reportSha256).toBe(sha256(reportText));
       expect(audit.outputs.sourceTreeSha256).toBe(canonicalTreeSha256(files));
+      expect(reportText).not.toMatch(/(?:[A-Za-z]:\\Users\\|\/Users\/|\/home\/)/);
       expect([...files.values()].every((content) => !content.includes("\r"))).toBe(
         true,
       );

@@ -6,16 +6,13 @@
   "session": {
     "integration": "claude",
     "id": "d861f3ac-3626-4d9b-b5ef-1a5765793ef3",
-    "transcript": "chapter 9 - game/claude-original/d861f3ac-3626-4d9b-b5ef-1a5765793ef3.jsonl",
     "sha256": "7209663ee80fdd1705e460bc075773f804c2455fabaf014702ae8d2f81c1512e"
   },
   "promptSha256": "20604938b65af7c4f09b857d16f1318c549c182364e9cd80d805ac267e23c802",
   "legacyReport": {
-    "path": "chapter 9 - game/showtail-reports/fox/report-cassandra-chin-at-gmail-com-2026-08-21T190126819.json",
     "sha256": "5679d2eaf40ab58e185ee3f6fbfe7dba849c729428dd32a0706c2e3ec321c4e7"
   },
   "sourceCheckpoint": {
-    "path": "chapter 9 - game/source-checkpoints/02-7f5ec572-Add two new levels with increased difficulty",
     "rawTreeSha256": "6b6142faa19971c7abcade6c6e2cd97b448a80fce0f6ce0c188cda7e50d7bd67",
     "canonicalTreeSha256": "d2fab95ea57c19995a9e083280cce46ae5d8d656adc396a8ef5e48686e857981"
   },
@@ -35,7 +32,12 @@
     "excludedGeneratedAssets": true
   },
   "outputs": {
-    "reportSha256": "76cb0e70138243812f6f6e3b2ed71cb7310adf9c634aa60f9901c0e52d1bb565",
+    "reportSha256": "4efba181ed690572ee57d44150211b03ee8c1006c7f208cd23c98787253c3708",
     "sourceTreeSha256": "d2fab95ea57c19995a9e083280cce46ae5d8d656adc396a8ef5e48686e857981"
+  },
+  "privacy": {
+    "originalArtifactsCommitted": false,
+    "identitiesRemoved": true,
+    "workspacePathsNormalized": true
   }
 }

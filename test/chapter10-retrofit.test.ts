@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import type { RawBook, RawExample, RawPromptStep, RawResponse } from "../src/types";
 import { deriveReplay } from "../scripts/lib/import-showtail";
@@ -85,12 +85,10 @@ describe("Python chapter 10 Showtail retrofit", () => {
     ).toBe(false);
   });
 
-  test("records immutable evidence and the explicit Copilot legacy reconstruction", () => {
+  test("records sanitized evidence and the explicit Copilot legacy reconstruction", () => {
     for (const exercise of manifest.exercises) {
       const exerciseRoot = join(dirname(manifestPath), exercise.bundle);
-      const legacy = readFileSync(
-        join(exerciseRoot, "legacy", "report-v1.json"),
-      );
+      const legacyPath = join(exerciseRoot, "legacy", "report-v1.json");
       const reportText = readFileSync(
         join(exerciseRoot, "bundle", "report.json"),
         "utf8",
@@ -100,13 +98,16 @@ describe("Python chapter 10 Showtail retrofit", () => {
         readFileSync(join(exerciseRoot, "retrofit.json"), "utf8"),
       );
       const files = sourceFiles(join(exerciseRoot, "bundle", "source"));
-      expect(JSON.parse(legacy.toString("utf8")).schemaVersion ?? 1).toBe(1);
-      expect(sha256(legacy)).toBe(exercise.legacyReportSha256);
+      expect(existsSync(legacyPath)).toBe(false);
+      expect(exercise.legacyReport).toBeUndefined();
+      expect(audit.legacyReport).toEqual({ sha256: exercise.legacyReportSha256 });
+      expect(audit.privacy.originalArtifactsCommitted).toBe(false);
       expect(report.schemaVersion).toBe(2);
       expect(report.turns).toHaveLength(1);
       expect(report.turns[0].prompt.text).toBe(target(exercise.id).prompt);
       expect(audit.outputs.reportSha256).toBe(sha256(reportText));
       expect(audit.outputs.sourceTreeSha256).toBe(canonicalTreeSha256(files));
+      expect(reportText).not.toMatch(/(?:[A-Za-z]:\\Users\\|\/Users\/|\/home\/)/);
       expect(files.has("levels/level_4.json")).toBe(false);
       expect(audit.normalizations.excludedSourcePaths).toEqual([
         "levels/level_4.json",

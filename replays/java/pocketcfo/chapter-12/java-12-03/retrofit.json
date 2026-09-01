@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "exerciseId": "java-12-03",
+  "retrofitDate": "2026-09-01",
+  "source": {
+    "kind": "showtail-v2-archive",
+    "reportSha256": "65e23eee3ad488aabdd9fe8f104aaf28a9c0162c64c660685e3041b20b6fd5da",
+    "primaryTurn": 25,
+    "segments": [
+      {
+        "turn": 25,
+        "mode": "full"
+      }
+    ]
+  },
+  "manuscript": {
+    "promptSha256": "b573fa8b6f440b8eaae4bc2b7c1eaaf404c9f8c3b0b0c7233de82ecc616caa06",
+    "responseSha256": "10e2eeb9527a75f2635fc27d11bb4773b2221e08d9613e499a788c2af7e62055",
+    "responsePath": "src/main/java/com/example/finance/BudgetService.java",
+    "responseMatch": "excerpt"
+  },
+  "corrections": [],
+  "normalizations": [
+    {
+      "id": "month-aware-goal-contribution-date",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "beforeSha256": "021a4fbc2f02f0589f7d0a0377a2c773c40ff0e5b908274792814330e4cb0675",
+      "afterSha256": "66d096088a774e68ae64e2bce5c2cb847928d1ab70898ae822876130f0bf8148"
+    },
+    {
+      "id": "month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "skipIfContains": "    private LocalDate dateWithinMonth(YearMonth month) {",
+      "beforeSha256": "66d096088a774e68ae64e2bce5c2cb847928d1ab70898ae822876130f0bf8148",
+      "afterSha256": "a17f828e7bc5c8ebb2d2cd6033bb5ffc041c4b1a1c1a0698c23d5e07b0ffbfc7"
+    }
+  ],
+  "privacy": {
+    "originalArtifactsCommitted": false,
+    "identitiesRemoved": true,
+    "workspacePathsNormalized": true
+  },
+  "outputs": {
+    "reportSha256": "6dc84db5eedfbc6f175fa2e65160bdcad8157d3051d7ed96bed9b222260c37ef",
+    "sourceTreeSha256": "215167d8ff792176506762a77c4eedcdef26f6384dd5c38eb525e65a58bb8438"
+  }
+}
