@@ -15,6 +15,6 @@ Thumbs.db
 key.env
 *.env
 
-# Where the manuscripts live on this machine. The books are not open source, so
-# their paths are local configuration -- see manuscripts.example.json.
+# Where the private source manuscripts live on this machine. They are not part
+# of the Apache-2.0-licensed committed content -- see manuscripts.example.json.
 manuscripts.json
