@@ -66,6 +66,16 @@ def next_default_filename():
     return f"level_{n}.json"
 
 
+def snapshot(placements):
+    return dict(placements)
+
+
+def commit_if_changed(undo_stack, redo_stack, before, placements):
+    if placements != before:
+        undo_stack.append(before)
+        redo_stack.clear()
+
+
 def apply_tool(placements, tool_entry, cell):
     if tool_entry is None:  # eraser
         placements.pop(cell, None)
@@ -127,7 +137,7 @@ def draw_toolbar(screen, font, tool_index, hover_cell):
     for i, (key, label, _) in enumerate(TOOLS):
         marker = f"[{label}]" if i == tool_index else label
         parts.append(f"{key}:{marker}")
-    text = "  ".join(parts) + "   N:new  S:save  Esc:quit"
+    text = "  ".join(parts) + "   N:new  S:save  Ctrl+Z:Undo  Ctrl+Y:Redo  Esc:quit"
     if hover_cell:
         text += f"   ({hover_cell[0]},{hover_cell[1]})"
     surf = font.render(text, True, (230, 230, 230))
@@ -147,6 +157,8 @@ def main():
 
     placements = {}
     tool_index = 0
+    undo_stack = []
+    redo_stack = []
     running = True
 
     while running:
@@ -157,10 +169,23 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
+                ctrl_held = pygame.key.get_mods() & pygame.KMOD_CTRL
                 if event.key == pygame.K_ESCAPE:
                     running = False
+                elif event.key == pygame.K_z and ctrl_held:
+                    if undo_stack:
+                        redo_stack.append(snapshot(placements))
+                        placements.clear()
+                        placements.update(undo_stack.pop())
+                elif event.key == pygame.K_y and ctrl_held:
+                    if redo_stack:
+                        undo_stack.append(snapshot(placements))
+                        placements.clear()
+                        placements.update(redo_stack.pop())
                 elif event.key == pygame.K_n:
+                    before = snapshot(placements)
                     placements.clear()
+                    commit_if_changed(undo_stack, redo_stack, before, placements)
                 elif event.key == pygame.K_s:
                     save_level(placements)
                 elif event.key in KEY_TO_TOOL:
@@ -168,10 +193,12 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 cell = pixel_to_cell(event.pos)
                 if cell is not None:
+                    before = snapshot(placements)
                     if event.button == 1:
                         apply_tool(placements, TOOLS[tool_index][2], cell)
                     elif event.button == 3:
                         apply_tool(placements, None, cell)
+                    commit_if_changed(undo_stack, redo_stack, before, placements)
 
         screen.blit(background, (0, 0))
         draw_grid_lines(screen)

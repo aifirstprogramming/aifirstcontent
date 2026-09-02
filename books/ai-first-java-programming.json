@@ -8061,6 +8061,7 @@
               "title": "Build the PocketCFO Application",
               "description": "Create the first JavaFX version of PocketCFO for transactions, categories, savings goals, obligations, and monthly summaries.",
               "kind": "project",
+              "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
               "prompt": "I want to build a personal finance application that is custom to my needs because others are missing features I'd really like to have. Zero-based budgeting tools assign each dollar a task, but I cannot easily see how much is leftover from income-expenses. They also don't seem to have good ways to divert leftover funds from one category to another. Spreadsheet templates are transaction-heavy and don't feel detailed enough on category spending or high-level analysis. I prefer to understand where money is going, where to move leftovers, and how to adjust (awareness budgeting). The app shouldn't be reactive, though. I want to make informed decisions on where to cut back, refocus/align spending to priorities, and understand my lifestyle.",
               "response": [
                 "import java.math.BigDecimal;",
@@ -9300,6 +9301,7 @@
               "title": "Add Update and Delete Operations",
               "description": "Extend PocketCFO repositories and views so categories, transactions, savings goals, and obligations can be corrected or removed.",
               "kind": "project",
+              "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
               "prompt": "I'd like to be able to update or delete categories, transactions, savings goals, and obligations. Could we add that?",
               "response": [
                 "    public void update(long id, LocalDate date, TransactionType type, String categoryName,",
@@ -12424,6 +12426,7 @@
               "title": "Import Transactions from CSV",
               "description": "Parse common bank-export column layouts, preserve valid rows when other rows fail, and connect CSV importing to the JavaFX interface.",
               "kind": "project",
+              "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
               "prompt": "I want to be able to load a CSV of transactions. The file format changes a bit, depending on vendor. Common fields include Date/Transaction Date,Description,Category,Amount/Debit/Credit. Handle errors gracefully.",
               "response": [
                 "        <dependency>",
@@ -13722,6 +13725,7 @@
               "title": "Add Multi-Month and Year-to-Date Support",
               "description": "Navigate between months and calculate year-to-date category and summary totals.",
               "kind": "project",
+              "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
               "prompt": "The application should be able to handle and navigate multiple months that can roll up into a year-to-date, as well. Could we add that to the application?",
               "response": [
                 "    public static class YtdCategoryTotal {",
@@ -14647,6 +14651,7 @@
               "title": "Compare Spending with Category Priorities",
               "description": "Rank chosen category priorities beside categories ordered by actual spending to reveal alignment or mismatch.",
               "kind": "project",
+              "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
               "prompt": "I want to be able to prioritize spending categories and have the application analyze actual spending against the prioritized categories to see where they match or are misaligned. There should be two separate lists. The first should be ordered category priorities (number and category name), and the second should be ordered categories by actual spending (number, category name, actual spend amount).",
               "response": [
                 "import java.math.BigDecimal;",

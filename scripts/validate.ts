@@ -139,11 +139,16 @@ try {
   for (const example of content.examples) {
     const seenDependencies = new Set<string>();
     for (const dependency of example.dependencies ?? []) {
-      const key = `${dependency.kind}:${dependency.package}:${dependency.module}`;
+      const key = dependency.kind === "python-package"
+        ? `${dependency.kind}:${dependency.package}:${dependency.module}`
+        : `${dependency.kind}:${dependency.package}:${dependency.command}`;
       if (seenDependencies.has(key)) fail(`${example.id} declares duplicate dependency ${dependency.package}`);
       seenDependencies.add(key);
       if (dependency.kind === "python-package" && example.language !== "python") {
         fail(`${example.id} declares Python package ${dependency.package} but its language is ${example.language}`);
+      }
+      if (dependency.kind === "system-command" && !/^[A-Za-z0-9._+-]+$/.test(dependency.command)) {
+        fail(`${example.id} declares invalid system command ${dependency.command}`);
       }
     }
   }

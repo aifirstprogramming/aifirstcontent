@@ -200,8 +200,17 @@ export interface PythonPackageDependency {
   module: string;
 }
 
+/** An executable that must be available before an exercise replay starts. */
+export interface SystemCommandDependency {
+  kind: "system-command";
+  /** Human-readable package/tool name, for example "Maven". */
+  package: string;
+  /** Executable resolved on PATH, for example "mvn". */
+  command: string;
+}
+
 /** Tagged so future language ecosystems can add dependency kinds compatibly. */
-export type Dependency = PythonPackageDependency;
+export type Dependency = PythonPackageDependency | SystemCommandDependency;
 
 export interface RawExample {
   id: string;

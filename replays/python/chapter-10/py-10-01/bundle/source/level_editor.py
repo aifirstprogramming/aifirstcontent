@@ -8,13 +8,11 @@ Fox patrols are not editable here -- saved levels always have an empty
 fox_patrols list, which can be hand-edited into the JSON afterward.
 """
 
-import json
-
 import pygame
 
 from assets_gen import ensure_assets, load_images
-from constants import TILE_SIZE, GRID_COLS, GRID_ROWS, SCREEN_WIDTH, SCREEN_HEIGHT, FOX_SPEED
-from level import LEVELS_DIR, build_background, OBSTACLE_IMAGE_KEYS
+from constants import TILE_SIZE, GRID_COLS, GRID_ROWS, SCREEN_WIDTH, SCREEN_HEIGHT
+from level import LEVELS_DIR, LevelDef, save_level_def, build_background, OBSTACLE_IMAGE_KEYS
 
 TOOLBAR_HEIGHT = 32
 WINDOW_WIDTH = SCREEN_WIDTH
@@ -96,14 +94,12 @@ def save_level(placements):
         [col, row] for (col, row), e in placements.items() if e[0] == "sibling"
     ]
 
-    data = {
-        "obstacle_layout": obstacle_layout,
-        "sibling_spawns": sibling_spawns,
-        "mother_pos": list(mother_cell),
-        "player_start": list(player_cell),
-        "fox_patrols": [],
-        "fox_speed": FOX_SPEED,
-    }
+    level_def = LevelDef(
+        obstacle_layout=obstacle_layout,
+        sibling_spawns=sibling_spawns,
+        mother_pos=list(mother_cell),
+        player_start=list(player_cell),
+    )
 
     default_name = next_default_filename()
     filename = input(f"Save as [{default_name}]: ").strip() or default_name
@@ -112,8 +108,7 @@ def save_level(placements):
 
     LEVELS_DIR.mkdir(exist_ok=True)
     out_path = LEVELS_DIR / filename
-    with open(out_path, "w") as f:
-        json.dump(data, f, indent=4)
+    save_level_def(level_def, out_path)
     print(f"Saved {out_path}")
 
 

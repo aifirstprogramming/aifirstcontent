@@ -471,7 +471,8 @@
       "minItems": 1,
       "items": {
         "oneOf": [
-          { "$ref": "#/definitions/pythonPackageDependency" }
+          { "$ref": "#/definitions/pythonPackageDependency" },
+          { "$ref": "#/definitions/systemCommandDependency" }
         ]
       }
     },
@@ -488,6 +489,22 @@
         "module": {
           "type": "string",
           "pattern": "^[A-Za-z_][A-Za-z0-9_.]*$"
+        }
+      }
+    },
+    "systemCommandDependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "package", "command"],
+      "properties": {
+        "kind": { "const": "system-command" },
+        "package": {
+          "type": "string",
+          "minLength": 1
+        },
+        "command": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._+-]+$"
         }
       }
     },

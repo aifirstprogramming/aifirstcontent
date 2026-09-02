@@ -16,7 +16,6 @@ const exerciseIds = new Set([
   "py-10-01",
   "py-10-02",
   "py-10-03",
-  "py-10-04",
 ]);
 const assetNames = [
   "bush.png",

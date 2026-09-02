@@ -62,7 +62,7 @@ function scaffoldFiles(step: RawExample | RawPromptStep): Map<string, string> {
 }
 
 describe("Python chapter 10 Showtail retrofit", () => {
-  test("publishes the four authoritative checkpoint exercises", () => {
+  test("publishes only the three guided manuscript exercises", () => {
     const chapter = book.sections
       .flatMap((section) => section.chapters)
       .find((candidate) => candidate.title === manifest.chapterTitle)!;
@@ -70,22 +70,25 @@ describe("Python chapter 10 Showtail retrofit", () => {
       "py-10-01",
       "py-10-02",
       "py-10-03",
-      "py-10-04",
     ]);
     expect(chapter.examples.map((example) => example.title)).toEqual([
       "Design a Level Editor",
-      "Centralize Level JSON Saving",
       "Add Undo and Redo",
       "Animate a Beatability Pathfinder",
     ]);
+    expect(chapter.examples.map((example) => example.prompt)).toEqual([
+      "Design a level editor for the savetheduckling game.",
+      "Implement undo/redo for the level editor.",
+      "Create a path finding algorithm for the level editor to test if a level is beatable. Make it animated.",
+    ]);
     expect(
       chapter.examples.some((example) =>
-        example.prompt?.toLowerCase().includes("desert"),
+        /save_level_def|desert/i.test(example.prompt ?? ""),
       ),
     ).toBe(false);
   });
 
-  test("records sanitized evidence and the explicit Copilot legacy reconstruction", () => {
+  test("records sanitized evidence and keeps the JSON-saving checkpoint internal", () => {
     for (const exercise of manifest.exercises) {
       const exerciseRoot = join(dirname(manifestPath), exercise.bundle);
       const legacyPath = join(exerciseRoot, "legacy", "report-v1.json");
@@ -114,7 +117,7 @@ describe("Python chapter 10 Showtail retrofit", () => {
       ]);
     }
 
-    const exercise = manifest.exercises.find((item) => item.id === "py-10-02")!;
+    const exercise = manifest.exercises.find((item) => item.id === "py-10-01")!;
     const exerciseRoot = join(dirname(manifestPath), exercise.bundle);
     const audit = JSON.parse(
       readFileSync(join(exerciseRoot, "retrofit.json"), "utf8"),
@@ -122,16 +125,28 @@ describe("Python chapter 10 Showtail retrofit", () => {
     const report = JSON.parse(
       readFileSync(join(exerciseRoot, "bundle", "report.json"), "utf8"),
     );
-    expect(audit.session.integration).toBe("github-copilot");
-    expect(audit.session.reconstructedFrom).toBe(
-      "showtail-v1-code-changes-and-source-checkpoints",
-    );
+    expect(exercise.checkpointOverlay?.capture.integration).toBe("github-copilot");
+    expect(audit.checkpointOverlay.attachedToExercise).toBe("py-10-01");
+    expect(audit.normalizations.bookCheckpointOverlay).toEqual([
+      "level_editor.py",
+      "level.py",
+    ]);
     expect(
       report.turns[0].events.filter(
         (event: { type: string; toolName?: string }) =>
           event.type === "tool_use" && event.toolName === "Edit",
       ),
-    ).toHaveLength(2);
+    ).toHaveLength(9);
+    expect(
+      report.turns[0].events.filter(
+        (event: { type: string; text?: string }) =>
+          event.type === "assistant_text" &&
+          event.text?.startsWith("The chapter presents JSON loading and saving"),
+      ),
+    ).toHaveLength(1);
+    expect(scaffoldFiles(target("py-10-01")).get("level.py")).toContain(
+      "def save_level_def(level_def, path):",
+    );
   });
 
   test("the normal v2 importer exactly regenerates the complete progression", () => {
@@ -155,6 +170,7 @@ describe("Python chapter 10 Showtail retrofit", () => {
         initialExerciseId,
         binaryFiles: step.scaffold?.files.filter((file) => file.contentBase64 !== undefined),
         response: response(step.response),
+        entrypoint: exercise.entrypoint,
       });
       expect(
         derived.diagnostics.filter((diagnostic) => diagnostic.severity === "error"),
@@ -176,14 +192,13 @@ describe("Python chapter 10 Showtail retrofit", () => {
       ["py-10-01", "py-9-03"],
       ["py-10-02", "py-10-01"],
       ["py-10-03", "py-10-02"],
-      ["py-10-04", "py-10-03"],
     ]);
   });
 
   test("embeds the tracked duckling PNGs in every project scaffold", () => {
     const assetRoot = join(root, "assets", "python", "save-the-duckling");
     const names = readdirSync(assetRoot).filter((name) => name.endsWith(".png")).sort();
-    for (const id of ["py-9-01", "py-9-02", "py-9-03", "py-10-01", "py-10-02", "py-10-03", "py-10-04"]) {
+    for (const id of ["py-9-01", "py-9-02", "py-9-03", "py-10-01", "py-10-02", "py-10-03"]) {
       const embedded = (target(id).scaffold?.files ?? [])
         .filter((file) => file.contentBase64 !== undefined)
         .sort((left, right) => left.path.localeCompare(right.path));
@@ -197,11 +212,16 @@ describe("Python chapter 10 Showtail retrofit", () => {
   });
 
   test("retains questionless plan mode for the undo exercise", () => {
-    const undo = target("py-10-03");
+    const undo = target("py-10-02");
     expect(undo.replay?.workflow?.questions).toEqual([]);
     expect(undo.replay?.workflow?.canonicalAnswers).toEqual({});
     expect(undo.replay?.workflow?.canonicalPlan).toContain(
       "Undo/Redo for the Level Editor",
     );
+  });
+
+  test("runs every chapter 10 exercise through the level editor", () => {
+    for (const id of ["py-10-01", "py-10-02", "py-10-03"])
+      expect(target(id).scaffold?.entrypoint).toBe("level_editor.py");
   });
 });

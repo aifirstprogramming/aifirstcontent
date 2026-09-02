@@ -122,6 +122,7 @@ function processBundle(
   book: RawBook,
   bundle: string,
   expectedExerciseId?: string,
+  entrypoint?: string,
 ): BundleResult {
   const reportPath = join(bundle, "report.json");
   const reportText = readFileSync(reportPath, "utf8");
@@ -152,6 +153,7 @@ function processBundle(
       ? previous.step.id ?? previous.parent.id
       : undefined,
     binaryFiles: binaryScaffoldFiles(target.step.scaffold),
+    entrypoint,
   });
   const exerciseId = target.step.id ?? target.parent.id;
   if (expectedExerciseId && exerciseId !== expectedExerciseId) {
@@ -201,7 +203,7 @@ if (manifestPath) {
   const book = JSON.parse(readFileSync(path, "utf8")) as RawBook;
   for (const exercise of manifest.exercises) {
     const bundle = resolve(dirname(manifestPath), exercise.bundle, "bundle");
-    results.push(processBundle(manifest.book, book, bundle, exercise.id));
+    results.push(processBundle(manifest.book, book, bundle, exercise.id, exercise.entrypoint));
   }
   const failures = results.some((result) =>
     result.diagnostics.some((item) => item.severity === "error"),

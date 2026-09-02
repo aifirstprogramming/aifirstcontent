@@ -69,10 +69,9 @@ const expectedFingerprints: Record<string, string> = {
   "py-9-01": "7eb1ac355efe5acf18992596ca8ccc254c80de16c788625aef2706f772b70361",
   "py-9-02": "4cbffe5fac882b7d0b6e9e14e2aa816a016bb9c47fdd6a8c51abb2838a9cd5cc",
   "py-9-03": "4c1a5ed1972b34bf60dbb38c385503e6b78390bb87cfa9995d8df291622537d3",
-  "py-10-01": "c9832688b673aef2a22c86173e25bd04152ea09c02494073a2f78e1f65c9021d",
-  "py-10-02": "26300734e471ababfc39f56457429d2060b6ba8956d8c75c86788f584adab772",
-  "py-10-03": "8d022a32bb6ab941c744e833c6ad39982a6d3c6d7a1a8216617da8d7d09372e2",
-  "py-10-04": "afca6033f91920f36ca4dcdf21d35438819a3012304132367520d4453917a172",
+  "py-10-01": "6f18ab5a873770607261db4ee39adf19bbf583bab90b7d92604155de8ff85882",
+  "py-10-02": "9c23292d5f4b9892192a8a3c9e80caa26dc8ad53e09b0e5b4b9ed47f1d0897a0",
+  "py-10-03": "1d44965c4d04de87b18006d086dfa442d401b78458360442a84a55029fe5b897",
 };
 
 function semanticFingerprint(example: RawExample): string {
@@ -85,7 +84,7 @@ describe("replay privacy sanitization", () => {
     let initialExerciseId: string | undefined;
     for (const manifestPath of manifestPaths) {
       const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as {
-        exercises: Array<{ id: string; bundle: string }>;
+        exercises: Array<{ id: string; bundle: string; entrypoint?: string }>;
       };
       for (const exercise of manifest.exercises) {
         const example = target(exercise.id);
@@ -102,6 +101,7 @@ describe("replay privacy sanitization", () => {
           turnIndex: 0,
           sourceFiles: source,
           response: response(example.response),
+          entrypoint: exercise.entrypoint,
           initialFiles,
           initialExerciseId,
           binaryFiles: example.scaffold?.files.filter(

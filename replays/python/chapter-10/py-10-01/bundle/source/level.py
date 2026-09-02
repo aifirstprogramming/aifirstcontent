@@ -1,5 +1,5 @@
 import json
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from itertools import cycle
 from pathlib import Path
 
@@ -28,6 +28,11 @@ def load_level_def(path):
     with open(path) as f:
         data = json.load(f)
     return LevelDef(**data)
+
+
+def save_level_def(level_def, path):
+    with open(path, "w") as f:
+        json.dump(asdict(level_def), f, indent=4)
 
 
 def load_levels(levels_dir=LEVELS_DIR):

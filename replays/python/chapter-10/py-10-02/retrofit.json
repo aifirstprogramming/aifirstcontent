@@ -4,22 +4,24 @@
   "retrofitDate": "2026-08-30",
   "showtailVersion": "0.14.1",
   "session": {
-    "integration": "github-copilot",
-    "id": "legacy-40fe304e319c-py-10-02",
-    "reconstructedFrom": "showtail-v1-code-changes-and-source-checkpoints",
-    "initialCheckpoint": "chapter 10 - level editor/source-checkpoints/04-7eec8da6-Refactor level management and introduce level editor",
-    "initialTreeSha256": "e69beb244e980f29ccf544b360550b1b614ca0bad41128f9f1148d6bce87afb0",
-    "initialCanonicalTreeSha256": "07151633c8a490b93b1f86773d11f6352d4fde2c2d24e47dfa5da083c56fd7ed"
+    "integration": "claude",
+    "id": "6bc3239c-efba-4147-8b9a-b3226a4f327d",
+    "sha256": "bd6ecc0f5cc87fa07676bac4322ac6c2981595e039174910417051fbd0cba6df"
   },
-  "promptSha256": "51e0d42aefe6535372a6e3f8eb8ac4ac51a0aae6404637f5252afe092c757e8b",
+  "promptSha256": "9465bfb459b5a1e50f4e266042fc3e97e84631a5254a1ea04112979bc2d68f04",
   "legacyReport": {
     "sha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63"
   },
   "sourceCheckpoint": {
-    "rawTreeSha256": "522097a25fcc76f9c910e34bd9ba16766ab0f642e9b80968ad609b443a1934b5",
-    "canonicalTreeSha256": "d01e8e8d2bf7e6dcc090b029fa6872474a61efa3745366606454393d1b7f878a"
+    "rawTreeSha256": "7dc8990b2c54ea5fd102e92df6ef227e8e314c9728b508dcb96785be229a74ad",
+    "canonicalTreeSha256": "d939c1870331a567c2ce64987214d0a10531bd6476d195b673833e77e66c9caa"
   },
-  "plans": [],
+  "plans": [
+    {
+      "toolUseId": "toolu_016TLpfm1VJZhG2AVT75wvEe",
+      "sha256": "d31b3f2fac0c9a47c67d856e30fad6275010614a29c80410337a3a7fc539d906"
+    }
+  ],
   "normalizations": {
     "scopedToCanonicalPrompt": true,
     "eventSequencesRenumbered": true,
@@ -41,8 +43,8 @@
     "excludedGeneratedAssets": true
   },
   "outputs": {
-    "reportSha256": "3016302e9462937c6161a32dad1b41aa651b221e525f0a33a2729e0327b31243",
-    "sourceTreeSha256": "d01e8e8d2bf7e6dcc090b029fa6872474a61efa3745366606454393d1b7f878a"
+    "reportSha256": "310c2a333d7f417bbaf76c4f1b1227c6c94cd27060ffd8a7551b7cd69c01c567",
+    "sourceTreeSha256": "d939c1870331a567c2ce64987214d0a10531bd6476d195b673833e77e66c9caa"
   },
   "privacy": {
     "originalArtifactsCommitted": false,

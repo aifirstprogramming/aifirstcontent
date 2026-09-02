@@ -24,6 +24,7 @@ export interface RetrofitExerciseInput {
   prompt?: string;
   promptSha256: string;
   responsePath?: string;
+  entrypoint?: string;
   stdin?: string;
   explanation?: Explanation;
   legacyReport?: string;
@@ -40,6 +41,20 @@ export interface RetrofitExerciseInput {
         initialCheckpoint: string;
         initialTreeSha256: string;
       };
+  checkpointOverlay?: {
+    message: string;
+    prompt: string;
+    promptSha256: string;
+    legacyReportSha256: string;
+    sourceCheckpoint: string;
+    sourceTreeSha256: string;
+    capture: {
+      mode: "legacy-diff";
+      integration: string;
+      initialCheckpoint: string;
+      initialTreeSha256: string;
+    };
+  };
   plans?: RetrofitPlanInput[];
 }
 
@@ -180,6 +195,63 @@ export function readRetrofitManifest(path: string): RetrofitManifest {
             `manifest.exercises[${index}].capture.mode is unsupported`,
           );
       }
+      const checkpointOverlay = item.checkpointOverlay;
+      let parsedCheckpointOverlay: RetrofitExerciseInput["checkpointOverlay"];
+      if (checkpointOverlay !== undefined) {
+        const overlay = record(
+          checkpointOverlay,
+          `manifest.exercises[${index}].checkpointOverlay`,
+        );
+        const overlayCapture = record(
+          overlay.capture,
+          `manifest.exercises[${index}].checkpointOverlay.capture`,
+        );
+        if (overlayCapture.mode !== "legacy-diff")
+          throw new Error(
+            `manifest.exercises[${index}].checkpointOverlay.capture.mode must be legacy-diff`,
+          );
+        parsedCheckpointOverlay = {
+          message: string(
+            overlay.message,
+            `manifest.exercises[${index}].checkpointOverlay.message`,
+          ),
+          prompt: string(
+            overlay.prompt,
+            `manifest.exercises[${index}].checkpointOverlay.prompt`,
+          ),
+          promptSha256: string(
+            overlay.promptSha256,
+            `manifest.exercises[${index}].checkpointOverlay.promptSha256`,
+          ),
+          legacyReportSha256: string(
+            overlay.legacyReportSha256,
+            `manifest.exercises[${index}].checkpointOverlay.legacyReportSha256`,
+          ),
+          sourceCheckpoint: string(
+            overlay.sourceCheckpoint,
+            `manifest.exercises[${index}].checkpointOverlay.sourceCheckpoint`,
+          ),
+          sourceTreeSha256: string(
+            overlay.sourceTreeSha256,
+            `manifest.exercises[${index}].checkpointOverlay.sourceTreeSha256`,
+          ),
+          capture: {
+            mode: "legacy-diff",
+            integration: string(
+              overlayCapture.integration,
+              `manifest.exercises[${index}].checkpointOverlay.capture.integration`,
+            ),
+            initialCheckpoint: string(
+              overlayCapture.initialCheckpoint,
+              `manifest.exercises[${index}].checkpointOverlay.capture.initialCheckpoint`,
+            ),
+            initialTreeSha256: string(
+              overlayCapture.initialTreeSha256,
+              `manifest.exercises[${index}].checkpointOverlay.capture.initialTreeSha256`,
+            ),
+          },
+        };
+      }
       const sourceExcludes = item.sourceExcludes;
       if (sourceExcludes !== undefined && !Array.isArray(sourceExcludes))
         throw new Error(
@@ -217,6 +289,9 @@ export function readRetrofitManifest(path: string): RetrofitManifest {
         ...(optionalString(item.responsePath)
           ? { responsePath: item.responsePath as string }
           : {}),
+        ...(optionalString(item.entrypoint)
+          ? { entrypoint: item.entrypoint as string }
+          : {}),
         ...(optionalString(item.stdin) ? { stdin: item.stdin as string } : {}),
         ...(item.explanation !== undefined
           ? {
@@ -237,6 +312,9 @@ export function readRetrofitManifest(path: string): RetrofitManifest {
             }
           : {}),
         ...(parsedCapture ? { capture: parsedCapture } : {}),
+        ...(parsedCheckpointOverlay
+          ? { checkpointOverlay: parsedCheckpointOverlay }
+          : {}),
         ...(plans
           ? {
               plans: plans.map((plan, planIndex) => {

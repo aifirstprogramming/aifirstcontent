@@ -695,7 +695,7 @@ describe("Showtail bundle import command", () => {
   test("imports committed retrofit manifests without manuscript configuration", async () => {
     for (const [chapter, exerciseIds] of [
       ["chapter-09", ["py-9-01", "py-9-02", "py-9-03"]],
-      ["chapter-10", ["py-10-01", "py-10-02", "py-10-03", "py-10-04"]],
+      ["chapter-10", ["py-10-01", "py-10-02", "py-10-03"]],
     ] as const) {
       const proc = Bun.spawn(
         [

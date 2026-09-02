@@ -64,7 +64,7 @@ describe("content inventory", () => {
     );
     expect(byBook).toEqual({
       "ai-first-java-programming": 93,
-      "ai-first-python-programming": 59,
+      "ai-first-python-programming": 58,
     });
   });
 });

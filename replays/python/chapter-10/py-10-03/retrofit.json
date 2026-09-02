@@ -8,18 +8,18 @@
     "id": "6bc3239c-efba-4147-8b9a-b3226a4f327d",
     "sha256": "bd6ecc0f5cc87fa07676bac4322ac6c2981595e039174910417051fbd0cba6df"
   },
-  "promptSha256": "9465bfb459b5a1e50f4e266042fc3e97e84631a5254a1ea04112979bc2d68f04",
+  "promptSha256": "0cef8c1b964b2c90cd894337704c52e1fd7b8b7edf516a779c50c19c90ed417c",
   "legacyReport": {
     "sha256": "40fe304e319c485580611cd8a06239e16bc14193a96880bacf38147b2ca39e63"
   },
   "sourceCheckpoint": {
-    "rawTreeSha256": "7dc8990b2c54ea5fd102e92df6ef227e8e314c9728b508dcb96785be229a74ad",
-    "canonicalTreeSha256": "d939c1870331a567c2ce64987214d0a10531bd6476d195b673833e77e66c9caa"
+    "rawTreeSha256": "22604403e0a47965d46e2ed05dfd751c635479023c9975cf5708a958b7558e04",
+    "canonicalTreeSha256": "91244fca26c02b8f5b027eecfa5639dfd56580aafdcad3027ebb4e788df10255"
   },
   "plans": [
     {
-      "toolUseId": "toolu_016TLpfm1VJZhG2AVT75wvEe",
-      "sha256": "d31b3f2fac0c9a47c67d856e30fad6275010614a29c80410337a3a7fc539d906"
+      "toolUseId": "toolu_01WdD1kRog3rYFy2qhsiZzaf",
+      "sha256": "2657030099c69152fb74ba99db81d18565490e141c9accefa95c4500ea2540a3"
     }
   ],
   "normalizations": {
@@ -30,11 +30,8 @@
       "assets_gen.py",
       "constants.py",
       "entities.py",
-      "level_editor.py",
       "level.py",
       "levels/level_1.json",
-      "levels/level_2.json",
-      "levels/level_3.json",
       "main.py"
     ],
     "excludedSourcePaths": [
@@ -43,8 +40,8 @@
     "excludedGeneratedAssets": true
   },
   "outputs": {
-    "reportSha256": "310c2a333d7f417bbaf76c4f1b1227c6c94cd27060ffd8a7551b7cd69c01c567",
-    "sourceTreeSha256": "d939c1870331a567c2ce64987214d0a10531bd6476d195b673833e77e66c9caa"
+    "reportSha256": "1248f8701eca4a76def315744d646529d6337285df67a5934cb5dc0819c51fb4",
+    "sourceTreeSha256": "91244fca26c02b8f5b027eecfa5639dfd56580aafdcad3027ebb4e788df10255"
   },
   "privacy": {
     "originalArtifactsCommitted": false,

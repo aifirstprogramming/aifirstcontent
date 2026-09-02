@@ -203,7 +203,7 @@ try {
 
   let bookChanged = false;
   const generated = manifest.exercises.map((exercise) => {
-    const source = canonicalSourceTree(
+    let source = canonicalSourceTree(
       archiveRoot,
       exercise.sourceCheckpoint,
       exercise.sourceExcludes,
@@ -317,6 +317,108 @@ try {
           `${exercise.id} archived plan does not match the native transcript`,
         );
     }
+    let checkpointOverlayAudit:
+      | {
+          integration: string;
+          legacyReportSha256: string;
+          initialCheckpoint: string;
+          initialTreeSha256: string;
+          initialCanonicalTreeSha256: string;
+          sourceCheckpoint: string;
+          sourceTreeSha256: string;
+          sourceCanonicalTreeSha256: string;
+          attachedToExercise: string;
+        }
+      | undefined;
+    if (exercise.checkpointOverlay) {
+      const overlay = exercise.checkpointOverlay;
+      if (sha256(overlay.prompt) !== overlay.promptSha256)
+        throw new Error(`${exercise.id} checkpoint overlay prompt hash no longer matches the manifest`);
+      const overlayLegacyPath = resolveArchiveInputBySha256(
+        archiveRoot,
+        overlay.legacyReportSha256,
+      );
+      const overlayLegacyBuffer = verifyHash(
+        overlayLegacyPath,
+        overlay.legacyReportSha256,
+        `${exercise.id} checkpoint overlay legacy report`,
+      );
+      const overlayInitial = canonicalSourceTree(
+        archiveRoot,
+        overlay.capture.initialCheckpoint,
+        exercise.sourceExcludes,
+      );
+      if (overlayInitial.rawTreeSha256 !== overlay.capture.initialTreeSha256)
+        throw new Error(
+          `${exercise.id} checkpoint overlay initial hash mismatch: expected ${overlay.capture.initialTreeSha256}, found ${overlayInitial.rawTreeSha256}`,
+        );
+      if (overlayInitial.canonicalTreeSha256 !== source.canonicalTreeSha256)
+        throw new Error(`${exercise.id} checkpoint overlay does not start from the base exercise source`);
+      const overlaySource = canonicalSourceTree(
+        archiveRoot,
+        overlay.sourceCheckpoint,
+        exercise.sourceExcludes,
+      );
+      if (overlaySource.rawTreeSha256 !== overlay.sourceTreeSha256)
+        throw new Error(
+          `${exercise.id} checkpoint overlay source hash mismatch: expected ${overlay.sourceTreeSha256}, found ${overlaySource.rawTreeSha256}`,
+        );
+      const overlayReport = canonicalizeLegacyDiffReport({
+        legacyReport: JSON.parse(overlayLegacyBuffer.toString("utf8")),
+        prompt: overlay.prompt,
+        sessionId: `checkpoint-${overlay.legacyReportSha256.slice(0, 12)}-${exercise.id}`,
+        exerciseId: exercise.id,
+        initialFiles: overlayInitial.files,
+        sourceFiles: overlaySource.files,
+      });
+      const overlayTurn = (overlayReport.turns as Array<Record<string, unknown>>)[0]!;
+      const overlayEvents = (overlayTurn.events as Array<Record<string, unknown>>)
+        .filter((event) => event.type === "tool_use" || event.type === "tool_result");
+      let lastMutation = -1;
+      for (let index = 0; index < events.length; index++) {
+        const event = events[index]!;
+        if (
+          event.type === "tool_use" &&
+          (event.toolName === "Write" || event.toolName === "Edit")
+        ) lastMutation = index;
+      }
+      const insertionIndex = events.findIndex(
+        (event, index) => index > lastMutation && event.type === "assistant_text",
+      );
+      if (insertionIndex < 0)
+        throw new Error(`${exercise.id} has no final verification block for its checkpoint overlay`);
+      const overlayOutputs = overlayTurn.aiOutputs as Array<Record<string, unknown>>;
+      const timestamp = overlayOutputs[0]?.timestamp ?? events[insertionIndex]!.timestamp;
+      const insertionText = events[insertionIndex]!.text;
+      events.splice(
+        insertionIndex,
+        0,
+        { type: "assistant_text", text: overlay.message, timestamp },
+        ...overlayEvents,
+      );
+      events.forEach((event, index) => {
+        event.sequence = index;
+      });
+      const aiOutputs = turn.aiOutputs as Array<Record<string, unknown>>;
+      const outputIndex = aiOutputs.findIndex((output) => output.text === insertionText);
+      aiOutputs.splice(
+        outputIndex < 0 ? aiOutputs.length : outputIndex,
+        0,
+        { text: overlay.message, timestamp },
+      );
+      source = overlaySource;
+      checkpointOverlayAudit = {
+        integration: overlay.capture.integration,
+        legacyReportSha256: overlay.legacyReportSha256,
+        initialCheckpoint: overlay.capture.initialCheckpoint,
+        initialTreeSha256: overlay.capture.initialTreeSha256,
+        initialCanonicalTreeSha256: overlayInitial.canonicalTreeSha256,
+        sourceCheckpoint: overlay.sourceCheckpoint,
+        sourceTreeSha256: overlay.sourceTreeSha256,
+        sourceCanonicalTreeSha256: overlaySource.canonicalTreeSha256,
+        attachedToExercise: exercise.id,
+      };
+    }
     const reportText = stableJson(
       sanitizeShowtailReport(
         parseShowtailReport(report),
@@ -354,6 +456,9 @@ try {
       legacyReport: {
         sha256: exercise.legacyReportSha256,
       },
+      ...(checkpointOverlayAudit
+        ? { checkpointOverlay: checkpointOverlayAudit }
+        : {}),
       sourceCheckpoint: {
         rawTreeSha256: source.rawTreeSha256,
         canonicalTreeSha256: source.canonicalTreeSha256,
@@ -366,6 +471,9 @@ try {
         lineEndings: source.normalizedLineEndings,
         excludedSourcePaths: source.excludedPaths,
         excludedGeneratedAssets: true,
+        ...(checkpointOverlayAudit
+          ? { bookCheckpointOverlay: ["level_editor.py", "level.py"] }
+          : {}),
       },
       outputs: {
         reportSha256: sha256(reportText),
