@@ -65,4 +65,12 @@ describe("Python manuscript audit for chapters 9 and 10", () => {
     for (const example of chapter(10).examples)
       expect(example.steps[0]?.scaffold?.entrypoint).toBe("level_editor.py");
   });
+
+  test("uses the wheel-backed pygame distribution while preserving the pygame import", () => {
+    for (const example of [...chapter(9).examples, ...chapter(10).examples])
+      expect(example.dependencies).toEqual([
+        { kind: "python-package", package: "pygame-ce", module: "pygame" },
+        { kind: "python-package", package: "Pillow", module: "PIL" },
+      ]);
+  });
 });

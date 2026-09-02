@@ -123,7 +123,7 @@ describe("loading the real books", () => {
   it("copies exercise dependencies onto every normalized step", () => {
     const pygameIds = ["py-9-01", "py-9-02", "py-9-03", "py-10-01", "py-10-02", "py-10-03"];
     const pygame: Dependency[] = [
-      { kind: "python-package", package: "pygame", module: "pygame" },
+      { kind: "python-package", package: "pygame-ce", module: "pygame" },
       { kind: "python-package", package: "Pillow", module: "PIL" },
     ];
     const mavenIds = ["java-11-01", "java-11-02", "java-12-01", "java-12-03", "java-12-04"];

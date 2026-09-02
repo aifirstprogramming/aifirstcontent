@@ -23,6 +23,11 @@ The manuscripts also tell the reader to launch the game or editor. Learn mode
 represents those actions with **Run program** rather than progress-bearing
 exercises: Chapter 9 runs `main.py`, and Chapter 10 runs `level_editor.py`.
 
+The projects import `pygame`, but their install dependency is `pygame-ce`.
+Pygame Community Edition is API-compatible with these exercises and publishes
+binary wheels for current Python versions, avoiding local SDL compilation on
+immutable Linux systems.
+
 The extension prompts at the ends of both chapters intentionally remain outside
 model-free Learn mode because the manuscripts direct readers to connect an AI
 model before attempting them.

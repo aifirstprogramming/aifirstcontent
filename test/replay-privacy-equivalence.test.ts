@@ -66,12 +66,12 @@ function semantic(value: unknown): unknown {
 }
 
 const expectedFingerprints: Record<string, string> = {
-  "py-9-01": "7eb1ac355efe5acf18992596ca8ccc254c80de16c788625aef2706f772b70361",
-  "py-9-02": "4cbffe5fac882b7d0b6e9e14e2aa816a016bb9c47fdd6a8c51abb2838a9cd5cc",
-  "py-9-03": "4c1a5ed1972b34bf60dbb38c385503e6b78390bb87cfa9995d8df291622537d3",
-  "py-10-01": "6f18ab5a873770607261db4ee39adf19bbf583bab90b7d92604155de8ff85882",
-  "py-10-02": "9c23292d5f4b9892192a8a3c9e80caa26dc8ad53e09b0e5b4b9ed47f1d0897a0",
-  "py-10-03": "1d44965c4d04de87b18006d086dfa442d401b78458360442a84a55029fe5b897",
+  "py-9-01": "b0a51ec82b81f3451aa6e0befa23517598b31719b2735d44b548c562713eca92",
+  "py-9-02": "fcd8db4cc532cae1fe9562c205f1108e52ef0c83f98b43585c8837677b837553",
+  "py-9-03": "20a0bf7252cb412e9d9f4a6cc6b7a1356d3bd381f3b76c5dc5879b0c93de5767",
+  "py-10-01": "dde8312589936ae4c5f9c40665cba8b95868811cdad52ede94f375ffb1ddaca7",
+  "py-10-02": "6cf9d51e86d5644b9cc767f99934f2582f2bab2a66c8ac6788c2677bfa204956",
+  "py-10-03": "683aa94829276cf6f06c451e28e6e1958a7af6f87ce14e2fedfe620cd2a5067b",
 };
 
 function semanticFingerprint(example: RawExample): string {
