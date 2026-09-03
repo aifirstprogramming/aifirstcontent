@@ -51,6 +51,15 @@
                           "-lc",
                           "python3 -m unittest -v"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> -m unittest -v"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Re-run unit tests verbosely",
+                          "command": "python3 -m unittest -v"
+                        },
                         "expectedExitCode": 0,
                         "expectedStderr": ""
                       }
@@ -89,6 +98,15 @@
                             "-lc",
                             "python3 -m unittest -v"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run unit tests verbosely",
+                            "command": "python3 -m unittest -v"
+                          },
                           "expectedExitCode": 1,
                           "expectedStdout": "",
                           "expectedStderr": ""
@@ -116,6 +134,15 @@
                             "-lc",
                             "python3 -m unittest -v"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Re-run unit tests verbosely",
+                            "command": "python3 -m unittest -v"
+                          },
                           "expectedExitCode": 0,
                           "expectedStderr": ""
                         }
@@ -167,6 +194,15 @@
                           "-lc",
                           "python3 -m unittest -v"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> -m unittest -v"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Run full unit test suite verbosely",
+                          "command": "python3 -m unittest -v"
+                        },
                         "expectedExitCode": 0,
                         "expectedStderr": ""
                       },
@@ -177,6 +213,15 @@
                           "-lc",
                           "python3 train_sim.py --csv /tmp/events.csv --json /tmp/schedule.json && echo \"--- CSV ---\" && cat /tmp/events.csv && echo \"--- JSON (head) ---\" && head -c 600 /tmp/schedule.json"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> train_sim.py --csv /tmp/events.csv --json /tmp/schedule.json && echo \"--- CSV ---\" && cat /tmp/events.csv && echo \"--- JSON (head) ---\" && head -c 600 /tmp/schedule.json"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Run CLI with both export flags and inspect output files",
+                          "command": "python3 train_sim.py --csv /tmp/events.csv --json /tmp/schedule.json && echo \"--- CSV ---\" && cat /tmp/events.csv && echo \"--- JSON (head) ---\" && head -c 600 /tmp/schedule.json"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "Scheduled timetable:\n  Train R101:\n    Central              dep 08:00\n    Northgate            dep 08:20 (delay +5m)\n    Lakeside             dep 08:55\n    Hillcrest            dep   -  \n  Train R202:\n    Hillcrest            dep 08:10\n    Lakeside             dep 08:25\n    Northgate            dep 08:50 (delay +8m)\n    Central              dep   -  \n\nSimulated timetable:\n  Train R101:\n    Central              arr   -    dep 08:00\n    Northgate            arr 08:15  dep 08:20\n    Lakeside             arr 08:40  dep 08:40\n    Hillcrest            arr 08:50  dep   -  \n  Train R202:\n    Hillcrest            arr   -    dep 08:10\n    Lakeside             arr 08:20  dep 08:20\n    Northgate            arr 08:40  dep 08:48\n    Central              arr 09:03  dep   -  \n\nEvent log:\n  08:00  R101     departure  Central\n  08:10  R202     departure  Hillcrest\n  08:15  R101     arrival    Northgate\n  08:20  R101     departure  Northgate\n  08:20  R202     arrival    Lakeside\n  08:20  R202     departure  Lakeside\n  08:40  R101     arrival    Lakeside\n  08:40  R101     departure  Lakeside\n  08:40  R202     arrival    Northgate\n  08:48  R202     departure  Northgate\n  08:50  R101     arrival    Hillcrest\n  09:03  R202     arrival    Central\n\nWrote CSV export to /tmp/events.csv\nWrote JSON export to /tmp/schedule.json\n--- CSV ---\ntime_minutes,time,train_id,station,kind\n480,08:00,R101,Central,departure\n490,08:10,R202,Hillcrest,departure\n495,08:15,R101,Northgate,arrival\n500,08:20,R101,Northgate,departure\n500,08:20,R202,Lakeside,arrival\n500,08:20,R202,Lakeside,departure\n520,08:40,R101,Lakeside,arrival\n520,08:40,R101,Lakeside,departure\n520,08:40,R202,Northgate,arrival\n528,08:48,R202,Northgate,departure\n530,08:50,R101,Hillcrest,arrival\n543,09:03,R202,Central,arrival\n--- JSON (head) ---\n{\n  \"trains\": [\n    {\n      \"train_id\": \"R101\",\n      \"scheduled_stops\": [\n        {\n          \"station\": \"Central\",\n          \"scheduled_departure\": 480,\n          \"scheduled_departure_formatted\": \"08:00\",\n          \"travel_time\": 15,\n          \"delay\": 0\n        },\n        {\n          \"station\": \"Northgate\",\n          \"scheduled_departure\": 500,\n          \"scheduled_departure_formatted\": \"08:20\",\n          \"travel_time\": 20,\n          \"delay\": 5\n        },\n        {\n          \"station\": \"Lakeside\",\n          \"scheduled_departure\": 535,\n          \"scheduled_departure_formatted\": \"08:55\",",
                         "expectedStderr": ""
@@ -188,6 +233,15 @@
                           "-lc",
                           "rm -f /tmp/events.csv /tmp/schedule.json"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "rm -f /tmp/events.csv /tmp/schedule.json"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Remove temporary verification files",
+                          "command": "rm -f /tmp/events.csv /tmp/schedule.json"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "",
                         "expectedStderr": ""
@@ -267,6 +321,15 @@
                             "-lc",
                             "python3 -m unittest -v"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run full unit test suite verbosely",
+                            "command": "python3 -m unittest -v"
+                          },
                           "expectedExitCode": 0,
                           "expectedStderr": ""
                         }
@@ -284,6 +347,15 @@
                             "-lc",
                             "python3 train_sim.py --csv /tmp/events.csv --json /tmp/schedule.json && echo \"--- CSV ---\" && cat /tmp/events.csv && echo \"--- JSON (head) ---\" && head -c 600 /tmp/schedule.json"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> train_sim.py --csv /tmp/events.csv --json /tmp/schedule.json && echo \"--- CSV ---\" && cat /tmp/events.csv && echo \"--- JSON (head) ---\" && head -c 600 /tmp/schedule.json"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run CLI with both export flags and inspect output files",
+                            "command": "python3 train_sim.py --csv /tmp/events.csv --json /tmp/schedule.json && echo \"--- CSV ---\" && cat /tmp/events.csv && echo \"--- JSON (head) ---\" && head -c 600 /tmp/schedule.json"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "Scheduled timetable:\n  Train R101:\n    Central              dep 08:00\n    Northgate            dep 08:20 (delay +5m)\n    Lakeside             dep 08:55\n    Hillcrest            dep   -  \n  Train R202:\n    Hillcrest            dep 08:10\n    Lakeside             dep 08:25\n    Northgate            dep 08:50 (delay +8m)\n    Central              dep   -  \n\nSimulated timetable:\n  Train R101:\n    Central              arr   -    dep 08:00\n    Northgate            arr 08:15  dep 08:20\n    Lakeside             arr 08:40  dep 08:40\n    Hillcrest            arr 08:50  dep   -  \n  Train R202:\n    Hillcrest            arr   -    dep 08:10\n    Lakeside             arr 08:20  dep 08:20\n    Northgate            arr 08:40  dep 08:48\n    Central              arr 09:03  dep   -  \n\nEvent log:\n  08:00  R101     departure  Central\n  08:10  R202     departure  Hillcrest\n  08:15  R101     arrival    Northgate\n  08:20  R101     departure  Northgate\n  08:20  R202     arrival    Lakeside\n  08:20  R202     departure  Lakeside\n  08:40  R101     arrival    Lakeside\n  08:40  R101     departure  Lakeside\n  08:40  R202     arrival    Northgate\n  08:48  R202     departure  Northgate\n  08:50  R101     arrival    Hillcrest\n  09:03  R202     arrival    Central\n\nWrote CSV export to /tmp/events.csv\nWrote JSON export to /tmp/schedule.json\n--- CSV ---\ntime_minutes,time,train_id,station,kind\n480,08:00,R101,Central,departure\n490,08:10,R202,Hillcrest,departure\n495,08:15,R101,Northgate,arrival\n500,08:20,R101,Northgate,departure\n500,08:20,R202,Lakeside,arrival\n500,08:20,R202,Lakeside,departure\n520,08:40,R101,Lakeside,arrival\n520,08:40,R101,Lakeside,departure\n520,08:40,R202,Northgate,arrival\n528,08:48,R202,Northgate,departure\n530,08:50,R101,Hillcrest,arrival\n543,09:03,R202,Central,arrival\n--- JSON (head) ---\n{\n  \"trains\": [\n    {\n      \"train_id\": \"R101\",\n      \"scheduled_stops\": [\n        {\n          \"station\": \"Central\",\n          \"scheduled_departure\": 480,\n          \"scheduled_departure_formatted\": \"08:00\",\n          \"travel_time\": 15,\n          \"delay\": 0\n        },\n        {\n          \"station\": \"Northgate\",\n          \"scheduled_departure\": 500,\n          \"scheduled_departure_formatted\": \"08:20\",\n          \"travel_time\": 20,\n          \"delay\": 5\n        },\n        {\n          \"station\": \"Lakeside\",\n          \"scheduled_departure\": 535,\n          \"scheduled_departure_formatted\": \"08:55\",",
                           "expectedStderr": ""
@@ -302,6 +374,15 @@
                             "-lc",
                             "rm -f /tmp/events.csv /tmp/schedule.json"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "rm -f /tmp/events.csv /tmp/schedule.json"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Remove temporary verification files",
+                            "command": "rm -f /tmp/events.csv /tmp/schedule.json"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "",
                           "expectedStderr": ""
@@ -354,6 +435,15 @@
                           "-lc",
                           "python3 -m unittest -v"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> -m unittest -v"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Run full unit test suite verbosely",
+                          "command": "python3 -m unittest -v"
+                        },
                         "expectedExitCode": 0,
                         "expectedStderr": ""
                       },
@@ -364,6 +454,15 @@
                           "-lc",
                           "python3 train_sim.py --html /tmp/dash1.html >/dev/null && python3 train_sim.py --html /tmp/dash2.html >/dev/null && diff /tmp/dash1.html /tmp/dash2.html && echo \"IDENTICAL\" && md5sum /tmp/dash1.html /tmp/dash2.html && echo \"--- preview ---\" && head -n 40 /tmp/dash1.html"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> train_sim.py --html /tmp/dash1.html >/dev/null && <python> train_sim.py --html /tmp/dash2.html >/dev/null && diff /tmp/dash1.html /tmp/dash2.html && echo \"IDENTICAL\" && md5sum /tmp/dash1.html /tmp/dash2.html && echo \"--- preview ---\" && head -n 40 /tmp/dash1.html"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Generate two dashboard exports and diff them for byte-identity",
+                          "command": "python3 train_sim.py --html /tmp/dash1.html >/dev/null && python3 train_sim.py --html /tmp/dash2.html >/dev/null && diff /tmp/dash1.html /tmp/dash2.html && echo \"IDENTICAL\" && md5sum /tmp/dash1.html /tmp/dash2.html && echo \"--- preview ---\" && head -n 40 /tmp/dash1.html"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "IDENTICAL\n5ae5e6975a3d2b2f5a032f13f6078d43  /tmp/dash1.html\n5ae5e6975a3d2b2f5a032f13f6078d43  /tmp/dash2.html\n--- preview ---\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Train Dashboard</title>\n  <style>\n    body { font-family: Arial, Helvetica, sans-serif; margin: 2rem; color: #1a1a1a; background: #fafafa; }\n    h1 { margin-bottom: 0.25rem; }\n    h2 { margin-top: 2rem; border-bottom: 2px solid #ccc; padding-bottom: 0.25rem; }\n    table { border-collapse: collapse; width: 100%; margin-top: 0.5rem; }\n    th, td { border: 1px solid #ccc; padding: 0.4rem 0.6rem; text-align: left; }\n    th { background: #eee; }\n    tr.on-time td.status { color: #1a7f37; font-weight: bold; }\n    tr.delayed td.status { color: #b3261e; font-weight: bold; }\n  </style>\n</head>\n<body>\n  <h1>Train Dashboard</h1>\n  <p>Deterministic simulation summary of stations, scheduled and actual times, delays, and status.</p>\n  <h2>Train R101</h2>\n  <table>\n    <thead>\n      <tr><th>Station</th><th>Scheduled</th><th>Arrival</th><th>Departure</th><th>Delay</th><th>Status</th></tr>\n    </thead>\n    <tbody>\n    <tr class=\"on-time\">\n      <td>Central</td>\n      <td>08:00</td>\n      <td>-</td>\n      <td>08:00</td>\n      <td>0m</td>\n      <td class=\"status\">ON TIME</td>\n    </tr>\n    <tr class=\"delayed\">\n      <td>Northgate</td>\n      <td>08:20</td>\n      <td>08:15</td>\n      <td>08:20</td>\n      <td>+5m</td>\n      <td class=\"status\">DELAYED +5m</td>",
                         "expectedStderr": ""
@@ -375,6 +474,15 @@
                           "-lc",
                           "rm -f /tmp/dash1.html /tmp/dash2.html"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "rm -f /tmp/dash1.html /tmp/dash2.html"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Remove temporary verification files",
+                          "command": "rm -f /tmp/dash1.html /tmp/dash2.html"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "",
                         "expectedStderr": ""
@@ -463,6 +571,15 @@
                             "-lc",
                             "python3 -m unittest -v"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run full unit test suite verbosely",
+                            "command": "python3 -m unittest -v"
+                          },
                           "expectedExitCode": 0,
                           "expectedStderr": ""
                         }
@@ -480,6 +597,15 @@
                             "-lc",
                             "python3 train_sim.py --html /tmp/dash1.html >/dev/null && python3 train_sim.py --html /tmp/dash2.html >/dev/null && diff /tmp/dash1.html /tmp/dash2.html && echo \"IDENTICAL\" && md5sum /tmp/dash1.html /tmp/dash2.html && echo \"--- preview ---\" && head -n 40 /tmp/dash1.html"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> train_sim.py --html /tmp/dash1.html >/dev/null && <python> train_sim.py --html /tmp/dash2.html >/dev/null && diff /tmp/dash1.html /tmp/dash2.html && echo \"IDENTICAL\" && md5sum /tmp/dash1.html /tmp/dash2.html && echo \"--- preview ---\" && head -n 40 /tmp/dash1.html"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Generate two dashboard exports and diff them for byte-identity",
+                            "command": "python3 train_sim.py --html /tmp/dash1.html >/dev/null && python3 train_sim.py --html /tmp/dash2.html >/dev/null && diff /tmp/dash1.html /tmp/dash2.html && echo \"IDENTICAL\" && md5sum /tmp/dash1.html /tmp/dash2.html && echo \"--- preview ---\" && head -n 40 /tmp/dash1.html"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "IDENTICAL\n5ae5e6975a3d2b2f5a032f13f6078d43  /tmp/dash1.html\n5ae5e6975a3d2b2f5a032f13f6078d43  /tmp/dash2.html\n--- preview ---\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Train Dashboard</title>\n  <style>\n    body { font-family: Arial, Helvetica, sans-serif; margin: 2rem; color: #1a1a1a; background: #fafafa; }\n    h1 { margin-bottom: 0.25rem; }\n    h2 { margin-top: 2rem; border-bottom: 2px solid #ccc; padding-bottom: 0.25rem; }\n    table { border-collapse: collapse; width: 100%; margin-top: 0.5rem; }\n    th, td { border: 1px solid #ccc; padding: 0.4rem 0.6rem; text-align: left; }\n    th { background: #eee; }\n    tr.on-time td.status { color: #1a7f37; font-weight: bold; }\n    tr.delayed td.status { color: #b3261e; font-weight: bold; }\n  </style>\n</head>\n<body>\n  <h1>Train Dashboard</h1>\n  <p>Deterministic simulation summary of stations, scheduled and actual times, delays, and status.</p>\n  <h2>Train R101</h2>\n  <table>\n    <thead>\n      <tr><th>Station</th><th>Scheduled</th><th>Arrival</th><th>Departure</th><th>Delay</th><th>Status</th></tr>\n    </thead>\n    <tbody>\n    <tr class=\"on-time\">\n      <td>Central</td>\n      <td>08:00</td>\n      <td>-</td>\n      <td>08:00</td>\n      <td>0m</td>\n      <td class=\"status\">ON TIME</td>\n    </tr>\n    <tr class=\"delayed\">\n      <td>Northgate</td>\n      <td>08:20</td>\n      <td>08:15</td>\n      <td>08:20</td>\n      <td>+5m</td>\n      <td class=\"status\">DELAYED +5m</td>",
                           "expectedStderr": ""
@@ -498,6 +624,15 @@
                             "-lc",
                             "rm -f /tmp/dash1.html /tmp/dash2.html"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "rm -f /tmp/dash1.html /tmp/dash2.html"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Remove temporary verification files",
+                            "command": "rm -f /tmp/dash1.html /tmp/dash2.html"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "",
                           "expectedStderr": ""

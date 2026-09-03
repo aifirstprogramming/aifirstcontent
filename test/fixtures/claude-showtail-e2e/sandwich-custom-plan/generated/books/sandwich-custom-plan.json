@@ -51,6 +51,15 @@
                           "-lc",
                           "python3 -m unittest -v test_sandwich_cli.py 2>&1"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> -m unittest -v test_sandwich_cli.py 2>&1"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Run unit tests verbosely",
+                          "command": "python3 -m unittest -v test_sandwich_cli.py 2>&1"
+                        },
                         "expectedExitCode": 0,
                         "expectedStderr": ""
                       },
@@ -61,6 +70,15 @@
                           "-lc",
                           "rm -f sandwich_data.json && echo \"--- inventory ---\" && python3 sandwich_cli.py inventory && echo && echo \"--- build + save ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --veggies lettuce,tomato --condiments mayo --save blt && echo && echo \"--- profiles ---\" && python3 sandwich_cli.py profiles && echo && echo \"--- rebuild ---\" && python3 sandwich_cli.py rebuild blt && echo && echo \"--- grocery-list ---\" && python3 sandwich_cli.py grocery-list && echo && echo \"--- build with allergen exclusion ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --exclude dairy"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "rm -f sandwich_data.json && echo \"--- inventory ---\" && <python> sandwich_cli.py inventory && echo && echo \"--- build + save ---\" && <python> sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --veggies lettuce,tomato --condiments mayo --save blt && echo && echo \"--- profiles ---\" && <python> sandwich_cli.py profiles && echo && echo \"--- rebuild ---\" && <python> sandwich_cli.py rebuild blt && echo && echo \"--- grocery-list ---\" && <python> sandwich_cli.py grocery-list && echo && echo \"--- build with allergen exclusion ---\" && <python> sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --exclude dairy"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Manually exercise the sandwich CLI end-to-end",
+                          "command": "rm -f sandwich_data.json && \\\necho \"--- inventory ---\" && python3 sandwich_cli.py inventory && \\\necho && echo \"--- build + save ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --veggies lettuce,tomato --condiments mayo --save blt && \\\necho && echo \"--- profiles ---\" && python3 sandwich_cli.py profiles && \\\necho && echo \"--- rebuild ---\" && python3 sandwich_cli.py rebuild blt && \\\necho && echo \"--- grocery-list ---\" && python3 sandwich_cli.py grocery-list && \\\necho && echo \"--- build with allergen exclusion ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --exclude dairy\n"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "--- inventory ---\nPantry Inventory:\nBREAD:\n  - gluten_free: stock=4, allergens=[none], substitutes=[none]\n  - sourdough: stock=6, allergens=[gluten], substitutes=[wheat, gluten_free]\n  - wheat: stock=6, allergens=[gluten], substitutes=[sourdough, gluten_free]\nPROTEIN:\n  - ham: stock=5, allergens=[none], substitutes=[turkey, tofu]\n  - tofu: stock=4, allergens=[soy], substitutes=[none]\n  - turkey: stock=5, allergens=[none], substitutes=[ham, tofu]\nCHEESE:\n  - cheddar: stock=5, allergens=[dairy], substitutes=[swiss, vegan_cheese]\n  - swiss: stock=5, allergens=[dairy], substitutes=[vegan_cheese]\n  - vegan_cheese: stock=3, allergens=[none], substitutes=[none]\nVEGGIES:\n  - lettuce: stock=10, allergens=[none], substitutes=[spinach]\n  - spinach: stock=8, allergens=[none], substitutes=[lettuce]\n  - tomato: stock=10, allergens=[none], substitutes=[none]\nCONDIMENTS:\n  - mayo: stock=8, allergens=[egg], substitutes=[vegan_mayo]\n  - mustard: stock=8, allergens=[none], substitutes=[none]\n  - vegan_mayo: stock=4, allergens=[none], substitutes=[mustard]\n\n--- build + save ---\nAssembly Timeline for 'blt':\n  1. Place bottom slice of sourdough bread\n  2. Add turkey\n  3. Add cheddar\n  4. Add lettuce\n  5. Add tomato\n  6. Add mayo\n  7. Top with second slice of sourdough bread\nWarnings:\n  - sourdough (bread) contains allergen(s): gluten\n  - cheddar (cheese) contains allergen(s): dairy\n  - mayo (condiments) contains allergen(s): egg\n\nGrocery List (threshold=3):\n  - vegan_cheese (cheese): 3 remaining, reorder soon\n\n--- profiles ---\nSaved Sandwich Profiles:\n  - blt: bread=sourdough, protein=turkey, cheese=cheddar, veggies=lettuce+tomato, condiments=mayo\n\n--- rebuild ---\nAssembly Timeline for 'blt':\n  1. Place bottom slice of sourdough bread\n  2. Add turkey\n  3. Add cheddar\n  4. Add lettuce\n  5. Add tomato\n  6. Add mayo\n  7. Top with second slice of sourdough bread\nWarnings:\n  - sourdough (bread) contains allergen(s): gluten\n  - cheddar (cheese) contains allergen(s): dairy\n  - mayo (condiments) contains allergen(s): egg\n\nGrocery List (threshold=3):\n  - sourdough (bread): 2 remaining, reorder soon\n  - cheddar (cheese): 3 remaining, reorder soon\n  - vegan_cheese (cheese): 3 remaining, reorder soon\n  - turkey (protein): 3 remaining, reorder soon\n\n--- grocery-list ---\nGrocery List (threshold=3):\n  - sourdough (bread): 2 remaining, reorder soon\n  - cheddar (cheese): 3 remaining, reorder soon\n  - vegan_cheese (cheese): 3 remaining, reorder soon\n  - turkey (protein): 3 remaining, reorder soon\n\n--- build with allergen exclusion ---\nAssembly Timeline for 'unnamed sandwich':\n  1. Place bottom slice of sourdough bread\n  2. Add turkey\n  3. Add vegan cheese\n  4. Top with second slice of sourdough bread\nSubstitutions:\n  - cheese: cheddar -> vegan_cheese (allergen exclusion)\nWarnings:\n  - sourdough (bread) contains allergen(s): gluten\n\nGrocery List (threshold=3):\n  - sourdough (bread): 0 remaining, reorder soon\n  - cheddar (cheese): 3 remaining, reorder soon\n  - vegan_cheese (cheese): 2 remaining, reorder soon\n  - turkey (protein): 2 remaining, reorder soon",
                         "expectedStderr": ""
@@ -72,6 +90,15 @@
                           "-lc",
                           "rm -f sandwich_data.json && ls -la"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "rm -f sandwich_data.json && ls -la"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Remove test data file and list workspace contents",
+                          "command": "rm -f sandwich_data.json && ls -la"
+                        },
                         "expectedExitCode": 0,
                         "expectedStderr": ""
                       }
@@ -129,6 +156,15 @@
                             "-lc",
                             "python3 -m unittest -v test_sandwich_cli.py 2>&1"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v test_sandwich_cli.py 2>&1"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run unit tests verbosely",
+                            "command": "python3 -m unittest -v test_sandwich_cli.py 2>&1"
+                          },
                           "expectedExitCode": 1,
                           "expectedStdout": "",
                           "expectedStderr": ""
@@ -156,6 +192,15 @@
                             "-lc",
                             "python3 -m unittest -v test_sandwich_cli.py 2>&1"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v test_sandwich_cli.py 2>&1"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run unit tests verbosely",
+                            "command": "python3 -m unittest -v test_sandwich_cli.py 2>&1"
+                          },
                           "expectedExitCode": 0,
                           "expectedStderr": ""
                         }
@@ -173,6 +218,15 @@
                             "-lc",
                             "rm -f sandwich_data.json && echo \"--- inventory ---\" && python3 sandwich_cli.py inventory && echo && echo \"--- build + save ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --veggies lettuce,tomato --condiments mayo --save blt && echo && echo \"--- profiles ---\" && python3 sandwich_cli.py profiles && echo && echo \"--- rebuild ---\" && python3 sandwich_cli.py rebuild blt && echo && echo \"--- grocery-list ---\" && python3 sandwich_cli.py grocery-list && echo && echo \"--- build with allergen exclusion ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --exclude dairy"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "rm -f sandwich_data.json && echo \"--- inventory ---\" && <python> sandwich_cli.py inventory && echo && echo \"--- build + save ---\" && <python> sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --veggies lettuce,tomato --condiments mayo --save blt && echo && echo \"--- profiles ---\" && <python> sandwich_cli.py profiles && echo && echo \"--- rebuild ---\" && <python> sandwich_cli.py rebuild blt && echo && echo \"--- grocery-list ---\" && <python> sandwich_cli.py grocery-list && echo && echo \"--- build with allergen exclusion ---\" && <python> sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --exclude dairy"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Manually exercise the sandwich CLI end-to-end",
+                            "command": "rm -f sandwich_data.json && \\\necho \"--- inventory ---\" && python3 sandwich_cli.py inventory && \\\necho && echo \"--- build + save ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --veggies lettuce,tomato --condiments mayo --save blt && \\\necho && echo \"--- profiles ---\" && python3 sandwich_cli.py profiles && \\\necho && echo \"--- rebuild ---\" && python3 sandwich_cli.py rebuild blt && \\\necho && echo \"--- grocery-list ---\" && python3 sandwich_cli.py grocery-list && \\\necho && echo \"--- build with allergen exclusion ---\" && python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --exclude dairy\n"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "--- inventory ---\nPantry Inventory:\nBREAD:\n  - gluten_free: stock=4, allergens=[none], substitutes=[none]\n  - sourdough: stock=6, allergens=[gluten], substitutes=[wheat, gluten_free]\n  - wheat: stock=6, allergens=[gluten], substitutes=[sourdough, gluten_free]\nPROTEIN:\n  - ham: stock=5, allergens=[none], substitutes=[turkey, tofu]\n  - tofu: stock=4, allergens=[soy], substitutes=[none]\n  - turkey: stock=5, allergens=[none], substitutes=[ham, tofu]\nCHEESE:\n  - cheddar: stock=5, allergens=[dairy], substitutes=[swiss, vegan_cheese]\n  - swiss: stock=5, allergens=[dairy], substitutes=[vegan_cheese]\n  - vegan_cheese: stock=3, allergens=[none], substitutes=[none]\nVEGGIES:\n  - lettuce: stock=10, allergens=[none], substitutes=[spinach]\n  - spinach: stock=8, allergens=[none], substitutes=[lettuce]\n  - tomato: stock=10, allergens=[none], substitutes=[none]\nCONDIMENTS:\n  - mayo: stock=8, allergens=[egg], substitutes=[vegan_mayo]\n  - mustard: stock=8, allergens=[none], substitutes=[none]\n  - vegan_mayo: stock=4, allergens=[none], substitutes=[mustard]\n\n--- build + save ---\nAssembly Timeline for 'blt':\n  1. Place bottom slice of sourdough bread\n  2. Add turkey\n  3. Add cheddar\n  4. Add lettuce\n  5. Add tomato\n  6. Add mayo\n  7. Top with second slice of sourdough bread\nWarnings:\n  - sourdough (bread) contains allergen(s): gluten\n  - cheddar (cheese) contains allergen(s): dairy\n  - mayo (condiments) contains allergen(s): egg\n\nGrocery List (threshold=3):\n  - vegan_cheese (cheese): 3 remaining, reorder soon\n\n--- profiles ---\nSaved Sandwich Profiles:\n  - blt: bread=sourdough, protein=turkey, cheese=cheddar, veggies=lettuce+tomato, condiments=mayo\n\n--- rebuild ---\nAssembly Timeline for 'blt':\n  1. Place bottom slice of sourdough bread\n  2. Add turkey\n  3. Add cheddar\n  4. Add lettuce\n  5. Add tomato\n  6. Add mayo\n  7. Top with second slice of sourdough bread\nWarnings:\n  - sourdough (bread) contains allergen(s): gluten\n  - cheddar (cheese) contains allergen(s): dairy\n  - mayo (condiments) contains allergen(s): egg\n\nGrocery List (threshold=3):\n  - sourdough (bread): 2 remaining, reorder soon\n  - cheddar (cheese): 3 remaining, reorder soon\n  - vegan_cheese (cheese): 3 remaining, reorder soon\n  - turkey (protein): 3 remaining, reorder soon\n\n--- grocery-list ---\nGrocery List (threshold=3):\n  - sourdough (bread): 2 remaining, reorder soon\n  - cheddar (cheese): 3 remaining, reorder soon\n  - vegan_cheese (cheese): 3 remaining, reorder soon\n  - turkey (protein): 3 remaining, reorder soon\n\n--- build with allergen exclusion ---\nAssembly Timeline for 'unnamed sandwich':\n  1. Place bottom slice of sourdough bread\n  2. Add turkey\n  3. Add vegan cheese\n  4. Top with second slice of sourdough bread\nSubstitutions:\n  - cheese: cheddar -> vegan_cheese (allergen exclusion)\nWarnings:\n  - sourdough (bread) contains allergen(s): gluten\n\nGrocery List (threshold=3):\n  - sourdough (bread): 0 remaining, reorder soon\n  - cheddar (cheese): 3 remaining, reorder soon\n  - vegan_cheese (cheese): 2 remaining, reorder soon\n  - turkey (protein): 2 remaining, reorder soon",
                           "expectedStderr": ""
@@ -191,6 +245,15 @@
                             "-lc",
                             "rm -f sandwich_data.json && ls -la"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "rm -f sandwich_data.json && ls -la"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Remove test data file and list workspace contents",
+                            "command": "rm -f sandwich_data.json && ls -la"
+                          },
                           "expectedExitCode": 0,
                           "expectedStderr": ""
                         }

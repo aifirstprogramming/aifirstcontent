@@ -59,7 +59,7 @@ function semantic(value: unknown): unknown {
   if (!value || typeof value !== "object") return value;
   return Object.fromEntries(
     Object.entries(value as Record<string, unknown>)
-      .filter(([key]) => key !== "source")
+      .filter(([key]) => key !== "source" && key !== "display" && key !== "portableCommand")
       .sort(([left], [right]) => left.localeCompare(right))
       .map(([key, item]) => [key, semantic(item)]),
   );

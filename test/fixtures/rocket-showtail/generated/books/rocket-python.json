@@ -48,6 +48,15 @@
                       "-lc",
                       "python3 -m unittest -v test_rocket_sim 2>&1"
                     ],
+                    "portableCommand": [
+                      "<shell>",
+                      "<python> -m unittest -v test_rocket_sim 2>&1"
+                    ],
+                    "display": {
+                      "toolName": "Bash",
+                      "description": "Run unittest suite verbosely",
+                      "command": "python3 -m unittest -v test_rocket_sim 2>&1"
+                    },
                     "expectedExitCode": 0,
                     "expectedStderr": ""
                   },
@@ -58,6 +67,15 @@
                       "-lc",
                       "python3 rocket_sim.py > /tmp/run1.txt && python3 rocket_sim.py > /tmp/run2.txt && cmp /tmp/run1.txt /tmp/run2.txt && echo \"BYTE IDENTICAL\""
                     ],
+                    "portableCommand": [
+                      "<shell>",
+                      "<python> rocket_sim.py > /tmp/run1.txt && <python> rocket_sim.py > /tmp/run2.txt && cmp /tmp/run1.txt /tmp/run2.txt && echo \"BYTE IDENTICAL\""
+                    ],
+                    "display": {
+                      "toolName": "Bash",
+                      "description": "Run simulation twice and compare byte-for-byte",
+                      "command": "python3 rocket_sim.py > /tmp/run1.txt && python3 rocket_sim.py > /tmp/run2.txt && cmp /tmp/run1.txt /tmp/run2.txt && echo \"BYTE IDENTICAL\""
+                    },
                     "expectedExitCode": 0,
                     "expectedStdout": "BYTE IDENTICAL",
                     "expectedStderr": ""
@@ -73,6 +91,15 @@
                         "-lc",
                         "ls -la ."
                       ],
+                      "portableCommand": [
+                        "<shell>",
+                        "ls -la ."
+                      ],
+                      "display": {
+                        "toolName": "Bash",
+                        "description": "List workspace contents",
+                        "command": "ls -la /tmp/aifirst-rocket-capture-njQFOo/workspace"
+                      },
                       "readOnly": true,
                       "expectedExitCode": 0
                     }
@@ -108,6 +135,15 @@
                         "-lc",
                         "python3 rocket_sim.py"
                       ],
+                      "portableCommand": [
+                        "<shell>",
+                        "<python> rocket_sim.py"
+                      ],
+                      "display": {
+                        "toolName": "Bash",
+                        "description": "Run rocket simulation once to inspect output",
+                        "command": "python3 rocket_sim.py"
+                      },
                       "expectedExitCode": 0,
                       "expectedStdout": "t=   0.00s stage=1 fuel=  8000.00kg vel=     0.00m/s alt=       0.00m event=-\nt=   0.10s stage=1 fuel=  7920.00kg vel=     0.74m/s alt=       0.07m event=LIFTOFF\nt=   1.00s stage=1 fuel=  7200.00kg vel=     7.88m/s alt=       4.25m event=-\nt=   2.00s stage=1 fuel=  6400.00kg vel=    16.81m/s alt=      16.95m event=-\nt=   3.00s stage=1 fuel=  5600.00kg vel=    26.94m/s alt=      39.23m event=-\nt=   4.00s stage=1 fuel=  4800.00kg vel=    38.44m/s alt=      72.37m event=-\nt=   5.00s stage=1 fuel=  4000.00kg vel=    51.49m/s alt=     117.85m event=-\nt=   6.00s stage=1 fuel=  3200.00kg vel=    66.35m/s alt=     177.35m event=-\nt=   7.00s stage=1 fuel=  2400.00kg vel=    83.32m/s alt=     252.84m event=-\nt=   8.00s stage=1 fuel=  1600.00kg vel=   102.80m/s alt=     346.65m event=-\nt=   9.00s stage=1 fuel=   800.00kg vel=   125.32m/s alt=     461.56m event=-\nt=  10.00s stage=2 fuel=  3000.00kg vel=   151.58m/s alt=     600.98m event=STAGE_SEPARATION\nt=  11.00s stage=2 fuel=  2700.00kg vel=   154.18m/s alt=     753.31m event=-\nt=  12.00s stage=2 fuel=  2400.00kg vel=   159.14m/s alt=     910.13m event=-\nt=  13.00s stage=2 fuel=  2100.00kg vel=   165.27m/s alt=    1072.54m event=-\nt=  14.00s stage=2 fuel=  1800.00kg vel=   172.79m/s alt=    1241.83m event=-\nt=  15.00s stage=2 fuel=  1500.00kg vel=   181.95m/s alt=    1419.51m event=-\nt=  16.00s stage=2 fuel=  1200.00kg vel=   193.10m/s alt=    1607.41m event=-\nt=  17.00s stage=2 fuel=   900.00kg vel=   206.71m/s alt=    1807.78m event=-\nt=  18.00s stage=2 fuel=   600.00kg vel=   223.43m/s alt=    2023.39m event=-\nt=  19.00s stage=2 fuel=   300.00kg vel=   244.21m/s alt=    2257.87m event=-\nt=  20.00s stage=2 fuel=     0.00kg vel=   270.54m/s alt=    2516.02m event=-\nt=  21.00s stage=2 fuel=     0.00kg vel=   260.73m/s alt=    2781.16m event=-\nt=  22.00s stage=2 fuel=     0.00kg vel=   250.92m/s alt=    3036.50m event=-\nt=  23.00s stage=2 fuel=     0.00kg vel=   241.11m/s alt=    3282.02m event=-\nt=  24.00s stage=2 fuel=     0.00kg vel=   231.30m/s alt=    3517.73m event=-\nt=  25.00s stage=2 fuel=     0.00kg vel=   221.49m/s alt=    3743.63m event=-\nt=  26.00s stage=2 fuel=     0.00kg vel=   211.68m/s alt=    3959.72m event=-\nt=  27.00s stage=2 fuel=     0.00kg vel=   201.87m/s alt=    4166.00m event=-\nt=  28.00s stage=2 fuel=     0.00kg vel=   192.06m/s alt=    4362.48m event=-\nt=  29.00s stage=2 fuel=     0.00kg vel=   182.25m/s alt=    4549.14m event=-\nt=  30.00s stage=2 fuel=     0.00kg vel=   172.44m/s alt=    4725.99m event=-\nt=  31.00s stage=2 fuel=     0.00kg vel=   162.63m/s alt=    4893.03m event=-\nt=  32.00s stage=2 fuel=     0.00kg vel=   152.82m/s alt=    5050.26m event=-\nt=  33.00s stage=2 fuel=     0.00kg vel=   143.01m/s alt=    5197.68m event=-\nt=  34.00s stage=2 fuel=     0.00kg vel=   133.20m/s alt=    5335.30m event=-\nt=  35.00s stage=2 fuel=     0.00kg vel=   123.39m/s alt=    5463.10m event=-\nt=  36.00s stage=2 fuel=     0.00kg vel=   113.58m/s alt=    5581.09m event=-\nt=  37.00s stage=2 fuel=     0.00kg vel=   103.77m/s alt=    5689.27m event=-\nt=  38.00s stage=2 fuel=     0.00kg vel=    93.96m/s alt=    5787.64m event=-\nt=  39.00s stage=2 fuel=     0.00kg vel=    84.15m/s alt=    5876.20m event=-\nt=  40.00s stage=2 fuel=     0.00kg vel=    74.34m/s alt=    5954.96m event=-\nt=  41.00s stage=2 fuel=     0.00kg vel=    64.53m/s alt=    6023.90m event=-\nt=  42.00s stage=2 fuel=     0.00kg vel=    54.72m/s alt=    6083.03m event=-\nt=  43.00s stage=2 fuel=     0.00kg vel=    44.91m/s alt=    6132.35m event=-\nt=  44.00s stage=2 fuel=     0.00kg vel=    35.10m/s alt=    6171.86m event=-\nt=  45.00s stage=2 fuel=     0.00kg vel=    25.29m/s alt=    6201.56m event=-\nt=  46.00s stage=2 fuel=     0.00kg vel=    15.48m/s alt=    6221.46m event=-\nt=  47.00s stage=2 fuel=     0.00kg vel=     5.67m/s alt=    6231.54m event=-\nt=  47.60s stage=2 fuel=     0.00kg vel=    -0.22m/s alt=    6232.88m event=APOGEE\nt=  48.00s stage=2 fuel=     0.00kg vel=    -4.14m/s alt=    6231.81m event=-\nt=  49.00s stage=2 fuel=     0.00kg vel=   -13.95m/s alt=    6222.27m event=-\nt=  50.00s stage=2 fuel=     0.00kg vel=   -23.76m/s alt=    6202.92m event=-\nt=  51.00s stage=2 fuel=     0.00kg vel=   -33.57m/s alt=    6173.76m event=-\nt=  52.00s stage=2 fuel=     0.00kg vel=   -43.38m/s alt=    6134.80m event=-\nt=  53.00s stage=2 fuel=     0.00kg vel=   -53.19m/s alt=    6086.02m event=-\nt=  54.00s stage=2 fuel=     0.00kg vel=   -63.00m/s alt=    6027.43m event=-\nt=  55.00s stage=2 fuel=     0.00kg vel=   -72.81m/s alt=    5959.03m event=-\nt=  56.00s stage=2 fuel=     0.00kg vel=   -82.62m/s alt=    5880.82m event=-\nt=  57.00s stage=2 fuel=     0.00kg vel=   -92.43m/s alt=    5792.80m event=-\nt=  58.00s stage=2 fuel=     0.00kg vel=  -102.24m/s alt=    5694.97m event=-\nt=  59.00s stage=2 fuel=     0.00kg vel=  -112.05m/s alt=    5587.34m event=-\nt=  60.00s stage=2 fuel=     0.00kg vel=  -121.86m/s alt=    5469.89m event=-\nt=  61.00s stage=2 fuel=     0.00kg vel=  -131.67m/s alt=    5342.63m event=-\nt=  62.00s stage=2 fuel=     0.00kg vel=  -141.48m/s alt=    5205.56m event=-\nt=  63.00s stage=2 fuel=     0.00kg vel=  -151.29m/s alt=    5058.68m event=-\nt=  64.00s stage=2 fuel=     0.00kg vel=  -161.10m/s alt=    4901.99m event=-\nt=  65.00s stage=2 fuel=     0.00kg vel=  -170.91m/s alt=    4735.50m event=-\nt=  66.00s stage=2 fuel=     0.00kg vel=  -180.72m/s alt=    4559.19m event=-\nt=  67.00s stage=2 fuel=     0.00kg vel=  -190.53m/s alt=    4373.07m event=-\nt=  68.00s stage=2 fuel=     0.00kg vel=  -200.34m/s alt=    4177.14m event=-\nt=  69.00s stage=2 fuel=     0.00kg vel=  -210.15m/s alt=    3971.40m event=-\nt=  70.00s stage=2 fuel=     0.00kg vel=  -219.96m/s alt=    3755.85m event=-\nt=  71.00s stage=2 fuel=     0.00kg vel=  -229.77m/s alt=    3530.50m event=-\nt=  72.00s stage=2 fuel=     0.00kg vel=  -239.58m/s alt=    3295.33m event=-\nt=  73.00s stage=2 fuel=     0.00kg vel=  -249.39m/s alt=    3050.35m event=-\nt=  74.00s stage=2 fuel=     0.00kg vel=  -259.20m/s alt=    2795.56m event=-\nt=  75.00s stage=2 fuel=     0.00kg vel=  -269.01m/s alt=    2530.96m event=-\nt=  76.00s stage=2 fuel=     0.00kg vel=  -278.82m/s alt=    2256.55m event=-\nt=  77.00s stage=2 fuel=     0.00kg vel=  -288.63m/s alt=    1972.34m event=-\nt=  78.00s stage=2 fuel=     0.00kg vel=  -298.44m/s alt=    1678.31m event=-\nt=  79.00s stage=2 fuel=     0.00kg vel=  -308.25m/s alt=    1374.47m event=-\nt=  80.00s stage=2 fuel=     0.00kg vel=  -318.06m/s alt=    1060.82m event=-\nt=  81.00s stage=2 fuel=     0.00kg vel=  -327.87m/s alt=     737.36m event=-\nt=  82.00s stage=2 fuel=     0.00kg vel=  -337.68m/s alt=     404.09m event=-\nt=  83.00s stage=2 fuel=     0.00kg vel=  -347.49m/s alt=      61.02m event=-\nt=  83.20s stage=2 fuel=     0.00kg vel=  -349.45m/s alt=      -8.78m event=LANDING\nOUTCOME: FAILURE reason=TARGET_ALTITUDE_NOT_REACHED apogee=6232.90m target=20000.00m",
                       "expectedStderr": ""
@@ -147,6 +183,15 @@
                         "-lc",
                         "python3 -m unittest -v test_rocket_sim 2>&1"
                       ],
+                      "portableCommand": [
+                        "<shell>",
+                        "<python> -m unittest -v test_rocket_sim 2>&1"
+                      ],
+                      "display": {
+                        "toolName": "Bash",
+                        "description": "Run unittest suite verbosely",
+                        "command": "python3 -m unittest -v test_rocket_sim 2>&1"
+                      },
                       "expectedExitCode": 0,
                       "expectedStderr": ""
                     }
@@ -164,6 +209,15 @@
                         "-lc",
                         "python3 rocket_sim.py > /tmp/run1.txt && python3 rocket_sim.py > /tmp/run2.txt && cmp /tmp/run1.txt /tmp/run2.txt && echo \"BYTE IDENTICAL\""
                       ],
+                      "portableCommand": [
+                        "<shell>",
+                        "<python> rocket_sim.py > /tmp/run1.txt && <python> rocket_sim.py > /tmp/run2.txt && cmp /tmp/run1.txt /tmp/run2.txt && echo \"BYTE IDENTICAL\""
+                      ],
+                      "display": {
+                        "toolName": "Bash",
+                        "description": "Run simulation twice and compare byte-for-byte",
+                        "command": "python3 rocket_sim.py > /tmp/run1.txt && python3 rocket_sim.py > /tmp/run2.txt && cmp /tmp/run1.txt /tmp/run2.txt && echo \"BYTE IDENTICAL\""
+                      },
                       "expectedExitCode": 0,
                       "expectedStdout": "BYTE IDENTICAL",
                       "expectedStderr": ""

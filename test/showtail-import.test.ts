@@ -501,6 +501,11 @@ describe("Showtail v2 replay derivation", () => {
       operation: {
         type: "command",
         command: ["bash", "-lc", 'cd "." && python3 main.py'],
+        portableCommand: ["<shell>", 'cd "." && <python> main.py'],
+        display: {
+          toolName: "Bash",
+          command: 'cd "C:\\Users\\author\\demo" && python main.py',
+        },
         expectedExitCode: 0,
         expectedStderr: "",
       },

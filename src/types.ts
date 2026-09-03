@@ -15,16 +15,32 @@
 /** A response is authored either as one string or as an array of lines. */
 export type RawResponse = string | string[];
 
+export interface ReplayToolDisplay {
+  toolName: string;
+  description?: string;
+  command?: string;
+}
+
+interface ReplayOperationBase {
+  /** Sanitized authoring-time tool metadata used only for faithful playback. */
+  display?: ReplayToolDisplay;
+}
+
 export type ReplayOperation =
-  | { type: "write"; path: string; content: string }
-  | { type: "edit"; path: string; oldText: string; newText: string; replaceAll?: boolean }
-  | { type: "read"; path: string }
+  | (ReplayOperationBase & { type: "write"; path: string; content: string })
+  | (ReplayOperationBase & { type: "edit"; path: string; oldText: string; newText: string; replaceAll?: boolean })
+  | (ReplayOperationBase & { type: "read"; path: string })
   | {
       type: "command";
+      display?: ReplayToolDisplay;
+      /** Cross-platform argv used instead of the captured shell command. */
+      portableCommand?: string[];
       command: string[];
       cwd?: string;
       env?: Record<string, string>;
       stdin?: string;
+      timeoutMs?: number;
+      expectedTimeout?: boolean;
       /** Required when a command is allowed to run before plan approval. */
       readOnly?: boolean;
       expectedExitCode?: number;
@@ -34,7 +50,7 @@ export type ReplayOperation =
 
 export type ReplayEvent =
   | { type: "text"; text: string }
-  | { type: "status"; text: string }
+  | { type: "status"; text: string; display?: ReplayToolDisplay }
   | { type: "operation"; operation: ReplayOperation };
 
 export interface PlanOption {

@@ -175,7 +175,7 @@ try {
       continue;
     }
     for (const [index, operation] of step.replay.operations.entries()) {
-      validateOperation(step.id, `replay operation ${index + 1}`, operation);
+      validateOperation(step.id, `replay operation ${index + 1}`, operation, step.language === "python");
     }
     const initialId = step.replay.initialState?.fromExercise;
     if (initialId) {
@@ -185,9 +185,9 @@ try {
         fail(`${step.id} initial exercise ${initialId} has no scaffold files`);
       }
     }
-    validateEvents(step.id, "replay event", step.replay.events ?? []);
-    validateEvents(step.id, "pre-plan event", step.replay.prePlanEvents ?? [], true);
-    if (step.replay.workflow) validateWorkflow(step.id, step.replay.workflow);
+    validateEvents(step.id, "replay event", step.replay.events ?? [], false, step.language === "python");
+    validateEvents(step.id, "pre-plan event", step.replay.prePlanEvents ?? [], true, step.language === "python");
+    if (step.replay.workflow) validateWorkflow(step.id, step.replay.workflow, step.language === "python");
   }
 } catch (e) {
   fail(`strict load failed: ${(e as Error).message}`);
@@ -197,7 +197,7 @@ function unsafeReplayPath(path: string): boolean {
   return path.startsWith("/") || path.startsWith("\\") || /^[A-Za-z]:[\\/]/.test(path) || path.split(/[\\/]+/).includes("..");
 }
 
-function validateOperation(stepId: string, label: string, operation: ReplayOperation): void {
+function validateOperation(stepId: string, label: string, operation: ReplayOperation, requirePortable = false): void {
   const path = operation.type === "command" ? operation.cwd : operation.path;
   if (path !== undefined && unsafeReplayPath(path)) {
     fail(`${stepId} ${label} has an unsafe path "${path}"`);
@@ -205,19 +205,33 @@ function validateOperation(stepId: string, label: string, operation: ReplayOpera
   if (operation.type === "command" && operation.command.length === 0) {
     fail(`${stepId} ${label} has an empty command`);
   }
+  if (operation.type === "command" && operation.portableCommand?.length === 0) {
+    fail(`${stepId} ${label} has an empty portable command`);
+  }
+  if (
+    operation.type === "command" &&
+    requirePortable && operation.command[0] === "bash" &&
+    /\b(?:python3?|rm|timeout|ls)\b|\b[A-Z_][A-Z0-9_]*=/.test(operation.command.at(-1) ?? "") &&
+    operation.portableCommand?.[0] !== "<shell>"
+  ) {
+    fail(`${stepId} ${label} depends on a POSIX shell without a portable replay command`);
+  }
+  if (operation.type === "command" && operation.expectedTimeout && !operation.timeoutMs) {
+    fail(`${stepId} ${label} expects a timeout but has no timeoutMs`);
+  }
 }
 
-function validateEvents(stepId: string, label: string, events: ReplayEvent[], prePlan = false): void {
+function validateEvents(stepId: string, label: string, events: ReplayEvent[], prePlan = false, requirePortable = false): void {
   events.forEach((event, index) => {
     if (event.type !== "operation") return;
-    validateOperation(stepId, `${label} ${index + 1}`, event.operation);
+    validateOperation(stepId, `${label} ${index + 1}`, event.operation, requirePortable);
     if (prePlan && event.operation.type !== "read" && !(event.operation.type === "command" && event.operation.readOnly)) {
       fail(`${stepId} pre-plan event ${index + 1} must be a read or a command marked readOnly`);
     }
   });
 }
 
-function validateWorkflow(stepId: string, workflow: PlanWorkflow): void {
+function validateWorkflow(stepId: string, workflow: PlanWorkflow, requirePortable = false): void {
   const questions = new Map<string, Set<string>>();
   for (const [index, question] of workflow.questions.entries()) {
     if (questions.has(question.id)) fail(`${stepId} workflow has duplicate question id "${question.id}"`);
@@ -258,7 +272,7 @@ function validateWorkflow(stepId: string, workflow: PlanWorkflow): void {
       fail(`${stepId} workflow has more than one interlude after "${interlude.afterQuestion}"`);
     }
     interludeQuestions.add(interlude.afterQuestion);
-    validateEvents(stepId, `workflow interlude ${interlude.afterQuestion} event`, interlude.events, true);
+    validateEvents(stepId, `workflow interlude ${interlude.afterQuestion} event`, interlude.events, true, requirePortable);
   }
   const variantIds = new Set<string>();
   for (const variant of workflow.variants ?? []) {
@@ -266,8 +280,8 @@ function validateWorkflow(stepId: string, workflow: PlanWorkflow): void {
     variantIds.add(variant.id);
     validateAnswers(stepId, `variant ${variant.id}`, workflow, variant.answers);
     variant.operations.forEach((operation, index) =>
-      validateOperation(stepId, `variant ${variant.id} operation ${index + 1}`, operation));
-    validateEvents(stepId, `variant ${variant.id} event`, variant.events ?? []);
+      validateOperation(stepId, `variant ${variant.id} operation ${index + 1}`, operation, requirePortable));
+    validateEvents(stepId, `variant ${variant.id} event`, variant.events ?? [], false, requirePortable);
   }
 }
 

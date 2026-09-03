@@ -51,6 +51,15 @@
                           "-lc",
                           "python3 -m unittest -v"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> -m unittest -v"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Run unit tests verbosely",
+                          "command": "python3 -m unittest -v"
+                        },
                         "expectedExitCode": 0,
                         "expectedStderr": ""
                       },
@@ -61,6 +70,15 @@
                           "-lc",
                           "AIFIRST_REPLAY_ROOT=$(pwd)\ncd /tmp/habit_cli_manual_test 2>/dev/null || mkdir -p /tmp/habit_cli_manual_test && cd /tmp/habit_cli_manual_test\nrm -f habits.json\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise --date 2026-08-01\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add read --date 2026-08-05\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-30\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-15\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json list\necho \"--- add duplicate (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- complete unknown (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete ghost || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- final json ---\"\ncat habits.json"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "AIFIRST_REPLAY_ROOT=$(pwd)\ncd /tmp/habit_cli_manual_test 2>/dev/null || mkdir -p /tmp/habit_cli_manual_test && cd /tmp/habit_cli_manual_test\nrm -f habits.json\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise --date 2026-08-01\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add read --date 2026-08-05\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-30\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-15\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json list\necho \"--- add duplicate (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- complete unknown (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete ghost || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- final json ---\"\ncat habits.json"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Manually exercise the habit tracker CLI end-to-end",
+                          "command": "cd /tmp/habit_cli_manual_test 2>/dev/null || mkdir -p /tmp/habit_cli_manual_test && cd /tmp/habit_cli_manual_test\nrm -f habits.json\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json add exercise --date 2026-08-01\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json add read --date 2026-08-05\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json complete exercise --date 2026-08-30\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json complete exercise --date 2026-08-15\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json list\necho \"--- add duplicate (expect error) ---\"\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json add exercise; echo \"exit=$?\"\necho \"--- complete unknown (expect error) ---\"\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json complete ghost; echo \"exit=$?\"\necho \"--- final json ---\"\ncat habits.json\n"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "Added habit 'exercise' (created 2026-08-01).\nAdded habit 'read' (created 2026-08-05).\nCompleted habit 'exercise' for 2026-08-30.\nCompleted habit 'exercise' for 2026-08-15.\nNAME                CREATED     COMPLETIONS  LAST        \nexercise            2026-08-01  2            2026-08-30  \nread                2026-08-05  0            -           \n--- add duplicate (expect error) ---\nError: habit 'exercise' already exists\nexit=1\n--- complete unknown (expect error) ---\nError: habit 'ghost' does not exist\nexit=1\n--- final json ---\n{\n  \"habits\": {\n    \"exercise\": {\n      \"completions\": [\n        \"2026-08-15\",\n        \"2026-08-30\"\n      ],\n      \"created\": \"2026-08-01\"\n    },\n    \"read\": {\n      \"completions\": [],\n      \"created\": \"2026-08-05\"\n    }\n  }\n}"
                       },
@@ -71,6 +89,15 @@
                           "-lc",
                           "rm -rf /tmp/habit_cli_manual_test"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "rm -rf /tmp/habit_cli_manual_test"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Remove scratch manual-test directory",
+                          "command": "rm -rf /tmp/habit_cli_manual_test"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "",
                         "expectedStderr": ""
@@ -110,6 +137,15 @@
                             "-lc",
                             "python3 -m unittest -v"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run unit tests verbosely",
+                            "command": "python3 -m unittest -v"
+                          },
                           "expectedExitCode": 0,
                           "expectedStderr": ""
                         }
@@ -127,6 +163,15 @@
                             "-lc",
                             "AIFIRST_REPLAY_ROOT=$(pwd)\ncd /tmp/habit_cli_manual_test 2>/dev/null || mkdir -p /tmp/habit_cli_manual_test && cd /tmp/habit_cli_manual_test\nrm -f habits.json\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise --date 2026-08-01\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add read --date 2026-08-05\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-30\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-15\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json list\necho \"--- add duplicate (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- complete unknown (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete ghost || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- final json ---\"\ncat habits.json"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "AIFIRST_REPLAY_ROOT=$(pwd)\ncd /tmp/habit_cli_manual_test 2>/dev/null || mkdir -p /tmp/habit_cli_manual_test && cd /tmp/habit_cli_manual_test\nrm -f habits.json\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise --date 2026-08-01\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add read --date 2026-08-05\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-30\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete exercise --date 2026-08-15\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json list\necho \"--- add duplicate (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json add exercise || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- complete unknown (expect error) ---\"\npython3 \"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py --file habits.json complete ghost || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\necho \"--- final json ---\"\ncat habits.json"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Manually exercise the habit tracker CLI end-to-end",
+                            "command": "cd /tmp/habit_cli_manual_test 2>/dev/null || mkdir -p /tmp/habit_cli_manual_test && cd /tmp/habit_cli_manual_test\nrm -f habits.json\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json add exercise --date 2026-08-01\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json add read --date 2026-08-05\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json complete exercise --date 2026-08-30\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json complete exercise --date 2026-08-15\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json list\necho \"--- add duplicate (expect error) ---\"\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json add exercise; echo \"exit=$?\"\necho \"--- complete unknown (expect error) ---\"\npython3 /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py --file habits.json complete ghost; echo \"exit=$?\"\necho \"--- final json ---\"\ncat habits.json\n"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "Added habit 'exercise' (created 2026-08-01).\nAdded habit 'read' (created 2026-08-05).\nCompleted habit 'exercise' for 2026-08-30.\nCompleted habit 'exercise' for 2026-08-15.\nNAME                CREATED     COMPLETIONS  LAST        \nexercise            2026-08-01  2            2026-08-30  \nread                2026-08-05  0            -           \n--- add duplicate (expect error) ---\nError: habit 'exercise' already exists\nexit=1\n--- complete unknown (expect error) ---\nError: habit 'ghost' does not exist\nexit=1\n--- final json ---\n{\n  \"habits\": {\n    \"exercise\": {\n      \"completions\": [\n        \"2026-08-15\",\n        \"2026-08-30\"\n      ],\n      \"created\": \"2026-08-01\"\n    },\n    \"read\": {\n      \"completions\": [],\n      \"created\": \"2026-08-05\"\n    }\n  }\n}"
                         }
@@ -144,6 +189,15 @@
                             "-lc",
                             "rm -rf /tmp/habit_cli_manual_test"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "rm -rf /tmp/habit_cli_manual_test"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Remove scratch manual-test directory",
+                            "command": "rm -rf /tmp/habit_cli_manual_test"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "",
                           "expectedStderr": ""
@@ -196,6 +250,15 @@
                           "-lc",
                           "python3 -m unittest -v 2>&1 | tail -60"
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "<python> -m unittest -v 2>&1 | tail -60"
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Re-run full unit test suite verbosely",
+                          "command": "python3 -m unittest -v 2>&1 | tail -60"
+                        },
                         "expectedExitCode": 0,
                         "expectedStderr": ""
                       },
@@ -206,6 +269,15 @@
                           "-lc",
                           "AIFIRST_REPLAY_ROOT=$(pwd)\nset -e\nTMPDIR=$(mktemp -d)\ncd \"$TMPDIR\"\nSCRIPT=\"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py\n\npython3 \"$SCRIPT\" --file habits.json add exercise --date 2026-08-01 --goal 3\npython3 \"$SCRIPT\" --file habits.json add read --date 2026-08-05 --goal 7\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-25\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-26\npython3 \"$SCRIPT\" --file habits.json complete read --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json goal read 4\n\necho \"--- list ---\"\npython3 \"$SCRIPT\" --file habits.json list --date 2026-08-27\n\necho \"--- report (stdout) ---\"\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27\n\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r1.md\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r2.md\necho \"--- byte-identical check ---\"\nif cmp -s r1.md r2.md; then echo \"IDENTICAL\"; else echo \"DIFFERENT\"; fi\ncat r1.md\n\necho \"--- error cases ---\"\npython3 \"$SCRIPT\" --file habits.json goal ghost 3 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\npython3 \"$SCRIPT\" --file habits.json goal read 0 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\n\ncd \"$AIFIRST_REPLAY_ROOT\"\nrm -rf \"$TMPDIR\""
                         ],
+                        "portableCommand": [
+                          "<shell>",
+                          "AIFIRST_REPLAY_ROOT=$(pwd)\nset -e\nTMPDIR=$(mktemp -d)\ncd \"$TMPDIR\"\nSCRIPT=\"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py\n\npython3 \"$SCRIPT\" --file habits.json add exercise --date 2026-08-01 --goal 3\npython3 \"$SCRIPT\" --file habits.json add read --date 2026-08-05 --goal 7\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-25\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-26\npython3 \"$SCRIPT\" --file habits.json complete read --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json goal read 4\n\necho \"--- list ---\"\npython3 \"$SCRIPT\" --file habits.json list --date 2026-08-27\n\necho \"--- report (stdout) ---\"\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27\n\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r1.md\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r2.md\necho \"--- byte-identical check ---\"\nif cmp -s r1.md r2.md; then echo \"IDENTICAL\"; else echo \"DIFFERENT\"; fi\ncat r1.md\n\necho \"--- error cases ---\"\npython3 \"$SCRIPT\" --file habits.json goal ghost 3 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\npython3 \"$SCRIPT\" --file habits.json goal read 0 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\n\ncd \"$AIFIRST_REPLAY_ROOT\"\nrm -rf \"$TMPDIR\""
+                        ],
+                        "display": {
+                          "toolName": "Bash",
+                          "description": "Manually exercise new goal/streak/report CLI features and verify byte-identical reports",
+                          "command": "set -e\nTMPDIR=$(mktemp -d)\ncd \"$TMPDIR\"\nSCRIPT=/tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py\n\npython3 \"$SCRIPT\" --file habits.json add exercise --date 2026-08-01 --goal 3\npython3 \"$SCRIPT\" --file habits.json add read --date 2026-08-05 --goal 7\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-25\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-26\npython3 \"$SCRIPT\" --file habits.json complete read --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json goal read 4\n\necho \"--- list ---\"\npython3 \"$SCRIPT\" --file habits.json list --date 2026-08-27\n\necho \"--- report (stdout) ---\"\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27\n\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r1.md\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r2.md\necho \"--- byte-identical check ---\"\nif cmp -s r1.md r2.md; then echo \"IDENTICAL\"; else echo \"DIFFERENT\"; fi\ncat r1.md\n\necho \"--- error cases ---\"\npython3 \"$SCRIPT\" --file habits.json goal ghost 3; echo \"exit=$?\"\npython3 \"$SCRIPT\" --file habits.json goal read 0; echo \"exit=$?\"\n\ncd /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace\nrm -rf \"$TMPDIR\"\n"
+                        },
                         "expectedExitCode": 0,
                         "expectedStdout": "Added habit 'exercise' (created 2026-08-01, goal 3/week).\nAdded habit 'read' (created 2026-08-05, goal 7/week).\nCompleted habit 'exercise' for 2026-08-24.\nCompleted habit 'exercise' for 2026-08-25.\nCompleted habit 'exercise' for 2026-08-26.\nCompleted habit 'read' for 2026-08-24.\nSet weekly goal for 'read' to 4.\n--- list ---\nNAME                CREATED     COMPLETIONS  LAST        GOAL  STREAK  \nexercise            2026-08-01  3            2026-08-26  3     3       \nread                2026-08-05  1            2026-08-24  4     0       \n--- report (stdout) ---\n# Habit Progress Report (as of 2026-08-27)\n\n| Habit | Weekly Goal | This Week | Streak | Status |\n| --- | --- | --- | --- | --- |\n| exercise | 3 | 3/3 | 3 | Met |\n| read | 4 | 1/4 | 0 | In Progress |\nReport written to r1.md.\nReport written to r2.md.\n--- byte-identical check ---\nIDENTICAL\n# Habit Progress Report (as of 2026-08-27)\n\n| Habit | Weekly Goal | This Week | Streak | Status |\n| --- | --- | --- | --- | --- |\n| exercise | 3 | 3/3 | 3 | Met |\n| read | 4 | 1/4 | 0 | In Progress |\n--- error cases ---\nError: habit 'ghost' does not exist\nexit=1\nError: weekly_goal must be a positive integer\nexit=1",
                         "expectedStderr": ""
@@ -335,6 +407,14 @@
                             "-lc",
                             "python3 -c \"\nimport habit_tracker as ht\ndata = {'habits': {}}\nht.add_habit(data, 'exercise', '2026-08-01', weekly_goal=3)\nht.add_habit(data, 'read', '2026-08-01', weekly_goal=7)\nfor d in ['2026-08-24', '2026-08-25', '2026-08-26']:\n    ht.complete_habit(data, 'exercise', d)\nfor d in ['2026-08-24', '2026-08-25']:\n    ht.complete_habit(data, 'read', d)\nprint(ht.build_report_rows(data, '2026-08-27'))\n\""
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -c \"\nimport habit_tracker as ht\ndata = {'habits': {}}\nht.add_habit(data, 'exercise', '2026-08-01', weekly_goal=3)\nht.add_habit(data, 'read', '2026-08-01', weekly_goal=7)\nfor d in ['2026-08-24', '2026-08-25', '2026-08-26']:\n    ht.complete_habit(data, 'exercise', d)\nfor d in ['2026-08-24', '2026-08-25']:\n    ht.complete_habit(data, 'read', d)\nprint(ht.build_report_rows(data, '2026-08-27'))\n\""
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "command": "python3 -c \"\nimport habit_tracker as ht\ndata = {'habits': {}}\nht.add_habit(data, 'exercise', '2026-08-01', weekly_goal=3)\nht.add_habit(data, 'read', '2026-08-01', weekly_goal=7)\nfor d in ['2026-08-24', '2026-08-25', '2026-08-26']:\n    ht.complete_habit(data, 'exercise', d)\nfor d in ['2026-08-24', '2026-08-25']:\n    ht.complete_habit(data, 'read', d)\nprint(ht.build_report_rows(data, '2026-08-27'))\n\"\n"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "[('exercise', 3, 3, 3, 'Met'), ('read', 7, 2, 0, 'In Progress')]",
                           "expectedStderr": ""
@@ -406,6 +486,15 @@
                             "-lc",
                             "python3 -m unittest -v 2>&1"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v 2>&1"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Run full unit test suite verbosely",
+                            "command": "python3 -m unittest -v 2>&1"
+                          },
                           "expectedExitCode": 1,
                           "expectedStdout": "",
                           "expectedStderr": ""
@@ -442,6 +531,15 @@
                             "-lc",
                             "python3 -m unittest -v 2>&1 | tail -60"
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "<python> -m unittest -v 2>&1 | tail -60"
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Re-run full unit test suite verbosely",
+                            "command": "python3 -m unittest -v 2>&1 | tail -60"
+                          },
                           "expectedExitCode": 0,
                           "expectedStderr": ""
                         }
@@ -459,6 +557,15 @@
                             "-lc",
                             "AIFIRST_REPLAY_ROOT=$(pwd)\nset -e\nTMPDIR=$(mktemp -d)\ncd \"$TMPDIR\"\nSCRIPT=\"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py\n\npython3 \"$SCRIPT\" --file habits.json add exercise --date 2026-08-01 --goal 3\npython3 \"$SCRIPT\" --file habits.json add read --date 2026-08-05 --goal 7\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-25\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-26\npython3 \"$SCRIPT\" --file habits.json complete read --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json goal read 4\n\necho \"--- list ---\"\npython3 \"$SCRIPT\" --file habits.json list --date 2026-08-27\n\necho \"--- report (stdout) ---\"\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27\n\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r1.md\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r2.md\necho \"--- byte-identical check ---\"\nif cmp -s r1.md r2.md; then echo \"IDENTICAL\"; else echo \"DIFFERENT\"; fi\ncat r1.md\n\necho \"--- error cases ---\"\npython3 \"$SCRIPT\" --file habits.json goal ghost 3 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\npython3 \"$SCRIPT\" --file habits.json goal read 0 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\n\ncd \"$AIFIRST_REPLAY_ROOT\"\nrm -rf \"$TMPDIR\""
                           ],
+                          "portableCommand": [
+                            "<shell>",
+                            "AIFIRST_REPLAY_ROOT=$(pwd)\nset -e\nTMPDIR=$(mktemp -d)\ncd \"$TMPDIR\"\nSCRIPT=\"$AIFIRST_REPLAY_ROOT\"/habit_tracker.py\n\npython3 \"$SCRIPT\" --file habits.json add exercise --date 2026-08-01 --goal 3\npython3 \"$SCRIPT\" --file habits.json add read --date 2026-08-05 --goal 7\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-25\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-26\npython3 \"$SCRIPT\" --file habits.json complete read --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json goal read 4\n\necho \"--- list ---\"\npython3 \"$SCRIPT\" --file habits.json list --date 2026-08-27\n\necho \"--- report (stdout) ---\"\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27\n\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r1.md\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r2.md\necho \"--- byte-identical check ---\"\nif cmp -s r1.md r2.md; then echo \"IDENTICAL\"; else echo \"DIFFERENT\"; fi\ncat r1.md\n\necho \"--- error cases ---\"\npython3 \"$SCRIPT\" --file habits.json goal ghost 3 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\npython3 \"$SCRIPT\" --file habits.json goal read 0 || AIFIRST_REPLAY_STATUS=$?; echo \"exit=${AIFIRST_REPLAY_STATUS:-0}\"; unset AIFIRST_REPLAY_STATUS\n\ncd \"$AIFIRST_REPLAY_ROOT\"\nrm -rf \"$TMPDIR\""
+                          ],
+                          "display": {
+                            "toolName": "Bash",
+                            "description": "Manually exercise new goal/streak/report CLI features and verify byte-identical reports",
+                            "command": "set -e\nTMPDIR=$(mktemp -d)\ncd \"$TMPDIR\"\nSCRIPT=/tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace/habit_tracker.py\n\npython3 \"$SCRIPT\" --file habits.json add exercise --date 2026-08-01 --goal 3\npython3 \"$SCRIPT\" --file habits.json add read --date 2026-08-05 --goal 7\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-25\npython3 \"$SCRIPT\" --file habits.json complete exercise --date 2026-08-26\npython3 \"$SCRIPT\" --file habits.json complete read --date 2026-08-24\npython3 \"$SCRIPT\" --file habits.json goal read 4\n\necho \"--- list ---\"\npython3 \"$SCRIPT\" --file habits.json list --date 2026-08-27\n\necho \"--- report (stdout) ---\"\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27\n\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r1.md\npython3 \"$SCRIPT\" --file habits.json report --date 2026-08-27 --output r2.md\necho \"--- byte-identical check ---\"\nif cmp -s r1.md r2.md; then echo \"IDENTICAL\"; else echo \"DIFFERENT\"; fi\ncat r1.md\n\necho \"--- error cases ---\"\npython3 \"$SCRIPT\" --file habits.json goal ghost 3; echo \"exit=$?\"\npython3 \"$SCRIPT\" --file habits.json goal read 0; echo \"exit=$?\"\n\ncd /tmp/aifirst-habit-auto-plan-capture-61kDLD/workspace\nrm -rf \"$TMPDIR\"\n"
+                          },
                           "expectedExitCode": 0,
                           "expectedStdout": "Added habit 'exercise' (created 2026-08-01, goal 3/week).\nAdded habit 'read' (created 2026-08-05, goal 7/week).\nCompleted habit 'exercise' for 2026-08-24.\nCompleted habit 'exercise' for 2026-08-25.\nCompleted habit 'exercise' for 2026-08-26.\nCompleted habit 'read' for 2026-08-24.\nSet weekly goal for 'read' to 4.\n--- list ---\nNAME                CREATED     COMPLETIONS  LAST        GOAL  STREAK  \nexercise            2026-08-01  3            2026-08-26  3     3       \nread                2026-08-05  1            2026-08-24  4     0       \n--- report (stdout) ---\n# Habit Progress Report (as of 2026-08-27)\n\n| Habit | Weekly Goal | This Week | Streak | Status |\n| --- | --- | --- | --- | --- |\n| exercise | 3 | 3/3 | 3 | Met |\n| read | 4 | 1/4 | 0 | In Progress |\nReport written to r1.md.\nReport written to r2.md.\n--- byte-identical check ---\nIDENTICAL\n# Habit Progress Report (as of 2026-08-27)\n\n| Habit | Weekly Goal | This Week | Streak | Status |\n| --- | --- | --- | --- | --- |\n| exercise | 3 | 3/3 | 3 | Met |\n| read | 4 | 1/4 | 0 | In Progress |\n--- error cases ---\nError: habit 'ghost' does not exist\nexit=1\nError: weekly_goal must be a positive integer\nexit=1",
                           "expectedStderr": ""

@@ -382,6 +382,7 @@
           "additionalProperties": false,
           "properties": {
             "type": { "const": "write" },
+            "display": { "$ref": "#/definitions/replayToolDisplay" },
             "path": { "type": "string", "minLength": 1, "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+" },
             "content": { "type": "string" }
           }
@@ -392,6 +393,7 @@
           "additionalProperties": false,
           "properties": {
             "type": { "const": "edit" },
+            "display": { "$ref": "#/definitions/replayToolDisplay" },
             "path": { "type": "string", "minLength": 1, "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+" },
             "oldText": { "type": "string", "minLength": 1 },
             "newText": { "type": "string" },
@@ -404,6 +406,7 @@
           "additionalProperties": false,
           "properties": {
             "type": { "const": "read" },
+            "display": { "$ref": "#/definitions/replayToolDisplay" },
             "path": { "type": "string", "minLength": 1, "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+" }
           }
         },
@@ -413,10 +416,14 @@
           "additionalProperties": false,
           "properties": {
             "type": { "const": "command" },
+            "display": { "$ref": "#/definitions/replayToolDisplay" },
             "command": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+            "portableCommand": { "type": "array", "minItems": 1, "items": { "type": "string" } },
             "cwd": { "type": "string", "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).*" },
             "env": { "type": "object", "additionalProperties": { "type": "string" } },
             "stdin": { "type": "string" },
+            "timeoutMs": { "type": "integer", "minimum": 1 },
+            "expectedTimeout": { "type": "boolean" },
             "readOnly": { "type": "boolean" },
             "expectedExitCode": { "type": "integer" },
             "expectedStdout": { "type": "string" },
@@ -424,6 +431,16 @@
           }
         }
       ]
+    },
+    "replayToolDisplay": {
+      "type": "object",
+      "required": ["toolName"],
+      "additionalProperties": false,
+      "properties": {
+        "toolName": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "command": { "type": "string", "minLength": 1 }
+      }
     },
     "replayEvent": {
       "oneOf": [
@@ -442,7 +459,8 @@
           "additionalProperties": false,
           "properties": {
             "type": { "const": "status" },
-            "text": { "type": "string", "minLength": 1 }
+            "text": { "type": "string", "minLength": 1 },
+            "display": { "$ref": "#/definitions/replayToolDisplay" }
           }
         },
         {

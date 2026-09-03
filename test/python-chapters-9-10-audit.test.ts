@@ -73,4 +73,27 @@ describe("Python manuscript audit for chapters 9 and 10", () => {
         { kind: "python-package", package: "Pillow", module: "PIL" },
       ]);
   });
+
+  test("provides portable execution for every captured shell command", () => {
+    for (const example of [...chapter(9).examples, ...chapter(10).examples]) {
+      const replay = example.steps[0]?.replay;
+      const events = [
+        ...(replay?.prePlanEvents ?? []),
+        ...(replay?.workflow?.interludes ?? []).flatMap((interlude) => interlude.events),
+        ...(replay?.events ?? []),
+      ];
+      for (const event of events) {
+        if (event.type !== "operation" || event.operation.type !== "command") continue;
+        expect(event.operation.portableCommand?.[0], `${example.id}: ${event.operation.command.join(" ")}`).toBe("<shell>");
+      }
+    }
+  });
+
+  test("keeps the original Windows tool label separate from portable execution", () => {
+    const operation = content.steps.find((item) => item.id === "py-9-01")?.replay?.prePlanEvents?.[1];
+    expect(operation?.type).toBe("operation");
+    if (operation?.type !== "operation" || operation.operation.type !== "command") return;
+    expect(operation.operation.display?.toolName).toBe("PowerShell");
+    expect(operation.operation.portableCommand?.[1]).toContain("<python> --version");
+  });
 });

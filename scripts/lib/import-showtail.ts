@@ -7,6 +7,7 @@ import type {
   Replay,
   ReplayEvent,
   ReplayOperation,
+  ReplayToolDisplay,
   Scaffold,
   ScaffoldFile,
 } from "../../src/types";
@@ -358,6 +359,27 @@ function statusText(event: ShowtailV2Event): string {
   return detail ? `${event.toolName}(${detail})` : (event.toolName ?? "Tool");
 }
 
+function toolDisplay(event: ShowtailV2Event): ReplayToolDisplay {
+  const input = object(event.input);
+  const description = string(input?.description);
+  const command = string(input?.command);
+  return {
+    toolName: event.toolName ?? "Tool",
+    ...(description ? { description } : {}),
+    ...(command ? { command } : {}),
+  };
+}
+
+function portableShellCommand(command: string): string[] {
+  return [
+    "<shell>",
+    command.replace(
+      /\bpython3(?=\s+(?:--version\b|-c\b|-m\b|[A-Za-z0-9_./-]+\.py\b))/g,
+      "<python>",
+    ),
+  ];
+}
+
 function isExternalPathTool(
   event: ShowtailV2Event,
   sourcePaths: string[],
@@ -587,9 +609,11 @@ function operationFromTool(
         ),
       );
     }
+    const pythonReplay = sourcePaths.some((path) => path.endsWith(".py"));
     return {
       type: "command",
       command: ["bash", "-lc", command],
+      ...(pythonReplay ? { portableCommand: portableShellCommand(command), display: toolDisplay(event) } : {}),
       ...(readOnly ? { readOnly: true } : {}),
       expectedExitCode: exitCode,
       ...(!readOnly
