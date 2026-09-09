@@ -12,10 +12,14 @@ import {
 } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { unzipSync } from "fflate";
-import type { Explanation, RawBook, RawExample, RawResponse } from "../src/types";
+import type { Dependency, Explanation, RawBook, RawExample, RawResponse } from "../src/types";
 import { reorder } from "./lib/apply";
+import {
+  recoverPlanApproval,
+  type ApprovalRecoveryInput,
+} from "./lib/approval-recovery";
 import { readParagraphs } from "./lib/docx";
-import { deriveReplay } from "./lib/import-showtail";
+import { deriveReplay, type ResponseMatch } from "./lib/import-showtail";
 import type { MinedExample } from "./lib/mine";
 import {
   EXCLUDED_SOURCE_DIRS,
@@ -66,6 +70,12 @@ interface CheckpointInput {
   correctionPaths?: string[];
 }
 
+interface ArchiveCorrectionInput {
+  archivePrefix: string;
+  path: string;
+  afterSha256: string;
+}
+
 interface ExerciseInput {
   id: string;
   title: string;
@@ -73,9 +83,15 @@ interface ExerciseInput {
   promptSha256: string;
   responseSha256: string;
   responsePath: string;
-  responseMatch: "exact" | "excerpt";
+  responseMatch: ResponseMatch;
+  responseElisions?: string[];
+  dependencies?: Dependency[];
+  reportSha256?: string;
+  retrofitDate?: string;
   primaryTurn: number;
   segments: SegmentInput[];
+  archiveCorrections?: ArchiveCorrectionInput[];
+  approvalRecovery?: ApprovalRecoveryInput;
   checkpoint?: CheckpointInput;
   bundle: string;
   explanation: Explanation;
@@ -652,7 +668,15 @@ function privacyProblems(text: string): string[] {
 
 const config = manifest();
 const zipped = archiveFiles(resolve(archivePath));
-const { report, text: rawReportText } = reportFromArchive(zipped, config.reportSha256);
+const reportCache = new Map<string, { report: ShowtailReport; text: string }>();
+const loadReport = (digest: string): { report: ShowtailReport; text: string } => {
+  const cached = reportCache.get(digest);
+  if (cached) return cached;
+  const loaded = reportFromArchive(zipped, digest);
+  reportCache.set(digest, loaded);
+  return loaded;
+};
+const baseReport = loadReport(config.reportSha256);
 const manuscripts = new Map<number, MinedExample[]>([
   [11, manuscriptExamples(resolve(chapter11Path), 11)],
   [12, manuscriptExamples(resolve(chapter12Path), 12)],
@@ -683,6 +707,12 @@ for (const chapterInput of config.chapters) {
   const generated: RawExample[] = [];
   for (let index = 0; index < chapterInput.exercises.length; index++) {
     const exercise = chapterInput.exercises[index]!;
+    const reportDigest = exercise.reportSha256 ?? config.reportSha256;
+    const { report, text: rawReportText } = loadReport(reportDigest);
+    if (
+      reportDigest !== config.reportSha256 &&
+      stableJson(report.turns.slice(0, baseReport.report.turns.length)) !== stableJson(baseReport.report.turns)
+    ) throw new Error(`${exercise.id} cumulative report does not preserve the base report turns`);
     const authored = mined[index]!;
     if (!authored.response) throw new Error(`${exercise.id} has no manuscript response`);
     if (sha256(authored.prompt) !== exercise.promptSha256)
@@ -690,11 +720,31 @@ for (const chapterInput of config.chapters) {
     if (sha256(authored.response) !== exercise.responseSha256)
       throw new Error(`${exercise.id} manuscript response hash changed`);
 
-    const rawEvents = reportEvents(report, exercise);
+    if (exercise.approvalRecovery && exercise.approvalRecovery.turn !== exercise.primaryTurn)
+      throw new Error(`${exercise.id} approval recovery must target its primary turn`);
+    const selectedReportEvents = reportEvents(report, exercise);
+    const recovered = exercise.approvalRecovery
+      ? recoverPlanApproval(selectedReportEvents, exercise.approvalRecovery, exercise.id)
+      : { events: selectedReportEvents, audit: undefined };
+    const rawEvents = recovered.events;
     for (const segment of exercise.segments)
       applyEvents(state, selectedEvents(report, segment));
 
     const corrections: Array<{ path: string; content: string; beforeSha256?: string; afterSha256: string }> = [];
+    for (const correction of exercise.archiveCorrections ?? []) {
+      const content = sourceTree(zipped, correction.archivePrefix).get(correction.path);
+      if (content === undefined) throw new Error(`${exercise.id} archive correction is missing ${correction.path}`);
+      if (sha256(content) !== correction.afterSha256)
+        throw new Error(`${exercise.id} archive correction changed: ${correction.path}`);
+      const before = state.get(correction.path);
+      corrections.push({
+        path: correction.path,
+        content,
+        ...(before === undefined ? {} : { beforeSha256: sha256(before) }),
+        afterSha256: correction.afterSha256,
+      });
+      state.set(correction.path, content);
+    }
     let checkpointAudit: Record<string, unknown> | undefined;
     if (exercise.checkpoint) {
       const checkpoint = sourceTree(zipped, exercise.checkpoint.archivePrefix);
@@ -784,6 +834,7 @@ for (const chapterInput of config.chapters) {
       response: authored.response,
       responsePath: exercise.responsePath,
       responseMatch: exercise.responseMatch,
+      responseElisions: exercise.responseElisions,
       initialFiles,
       initialExerciseId,
     });
@@ -797,6 +848,7 @@ for (const chapterInput of config.chapters) {
       title: exercise.title,
       description: exercise.description,
       kind: "project",
+      ...(exercise.dependencies ? { dependencies: exercise.dependencies } : {}),
       prompt: authored.prompt,
       response: rawResponse(authored.response),
       explanation: exercise.explanation,
@@ -812,18 +864,20 @@ for (const chapterInput of config.chapters) {
     const audit = {
       version: 1,
       exerciseId: exercise.id,
-      retrofitDate: config.retrofitDate,
+      retrofitDate: exercise.retrofitDate ?? config.retrofitDate,
       source: {
         kind: "showtail-v2-archive",
         reportSha256: sha256(rawReportText),
         primaryTurn: exercise.primaryTurn,
         segments: exercise.segments,
+        ...(recovered.audit ? { approvalRecovery: recovered.audit } : {}),
       },
       manuscript: {
         promptSha256: exercise.promptSha256,
         responseSha256: exercise.responseSha256,
         responsePath: exercise.responsePath,
         responseMatch: exercise.responseMatch,
+        ...(exercise.responseElisions ? { responseElisions: exercise.responseElisions } : {}),
       },
       ...(checkpointAudit ? { checkpoint: checkpointAudit } : {}),
       corrections: corrections.map(({ content: _content, ...correction }) => correction),

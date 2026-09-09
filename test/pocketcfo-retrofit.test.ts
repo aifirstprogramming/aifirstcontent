@@ -2,7 +2,12 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import type { RawBook, RawExample, RawResponse } from "../src/types";
-import { deriveReplay, responseExcerptMatches } from "../scripts/lib/import-showtail";
+import {
+  deriveReplay,
+  responseExcerptMatches,
+  responseExcerptWithElisionsMatches,
+  type ResponseMatch,
+} from "../scripts/lib/import-showtail";
 import { canonicalTreeSha256, sha256 } from "../scripts/lib/retrofit-showtail";
 import { parseShowtailReport } from "../scripts/lib/showtail";
 
@@ -19,7 +24,8 @@ const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as {
       promptSha256: string;
       responseSha256: string;
       responsePath: string;
-      responseMatch: "exact" | "excerpt";
+      responseMatch: ResponseMatch;
+      responseElisions?: string[];
       bundle: string;
       segments: Array<{ turn: number; mode: string }>;
     }>;
@@ -62,7 +68,7 @@ function scaffoldFiles(example: RawExample): Map<string, string> {
 }
 
 describe("PocketCFO Java chapter retrofit", () => {
-  test("publishes the six manuscript exercises in chapter order", () => {
+  test("publishes the eight manuscript exercises in chapter order", () => {
     expect(exercises.map((exercise) => exercise.id)).toEqual([
       "java-11-01",
       "java-11-02",
@@ -70,6 +76,8 @@ describe("PocketCFO Java chapter retrofit", () => {
       "java-12-02",
       "java-12-03",
       "java-12-04",
+      "java-12-05",
+      "java-12-06",
     ]);
     for (const chapterInput of manifest.chapters) {
       const chapter = book.sections
@@ -90,7 +98,14 @@ describe("PocketCFO Java chapter retrofit", () => {
       expect(sha256(example.prompt ?? ""), exercise.id).toBe(exercise.promptSha256);
       expect(sha256(response(example.response)), exercise.id).toBe(exercise.responseSha256);
       expect(source, `${exercise.id} response source`).toBeDefined();
-      expect(responseExcerptMatches(response(example.response), source!), exercise.id).toBe(true);
+      const matches = exercise.responseMatch === "excerpt-with-elisions"
+        ? responseExcerptWithElisionsMatches(
+            response(example.response),
+            source!,
+            exercise.responseElisions ?? [],
+          )
+        : responseExcerptMatches(response(example.response), source!);
+      expect(matches, exercise.id).toBe(true);
     }
   });
 
@@ -111,6 +126,7 @@ describe("PocketCFO Java chapter retrofit", () => {
         response: response(example.response),
         responsePath: exercise.responsePath,
         responseMatch: exercise.responseMatch,
+        responseElisions: exercise.responseElisions,
         initialFiles,
         initialExerciseId,
       });
@@ -136,6 +152,8 @@ describe("PocketCFO Java chapter retrofit", () => {
       ["java-12-02", "java-12-01"],
       ["java-12-03", "java-12-02"],
       ["java-12-04", "java-12-03"],
+      ["java-12-05", "java-12-04"],
+      ["java-12-06", "java-12-05"],
     ]);
   });
 
@@ -160,18 +178,18 @@ describe("PocketCFO Java chapter retrofit", () => {
   });
 
   test("uses the final numeric-priority plan and audits the uncaptured CSV correction", () => {
-    const finalExercise = exercises.at(-1)!;
-    expect(finalExercise.segments.map((segment) => segment.turn)).toEqual([
+    const priorityExercise = exercises.find((exercise) => exercise.id === "java-12-04")!;
+    expect(priorityExercise.segments.map((segment) => segment.turn)).toEqual([
       29, 30, 32, 33, 34, 36, 38, 39, 40,
     ]);
-    expect(finalExercise.segments.some((segment) => segment.turn === 27 || segment.turn === 28)).toBe(false);
+    expect(priorityExercise.segments.some((segment) => segment.turn === 27 || segment.turn === 28)).toBe(false);
     const example = target("java-12-04");
     expect(example.replay?.workflow?.canonicalPlan).toContain(
       "Numeric category priority + spend-rank comparison",
     );
     const audit = JSON.parse(
       readFileSync(
-        join(dirname(manifestPath), finalExercise.bundle, "retrofit.json"),
+        join(dirname(manifestPath), priorityExercise.bundle, "retrofit.json"),
         "utf8",
       ),
     );
@@ -180,6 +198,39 @@ describe("PocketCFO Java chapter retrofit", () => {
         path: "sample-data/sample-transactions.csv",
         beforeSha256: "435ce49dccacac0bfd38a4e7ee545301da88ba4e561e49a1d0a75bc01099d362",
         afterSha256: "679d117da68e8286653b934bd85cd32bfd2ad965900130c6dd057a9b870a270e",
+      },
+    ]);
+    expect(audit.outputs.sourceTreeSha256).toBe(
+      "fc5e55bb2a56a80e873edfcbe12ee57a6f8b4aae0efb94f12826a683f8eb6000",
+    );
+  });
+
+  test("recovers the reallocation approval and verifies the new final checkpoint", () => {
+    const finalExercise = exercises.at(-1)!;
+    expect(finalExercise.id).toBe("java-12-06");
+    expect(finalExercise.segments.map((segment) => segment.turn)).toEqual([43, 45, 47, 49]);
+    const example = target(finalExercise.id);
+    expect(example.replay?.workflow?.canonicalPlan).toContain(
+      "Reallocation preview: category cut",
+    );
+    const audit = JSON.parse(
+      readFileSync(
+        join(dirname(manifestPath), finalExercise.bundle, "retrofit.json"),
+        "utf8",
+      ),
+    );
+    expect(audit.source.approvalRecovery).toEqual({
+      method: "exit-plan-mode-already-ended",
+      turn: 43,
+      resultSha256: "248f9072b6f6cc23977a2c7d35574811aaf9bc288391225097c7e0d4b181c77f",
+    });
+    expect(audit.checkpoint.canonicalTreeSha256).toBe(
+      "6ae40356315c8b02bfcb802abbd771a757661b2972a8c1338cf0516f25af9ee0",
+    );
+    expect(audit.corrections).toEqual([
+      {
+        path: "sample-data/sample-transactions-sep.csv",
+        afterSha256: "a2a4492c569d3449d12df0d705871cd313323f52b658300a4753947196fd0855",
       },
     ]);
   });

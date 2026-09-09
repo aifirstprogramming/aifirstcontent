@@ -30,6 +30,8 @@ export interface DerivedReplay {
   diagnostics: ImportDiagnostic[];
 }
 
+export type ResponseMatch = "exact" | "excerpt" | "excerpt-with-elisions";
+
 export interface DeriveReplayOptions {
   report: ShowtailReport;
   reportText: string;
@@ -42,7 +44,9 @@ export interface DeriveReplayOptions {
    * byte match.
    */
   responsePath?: string;
-  responseMatch?: "exact" | "excerpt";
+  responseMatch?: ResponseMatch;
+  /** Exact manuscript lines intentionally omitted from the authoritative source. */
+  responseElisions?: string[];
   /** Run a project through this file when the displayed response is a helper module. */
   entrypoint?: string;
   initialFiles?: Map<string, string>;
@@ -108,6 +112,24 @@ export function responseExcerptMatches(response: string, source: string): boolea
     cursor = found + 1;
   }
   return expected.length > 0;
+}
+
+/** Match an excerpt after removing only the exact, explicitly declared elision lines. */
+export function responseExcerptWithElisionsMatches(
+  response: string,
+  source: string,
+  elisions: string[],
+): boolean {
+  if (elisions.length === 0 || new Set(elisions).size !== elisions.length) return false;
+  const lines = withoutFinalNewline(response).split("\n");
+  for (const elision of elisions) {
+    if (lines.filter((line) => line === elision).length !== 1) return false;
+  }
+  const ignored = new Set(elisions);
+  return responseExcerptMatches(
+    lines.filter((line) => !ignored.has(line)).join("\n"),
+    source,
+  );
 }
 
 function normalizePath(value: string): string {
@@ -962,7 +984,13 @@ export function deriveReplay(options: DeriveReplayOptions): DerivedReplay {
         if (content === undefined) return [];
         const matches = options.responseMatch === "excerpt"
           ? responseExcerptMatches(options.response, content)
-          : withoutFinalNewline(content) === withoutFinalNewline(options.response);
+          : options.responseMatch === "excerpt-with-elisions"
+            ? responseExcerptWithElisionsMatches(
+                options.response,
+                content,
+                options.responseElisions ?? [],
+              )
+            : withoutFinalNewline(content) === withoutFinalNewline(options.response);
         return matches ? [options.responsePath!] : [];
       })()
     : sourcePaths.filter(

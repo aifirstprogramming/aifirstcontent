@@ -91,6 +91,14 @@ provenance audit. A hash mismatch or incomplete structured transcript fails the
 whole conversion; the tool never fills missing facts from handcrafted replay
 content.
 
+The PocketCFO v2-archive retrofit also supports two explicit, fail-closed source
+exceptions. A cumulative report may be selected per exercise only when it
+preserves every turn from the base report. A manifest may recover a missing plan
+approval only from one hash-pinned `ExitPlanMode` result, its adjacent plan
+snapshot, and captured source mutations that immediately follow; the recovery is
+recorded in the provenance audit. Printed excerpts may similarly declare exact
+elision lines, which are the only response lines omitted during source matching.
+
 When a supported integration's native transcript is unavailable but v1 retained
 timestamped assistant text and code-change paths, a manifest may explicitly use
 `capture.mode: "legacy-diff"`. The retrofit then verifies that those reported

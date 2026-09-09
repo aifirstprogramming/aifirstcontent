@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { join } from "node:path";
+import { join, posix } from "node:path";
 import { runCommand, suggestFilename } from "../src/filenames";
 import { loadFromDirectory } from "../src/loader";
 
@@ -33,6 +33,11 @@ describe("suggestFilename", () => {
   it("every Java file matches the class declared inside it", () => {
     for (const example of content.examples.filter((e) => e.language === "java")) {
       for (const step of example.steps) {
+        const projectEntrypoint = example.kind === "project" ? step.scaffold?.entrypoint : undefined;
+        if (projectEntrypoint?.endsWith(".java")) {
+          expect(suggestFilename(example, step)).toBe(posix.basename(projectEntrypoint));
+          continue;
+        }
         const declared = step.response.match(/class\s+([A-Za-z_$][\w$]*)/)?.[1];
         if (!declared) continue;
         expect(suggestFilename(example, step)).toBe(`${declared}.java`);

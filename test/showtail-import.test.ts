@@ -8,13 +8,55 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { deriveReplay } from "../scripts/lib/import-showtail";
+import {
+  deriveReplay,
+  responseExcerptMatches,
+  responseExcerptWithElisionsMatches,
+} from "../scripts/lib/import-showtail";
 import { parseShowtailReport } from "../scripts/lib/showtail";
 
 let root = "";
 afterEach(() => {
   if (root) rmSync(root, { recursive: true, force: true });
   root = "";
+});
+
+describe("manuscript excerpt matching", () => {
+  const response = [
+    "public static class Projection {",
+    "    private final int value;",
+    "    //constructor and getter methods",
+    "}",
+  ].join("\n");
+  const source = [
+    "public static class Projection {",
+    "    private final int value;",
+    "",
+    "    public Projection(int value) {",
+    "        this.value = value;",
+    "    }",
+    "",
+    "    public int getValue() {",
+    "        return value;",
+    "    }",
+    "}",
+  ].join("\n");
+
+  test("requires placeholder lines in strict excerpt mode", () => {
+    expect(responseExcerptMatches(response, source)).toBe(false);
+  });
+
+  test("removes only exact declared elision lines", () => {
+    expect(responseExcerptWithElisionsMatches(
+      response,
+      source,
+      ["    //constructor and getter methods"],
+    )).toBe(true);
+    expect(responseExcerptWithElisionsMatches(response, source, ["//constructor and getter methods"]))
+      .toBe(false);
+    expect(responseExcerptWithElisionsMatches(response, source, ["    private final int value;"]))
+      .toBe(false);
+  });
 });
 
 function rawV2() {

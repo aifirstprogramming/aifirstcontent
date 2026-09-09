@@ -61,8 +61,8 @@ describe("loading the real books", () => {
   it("loads every published example and step", () => {
     // Published only: drafts awaiting an explanation and a proving run, and
     // retired examples the books no longer contain, are filtered out.
-    expect(content.examples).toHaveLength(151);
-    expect(content.steps).toHaveLength(160);
+    expect(content.examples).toHaveLength(153);
+    expect(content.steps).toHaveLength(162);
   });
 
   it("hides drafts and retired examples unless asked", () => {
@@ -126,7 +126,15 @@ describe("loading the real books", () => {
       { kind: "python-package", package: "pygame-ce", module: "pygame" },
       { kind: "python-package", package: "Pillow", module: "PIL" },
     ];
-    const mavenIds = ["java-11-01", "java-11-02", "java-12-01", "java-12-03", "java-12-04"];
+    const mavenIds = [
+      "java-11-01",
+      "java-11-02",
+      "java-12-01",
+      "java-12-03",
+      "java-12-04",
+      "java-12-05",
+      "java-12-06",
+    ];
     const maven: Dependency[] = [{ kind: "system-command", package: "Maven", command: "mvn" }];
 
     for (const [ids, expected] of [[pygameIds, pygame], [mavenIds, maven]] as const) {

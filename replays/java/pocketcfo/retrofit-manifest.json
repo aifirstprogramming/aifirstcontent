@@ -41,6 +41,7 @@
           "responseSha256": "ca75b0967275d2231917b9d23f0cc81988add26bbf3c5d0fdfc04a66689ab019",
           "responsePath": "src/main/java/com/example/finance/Transaction.java",
           "responseMatch": "excerpt",
+          "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
           "primaryTurn": 1,
           "segments": [
             { "turn": 1, "mode": "full" }
@@ -73,6 +74,7 @@
           "responseSha256": "34a2bfedaea2a53b3fb17d19586568acde6f31eed114e7bf2e02d6536199d6be",
           "responsePath": "src/main/java/com/example/finance/TransactionRepository.java",
           "responseMatch": "excerpt",
+          "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
           "primaryTurn": 3,
           "segments": [
             { "turn": 3, "mode": "full" },
@@ -124,7 +126,7 @@
     {
       "number": 12,
       "title": "Chapter 12: Project: PocketCFO App, Part 2",
-      "goal": "Extend PocketCFO with CSV transaction imports, multi-month and year-to-date reporting, and analysis that compares category priorities with actual spending.",
+      "goal": "Extend PocketCFO with CSV transaction imports, multi-month and year-to-date reporting, priority-versus-spending analysis, three-month category trends, and what-if reallocations to savings goals or obligations.",
       "manuscript": "chapter12",
       "exercises": [
         {
@@ -135,6 +137,7 @@
           "responseSha256": "373fb7e3655b828bcb2c5dbfdb351ad75b1e3876fb30559dfaff9223eaea7b3a",
           "responsePath": "pom.xml",
           "responseMatch": "excerpt",
+          "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
           "primaryTurn": 22,
           "segments": [
             { "turn": 22, "mode": "full" }
@@ -199,6 +202,7 @@
           "responseSha256": "10e2eeb9527a75f2635fc27d11bb4773b2221e08d9613e499a788c2af7e62055",
           "responsePath": "src/main/java/com/example/finance/BudgetService.java",
           "responseMatch": "excerpt",
+          "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
           "primaryTurn": 25,
           "segments": [
             { "turn": 25, "mode": "full" }
@@ -235,6 +239,7 @@
           "responseSha256": "546b5e35416abbab99b0daedecbccab8294e2c056743d1070dddd33bc3e50ede",
           "responsePath": "src/main/java/com/example/finance/Category.java",
           "responseMatch": "excerpt",
+          "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
           "primaryTurn": 34,
           "segments": [
             { "turn": 29, "mode": "full" },
@@ -247,14 +252,13 @@
             { "turn": 39, "mode": "full" },
             { "turn": 40, "mode": "full" }
           ],
-          "checkpoint": {
-            "label": "chapter-12-final",
-            "archivePrefix": "source/chapter12-code-tests/personal-finance-app/",
-            "canonicalTreeSha256": "b86e1a1e3743401b1ada672b760d5baad294a954b4c7febf328b27ba5dede1ea",
-            "correctionPaths": [
-              "sample-data/sample-transactions.csv"
-            ]
-          },
+          "archiveCorrections": [
+            {
+              "path": "sample-data/sample-transactions.csv",
+              "archivePrefix": "source/chapter12-code-tests/personal-finance-app/",
+              "afterSha256": "679d117da68e8286653b934bd85cd32bfd2ad965900130c6dd057a9b870a270e"
+            }
+          ],
           "bundle": "chapter-12/java-12-04",
           "explanation": {
             "summary": "Categories can carry an optional numeric priority while remaining compatible with existing categories that have no assigned rank.",
@@ -274,6 +278,110 @@
               {
                 "code": "        return Optional.ofNullable(priority);",
                 "text": "ofNullable converts the stored wrapper into either a present priority value or an empty Optional."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        },
+        {
+          "id": "java-12-05",
+          "title": "Visualize Three-Month Category Trends",
+          "description": "Show selected spending categories across the selected month and two preceding months with compact text trends.",
+          "promptSha256": "28ba41f4886298c56caa3fca665744564599d0c2b9c8a860d4fc80aecf3725f2",
+          "responseSha256": "d19c631dd7ee658c0cd6e030d7e5bf6219ed598ab890e7d84703986dc4b9f44f",
+          "responsePath": "src/main/java/com/example/finance/CategoryTrendService.java",
+          "responseMatch": "excerpt",
+          "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
+          "reportSha256": "992027b40421d950c63cc97b7dc4d828050a5505106afdb016fcfd7de4e9bcdb",
+          "retrofitDate": "2026-09-04",
+          "primaryTurn": 41,
+          "segments": [
+            { "turn": 41, "mode": "full" }
+          ],
+          "bundle": "chapter-12/java-12-05",
+          "explanation": {
+            "summary": "The nested trend types pair each month with a precise spending amount and group three ordered points with the category they describe.",
+            "lines": [
+              {
+                "code": "    public record MonthAmount(YearMonth month, BigDecimal amount) {",
+                "text": "The record keeps the month and its BigDecimal amount together as one immutable trend point."
+              },
+              {
+                "code": "        private final Category category;",
+                "text": "Each trend retains the Category so the interface can label and select it without duplicating category data."
+              },
+              {
+                "code": "            this.monthAmounts = List.of(monthAmounts);",
+                "text": "List.of stores the supplied monthly points in an immutable, oldest-to-newest sequence."
+              },
+              {
+                "code": "        public List<MonthAmount> getMonthAmounts() {",
+                "text": "The getter exposes the ordered three-month history for formatting and comparison."
+              }
+            ],
+            "run": "Use the guided replay to materialize and test the PocketCFO project."
+          }
+        },
+        {
+          "id": "java-12-06",
+          "title": "Preview Budget Reallocations",
+          "description": "Preview reducing a category's monthly target and redirecting the amount to a savings goal or recurring obligation without changing stored data.",
+          "promptSha256": "4c8d9ac292149fc2162d83d989bdfe4220e39b8a70e10f28cb2709fa4466b1e2",
+          "responseSha256": "0864f07cc7dde132f502e76042975221e28fd6a2d3b1b6ac3d214988c5802168",
+          "responsePath": "src/main/java/com/example/finance/ReallocationService.java",
+          "responseMatch": "excerpt-with-elisions",
+          "responseElisions": [
+            "        //constructor and getter methods"
+          ],
+          "dependencies": [{ "kind": "system-command", "package": "Maven", "command": "mvn" }],
+          "reportSha256": "992027b40421d950c63cc97b7dc4d828050a5505106afdb016fcfd7de4e9bcdb",
+          "retrofitDate": "2026-09-04",
+          "primaryTurn": 43,
+          "segments": [
+            { "turn": 43, "mode": "full" },
+            { "turn": 45, "mode": "full" },
+            { "turn": 47, "mode": "full" },
+            { "turn": 49, "mode": "full" }
+          ],
+          "approvalRecovery": {
+            "turn": 43,
+            "resultSha256": "248f9072b6f6cc23977a2c7d35574811aaf9bc288391225097c7e0d4b181c77f"
+          },
+          "checkpoint": {
+            "label": "chapter-12-final",
+            "archivePrefix": "source/chapter12-code-tests/personal-finance-app/",
+            "canonicalTreeSha256": "6ae40356315c8b02bfcb802abbd771a757661b2972a8c1338cf0516f25af9ee0",
+            "correctionPaths": [
+              "sample-data/sample-transactions-sep.csv"
+            ]
+          },
+          "bundle": "chapter-12/java-12-06",
+          "explanation": {
+            "summary": "The projection captures both sides of a previewed transfer so the interface can compare a reduced category target with improved goal or obligation progress.",
+            "lines": [
+              {
+                "code": "        private final BigDecimal reductionAmount;",
+                "text": "The proposed reduction is retained as the amount redirected from the category budget."
+              },
+              {
+                "code": "        private final BigDecimal oldMonthlyTarget;",
+                "text": "The original monthly target provides the baseline for the what-if comparison."
+              },
+              {
+                "code": "        private final BigDecimal newMonthlyTarget;",
+                "text": "The new target shows the category budget after subtracting the proposed reduction."
+              },
+              {
+                "code": "        private final TargetKind targetKind;",
+                "text": "The target kind distinguishes a savings goal from a recurring obligation while sharing one projection type."
+              },
+              {
+                "code": "        private final BigDecimal newAllocatedToTarget;",
+                "text": "The projected allocation adds the redirected amount to what has already been saved or paid."
+              },
+              {
+                "code": "        //constructor and getter methods",
+                "text": "The printed listing elides routine construction and accessors, while the replay scaffold retains the complete class."
               }
             ],
             "run": "Use the guided replay to materialize and test the PocketCFO project."

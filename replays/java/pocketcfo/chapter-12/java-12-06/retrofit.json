@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "exerciseId": "java-12-06",
+  "retrofitDate": "2026-09-04",
+  "source": {
+    "kind": "showtail-v2-archive",
+    "reportSha256": "992027b40421d950c63cc97b7dc4d828050a5505106afdb016fcfd7de4e9bcdb",
+    "primaryTurn": 43,
+    "segments": [
+      {
+        "turn": 43,
+        "mode": "full"
+      },
+      {
+        "turn": 45,
+        "mode": "full"
+      },
+      {
+        "turn": 47,
+        "mode": "full"
+      },
+      {
+        "turn": 49,
+        "mode": "full"
+      }
+    ],
+    "approvalRecovery": {
+      "method": "exit-plan-mode-already-ended",
+      "turn": 43,
+      "resultSha256": "248f9072b6f6cc23977a2c7d35574811aaf9bc288391225097c7e0d4b181c77f"
+    }
+  },
+  "manuscript": {
+    "promptSha256": "4c8d9ac292149fc2162d83d989bdfe4220e39b8a70e10f28cb2709fa4466b1e2",
+    "responseSha256": "0864f07cc7dde132f502e76042975221e28fd6a2d3b1b6ac3d214988c5802168",
+    "responsePath": "src/main/java/com/example/finance/ReallocationService.java",
+    "responseMatch": "excerpt-with-elisions",
+    "responseElisions": [
+      "        //constructor and getter methods"
+    ]
+  },
+  "checkpoint": {
+    "label": "chapter-12-final",
+    "canonicalTreeSha256": "6ae40356315c8b02bfcb802abbd771a757661b2972a8c1338cf0516f25af9ee0"
+  },
+  "corrections": [
+    {
+      "path": "sample-data/sample-transactions-sep.csv",
+      "afterSha256": "a2a4492c569d3449d12df0d705871cd313323f52b658300a4753947196fd0855"
+    }
+  ],
+  "normalizations": [
+    {
+      "id": "relocate-month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "optional": true,
+      "beforeSha256": "938426128d34fca6322ea26c49d387d6935acb49e65f6cc6ec3381cf14216b67",
+      "afterSha256": "48220ebcc0ab08f65af62ef0935fa46fde9767bc38f7bd6f32cee7f8e7864823"
+    },
+    {
+      "id": "month-aware-goal-contribution-helper",
+      "path": "src/main/java/com/example/finance/SavingsGoalService.java",
+      "skipIfContains": "    private LocalDate dateWithinMonth(YearMonth month) {",
+      "beforeSha256": "48220ebcc0ab08f65af62ef0935fa46fde9767bc38f7bd6f32cee7f8e7864823",
+      "afterSha256": "05b2524b93d1d1f7fda6158d4c4f69aa9e1e3893bc2b7e0abf25b19d764e5da2"
+    }
+  ],
+  "privacy": {
+    "originalArtifactsCommitted": false,
+    "identitiesRemoved": true,
+    "workspacePathsNormalized": true
+  },
+  "outputs": {
+    "reportSha256": "d032eb85a3d579a133a544d3aa46bf05071437fb8792e9d3470ba6b7ef4fa308",
+    "sourceTreeSha256": "de606a707b192b498f4d80d9b2fd0786fcef9e16e12e30d1372d71d31e25389b"
+  }
+}

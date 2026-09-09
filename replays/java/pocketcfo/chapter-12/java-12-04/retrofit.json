@@ -51,10 +51,6 @@
     "responsePath": "src/main/java/com/example/finance/Category.java",
     "responseMatch": "excerpt"
   },
-  "checkpoint": {
-    "label": "chapter-12-final",
-    "canonicalTreeSha256": "b86e1a1e3743401b1ada672b760d5baad294a954b4c7febf328b27ba5dede1ea"
-  },
   "corrections": [
     {
       "path": "sample-data/sample-transactions.csv",
