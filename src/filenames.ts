@@ -68,6 +68,10 @@ export function suggestFilename(example: Example, step: Step = example.steps[exa
  * name is shared.
  */
 export function exercisePath(example: Example, step?: Step): string {
+  const scaffold = step?.scaffold ?? example.scaffold;
+  if (scaffold?.projectRoot && scaffold.responsePath) {
+    return posix.join(scaffold.projectRoot, scaffold.responsePath);
+  }
   const name = suggestFilename(example, step);
   return example.dir ? `${example.dir}/${name}` : name;
 }

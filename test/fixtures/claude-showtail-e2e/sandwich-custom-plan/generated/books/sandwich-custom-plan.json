@@ -269,7 +269,7 @@
                           "options": [
                             {
                               "id": "fixed_catalog_with_allergen_tags",
-                              "label": "Fixed catalog with allergen tags",
+                              "label": "Fixed catalog with allergen tags (Recommended)",
                               "description": "A hardcoded dict of ingredients (breads, proteins, cheeses, veggies, condiments), each with a quantity/stock count and a set of allergen tags (gluten, dairy, nuts, etc). Building a sandwich decrements stock; adding ingredients with conflicting allergens triggers a warning."
                             },
                             {
@@ -281,13 +281,12 @@
                               "id": "user_defined_inventory_at_runtime",
                               "label": "User-defined inventory at runtime",
                               "description": "No hardcoded catalog; users add their own ingredients (name, allergens, stock count) via CLI commands before building sandwiches. More flexible but more commands to implement/test."
-                            },
-                            {
-                              "id": "layered_pantry_inventory_with_substitutions_and",
-                              "label": "Layered pantry inventory with substitutions and allergen exclusions",
-                              "description": "Captured learner-authored choice."
                             }
-                          ]
+                          ],
+                          "bookDefault": {
+                            "id": "book_default",
+                            "text": "Layered pantry inventory with substitutions and allergen exclusions"
+                          }
                         },
                         {
                           "id": "output_format",
@@ -296,7 +295,7 @@
                           "options": [
                             {
                               "id": "plain_formatted_text_with_sections",
-                              "label": "Plain formatted text with sections",
+                              "label": "Plain formatted text with sections (Recommended)",
                               "description": "Human-readable text output using headers, indentation, and bullet-style lines (e.g., 'Sandwich built:' followed by ingredient list, then a 'Warnings:' section for substitutions/allergens). Easy to read in a terminal, no extra parsing needed."
                             },
                             {
@@ -308,15 +307,14 @@
                               "id": "json_output",
                               "label": "JSON output",
                               "description": "All command output is emitted as JSON (via the json module), making it machine-readable/scriptable at the cost of being less friendly to read directly in a terminal."
-                            },
-                            {
-                              "id": "assembly_timeline_plus_a_consolidated_grocery_li",
-                              "label": "Assembly timeline plus a consolidated grocery list",
-                              "description": "Captured learner-authored choice."
                             }
                           ],
                           "when": {
-                            "inventory_model": "layered_pantry_inventory_with_substitutions_and"
+                            "inventory_model": "book_default"
+                          },
+                          "bookDefault": {
+                            "id": "book_default",
+                            "text": "Assembly timeline plus a consolidated grocery list"
                           }
                         },
                         {
@@ -326,7 +324,7 @@
                           "options": [
                             {
                               "id": "json_file_on_disk",
-                              "label": "JSON file on disk",
+                              "label": "JSON file on disk (Recommended)",
                               "description": "State (inventory stock, sandwich history) is loaded from and saved to a local JSON file (e.g., sandwich_data.json) using the json module. Simple, human-readable, easy to inspect/edit by hand."
                             },
                             {
@@ -338,23 +336,22 @@
                               "id": "sqlite_database",
                               "label": "SQLite database",
                               "description": "State is stored in a local SQLite database file using the built-in sqlite3 module, giving structured querying and better handling of concurrent/larger data at the cost of more setup code."
-                            },
-                            {
-                              "id": "named_sandwich_profiles_stored_in_a_single_json",
-                              "label": "Named sandwich profiles stored in a single JSON file",
-                              "description": "Captured learner-authored choice."
                             }
                           ],
                           "when": {
-                            "inventory_model": "layered_pantry_inventory_with_substitutions_and",
-                            "output_format": "assembly_timeline_plus_a_consolidated_grocery_li"
+                            "inventory_model": "book_default",
+                            "output_format": "book_default"
+                          },
+                          "bookDefault": {
+                            "id": "book_default",
+                            "text": "Named sandwich profiles stored in a single JSON file"
                           }
                         }
                       ],
                       "canonicalAnswers": {
-                        "inventory_model": "layered_pantry_inventory_with_substitutions_and",
-                        "output_format": "assembly_timeline_plus_a_consolidated_grocery_li",
-                        "persistence": "named_sandwich_profiles_stored_in_a_single_json"
+                        "inventory_model": "book_default",
+                        "output_format": "book_default",
+                        "persistence": "book_default"
                       },
                       "canonicalPlan": "# Sandwich Builder CLI — Implementation Plan\n\n## Context\n\nThe workspace is empty. The goal is a standard-library-only Python CLI for\nbuilding sandwiches. Through clarification, the user chose a richer design\nthan the defaults offered:\n\n1. **Inventory/allergen model:** \"Layered pantry inventory with substitutions\n   and allergen exclusions\" — ingredients are organized into sandwich\n   \"layers\" (bread, protein, cheese, veggies, condiments); each ingredient\n   tracks stock, allergen tags, and an ordered list of substitute\n   ingredients used when the primary choice is out of stock or excluded.\n2. **Output:** \"Assembly timeline plus a consolidated grocery list\" — each\n   build prints a numbered, step-by-step construction sequence plus a\n   grocery-list section of ingredients running low.\n3. **Persistence:** \"Named sandwich profiles stored in a single JSON file\" —\n   pantry stock and user-saved sandwich recipes (\"profiles\") persist across\n   runs in one JSON file, addressable by name for rebuilding later.\n\nThis plan combines all three into one coherent app.\n\n## Data Model\n\nSingle JSON file (default `sandwich_data.json`, overridable via `--data-file`\nso tests can use isolated temp files) holding:\n\n```json\n{\n  \"pantry\": {\n    \"bread\":      {\"sourdough\": {\"stock\": 6, \"allergens\": [\"gluten\"], \"substitutes\": [\"wheat\", \"gluten_free\"]}, ...},\n    \"protein\":    {...},\n    \"cheese\":     {...},\n    \"veggies\":    {...},\n    \"condiments\": {...}\n  },\n  \"profiles\": {\n    \"blt_deluxe\": {\"bread\": \"sourdough\", \"protein\": \"turkey\", \"cheese\": \"cheddar\",\n                   \"veggies\": [\"lettuce\", \"tomato\"], \"condiments\": [\"mayo\"]}\n  }\n}\n```\n\nLayer order: `bread → protein → cheese → veggies → condiments`. `bread`,\n`protein`, `cheese` are single-choice; `veggies`/`condiments` accept\ncomma-separated multiple choices. `bread` and `protein` are required layers;\n`cheese`/`veggies`/`condiments` are optional. Bread consumes 2 stock units\n(bottom + top slice); everything else consumes 1 unit per selection.\n\nIf the data file is missing, a built-in `DEFAULT_PANTRY` is used to\ninitialize it (small catalog per layer, enough to exercise substitution and\nallergen-exclusion paths in tests: e.g. cheddar/swiss/vegan_cheese with\ndairy tags and a substitute chain).\n\n## Core Logic (`sandwich_cli.py`)\n\n- `load_data(path)` / `save_data(path, data)` — JSON read/write, creating\n  defaults on first load.\n- `default_pantry()` — returns the built-in catalog.\n- `resolve_ingredient(pantry, layer, name, excluded_allergens)` — walks the\n  candidate chain `[name] + substitutes`, skipping any candidate that's\n  unknown, out of stock, or has an excluded allergen; returns the chosen\n  name plus a substitution note if it differs from the request, or `None`\n  with a reason if nothing in the chain qualifies.\n- `build_sandwich(data, selections, excluded_allergens)` — resolves every\n  requested layer **without mutating stock first** (atomic: if a required\n  layer can't be resolved, the whole build fails with no side effects), then\n  decrements stock for the resolved choices and returns a result containing\n  the ordered assembly steps, substitution notes, and allergen warnings.\n- `format_assembly_timeline(result, name)` — numbered steps (\"1. Place\n  bottom slice of sourdough bread\", ..., \"N. Top with second slice of\n  sourdough bread\"), followed by \"Substitutions:\" and \"Warnings:\" sections\n  when non-empty.\n- `format_grocery_list(pantry, threshold=3)` — lists ingredients at/below\n  the threshold across all layers, or a \"well stocked\" message if none.\n\n## CLI Commands (argparse subparsers)\n\n- `inventory` — print the full layered pantry (stock + allergens +\n  substitutes).\n- `build --bread NAME --protein NAME [--cheese NAME] [--veggies A,B]\n  [--condiments A,B] [--exclude allergen,allergen] [--save NAME]` — resolves\n  and builds, prints assembly timeline + grocery-list section, persists\n  stock changes, optionally saves the selection as a named profile.\n- `profiles` — list saved profile names and their ingredient selections.\n- `rebuild NAME [--exclude ...]` — loads a saved profile's selections and\n  re-runs `build_sandwich` against current stock (may trigger new\n  substitutions if stock has changed).\n- `restock INGREDIENT AMOUNT` — add stock to a named ingredient (searches\n  all layers), persists.\n- `grocery-list [--threshold N]` — prints the consolidated low-stock report\n  for the whole pantry independent of any build.\n\nAll commands accept a global `--data-file PATH` (default\n`sandwich_data.json`). Domain errors (unknown ingredient, unresolvable\nrequired layer, unknown profile) print a message to stderr and cause\n`main()` to return exit code 1; argparse handles malformed arguments itself.\n`main(argv=None) -> int` is the single entry point so tests can call it\ndirectly and capture stdout.\n\n## Tests (`test_sandwich_cli.py`, `unittest`)\n\nEach test uses a `tempfile.TemporaryDirectory` and a `--data-file` inside it\nfor isolation; call `main([...])` and capture output with\n`contextlib.redirect_stdout`.\n\n- Fresh data file auto-initializes default pantry (`inventory` output).\n- Full build with all layers: correct stock decrements (bread -2, others\n  -1) and correctly ordered assembly timeline.\n- Out-of-stock substitution: zero out an ingredient's stock via `restock`\n  (negative not allowed) or by pre-seeding the data file, then build and\n  assert the substitute is chosen and noted.\n- Allergen-exclusion substitution: `--exclude dairy` swaps cheese layer to\n  a non-dairy substitute.\n- Required layer with no valid candidate (e.g. excluding an allergen that\n  eliminates all bread options with no substitutes left) → build fails,\n  exit code 1, and pantry stock is unchanged (atomicity check).\n- Unknown ingredient name → error, non-zero exit.\n- `--save NAME` persists a profile; `profiles` command lists it; JSON file\n  contains it.\n- `rebuild NAME` reuses a saved profile and re-resolves against current\n  stock (substitutes after stock depletion).\n- `grocery-list` reports low-stock items at/below threshold, and a\n  \"well stocked\" message when nothing qualifies.\n- `restock` increases stock and persists across a second `main()` call\n  reusing the same data file (persistence-across-runs check).\n\n## Verification\n\n1. `python3 -m unittest -v test_sandwich_cli.py` — all tests pass.\n2. Manual CLI smoke test in the workspace:\n   - `python3 sandwich_cli.py inventory`\n   - `python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --veggies lettuce,tomato --condiments mayo --save blt`\n   - `python3 sandwich_cli.py profiles`\n   - `python3 sandwich_cli.py rebuild blt`\n   - `python3 sandwich_cli.py grocery-list`\n   - `python3 sandwich_cli.py build --bread sourdough --protein turkey --cheese cheddar --exclude dairy` (confirm substitution note)\n3. Confirm no third-party imports — only `argparse`, `json`, `dataclasses`/\n   plain dicts, `pathlib`, `sys`, `copy`, `unittest`, `tempfile`, `contextlib`."
                     },

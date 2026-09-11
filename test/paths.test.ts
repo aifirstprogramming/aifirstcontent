@@ -4,7 +4,8 @@ import { exercisePath, suggestFilename } from "../src/filenames";
 import { loadFromDirectory } from "../src/loader";
 
 /**
- * Two exercises must never want the same file.
+ * Independent exercises must never want the same file. An explicitly shared
+ * project is the exception: its checkpoints intentionally evolve the same path.
  *
  * Whole chapters evolve one file — Python 7 builds a single test file across five
  * exercises, and java-6-01/05/07/09 all declare `public class Thermostat`. Writing
@@ -22,6 +23,7 @@ describe("where an exercise is written", () => {
   it("gives no two exercises the same path", () => {
     const seen = new Map<string, string>();
     for (const e of content.examples) {
+      if (e.scaffold?.projectRoot) continue;
       const key = `${e.bookTag}/${exercisePath(e)}`;
       expect(seen.has(key), `${e.id} and ${seen.get(key)} both want ${key}`).toBe(false);
       seen.set(key, e.id);
@@ -47,6 +49,13 @@ describe("where an exercise is written", () => {
       const e = content.examples.find((x) => x.id === id)!;
       expect(exercisePath(e).endsWith("/Thermostat.java")).toBe(true);
       expect(suggestFilename(e)).toBe("Thermostat.java");
+    }
+  });
+
+  it("keeps Chapter 6 checkpoints in one Maven project", () => {
+    for (const id of ["java-6-01", "java-6-05", "java-6-07"]) {
+      const e = content.examples.find((candidate) => candidate.id === id)!;
+      expect(exercisePath(e)).toBe("chapter-6-testing/src/main/java/Thermostat.java");
     }
   });
 

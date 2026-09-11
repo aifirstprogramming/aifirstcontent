@@ -234,7 +234,7 @@
                       "options": [
                         {
                           "id": "standard",
-                          "label": "Standard",
+                          "label": "Standard (Recommended)",
                           "description": "Print time, stage, fuel remaining, velocity, altitude, and event markers (e.g. stage separation, engine cutoff) each tick — enough to verify physics and events without being noisy."
                         },
                         {

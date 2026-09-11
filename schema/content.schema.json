@@ -267,6 +267,19 @@
           "items": { "$ref": "#/definitions/replayEvent" }
         },
         "completionText": { "type": "string", "minLength": 1 },
+        "playback": {
+          "type": "object",
+          "required": ["mode"],
+          "additionalProperties": false,
+          "properties": {
+            "mode": { "enum": ["captured", "compact"] },
+            "phases": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
         "source": { "$ref": "#/definitions/replaySource" },
         "workflow": { "$ref": "#/definitions/planWorkflow" },
         "operations": {
@@ -323,6 +336,7 @@
           "minItems": 2,
           "items": { "$ref": "#/definitions/planOption" }
         },
+        "bookDefault": { "$ref": "#/definitions/planBookDefault" },
         "when": { "$ref": "#/definitions/planAnswers" }
       }
     },
@@ -346,7 +360,17 @@
       "properties": {
         "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
         "label": { "type": "string", "minLength": 1 },
-        "description": { "type": "string", "minLength": 1 }
+        "description": { "type": "string", "minLength": 1 },
+        "preview": { "type": "string", "minLength": 1 }
+      }
+    },
+    "planBookDefault": {
+      "type": "object",
+      "required": ["id", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "text": { "type": "string", "minLength": 1 }
       }
     },
     "planAnswers": {
@@ -424,6 +448,7 @@
             "stdin": { "type": "string" },
             "timeoutMs": { "type": "integer", "minimum": 1 },
             "expectedTimeout": { "type": "boolean" },
+            "graphical": { "type": "boolean" },
             "readOnly": { "type": "boolean" },
             "expectedExitCode": { "type": "integer" },
             "expectedStdout": { "type": "string" },
@@ -617,6 +642,36 @@
         "entrypoint": {
           "type": "string",
           "description": "Which file to execute, when it is not the exercise's own file."
+        },
+        "projectRoot": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+"
+        },
+        "responsePath": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+"
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          }
+        },
+        "outcome": {
+          "enum": ["compile", "test", "run", "build"]
+        },
+        "clean": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+"
+          }
         }
       }
     }

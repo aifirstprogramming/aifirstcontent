@@ -96,7 +96,7 @@
     "header": "Report forma",
     "options": [
       {
-        "label": "Compact table",
+        "label": "Compact table (Recommended)",
         "description": "One Markdown table, one row per habit, with columns for weekly goal, this week's completions, current streak, and status (Met/In Progress). Simple, scannable, and easy to diff byte-for-byte.",
         "recommended": true
       },
@@ -111,7 +111,7 @@
         "recommended": false
       }
     ],
-    "answer": "Compact table"
+    "answer": "Compact table (Recommended)"
   },
   {
     "type": "text",

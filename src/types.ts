@@ -41,6 +41,8 @@ export type ReplayOperation =
       stdin?: string;
       timeoutMs?: number;
       expectedTimeout?: boolean;
+      /** Skip an optional GUI launch when no graphical session is available. */
+      graphical?: boolean;
       /** Required when a command is allowed to run before plan approval. */
       readOnly?: boolean;
       expectedExitCode?: number;
@@ -58,6 +60,15 @@ export interface PlanOption {
   id: string;
   label: string;
   description: string;
+  /** Optional source-authored detail shown when the option is selected. */
+  preview?: string;
+}
+
+export interface PlanBookDefault {
+  /** Stable question-local id used by canonicalAnswers. */
+  id: string;
+  /** Exact free-form Other response captured from the book's source session. */
+  text: string;
 }
 
 export interface PlanQuestion {
@@ -65,6 +76,8 @@ export interface PlanQuestion {
   question: string;
   header: string;
   options: PlanOption[];
+  /** Immutable captured Other response used by the canonical book path. */
+  bookDefault?: PlanBookDefault;
   /** Adjacent questions with the same group are shown in one native dialog. */
   group?: string;
   /** Ask only when every earlier answer here matches. */
@@ -114,6 +127,11 @@ export interface Replay {
   events?: ReplayEvent[];
   /** Captured final response after the last operation succeeds. */
   completionText?: string;
+  /** Compact playback keeps milestones while executing the trusted snapshot once. */
+  playback?: {
+    mode: "captured" | "compact";
+    phases?: string[];
+  };
   /** Interactive planning that must finish before replay operations begin. */
   workflow?: PlanWorkflow;
   /** Authoring provenance used for safe, idempotent Showtail re-imports. */
@@ -196,6 +214,15 @@ export interface Scaffold {
   files: ScaffoldFile[];
   /** Which file to execute, when it is not the exercise's own file. */
   entrypoint?: string;
+  /** Shared project directory, relative to the learner's book workspace. */
+  projectRoot?: string;
+  /** Where the printed response belongs inside projectRoot. */
+  responsePath?: string;
+  /** Explicit project commands, used instead of single-file inference. */
+  commands?: string[][];
+  outcome?: "compile" | "test" | "run" | "build";
+  /** Generated files from incompatible later checkpoints to remove safely. */
+  clean?: string[];
 }
 
 export interface ScaffoldFile {

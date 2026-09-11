@@ -64,6 +64,18 @@
               }
             ],
             "run": "Use the guided replay to materialize and test the PocketCFO project."
+          },
+          "presentation": {
+            "mode": "compact",
+            "phases": [
+              "Create the Maven and JavaFX project plus transaction entry.",
+              "Add category targets, totals, and over-budget warnings.",
+              "Add savings goals and leftover allocation.",
+              "Add recurring obligations and monthly equivalents.",
+              "Wire the complete monthly summary and verify the project."
+            ],
+            "verificationCommands": [["mvn", "-q", "clean", "test"]],
+            "finalLaunch": ["mvn", "-q", "javafx:run"]
           }
         },
         {
@@ -119,6 +131,16 @@
               }
             ],
             "run": "Use the guided replay to materialize and test the PocketCFO project."
+          },
+          "presentation": {
+            "mode": "compact",
+            "phases": [
+              "Apply the final update and delete behavior across repositories.",
+              "Wire editing controls and selection handling in each JavaFX view.",
+              "Run the complete test suite and open the finished application once."
+            ],
+            "verificationCommands": [["mvn", "-q", "clean", "test"]],
+            "finalLaunch": ["mvn", "-q", "javafx:run"]
           }
         }
       ]

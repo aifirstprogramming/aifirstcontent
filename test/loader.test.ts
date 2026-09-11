@@ -61,8 +61,8 @@ describe("loading the real books", () => {
   it("loads every published example and step", () => {
     // Published only: drafts awaiting an explanation and a proving run, and
     // retired examples the books no longer contain, are filtered out.
-    expect(content.examples).toHaveLength(153);
-    expect(content.steps).toHaveLength(162);
+    expect(content.examples).toHaveLength(155);
+    expect(content.steps).toHaveLength(164);
   });
 
   it("hides drafts and retired examples unless asked", () => {
@@ -127,6 +127,7 @@ describe("loading the real books", () => {
       { kind: "python-package", package: "Pillow", module: "PIL" },
     ];
     const mavenIds = [
+      ...Array.from({ length: 16 }, (_, index) => `java-6-${String(index).padStart(2, "0")}`),
       "java-11-01",
       "java-11-02",
       "java-12-01",

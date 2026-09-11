@@ -324,7 +324,7 @@ describe("Showtail v2 replay derivation", () => {
     });
   });
 
-  test("appends a free-typed answer as the canonical planning option", () => {
+  test("stores a free-typed answer as an immutable book default", () => {
     const raw = rawV2();
     const question = (
       raw.turns[0].events.find((event) => event.sequence === 3)!.input as {
@@ -367,14 +367,13 @@ describe("Showtail v2 replay derivation", () => {
         label: "Provide files",
         description: "Wait for supplied files.",
       },
-      {
-        id: "named_sandwich_profiles_stored_in_a_single_json",
-        label: "Named sandwich profiles stored in a single JSON file",
-        description: "Captured learner-authored choice.",
-      },
     ]);
+    expect(result.replay?.workflow?.questions[3]?.bookDefault).toEqual({
+      id: "book_default",
+      text: "Named sandwich profiles stored in a single JSON file",
+    });
     expect(result.replay?.workflow?.canonicalAnswers.assets).toBe(
-      "named_sandwich_profiles_stored_in_a_single_json",
+      "book_default",
     );
   });
 

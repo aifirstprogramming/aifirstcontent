@@ -28,6 +28,7 @@ import {
   sha256,
   stableJson,
 } from "./lib/retrofit-showtail";
+import { applyReplayPresentation, type ReplayPresentation } from "./lib/replay-presentation";
 import {
   parseShowtailReport,
   type ShowtailReport,
@@ -95,6 +96,7 @@ interface ExerciseInput {
   checkpoint?: CheckpointInput;
   bundle: string;
   explanation: Explanation;
+  presentation?: ReplayPresentation;
 }
 
 interface ChapterInput {
@@ -842,6 +844,7 @@ for (const chapterInput of config.chapters) {
     if (errors.length > 0)
       throw new Error(`${exercise.id} replay import failed:\n${errors.map((item) => `- ${item.field}: ${item.message}`).join("\n")}`);
     if (!derived.replay || !derived.scaffold) throw new Error(`${exercise.id} produced no replay scaffold`);
+    applyReplayPresentation(derived.replay, exercise.presentation);
 
     const created = reorder({
       id: exercise.id,

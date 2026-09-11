@@ -26,12 +26,18 @@ describe("how exercises are run", () => {
   });
 
   it("tells the reader a command that names only available tools", () => {
-    // No Maven, no Gradle: Java tests go through the JUnit console launcher, so the
-    // books need no build file and neither does CI.
     for (const step of content.steps) {
       const run = step.explanation?.run;
       if (!run) continue;
-      expect(run, `${step.id} names a build tool the project does not use`).not.toMatch(/\b(mvn|gradle|pip)\b/);
+      expect(run, `${step.id} names an unsupported build tool`).not.toMatch(/\b(gradle|pip)\b/);
+      if (/\bmvn\b/.test(run)) {
+        expect(step.dependencies, `${step.id} uses Maven without declaring it`).toContainEqual({
+          kind: "system-command",
+          package: "Maven",
+          command: "mvn",
+        });
+        expect(step.scaffold?.commands?.[0]?.[0], `${step.id} has no Maven execution plan`).toBe("mvn");
+      }
     }
   });
 

@@ -20,7 +20,7 @@
  *            mean inventing a driver the book never showed
  *   test     the test suite passes
  *   snippet  executes, once its scaffold supplies the surrounding code
- *   project  not verifiable here; stays a draft
+ *   project  runs its authored project commands; without them it stays a draft
  */
 
 import { spawnSync } from "node:child_process";
@@ -92,8 +92,10 @@ export function materialize(
   responseOf: (exerciseId: string) => string | undefined,
 ): { mainFile: string; problems: string[] } {
   const problems: string[] = [];
-  const mainFile = suggestFilename(example, step);
-  writeFileSync(join(dir, mainFile), step.response.endsWith("\n") ? step.response : `${step.response}\n`);
+  const projectDir = join(dir, scaffold?.projectRoot ?? ".");
+  const mainFile = scaffold?.responsePath ?? suggestFilename(example, step);
+  mkdirSync(dirname(join(projectDir, mainFile)), { recursive: true });
+  writeFileSync(join(projectDir, mainFile), step.response.endsWith("\n") ? step.response : `${step.response}\n`);
 
   for (const file of scaffold?.files ?? []) {
     if (file.path.includes("..") || file.path.startsWith("/")) {
@@ -109,7 +111,7 @@ export function materialize(
       }
     }
     if (file.contentBase64 !== undefined) {
-      const target = join(dir, file.path);
+      const target = join(projectDir, file.path);
       mkdirSync(dirname(target), { recursive: true });
       writeFileSync(target, Buffer.from(file.contentBase64, "base64"));
       continue;
@@ -118,7 +120,7 @@ export function materialize(
       problems.push(`scaffold file ${file.path} has no content source`);
       continue;
     }
-    const target = join(dir, file.path);
+    const target = join(projectDir, file.path);
     mkdirSync(dirname(target), { recursive: true });
     writeFileSync(target, content.endsWith("\n") ? content : `${content}\n`);
   }
@@ -143,6 +145,7 @@ export function verifyCommand(
 ): { commands: string[][]; skipped?: string } {
   const entry = scaffold?.entrypoint;
   const kind = example.kind;
+  if (scaffold?.commands?.length) return { commands: scaffold.commands };
 
   if (example.language === "python") {
     // A scaffold entrypoint wins: for a snippet, the exercise's own file is
@@ -296,13 +299,14 @@ export function verify(
   const timeoutMs = options.timeoutMs ?? 60_000;
   const responseOf = options.responseOf ?? (() => undefined);
 
-  if (example.kind === "project") {
+  if (example.kind === "project" && !scaffold?.commands?.length) {
     return { ok: false, command: "", output: "", skipped: "project exercises are not verified here" };
   }
 
   const dir = mkdtempSync(join(tmpdir(), "aifirst-enrich-"));
   try {
     const { mainFile, problems } = materialize(dir, example, step, scaffold, responseOf);
+    const runDir = join(dir, scaffold?.projectRoot ?? ".");
     if (problems.length > 0) {
       return { ok: false, command: "", output: problems.join("\n") };
     }
@@ -316,13 +320,13 @@ export function verify(
     // design, and its scaffold is the only way to exercise it. Everywhere else the
     // run itself is the stronger check.
     if (scaffold?.entrypoint && example.kind !== "snippet") {
-      const bad = syntaxCheck(dir, example.language, mainFile, timeoutMs);
+      const bad = syntaxCheck(runDir, example.language, mainFile, timeoutMs);
       if (bad) return bad;
     }
 
-    if (commands[0]?.[0] === "__junit__") return runJunit(dir, mainFile, timeoutMs);
+    if (commands[0]?.[0] === "__junit__") return runJunit(runDir, mainFile, timeoutMs);
 
-    mkdirSync(join(dir, "out"), { recursive: true });
+    mkdirSync(join(runDir, "out"), { recursive: true });
 
     // Every command must succeed. Only the last one runs the program, so only it may
     // end in a deliberate exception -- a compile step never can.
@@ -330,7 +334,7 @@ export function verify(
       const argv = commands[n];
       const last = n === commands.length - 1;
       const result = spawnSync(argv[0], argv.slice(1), {
-        cwd: dir,
+        cwd: runDir,
         encoding: "utf8",
         timeout: timeoutMs,
         // An exercise that reads input and gets none would hang until the timeout,

@@ -8,8 +8,8 @@
  * facts it needs are stored in the pack: the scaffold that makes an exercise
  * runnable, its sample stdin, and whether it throws on purpose.
  *
- * Requires python3 and a JDK. Java tests additionally need the JUnit console
- * launcher; without it they are reported as skipped rather than silently passing.
+ * Requires Python 3 and a JDK. Standalone Java tests use the JUnit console
+ * launcher, while project exercises declare Maven explicitly.
  */
 
 import { join } from "node:path";

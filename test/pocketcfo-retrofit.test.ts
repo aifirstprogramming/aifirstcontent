@@ -9,6 +9,7 @@ import {
   type ResponseMatch,
 } from "../scripts/lib/import-showtail";
 import { canonicalTreeSha256, sha256 } from "../scripts/lib/retrofit-showtail";
+import { applyReplayPresentation, type ReplayPresentation } from "../scripts/lib/replay-presentation";
 import { parseShowtailReport } from "../scripts/lib/showtail";
 
 const root = join(import.meta.dir, "..");
@@ -28,6 +29,7 @@ const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as {
       responseElisions?: string[];
       bundle: string;
       segments: Array<{ turn: number; mode: string }>;
+      presentation?: ReplayPresentation;
     }>;
   }>;
 };
@@ -109,6 +111,33 @@ describe("PocketCFO Java chapter retrofit", () => {
     }
   });
 
+  test("preserves Claude's source options and stores the book's Other responses separately", () => {
+    const exercise = exercises.find((candidate) => candidate.id === "java-11-01")!;
+    const example = target(exercise.id);
+    const workflow = example.replay!.workflow!;
+    const report = JSON.parse(readFileSync(
+      join(dirname(manifestPath), exercise.bundle, "bundle", "report.json"),
+      "utf8",
+    ));
+    const events = report.turns[0].events as Array<Record<string, any>>;
+    const asks = events.filter((event) => event.type === "tool_use" && event.toolName === "AskUserQuestion");
+    const results = new Map(events.filter((event) => event.type === "tool_result").map((event) => [event.toolUseId, event]));
+    const sourceQuestions = asks.flatMap((ask) =>
+      ask.input.questions.map((question: Record<string, unknown>) => ({ ask, question })));
+
+    for (const question of workflow.questions) {
+      const source = sourceQuestions.find((candidate) => candidate.question.question === question.question)!;
+      const sourceQuestion = source.question;
+      expect(question.options.map(({ id: _id, ...option }) => option), question.id).toEqual(sourceQuestion.options);
+      const answer = results.get(source.ask.toolUseId)?.content.answers[sourceQuestion.question];
+      if (question.bookDefault) {
+        expect(question.bookDefault.text, question.id).toBe(answer);
+        expect(question.options.some((option) => option.label === answer), question.id).toBe(false);
+      }
+    }
+    expect(workflow.questions[0].bookDefault!.text.length).toBeGreaterThan(64);
+  });
+
   test("regenerates every replay and scaffold from the sanitized bundles", () => {
     let initialFiles: Map<string, string> | undefined;
     let initialExerciseId: string | undefined;
@@ -134,7 +163,7 @@ describe("PocketCFO Java chapter retrofit", () => {
         derived.diagnostics.filter((diagnostic) => diagnostic.severity === "error"),
         exercise.id,
       ).toEqual([]);
-      expect(derived.replay, exercise.id).toEqual(example.replay);
+      expect(applyReplayPresentation(derived.replay!, exercise.presentation), exercise.id).toEqual(example.replay!);
       expect(derived.scaffold, exercise.id).toEqual(example.scaffold);
       initialFiles = files;
       initialExerciseId = exercise.id;

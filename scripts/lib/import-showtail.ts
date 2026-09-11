@@ -293,6 +293,7 @@ function parseAnswers(content: unknown): Record<string, string> {
 
 interface AnswerResolution {
   answer?: string;
+  bookDefault?: NonNullable<PlanQuestion["bookDefault"]>;
   problem?: "ambiguous";
 }
 
@@ -319,15 +320,10 @@ function answerFor(
   if (normalized.length > 1) return { problem: "ambiguous" };
 
   const used = new Set(question.options.map((option) => option.id));
-  const base = slug(label, "custom_option").replace(/_+$/, "");
+  const base = "book_default";
   let id = base;
   for (let suffix = 2; used.has(id); suffix++) id = `${base}_${suffix}`;
-  question.options.push({
-    id,
-    label,
-    description: "Captured learner-authored choice.",
-  });
-  return { answer: id };
+  return { answer: id, bookDefault: { id, text: label } };
 }
 
 function questionsFromTool(
@@ -360,8 +356,9 @@ function questionsFromTool(
       optionIds.add(optionId);
       return {
         id: optionId,
-        label: label.replace(/\s*\([^)]*recommended[^)]*\)\s*$/i, ""),
+        label,
         description: string(option.description) ?? label,
+        ...(string(option.preview) ? { preview: string(option.preview)! } : {}),
       };
     });
     return {
@@ -775,6 +772,7 @@ function deriveWorkflow(
       else {
         canonicalAnswers[question.id] = resolution.answer;
         priorAnswers[question.id] = resolution.answer;
+        if (resolution.bookDefault) question.bookDefault = resolution.bookDefault;
       }
       questions.push(question);
     }

@@ -46,7 +46,7 @@ describe("Claude E2E fixture generation", () => {
     });
   }
 
-  test("promotes every captured sandwich answer to the book-recommended option", () => {
+  test("keeps sandwich source options exact and stores captured Other answers separately", () => {
     const fixture = join(scenarioRoot, "sandwich-custom-plan");
     const result = generateClaudeE2EFixture(fixture);
     const workflow =
@@ -55,10 +55,9 @@ describe("Claude E2E fixture generation", () => {
     expect(workflow?.questions).toHaveLength(3);
     for (const question of workflow?.questions ?? []) {
       const selected = workflow!.canonicalAnswers[question.id];
-      expect(question.options.at(-1)?.id).toBe(selected);
-      expect(question.options.at(-1)?.description).toBe(
-        "Captured learner-authored choice.",
-      );
+      expect(question.bookDefault?.id).toBe(selected);
+      expect(question.bookDefault?.text).toBeTruthy();
+      expect(question.options.some((option) => option.id === selected)).toBe(false);
     }
   });
 

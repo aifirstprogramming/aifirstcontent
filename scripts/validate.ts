@@ -187,6 +187,18 @@ try {
     }
     validateEvents(step.id, "replay event", step.replay.events ?? [], false, step.language === "python");
     validateEvents(step.id, "pre-plan event", step.replay.prePlanEvents ?? [], true, step.language === "python");
+    if (step.replay.playback?.mode === "compact") {
+      let lastMutation = -1;
+      step.replay.operations.forEach((operation, index) => {
+        if (operation.type === "write" || operation.type === "edit") lastMutation = index;
+      });
+      const verifiesFinalState = step.replay.operations
+        .slice(lastMutation + 1)
+        .some((operation) => operation.type === "command");
+      if (!verifiesFinalState) {
+        fail(`${step.id} compact replay has no verification command after its final mutation`);
+      }
+    }
     if (step.replay.workflow) validateWorkflow(step.id, step.replay.workflow, step.language === "python");
   }
 } catch (e) {
@@ -240,12 +252,18 @@ function validateWorkflow(stepId: string, workflow: PlanWorkflow, requirePortabl
       if (options.has(option.id)) fail(`${stepId} workflow question ${question.id} has duplicate option "${option.id}"`);
       options.add(option.id);
     }
+    if (question.bookDefault) {
+      if (options.has(question.bookDefault.id)) {
+        fail(`${stepId} workflow question ${question.id} reuses option id "${question.bookDefault.id}" for its book default`);
+      }
+      options.add(question.bookDefault.id);
+    }
     questions.set(question.id, options);
     for (const [dependency, answer] of Object.entries(question.when ?? {})) {
       const prior = workflow.questions.slice(0, index).find((candidate) => candidate.id === dependency);
       if (!prior) {
         fail(`${stepId} workflow question ${question.id} depends on unknown or later question "${dependency}"`);
-      } else if (!prior.options.some((option) => option.id === answer)) {
+      } else if (!prior.options.some((option) => option.id === answer) && prior.bookDefault?.id !== answer) {
         fail(`${stepId} workflow question ${question.id} depends on unknown option "${dependency}=${answer}"`);
       }
     }
@@ -304,7 +322,7 @@ function validateAnswers(
     }
     if (answer === undefined) {
       fail(`${stepId} ${label} has no answer for applicable question "${question.id}"`);
-    } else if (!question.options.some((option) => option.id === answer)) {
+    } else if (!question.options.some((option) => option.id === answer) && question.bookDefault?.id !== answer) {
       fail(`${stepId} ${label} uses unknown option "${question.id}=${answer}"`);
     }
   }

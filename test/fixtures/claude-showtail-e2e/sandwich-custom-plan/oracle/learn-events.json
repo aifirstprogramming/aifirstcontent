@@ -9,7 +9,12 @@
     "header": "Inventory mo",
     "options": [
       {
-        "label": "Fixed catalog with allergen tags",
+        "label": "Use book default",
+        "description": "Layered pantry inventory with substitutions and allergen exclusions",
+        "recommended": true
+      },
+      {
+        "label": "Fixed catalog with allergen tags (Recommended)",
         "description": "A hardcoded dict of ingredients (breads, proteins, cheeses, veggies, condiments), each with a quantity/stock count and a set of allergen tags (gluten, dairy, nuts, etc). Building a sandwich decrements stock; adding ingredients with conflicting allergens triggers a warning.",
         "recommended": false
       },
@@ -22,14 +27,9 @@
         "label": "User-defined inventory at runtime",
         "description": "No hardcoded catalog; users add their own ingredients (name, allergens, stock count) via CLI commands before building sandwiches. More flexible but more commands to implement/test.",
         "recommended": false
-      },
-      {
-        "label": "Layered pantry inventory with substitutions and allergen exclusions",
-        "description": "Captured learner-authored choice.",
-        "recommended": true
       }
     ],
-    "answer": "Layered pantry inventory with substitutions and allergen exclusions"
+    "answer": "Use book default"
   },
   {
     "type": "question",
@@ -37,7 +37,12 @@
     "header": "Output forma",
     "options": [
       {
-        "label": "Plain formatted text with sections",
+        "label": "Use book default",
+        "description": "Assembly timeline plus a consolidated grocery list",
+        "recommended": true
+      },
+      {
+        "label": "Plain formatted text with sections (Recommended)",
         "description": "Human-readable text output using headers, indentation, and bullet-style lines (e.g., 'Sandwich built:' followed by ingredient list, then a 'Warnings:' section for substitutions/allergens). Easy to read in a terminal, no extra parsing needed.",
         "recommended": false
       },
@@ -50,14 +55,9 @@
         "label": "JSON output",
         "description": "All command output is emitted as JSON (via the json module), making it machine-readable/scriptable at the cost of being less friendly to read directly in a terminal.",
         "recommended": false
-      },
-      {
-        "label": "Assembly timeline plus a consolidated grocery list",
-        "description": "Captured learner-authored choice.",
-        "recommended": true
       }
     ],
-    "answer": "Assembly timeline plus a consolidated grocery list"
+    "answer": "Use book default"
   },
   {
     "type": "question",
@@ -65,7 +65,12 @@
     "header": "Persistence",
     "options": [
       {
-        "label": "JSON file on disk",
+        "label": "Use book default",
+        "description": "Named sandwich profiles stored in a single JSON file",
+        "recommended": true
+      },
+      {
+        "label": "JSON file on disk (Recommended)",
         "description": "State (inventory stock, sandwich history) is loaded from and saved to a local JSON file (e.g., sandwich_data.json) using the json module. Simple, human-readable, easy to inspect/edit by hand.",
         "recommended": false
       },
@@ -78,14 +83,9 @@
         "label": "SQLite database",
         "description": "State is stored in a local SQLite database file using the built-in sqlite3 module, giving structured querying and better handling of concurrent/larger data at the cost of more setup code.",
         "recommended": false
-      },
-      {
-        "label": "Named sandwich profiles stored in a single JSON file",
-        "description": "Captured learner-authored choice.",
-        "recommended": true
       }
     ],
-    "answer": "Named sandwich profiles stored in a single JSON file"
+    "answer": "Use book default"
   },
   {
     "type": "plan",
