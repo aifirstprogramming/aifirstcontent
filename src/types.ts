@@ -159,6 +159,7 @@ export interface RawPromptStep {
   stdin?: string;
   explanation?: Explanation;
   scaffold?: Scaffold;
+  execution?: Execution;
   /** See Step.expectsException. */
   expectsException?: boolean;
   replay?: Replay;
@@ -212,17 +213,27 @@ export interface Explanation {
  */
 export interface Scaffold {
   files: ScaffoldFile[];
-  /** Which file to execute, when it is not the exercise's own file. */
-  entrypoint?: string;
   /** Shared project directory, relative to the learner's book workspace. */
   projectRoot?: string;
   /** Where the printed response belongs inside projectRoot. */
   responsePath?: string;
-  /** Explicit project commands, used instead of single-file inference. */
-  commands?: string[][];
-  outcome?: "compile" | "test" | "run" | "build";
+  /** Standalone filename for a project response that is not a source file. */
+  responseFile?: string;
   /** Generated files from incompatible later checkpoints to remove safely. */
   clean?: string[];
+}
+
+export type ExecutionMode = "compile" | "test" | "run" | "build";
+
+/** How an exercise proves completion, independently of how its files are scaffolded. */
+export interface Execution {
+  mode: ExecutionMode;
+  /** Explicit commands, used instead of language-level inference. */
+  commands?: string[][];
+  /** Scaffold-provided driver used when the response itself is not executable. */
+  entrypoint?: string;
+  /** Present only when the final command launches a reader-facing program. */
+  launch?: { surface: "terminal" | "external" };
 }
 
 export interface ScaffoldFile {
@@ -268,6 +279,7 @@ export interface RawExample {
   stdin?: string;
   explanation?: Explanation;
   scaffold?: Scaffold;
+  execution?: Execution;
   dependencies?: Dependency[];
   /** See Step.expectsException. */
   expectsException?: boolean;
@@ -339,6 +351,8 @@ export interface Step {
   explanation?: Explanation;
   /** Extra files needed to run this step; see Scaffold. */
   scaffold?: Scaffold;
+  /** Normalized completion and launch behavior. */
+  execution: Execution;
   /** Exercise-level prerequisites copied onto every normalized step. */
   dependencies?: Dependency[];
   /**

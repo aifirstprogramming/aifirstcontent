@@ -222,6 +222,10 @@ describe("Python chapter 10 Showtail retrofit", () => {
 
   test("runs every chapter 10 exercise through the level editor", () => {
     for (const id of ["py-10-01", "py-10-02", "py-10-03"])
-      expect(target(id).scaffold?.entrypoint).toBe("level_editor.py");
+      expect(target(id).execution).toEqual({
+        mode: "run",
+        commands: [["python3", "level_editor.py"]],
+        launch: { surface: "external" },
+      });
   });
 });

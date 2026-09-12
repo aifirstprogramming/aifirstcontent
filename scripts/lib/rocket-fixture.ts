@@ -79,6 +79,11 @@ export function generateRocketFixture(bundle: string): RocketFixtureResult {
                   ? response.slice(0, -1)
                   : response,
                 scaffold: derived.scaffold,
+                execution: {
+                  mode: "run",
+                  commands: [["python3", "rocket_sim.py"]],
+                  launch: { surface: "terminal" },
+                },
                 replay: derived.replay,
               },
             ],

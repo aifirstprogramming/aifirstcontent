@@ -38,9 +38,8 @@ export function pascalCase(title: string): string {
  * from the exercise title.
  */
 export function suggestFilename(example: Example, step: Step = example.steps[example.steps.length - 1]): string {
+  if (step.scaffold?.responseFile) return step.scaffold.responseFile;
   if (example.language === "java") {
-    const projectEntrypoint = example.kind === "project" ? step.scaffold?.entrypoint : undefined;
-    if (projectEntrypoint?.endsWith(".java")) return posix.basename(projectEntrypoint);
     // interface/enum/record too, not just class: javac rejects any public type
     // whose filename does not match, and the books declare all four.
     const m = step.response.match(

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync, readdirSync } from "node:fs";
-import { dirname, join, relative } from "node:path";
+import { basename, dirname, join, relative } from "node:path";
 import type { RawBook, RawExample, RawResponse } from "../src/types";
 import {
   deriveReplay,
@@ -154,6 +154,7 @@ describe("PocketCFO Java chapter retrofit", () => {
         sourceFiles: files,
         response: response(example.response),
         responsePath: exercise.responsePath,
+        responseFile: basename(exercise.responsePath),
         responseMatch: exercise.responseMatch,
         responseElisions: exercise.responseElisions,
         initialFiles,

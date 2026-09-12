@@ -150,6 +150,11 @@ export function generateClaudeE2EFixture(
         prompt: turn.prompt,
         response: primary,
         scaffold: derived.scaffold,
+        execution: {
+          mode: "run",
+          commands: [["python3", turn.responsePath]],
+          launch: { surface: "terminal" },
+        },
         replay: derived.replay,
       });
     initialFiles = files;

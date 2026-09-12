@@ -35,7 +35,7 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { loadFromDirectory } from "../src/loader";
-import type { Example, Explanation, Scaffold, Step } from "../src/types";
+import type { Example, Execution, Explanation, Scaffold, Step } from "../src/types";
 import { suggestFilename } from "../src/filenames";
 import { reorder } from "./lib/apply";
 import { promptKey } from "./lib/docx";
@@ -438,10 +438,14 @@ function isDuplicate(file: { path: string; content: string }, mainFile: string, 
   return strip(file.content) === strip(response);
 }
 
-function toScaffold(out: ModelOutput, mainFile: string, response: string): Scaffold | undefined {
+function toScaffold(
+  out: ModelOutput,
+  mainFile: string,
+  response: string,
+): { scaffold?: Scaffold; execution?: Execution } {
   const files = out.scaffoldFiles.filter((f) => !isDuplicate(f, mainFile, response));
-  if (files.length === 0) return undefined;
-  return {
+  if (files.length === 0) return {};
+  const scaffold: Scaffold = {
     files: files.map((f) =>
       // A reference beats a copy: if the class this exercise needs is defined by
       // another exercise, pointing at it means the two cannot drift apart.
@@ -449,10 +453,14 @@ function toScaffold(out: ModelOutput, mainFile: string, response: string): Scaff
         ? { path: f.path, fromExercise: f.fromExercise }
         : { path: f.path, content: f.content },
     ),
-    // An entrypoint pointing at a file that was just dropped would send the runner
-    // at nothing.
-    ...(out.entrypoint && files.some((f) => f.path === out.entrypoint)
-      ? { entrypoint: out.entrypoint }
+  };
+  const entrypoint = out.entrypoint && files.some((f) => f.path === out.entrypoint)
+    ? out.entrypoint
+    : undefined;
+  return {
+    scaffold,
+    ...(entrypoint
+      ? { execution: { mode: "run", entrypoint, launch: { surface: "terminal" } } }
       : {}),
   };
 }
@@ -463,6 +471,7 @@ interface Enriched {
   id: string;
   explanation: Explanation;
   scaffold?: Scaffold;
+  execution?: Execution;
   stdin?: string;
   expectsException?: boolean;
 }
@@ -497,6 +506,7 @@ function writeResults(enriched: Map<string, Enriched>, verified: Set<string>): n
             if (result) {
               st.explanation = result.explanation;
               if (result.scaffold) st.scaffold = result.scaffold;
+              if (result.execution) st.execution = result.execution;
               if (result.stdin !== undefined) st.stdin = result.stdin;
               if (result.expectsException) st.expectsException = true;
               if (result.expectsException) st.expectsException = true;
@@ -621,9 +631,11 @@ async function enrichExample(example: Example): Promise<void> {
       });
       out.lines.sort((a, b) => (order.get(a.code.trim()) ?? 0) - (order.get(b.code.trim()) ?? 0));
 
-      const scaffold = toScaffold(out, suggestFilename(example, step), step.response);
+      const generated = toScaffold(out, suggestFilename(example, step), step.response);
+      const scaffold = generated.scaffold;
+      const candidateStep = generated.execution ? { ...step, execution: generated.execution } : step;
       const stdin = out.stdin === "" ? undefined : out.stdin;
-      const r = verify(example, step, scaffold, stdin, {
+      const r = verify(example, candidateStep, scaffold, stdin, {
         responseOf,
         expectsUncaughtException: out.expectsUncaughtException,
       });
@@ -636,7 +648,7 @@ async function enrichExample(example: Example): Promise<void> {
 
       if (r.ok) {
         const mainFile = suggestFilename(example, step);
-        const { commands: cmds } = verifyCommand(example, step, mainFile, scaffold);
+        const { commands: cmds } = verifyCommand(example, candidateStep, mainFile, scaffold);
         enriched.set(step.id, {
           id: step.id,
           explanation: {
@@ -647,6 +659,7 @@ async function enrichExample(example: Example): Promise<void> {
             run: displayCommand(cmds, mainFile),
           },
           ...(scaffold ? { scaffold } : {}),
+          ...(generated.execution ? { execution: generated.execution } : {}),
           ...(stdin !== undefined ? { stdin } : {}),
           // Persisted so CI reaches the same verdict without calling a model.
           ...(out.expectsUncaughtException ? { expectsException: true } : {}),

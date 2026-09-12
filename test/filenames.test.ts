@@ -26,16 +26,16 @@ describe("suggestFilename", () => {
   it("produces a valid filename for every exercise in the pack", () => {
     for (const example of content.examples) {
       const name = suggestFilename(example);
-      expect(name).toMatch(/^[A-Za-z0-9_]+\.(py|java)$/);
+      expect(name).toMatch(/^[A-Za-z0-9_-]+\.(py|java|xml|csv)$/);
     }
   });
 
   it("every Java file matches the class declared inside it", () => {
     for (const example of content.examples.filter((e) => e.language === "java")) {
       for (const step of example.steps) {
-        const projectEntrypoint = example.kind === "project" ? step.scaffold?.entrypoint : undefined;
-        if (projectEntrypoint?.endsWith(".java")) {
-          expect(suggestFilename(example, step)).toBe(posix.basename(projectEntrypoint));
+        const projectResponse = example.kind === "project" ? step.scaffold?.responseFile : undefined;
+        if (projectResponse?.endsWith(".java")) {
+          expect(suggestFilename(example, step)).toBe(posix.basename(projectResponse));
           continue;
         }
         const declared = step.response.match(/class\s+([A-Za-z_$][\w$]*)/)?.[1];

@@ -183,11 +183,22 @@ function processBundle(
       diagnostics: [...derived.diagnostics, error("replay", "Existing replay is not importer-owned; pass --force to replace it")],
     };
   }
-  const before = JSON.stringify({ replay: target.step.replay, scaffold: target.step.scaffold });
+  const before = JSON.stringify({ replay: target.step.replay, scaffold: target.step.scaffold, execution: target.step.execution });
   target.step.replay = derived.replay;
   target.step.scaffold = derived.scaffold;
-  if (derived.scaffold.files.length > 1) target.parent.kind = "project";
-  const after = JSON.stringify({ replay: target.step.replay, scaffold: target.step.scaffold });
+  if (derived.scaffold.files.length > 1) {
+    target.parent.kind = "project";
+    target.step.execution ??= bookTag === "java"
+      ? { mode: "run", commands: [["mvn", "javafx:run"]], launch: { surface: "external" } }
+      : {
+          mode: "run",
+          commands: [["python3", entrypoint ?? "main.py"]],
+          launch: { surface: "external" },
+        };
+  } else if (entrypoint && !target.step.execution) {
+    target.step.execution = { mode: "run", entrypoint, launch: { surface: "terminal" } };
+  }
+  const after = JSON.stringify({ replay: target.step.replay, scaffold: target.step.scaffold, execution: target.step.execution });
   return { book: bookTag, bundle: basename(bundle), exerciseId, changed: before !== after, diagnostics: derived.diagnostics };
 }
 

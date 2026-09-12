@@ -14,6 +14,7 @@ import {
   responseExcerptWithElisionsMatches,
 } from "../scripts/lib/import-showtail";
 import { parseShowtailReport } from "../scripts/lib/showtail";
+import { loadFromDirectory } from "../src/loader";
 
 let root = "";
 afterEach(() => {
@@ -271,7 +272,7 @@ describe("Showtail v2 replay derivation", () => {
       result.diagnostics.filter((item) => item.severity === "error"),
     ).toEqual([]);
     expect(result.responsePath).toBe("main.py");
-    expect(result.scaffold?.entrypoint).toBe("main.py");
+    expect(result.scaffold).toBeDefined();
     expect(result.replay?.prePlanEvents).toEqual([
       { type: "text", text: "Let me understand the design first." },
     ]);
@@ -929,7 +930,10 @@ describe("Showtail bundle import command", () => {
     expect(example.kind).toBe("program");
     expect(example.scaffold).toEqual({
       files: [{ path: "main.py", content: `${response}\n` }],
-      entrypoint: "main.py",
+    });
+    expect(loadFromDirectory(booksDir, { includeUnpublished: true }).steps[0]?.execution).toEqual({
+      mode: "run",
+      launch: { surface: "terminal" },
     });
     expect(example.replay.prompt).toBe("Build the imported demo");
     expect(

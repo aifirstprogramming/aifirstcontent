@@ -49,6 +49,8 @@ export interface DeriveReplayOptions {
   responseElisions?: string[];
   /** Run a project through this file when the displayed response is a helper module. */
   entrypoint?: string;
+  /** Standalone filename used when the displayed project response is an excerpt. */
+  responseFile?: string;
   initialFiles?: Map<string, string>;
   initialExerciseId?: string;
   binaryFiles?: ScaffoldFile[];
@@ -1091,7 +1093,7 @@ export function deriveReplay(options: DeriveReplayOptions): DerivedReplay {
       ...[...options.sourceFiles.entries()].map(([path, content]) => ({ path, content })),
       ...(options.binaryFiles ?? []),
     ].sort((left, right) => left.path.localeCompare(right.path)),
-    entrypoint: options.entrypoint ?? responseMatches[0],
+    ...(options.responseFile ? { responseFile: options.responseFile } : {}),
   };
   diagnostics.push(
     diagnostic(

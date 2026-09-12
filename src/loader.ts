@@ -14,11 +14,14 @@ import type {
   Book,
   Chapter,
   Content,
+  Execution,
   Example,
+  Kind,
   Language,
   RawBook,
   RawExample,
   RawResponse,
+  Scaffold,
   Section,
   Step,
 } from "./types";
@@ -59,6 +62,47 @@ const INTERACTIVE_PATTERN = /\binput\s*\(|\bScanner\b|\bBufferedReader\b|System\
 
 export function readsStdin(code: string): boolean {
   return INTERACTIVE_PATTERN.test(code);
+}
+
+interface LegacyScaffoldExecution {
+  commands?: string[][];
+  entrypoint?: string;
+  outcome?: Execution["mode"];
+}
+
+function hasJavaMain(code: string): boolean {
+  return /static\s+void\s+main\s*\(/.test(code);
+}
+
+/** Normalize authored execution metadata and keep older packs readable. */
+export function normalizeExecution(
+  authored: Execution | undefined,
+  kind: Kind,
+  language: Language,
+  response: string,
+  scaffold: Scaffold | undefined,
+): Execution {
+  if (authored) return authored;
+
+  const legacy = scaffold as (Scaffold & LegacyScaffoldExecution) | undefined;
+  const entrypoint = legacy?.entrypoint;
+  const mode = legacy?.outcome
+    ?? (kind === "test"
+      ? "test"
+      : language === "java" && !entrypoint && !hasJavaMain(response)
+        ? "compile"
+        : kind === "project"
+          ? "run"
+          : "run");
+
+  return {
+    mode,
+    ...(legacy?.commands ? { commands: legacy.commands } : {}),
+    ...(entrypoint ? { entrypoint } : {}),
+    ...(mode === "run"
+      ? { launch: { surface: kind === "project" ? "external" as const : "terminal" as const } }
+      : {}),
+  };
 }
 
 /**
@@ -222,6 +266,7 @@ function assignDirectories(examples: Example[]): void {
 }
 
 function buildSteps(rawExample: RawExample, exampleId: string, language: Language): Step[] {
+  const kind = rawExample.kind ?? "program";
   if (Array.isArray(rawExample.prompts) && rawExample.prompts.length > 0) {
     const total = rawExample.prompts.length;
     return rawExample.prompts.map((step, i) => {
@@ -237,6 +282,7 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         interactive: readsStdin(response),
         ...(step.explanation ? { explanation: step.explanation } : {}),
         ...(step.scaffold ? { scaffold: step.scaffold } : {}),
+        execution: normalizeExecution(step.execution ?? rawExample.execution, kind, language, response, step.scaffold ?? rawExample.scaffold),
         ...(rawExample.dependencies ? { dependencies: rawExample.dependencies } : {}),
         ...(step.expectsException ? { expectsException: true } : {}),
         ...(step.replay ? { replay: step.replay } : {}),
@@ -265,6 +311,7 @@ function buildSteps(rawExample: RawExample, exampleId: string, language: Languag
         // authored form was used.
         ...(rawExample.explanation ? { explanation: rawExample.explanation } : {}),
         ...(rawExample.scaffold ? { scaffold: rawExample.scaffold } : {}),
+        execution: normalizeExecution(rawExample.execution, kind, language, response, rawExample.scaffold),
         ...(rawExample.dependencies ? { dependencies: rawExample.dependencies } : {}),
         ...(rawExample.expectsException ? { expectsException: true } : {}),
         ...(rawExample.replay ? { replay: rawExample.replay } : {}),

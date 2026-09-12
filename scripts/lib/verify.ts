@@ -143,9 +143,9 @@ export function verifyCommand(
   mainFile: string,
   scaffold: Scaffold | undefined,
 ): { commands: string[][]; skipped?: string } {
-  const entry = scaffold?.entrypoint;
+  const entry = step.execution.entrypoint;
   const kind = example.kind;
-  if (scaffold?.commands?.length) return { commands: scaffold.commands };
+  if (step.execution.commands?.length) return { commands: step.execution.commands };
 
   if (example.language === "python") {
     // A scaffold entrypoint wins: for a snippet, the exercise's own file is
@@ -299,8 +299,8 @@ export function verify(
   const timeoutMs = options.timeoutMs ?? 60_000;
   const responseOf = options.responseOf ?? (() => undefined);
 
-  if (example.kind === "project" && !scaffold?.commands?.length) {
-    return { ok: false, command: "", output: "", skipped: "project exercises are not verified here" };
+  if (example.kind === "project" && step.execution.launch?.surface === "external") {
+    return { ok: false, command: "", output: "", skipped: "external project launches are verified by replay tests" };
   }
 
   const dir = mkdtempSync(join(tmpdir(), "aifirst-enrich-"));
@@ -319,7 +319,7 @@ export function verify(
     // "//variables, constructor, and getStatus method") is not valid on its own by
     // design, and its scaffold is the only way to exercise it. Everywhere else the
     // run itself is the stronger check.
-    if (scaffold?.entrypoint && example.kind !== "snippet") {
+    if (step.execution.entrypoint && example.kind !== "snippet") {
       const bad = syntaxCheck(runDir, example.language, mainFile, timeoutMs);
       if (bad) return bad;
     }

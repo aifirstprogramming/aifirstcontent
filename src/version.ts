@@ -3,5 +3,5 @@
  * consumer's version, so `aifirst update --content` can ship book fixes without
  * a new CLI release.
  */
-const PACK_VERSION = "1.9.0";
+const PACK_VERSION = "2.0.0";
 export default PACK_VERSION;

@@ -10,7 +10,7 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import { unzipSync } from "fflate";
 import type { Dependency, Explanation, RawBook, RawExample, RawResponse } from "../src/types";
 import { reorder } from "./lib/apply";
@@ -835,6 +835,7 @@ for (const chapterInput of config.chapters) {
       sourceFiles: snapshot,
       response: authored.response,
       responsePath: exercise.responsePath,
+      responseFile: basename(exercise.responsePath),
       responseMatch: exercise.responseMatch,
       responseElisions: exercise.responseElisions,
       initialFiles,
@@ -856,6 +857,7 @@ for (const chapterInput of config.chapters) {
       response: rawResponse(authored.response),
       explanation: exercise.explanation,
       scaffold: derived.scaffold,
+      execution: { mode: "run", commands: [["mvn", "javafx:run"]], launch: { surface: "external" } },
       replay: derived.replay,
     }) as unknown as RawExample;
     generated.push(created);

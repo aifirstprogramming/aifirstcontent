@@ -230,6 +230,13 @@ try {
         kind: "project",
         prompt: exercise.prompt,
         response: withoutFinalNewline(response),
+        execution: manifest.book === "java"
+          ? { mode: "run", commands: [["mvn", "javafx:run"]], launch: { surface: "external" } }
+          : {
+              mode: "run",
+              commands: [["python3", exercise.entrypoint ?? exercise.responsePath]],
+              launch: { surface: "external" },
+            },
         ...(exercise.stdin !== undefined ? { stdin: exercise.stdin } : {}),
         ...(exercise.explanation
           ? { explanation: exercise.explanation }

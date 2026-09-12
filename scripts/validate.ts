@@ -77,6 +77,18 @@ for (const { filename, book } of entries) {
             fail(`step id "${step.id}" should be "${expected}" (${where})`);
           }
         });
+
+        if (example.status === undefined && example.kind === "project") {
+          if (example.prompts?.length) {
+            for (const step of example.prompts) {
+              if (!step.execution && !example.execution) {
+                fail(`${step.id} is a project step and must declare execution explicitly`);
+              }
+            }
+          } else if (!example.execution) {
+            fail(`${example.id} is a project exercise and must declare execution explicitly`);
+          }
+        }
       }
     }
   }

@@ -61,9 +61,17 @@ describe("Python manuscript audit for chapters 9 and 10", () => {
 
   test("maps launch instructions to the runnable game and editor entrypoints", () => {
     for (const example of chapter(9).examples)
-      expect(example.steps[0]?.scaffold?.entrypoint).toBe("main.py");
+      expect(example.steps[0]?.execution).toEqual({
+        mode: "run",
+        commands: [["python3", "main.py"]],
+        launch: { surface: "external" },
+      });
     for (const example of chapter(10).examples)
-      expect(example.steps[0]?.scaffold?.entrypoint).toBe("level_editor.py");
+      expect(example.steps[0]?.execution).toEqual({
+        mode: "run",
+        commands: [["python3", "level_editor.py"]],
+        launch: { surface: "external" },
+      });
   });
 
   test("uses the wheel-backed pygame distribution while preserving the pygame import", () => {

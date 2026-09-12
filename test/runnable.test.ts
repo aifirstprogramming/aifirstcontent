@@ -14,6 +14,23 @@ import { loadFromDirectory } from "../src/loader";
 const content = loadFromDirectory(join(import.meta.dir, "..", "books"));
 
 describe("how exercises are run", () => {
+  it("has no setup-only exercises and classifies every project as a runnable application", () => {
+    const counts = new Map<string, number>();
+    for (const example of content.examples) {
+      const mode = example.steps.at(-1)!.execution.mode;
+      counts.set(mode, (counts.get(mode) ?? 0) + 1);
+    }
+    expect(content.examples.length).toBe(154);
+    expect(Object.fromEntries(counts)).toEqual({ run: 140, compile: 6, test: 8 });
+    expect(content.examples.some((example) => example.id === "java-6-00")).toBe(false);
+    for (const example of content.examples.filter((candidate) => candidate.kind === "project")) {
+      expect(example.steps.at(-1)!.execution).toMatchObject({
+        mode: "run",
+        launch: { surface: "external" },
+      });
+    }
+  });
+
   it("never depends on multi-file source launching", () => {
     for (const step of content.steps) {
       const extraJava = (step.scaffold?.files ?? []).some((f) => f.path.endsWith(".java"));
@@ -36,7 +53,7 @@ describe("how exercises are run", () => {
           package: "Maven",
           command: "mvn",
         });
-        expect(step.scaffold?.commands?.[0]?.[0], `${step.id} has no Maven execution plan`).toBe("mvn");
+        expect(step.execution.commands?.[0]?.[0], `${step.id} has no Maven execution plan`).toBe("mvn");
       }
     }
   });

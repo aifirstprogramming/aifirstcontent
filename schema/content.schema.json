@@ -151,6 +151,9 @@
         "scaffold": {
           "$ref": "#/definitions/scaffold"
         },
+        "execution": {
+          "$ref": "#/definitions/execution"
+        },
         "dependencies": {
           "$ref": "#/definitions/dependencies"
         },
@@ -228,6 +231,12 @@
         },
         "explanation": {
           "$ref": "#/definitions/explanation"
+        },
+        "scaffold": {
+          "$ref": "#/definitions/scaffold"
+        },
+        "execution": {
+          "$ref": "#/definitions/execution"
         },
         "expectsException": {
           "type": "boolean",
@@ -639,10 +648,6 @@
             }
           }
         },
-        "entrypoint": {
-          "type": "string",
-          "description": "Which file to execute, when it is not the exercise's own file."
-        },
         "projectRoot": {
           "type": "string",
           "minLength": 1,
@@ -653,17 +658,11 @@
           "minLength": 1,
           "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+"
         },
-        "commands": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "array",
-            "minItems": 1,
-            "items": { "type": "string" }
-          }
-        },
-        "outcome": {
-          "enum": ["compile", "test", "run", "build"]
+        "responseFile": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\\\/]+$",
+          "description": "Standalone filename for a project response that is not itself a directly materialized source file."
         },
         "clean": {
           "type": "array",
@@ -674,6 +673,48 @@
           }
         }
       }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "enum": ["compile", "test", "run", "build"]
+        },
+        "commands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        },
+        "entrypoint": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?![\\\\/])(?!(?:[A-Za-z]:)[\\\\/])(?!(?:.*[\\\\/])?\\.\\.(?:[\\\\/]|$)).+"
+        },
+        "launch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["surface"],
+          "properties": {
+            "surface": { "enum": ["terminal", "external"] }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "required": ["launch"] },
+          "then": { "properties": { "mode": { "const": "run" } } }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "run" } }, "required": ["mode"] },
+          "then": { "required": ["launch"] }
+        }
+      ]
     }
   }
 }
