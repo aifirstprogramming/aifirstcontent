@@ -18,6 +18,9 @@ describe("AI First Java Chapter 6 Maven progression", () => {
     ]);
     expect(chapter.examples[0]?.steps[0]?.scaffold?.files.find((file) => file.path === "pom.xml")?.content)
       .toContain("junit-jupiter");
+    const pom = chapter.examples[0]?.steps[0]?.scaffold?.files.find((file) => file.path === "pom.xml")?.content;
+    expect(pom).toContain("<maven.compiler.source>17</maven.compiler.source>");
+    expect(pom).toContain("<maven.compiler.target>17</maven.compiler.target>");
   });
 
   test("uses one Maven workspace with outcome-specific verification", () => {

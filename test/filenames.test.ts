@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { join, posix } from "node:path";
-import { runCommand, suggestFilename } from "../src/filenames";
+import { exercisePath, runCommand, suggestFilename } from "../src/filenames";
 import { loadFromDirectory } from "../src/loader";
 
 const content = loadFromDirectory(join(import.meta.dir, "..", "books"));
@@ -15,6 +15,11 @@ describe("suggestFilename", () => {
 
   it("snake_cases a Python filename from the title", () => {
     expect(suggestFilename(byId("py-1-01"))).toBe("hello_world.py");
+  });
+
+  it("isolates math.py so it cannot shadow Python's standard library later", () => {
+    const example = byId("py-2-12");
+    expect(exercisePath(example, example.steps[0])).toBe("py-2-12/math.py");
   });
 
   it("defaults a multi-step example to its final step", () => {
