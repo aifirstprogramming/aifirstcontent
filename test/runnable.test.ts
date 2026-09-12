@@ -23,6 +23,11 @@ describe("how exercises are run", () => {
     expect(content.examples.length).toBe(154);
     expect(Object.fromEntries(counts)).toEqual({ run: 140, compile: 6, test: 8 });
     expect(content.examples.some((example) => example.id === "java-6-00")).toBe(false);
+    for (const step of content.steps) {
+      expect(step.scaffold && "commands" in step.scaffold, step.id).toBeFalsy();
+      expect(step.scaffold && "outcome" in step.scaffold, step.id).toBeFalsy();
+      expect(step.scaffold && "entrypoint" in step.scaffold, step.id).toBeFalsy();
+    }
     for (const example of content.examples.filter((candidate) => candidate.kind === "project")) {
       expect(example.steps.at(-1)!.execution).toMatchObject({
         mode: "run",

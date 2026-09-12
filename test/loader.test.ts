@@ -6,6 +6,7 @@ import {
   languageFromFilename,
   loadFromDirectory,
   loadFromRaw,
+  normalizeExecution,
   normalizeResponse,
 } from "../src/loader";
 import type { Dependency, RawBook } from "../src/types";
@@ -47,6 +48,29 @@ describe("chapterNumberFromTitle", () => {
   it("parses the leading chapter number", () => {
     expect(chapterNumberFromTitle("Chapter 12: Project: Mobile Voice Journal")).toBe(12);
     expect(chapterNumberFromTitle("Chapter 1: Getting Started with Python")).toBe(1);
+  });
+});
+
+describe("normalizeExecution", () => {
+  it("runs ordinary programs but only compiles reusable Java classes", () => {
+    expect(normalizeExecution(undefined, "program", "python", "print('ok')", undefined)).toEqual({
+      mode: "run",
+      launch: { surface: "terminal" },
+    });
+    expect(normalizeExecution(undefined, "class", "java", "class Thermostat {}", undefined)).toEqual({
+      mode: "compile",
+    });
+  });
+
+  it("keeps older scaffold execution metadata readable", () => {
+    expect(normalizeExecution(undefined, "class", "java", "class Thermostat {}", {
+      files: [],
+      commands: [["mvn", "compile"]],
+      outcome: "compile",
+    } as never)).toEqual({
+      mode: "compile",
+      commands: [["mvn", "compile"]],
+    });
   });
 });
 
