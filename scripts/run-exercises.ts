@@ -1,73 +1,162 @@
 #!/usr/bin/env bun
-/**
- * Execute every published exercise. This is the gate that makes "the book's code
- * works" a checked fact rather than a claim.
- *
- * It shares scripts/lib/verify.ts with the authoring script, so CI reaches the same
- * verdict the enrichment run did -- without an API key, and without a model. The
- * facts it needs are stored in the pack: the scaffold that makes an exercise
- * runnable, its sample stdin, and whether it throws on purpose.
- *
- * Requires Python 3 and a JDK. Standalone Java tests use the JUnit console
- * launcher, while project exercises declare Maven explicitly.
- */
+/** Execute every published step both alone and through persistent book workspaces. */
 
-import { join } from "node:path";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
+import { exercisePath } from "../src/filenames";
 import { loadFromDirectory } from "../src/loader";
+import type { Example, Step } from "../src/types";
 import { JUNIT_JAR, JUNIT_URL, junitAvailable, verify } from "./lib/verify";
 
-const BOOKS_DIR = join(import.meta.dir, "..", "books");
+const ROOT = join(import.meta.dir, "..");
+const BOOKS_DIR = join(ROOT, "books");
+const argv = process.argv.slice(2);
+const args = new Set(argv);
+const value = (flag: string): string | undefined => {
+  const index = argv.indexOf(flag);
+  return index >= 0 ? argv[index + 1] : undefined;
+};
+const selected = args.has("--isolated") || args.has("--sequential");
+const runIsolated = !selected || args.has("--isolated");
+const runSequential = !selected || args.has("--sequential");
+const jsonOutput = args.has("--json");
+const keepWorkspace = args.has("--keep-workspace");
+const reportPath = value("--report");
 const content = loadFromDirectory(BOOKS_DIR);
 
 const responseOf = (id: string): string | undefined =>
-  content.steps.find((s) => s.id === id)?.response;
+  content.steps.find((step) => step.id === id)?.response;
 
-interface Failure {
+interface Result {
+  pass: "isolated" | "sequential";
+  book: string;
   id: string;
-  command: string;
-  output: string;
+  status: "passed" | "failed" | "delegated";
+  command?: string;
+  output?: string;
+  durationMs: number;
+  workspace?: string;
 }
 
-const failures: Failure[] = [];
-const skipped: { id: string; why: string }[] = [];
-let passed = 0;
+const results: Result[] = [];
 
-if (!junitAvailable()) {
-  console.log(`! JUnit launcher missing, so Java tests will be skipped.`);
-  console.log(`  mkdir -p ${JUNIT_JAR.replace(/\/[^/]+$/, "")} && curl -sSLo ${JUNIT_JAR} ${JUNIT_URL}\n`);
+function check(pass: Result["pass"], book: string, example: Example, step: Step, directory?: string): Result {
+  const started = performance.now();
+  if (step.execution.launch?.surface === "external") {
+    return {
+      pass,
+      book,
+      id: step.id,
+      status: "delegated",
+      output: "External launch delegated to the compiled CLI book walk.",
+      durationMs: Math.round(performance.now() - started),
+      ...(directory ? { workspace: directory } : {}),
+    };
+  }
+  const verified = verify(example, step, step.scaffold, step.stdin, {
+    responseOf,
+    expectsUncaughtException: step.expectsException,
+    ...(directory ? { directory } : {}),
+  });
+  return {
+    pass,
+    book,
+    id: step.id,
+    status: verified.skipped ? "delegated" : verified.ok ? "passed" : "failed",
+    command: verified.command,
+    output: verified.skipped ?? verified.output,
+    durationMs: Math.round(performance.now() - started),
+    ...(directory ? { workspace: directory } : {}),
+  };
 }
 
-for (const example of content.examples) {
-  for (const step of example.steps) {
-    const result = verify(example, step, step.scaffold, step.stdin, {
-      responseOf,
-      expectsUncaughtException: step.expectsException,
-    });
+function desiredProjectFiles(bookRoot: string, step: Step): Set<string> {
+  const scaffold = step.scaffold!;
+  const projectRoot = resolve(bookRoot, scaffold.projectRoot!);
+  return new Set([
+    resolve(projectRoot, scaffold.responsePath!),
+    ...scaffold.files.map((file) => resolve(projectRoot, file.path)),
+  ]);
+}
 
-    if (result.skipped) {
-      skipped.push({ id: step.id, why: result.skipped });
-    } else if (result.ok) {
-      passed++;
-    } else {
-      failures.push({ id: step.id, command: result.command, output: result.output });
+function runSequentialBook(book: typeof content.books[number], campaignRoot: string): void {
+  const bookRoot = join(campaignRoot, book.tag);
+  const managedProjects = new Map<string, Set<string>>();
+  mkdirSync(bookRoot, { recursive: true });
+
+  for (const example of book.sections.flatMap((section) => section.chapters).flatMap((chapter) => chapter.examples)) {
+    for (const step of example.steps) {
+      let directory: string;
+      if (step.scaffold?.projectRoot && step.scaffold.responsePath) {
+        const projectRoot = resolve(bookRoot, step.scaffold.projectRoot);
+        const desired = desiredProjectFiles(bookRoot, step);
+        for (const previous of managedProjects.get(projectRoot) ?? []) {
+          if (!desired.has(previous)) rmSync(previous, { force: true });
+        }
+        for (const clean of step.scaffold.clean ?? []) rmSync(resolve(projectRoot, clean), { force: true });
+        managedProjects.set(projectRoot, desired);
+        directory = bookRoot;
+      } else {
+        directory = dirname(resolve(bookRoot, exercisePath(example, step)));
+      }
+      mkdirSync(directory, { recursive: true });
+      const result = check("sequential", book.tag, example, step, directory);
+      results.push(result);
+      if (result.status === "failed") return;
     }
   }
 }
 
-if (skipped.length > 0) {
-  console.log(`- ${skipped.length} skipped:`);
-  for (const s of skipped) console.log(`  ${s.id.padEnd(14)} ${s.why}`);
-  console.log();
+if (!junitAvailable()) {
+  console.log("! JUnit launcher missing, so standalone Java tests may be delegated.");
+  console.log(`  mkdir -p ${JUNIT_JAR.replace(/\/[^/]+$/, "")} && curl -sSLo ${JUNIT_JAR} ${JUNIT_URL}\n`);
 }
 
-if (failures.length > 0) {
-  console.error(`✗ ${failures.length} of ${passed + failures.length} exercise(s) did not run cleanly:\n`);
-  for (const f of failures) {
-    console.error(`  ${f.id} — ${f.command}`);
-    for (const line of f.output.split("\n").slice(0, 8)) console.error(`      ${line}`);
-    console.error();
+if (runIsolated) {
+  for (const book of content.books) {
+    for (const example of book.sections.flatMap((section) => section.chapters).flatMap((chapter) => chapter.examples)) {
+      for (const step of example.steps) results.push(check("isolated", book.tag, example, step));
+    }
   }
-  process.exit(1);
 }
 
-console.log(`✓ ${passed} exercise step(s) ran cleanly.`);
+let campaignRoot: string | undefined;
+if (runSequential) {
+  campaignRoot = mkdtempSync(join(tmpdir(), "aifirst-book-walk-content-"));
+  for (const book of content.books) runSequentialBook(book, campaignRoot);
+}
+
+const failures = results.filter((result) => result.status === "failed");
+const summary = {
+  steps: content.steps.length,
+  isolated: results.filter((result) => result.pass === "isolated" && result.status === "passed").length,
+  sequential: results.filter((result) => result.pass === "sequential" && result.status === "passed").length,
+  delegated: results.filter((result) => result.status === "delegated").length,
+  failures: failures.length,
+  ...(campaignRoot ? { workspace: campaignRoot } : {}),
+};
+const report = { summary, results };
+
+if (reportPath) {
+  const destination = resolve(reportPath);
+  mkdirSync(dirname(destination), { recursive: true });
+  writeFileSync(destination, `${JSON.stringify(report, null, 2)}\n`);
+}
+
+if (jsonOutput) {
+  console.log(JSON.stringify(report, null, 2));
+} else {
+  for (const failure of failures) {
+    console.error(`✗ ${failure.pass} ${failure.id} — ${failure.command ?? "no command"}`);
+    for (const line of (failure.output ?? "").split("\n").slice(-12)) console.error(`    ${line}`);
+  }
+  console.log(
+    `${failures.length ? "✗" : "✓"} ${summary.isolated} isolated and ${summary.sequential} sequential step checks passed; ` +
+      `${summary.delegated} external checks delegated to the CLI book walk.`,
+  );
+  if (failures.length && campaignRoot) console.error(`  Failed workspace: ${campaignRoot}`);
+}
+
+if (campaignRoot && !keepWorkspace && failures.length === 0) rmSync(campaignRoot, { recursive: true, force: true });
+if (failures.length > 0) process.exitCode = 1;

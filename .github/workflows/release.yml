@@ -18,7 +18,11 @@ permissions:
   contents: write
 
 jobs:
+  exercise-walk:
+    uses: ./.github/workflows/exercise-walk.yml
+
   release:
+    needs: exercise-walk
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

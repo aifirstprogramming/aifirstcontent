@@ -281,6 +281,8 @@ export function displayCommand(commands: string[][], mainFile: string): string {
 export interface VerifyOptions {
   timeoutMs?: number;
   responseOf?: (exerciseId: string) => string | undefined;
+  /** Reuse a caller-owned workspace instead of an isolated temporary directory. */
+  directory?: string;
   /**
    * The exercise demonstrates an uncaught exception, so a non-zero exit is the
    * expected outcome rather than a failure.
@@ -303,7 +305,8 @@ export function verify(
     return { ok: false, command: "", output: "", skipped: "external project launches are verified by replay tests" };
   }
 
-  const dir = mkdtempSync(join(tmpdir(), "aifirst-enrich-"));
+  const dir = options.directory ?? mkdtempSync(join(tmpdir(), "aifirst-enrich-"));
+  const ownsDirectory = options.directory === undefined;
   try {
     const { mainFile, problems } = materialize(dir, example, step, scaffold, responseOf);
     const runDir = join(dir, scaffold?.projectRoot ?? ".");
@@ -357,10 +360,12 @@ export function verify(
 
     return { ok: false, command: "", output: "no verification command for this exercise" };
   } finally {
-    try {
-      rmSync(dir, { recursive: true, force: true });
-    } catch {
-      // A leftover temp dir is not worth failing a verification run over.
+    if (ownsDirectory) {
+      try {
+        rmSync(dir, { recursive: true, force: true });
+      } catch {
+        // A leftover temp dir is not worth failing a verification run over.
+      }
     }
   }
 }

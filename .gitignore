@@ -3,6 +3,7 @@ dist/
 **/target/
 *.tgz
 bun.lockb
+/test-results/book-walk/
 
 # OS / editor junk
 .DS_Store
